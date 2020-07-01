@@ -1,5 +1,9 @@
-# solutions
-Solutions for deployment models 
+Solution Guides 
+=====================================
+
+Welcome
+-------
+
 
 The guides located on this page are designed to provide an overview of a working example on a topic.
 
@@ -9,3 +13,15 @@ If you would like to contribute, templates are also available for download on ou
 
 
 https://github.com/teamaccessonline/library
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+   :glob:
+   
+  
+   deploy.rst
+   solution*/solution*
+
+   

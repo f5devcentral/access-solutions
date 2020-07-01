@@ -1,0 +1,2012 @@
+{
+	"info": {
+		"_postman_id": "b1cb30aa-4c92-48a7-88f2-93eac03be89a",
+		"name": "ad_adpi_test_pattern",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "bigip1-Test AS3 running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94ef4327-e12f-4ed4-aa29-d2efbdccce39",
+						"exec": [
+							"",
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"}",
+							"",
+							"",
+							"pm.test(\"AS3 is running\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1a626a1b-23c6-454a-a93e-a21d0af46760",
+						"exec": [
+							"pm.collectionVariables.set(\"DNS1_NAME\", \"testapp.acme.com\");",
+							"pm.collectionVariables.set(\"VS1_NAME\", \"testvs\");",
+							"pm.collectionVariables.set(\"PATH_NAME\", \"testpath\");",
+							"pm.collectionVariables.set(\"PARTITION_NAME\", \"testpartition\");",
+							"pm.collectionVariables.set('HTTPS_RUN', 'FALSE' );",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/info",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"4"
+					],
+					"path": [
+						"mgmt",
+						"shared",
+						"appsvcs",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /addr/scope-status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bde5ff32-bd03-4155-94cc-2d6f967990cd",
+						"exec": [
+							"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+							"",
+							"",
+							"if (responseCode.code === 200) {",
+							"\tpm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
+							"\tpm.test(\"Scope Request successful\", function () {",
+							"\t\tpm.response.to.have.status(200);",
+							"\t});",
+							"}",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"if (!jsonData.length) {",
+							"\tif (jsonData.Description === VS_NAME) {",
+							"\t\tpm.collectionVariables.set(\"BIGIP1_ADDRESS1\", jsonData.IPAddress.IPAddressToString);",
+							"\t\tpostman.setNextRequest(\"create_vs_http_server_pool\");",
+							"\t}",
+							"} else {",
+							"",
+							"",
+							"\tfor (var i = 0; i < jsonData.length; i++) {",
+							"",
+							"\t\tif (jsonData[i].Description === VS_NAME) {",
+							"\t\t\tpm.collectionVariables.set(\"BIGIP1_ADDRESS1\", jsonData[i].IPAddress.IPAddressToString);",
+							"\t\t\tpostman.setNextRequest(\"create_vs_http_server_pool\");",
+							"\t\t}",
+							"\t}",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP1_SCOPE}}",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"scope-status"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "{{BIGIP1_SCOPE}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /addr/available",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c7152535-485e-4be3-baa4-65456b56d95c",
+						"exec": [
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"BIGIP1_ADDRESS1\", jsonData.address);",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test('Next Available Address Found', function () {",
+							"  pm.expect(jsonData).to.have.property('address');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP1_SCOPE}}",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"available"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "{{BIGIP1_SCOPE}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /addr/checkout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "759fc1ea-538a-4504-ae7f-f97c37019cc5",
+						"exec": [
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Address Checked Out\", function () {",
+							" ",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"scope\":\"{{BIGIP1_SCOPE}}\",\n\"address\":\"{{BIGIP1_ADDRESS1}}\",\n\"vs_name\":\"{{VS1_NAME}}\"\n}"
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/checkout",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_vs_http_server_pool",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f9bfd7e-c408-4bff-810f-ea92d00ac752",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"}",
+							"",
+							"pm.test(\"BEGINNING HTTP TESTS\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP1_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n                \"pool\": \"http-api-pool\",\r\n        \t\t\"snat\": \"auto\"\r\n                },\r\n\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"http-api-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.6\"\r\n                            ],\r\n                            \"servicePort\": 81\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"icmp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}\r\n                \r\n             \r\n          \r\n       \r\n    \r\n"
+				},
+				"url": {
+					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/declare",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"4"
+					],
+					"path": [
+						"mgmt",
+						"shared",
+						"appsvcs",
+						"declare"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c53999a8-fa2d-45d8-9a92-8bf209ea9b7f",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"pm.test(\"OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"API Server is running\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9daf155-d3d1-43f2-8997-3c1f06a9d7b2",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"GET_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/create?userIdentity=GET_API&employeeNumber=100&Name='Post API'&Givenname=POST&Surname=API&UserPrincipalName=postapi@f5lab.local&OU=IT&Password=F@k3P@assw0rd&email=postapi@acme.com",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"create"
+					],
+					"query": [
+						{
+							"key": "userIdentity",
+							"value": "GET_API"
+						},
+						{
+							"key": "employeeNumber",
+							"value": "100"
+						},
+						{
+							"key": "Name",
+							"value": "'Post API'"
+						},
+						{
+							"key": "Givenname",
+							"value": "POST"
+						},
+						{
+							"key": "Surname",
+							"value": "API"
+						},
+						{
+							"key": "UserPrincipalName",
+							"value": "postapi@f5lab.local"
+						},
+						{
+							"key": "OU",
+							"value": "IT"
+						},
+						{
+							"key": "Password",
+							"value": "F@k3P@assw0rd"
+						},
+						{
+							"key": "email",
+							"value": "postapi@acme.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2651497-07a4-481a-9ce5-c919892c3877",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Username\":\"POST_API\",\n\"employeeNumber\":\"100\",\n\"GivenName\":\"post\",\n\"Surname\": \"api\",\n\"UPN\":\"12890@f5lab.local\",\n\"OU\":\"IT\",\n\"Password\":\"letmein\",\n\"emailaddress\":\"postapi@acme.com\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/create",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/delegation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa5ea761-f64c-4958-830d-47cf51548f5d",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
+							"    pm.test(\"OK\", function () {",
+							"        pm.response.to.have.status(200);",
+							"    });",
+							"}",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							"",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"DELEGATION_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Username\":\"DELEGATION_API\",\n\"UPN\":\"HOST/DELEGATION.f5lab.local\",\n\"ou\":\"IT\",\n\"Password\":\"kerbaccount\",\n\"app_spn\": \"HTTP/{{DNS1_NAME}}\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/delegation",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"delegation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/set",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "618cec34-17f4-470a-a7f1-7ed21946141c",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/set?useridentity=POST_API&DriverLicense=123456",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"set"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "POST_API"
+						},
+						{
+							"key": "DriverLicense",
+							"value": "123456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/get",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8456e8e8-5dcc-4502-85ae-0f4c68382fb9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed4b304f-c754-4459-b938-7b8768e34f16",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"}",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/get?useridentity=POST_API",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"get"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "POST_API"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/unlock",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16bcd414-9ded-43f1-bb17-0241ff58d25d",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/unlock?useridentity=POST_API",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"unlock"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "POST_API"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /aduser/cert",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cec94815-a5e3-4f53-a9ee-4370a386872b",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test('OK', function() {",
+							"  pm.expect(jsonData).to.have.property('certificate');",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{BIGIP1_ADDRESS1}}/aduser/cert?useridentity=user1",
+					"protocol": "http",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"cert"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /aduser/password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47335b07-12c1-4f42-8ab8-fb2b6d398b50",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/aduser/password?useridentity=POST_API&password=changeme",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"aduser",
+						"password"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "POST_API"
+						},
+						{
+							"key": "password",
+							"value": "changeme"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /vulnerable - External Response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "002ef1ef-a87a-4a46-b37c-7e0630a5fb9c",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"pm.test(\"OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Tiger\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/vulnerable?useridentity=hackeduser&uri=http://dummy.restapiexample.com/api/v1/employees",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"vulnerable"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "hackeduser"
+						},
+						{
+							"key": "uri",
+							"value": "http://dummy.restapiexample.com/api/v1/employees"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /vulnerable - Internal Response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1575b695-65cd-455e-8e7b-e50f4d7657f7",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"pm.test(\"OK\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"AccessKeyId\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/vulnerable?useridentity=hackeduser&uri=http://unprotected-json.f5lab.local/",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"vulnerable"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "hackeduser"
+						},
+						{
+							"key": "uri",
+							"value": "http://unprotected-json.f5lab.local/"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET IIS /addr/scope-status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "687a19ab-de4a-432a-a4b4-050d7e1ceca4",
+						"exec": [
+							"var VS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
+							"",
+							"",
+							"if (responseCode.code === 200) {",
+							"\tpm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
+							"\tpm.test(\"Scope Request successful\", function () {",
+							"\t\tpm.response.to.have.status(200);",
+							"\t});",
+							"}",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"if (!jsonData.length) {",
+							"\tif (jsonData.Description === VS_NAME) {",
+							"\t\tpm.collectionVariables.set(\"IIS_ADDRESS1\", jsonData.IPAddress.IPAddressToString);",
+							"\t\tpostman.setNextRequest(\"POST /website\");",
+							"\t}",
+							"} else {",
+							"",
+							"",
+							"\tfor (var i = 0; i < jsonData.length; i++) {",
+							"",
+							"\t\tif (jsonData[i].Description === VS_NAME) {",
+							"\t\t\tpm.collectionVariables.set(\"IIS_ADDRESS1\", jsonData[i].IPAddress.IPAddressToString);",
+							"\t\t\tpostman.setNextRequest(\"POST /website\");",
+							"\t\t}",
+							"\t}",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/scope-status?scope={{IIS_SCOPE}}",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"scope-status"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "{{IIS_SCOPE}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET IIS /addr/available",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7f4da6c-2bbf-4254-9675-91564783010b",
+						"exec": [
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"IIS_ADDRESS1\", jsonData.address);",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test('Next Available Address Found', function () {",
+							"  pm.expect(jsonData).to.have.property('address');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/available?scope={{IIS_SCOPE}}",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"available"
+					],
+					"query": [
+						{
+							"key": "scope",
+							"value": "{{IIS_SCOPE}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST IIS /addr/checkout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "270f75c3-1657-4377-8bc7-55aaa4036620",
+						"exec": [
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Address Checked Out\", function () {",
+							" ",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"scope\":\"{{IIS_SCOPE}}\",\n\"address\":\"{{IIS_ADDRESS1}}\",\n\"vs_name\":\"{{DNS1_NAME}}\"\n}"
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/checkout",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create A record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3c1342e7-5ddc-4c64-985e-210c931caaf7",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"A Record Created\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{IIS_ADDRESS1}}\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/dns",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create PTR record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26a40fa0-20b9-4d63-92c9-0075f6be3df0",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"A Record Created\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"ptr\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{IIS_ADDRESS1}}\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/dns",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /website",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a9d0258-02b1-4a57-923f-67912b1c42ab",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"for (var i = 0; i < jsonData.length; i++) {",
+							"",
+							"\t\tif (jsonData[i].status === \"Success\") {",
+							"\t\t\t",
+							"                pm.test(\"Website Created\", function () {",
+							"                pm.expect(jsonData[i].status).to.eql(\"Success\");",
+							"});",
+							"\t\t\t",
+							"\t\t}",
+							"\t}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"site_name\":\"{{DNS1_NAME}}\",\n\t\"http_port\":\"80\",\n\t\"https_port\":\"443\",\n\t\"computer_ip\":\"{{IIS_ADDRESS1}}\",\n\t\"template_number\": \"2\",\n\t\"authentication\": \"none\",\n\t\"customization\": {\n\t\t\"background\": \"green\"\n\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/website",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"website"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SPN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32d3eb01-7610-45ed-a416-0c854aa44055",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"computer\":\"IIS\",\n\"spn\":\"HTTP/{{DNS1_NAME}}\" \n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/computer",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"computer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Desktop files",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "315b3024-86ae-4af9-a53d-4bd716675ebf",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Files Copied\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"repo\":\"labs\",\n\"number\":\"3\",\n\"user\": \"user1\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/desktop",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"desktop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Desktop Files",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d927ec1b-3f21-40b5-bc91-eed306e987ac",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Files Deleted\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"repo\":\"labs\",\n\"number\":\"3\",\n\"user\": \"user1\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/desktop",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"desktop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /website",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d0f4089-35c8-486e-b056-67e682dfe3af",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Website Deleted\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"site_name\":\"{{DNS1_NAME}}\" \n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/website",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"website"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /user - Delete user GET_API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a83d1810-7b70-425a-abdb-131d3c275f19",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=GET_API",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "GET_API"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /user - Delete user POST_API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5163aa9a-8222-4b7f-ba1a-8c1c66e5bb19",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=POST_API",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "POST_API"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /user - Delete user DELEGATION_API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a4ccbec8-7e94-4ae7-8c7f-a03fbc1333ec",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
+							"    pm.test(\"OK\", function () {",
+							"        pm.response.to.have.status(200);",
+							"    });",
+							"}",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=DELEGATION_API",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "useridentity",
+							"value": "DELEGATION_API"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete SPN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40ae452f-348e-48db-8944-71cb5c7c4fd5",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"SPN Deleted\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"computer\":\"IIS\",\n\"spn\":\"HTTP/{{DNS1_NAME}}\"\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/computer",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"computer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /dns",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85231e25-6c0a-4994-8607-baa307bca396",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"A Record Deleted\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{IIS_ADDRESS1}}\" \n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/dns",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /addr/checkin - IIS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9631a2d4-15d7-4f0a-9ccf-66cdac8a686e",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							"var HTTPS_RUN = pm.collectionVariables.get(\"HTTPS_RUN\");",
+							"",
+							"if (HTTPS_RUN === \"TRUE\") {",
+							"postman.setNextRequest(\"delete_vs\");",
+							"}",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/addr/checkin?address={{IIS_ADDRESS1}}",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"addr",
+						"checkin"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "{{IIS_ADDRESS1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_vs_https_server_pool",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a90b69c8-491c-40ef-909b-190bb3cf363d",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
+							"}",
+							"",
+							"pm.test(\"BEGINNING HTTPS TESTS\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.collectionVariables.set('HTTPS_RUN', 'TRUE');",
+							"",
+							"postman.setNextRequest(\"GET /\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP1_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n                \"clientTLS\": \"{{VS1_NAME}}-serverssl\",\r\n                \"pool\": \"https-api-pool\",\r\n        \t\t\"snat\": \"auto\"\r\n                },\r\n\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"{{VS1_NAME}}-serverssl\": {\r\n                    \"class\": \"TLS_Client\"\r\n                },\r\n                \"https-api-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.6\"\r\n                            ],\r\n                            \"servicePort\": 8443\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"icmp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}\r\n                \r\n             \r\n          \r\n       \r\n    \r\n"
+				},
+				"url": {
+					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/declare",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"4"
+					],
+					"path": [
+						"mgmt",
+						"shared",
+						"appsvcs",
+						"declare"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_vs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a230a67e-54af-42c1-adce-2aa44b16e08d",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"}",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/declare/{{PARTITION_NAME}}",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"4"
+					],
+					"path": [
+						"mgmt",
+						"shared",
+						"appsvcs",
+						"declare",
+						"{{PARTITION_NAME}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /addr/checkin - BIGIP1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54c95704-0fd6-4ee0-9df1-d148ce369201",
+						"exec": [
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							"",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/addr/checkin?address={{BIGIP1_ADDRESS1}}",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"addr",
+						"checkin"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "{{BIGIP1_ADDRESS1}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "b8bd9984-e650-46c6-94d6-ea42cd2b20f2",
+			"key": "APP_NAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "b4bcbe63-adf7-4fe5-8eca-1b38d70603c0",
+			"key": "PARTITION_NAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "fbffc076-a6e8-4b21-a91b-1ab96c832272",
+			"key": "PATH_NAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "2f306ce8-cbb1-4b7e-bb6f-20bf38ff7553",
+			"key": "PRIOR_RESPONSE",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "26c80ca8-2469-4a60-b4b5-601163228ae7",
+			"key": "HTTPS_RUN",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "bfb4f6f2-e552-459c-935b-d1e106ec6a20",
+			"key": "DNS1_NAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "9a6d4577-7d6e-43ea-8029-79cf1973138b",
+			"key": "VS1_NAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3cac9137-f7b4-477e-91d8-0e68bbed507f",
+			"key": "BIGIP1_ADDRESS1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "2628adf1-5584-4165-87ff-242473233a6a",
+			"key": "IIS_ADDRESS1",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
