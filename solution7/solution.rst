@@ -3,6 +3,10 @@ Solution:  Inline SAML with Kerberos sideband
 
 This solution documents all the necessary pieces required to create a set of APM policies that updates the AD lastlogontimestamp when only using SAML.  
 
+Keywords: saml, kerberos, ad, active, directory
+
+DC: single, multi
+
 Objective:
 ----------
 
