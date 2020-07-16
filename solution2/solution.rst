@@ -3,6 +3,10 @@ Solution: Combined Portal with VPN - Active Directory Authenticated
 
 This solution documents  all the necessary pieces required to setup a basic Portal and VPN for use with Active Directory Authentication.  
 
+Keywords: portal, vpn, ad, active, directory
+
+DC: single, multi
+
 Objective:
 ----------
 
