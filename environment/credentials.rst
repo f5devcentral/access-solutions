@@ -53,11 +53,11 @@ Websites
 
 +------------------------+-----------------------+
 | Device                 |   Credentials         |
-+========================+===+===================+
-| asensible.f5lab.local  |  - admin/admin        |
++========================+=======================+
+| ansible.f5lab.local    |  - admin/admin        |
 |                        |                       |
 +------------------------+-----------------------+
-| portainer.f5lab.local  |  - admin/admin        |
+| portainer.f5lab.local  |  - admin/portadmin    |
 |                        |                       |
 |                        |                       |
 +------------------------+-----------------------+
