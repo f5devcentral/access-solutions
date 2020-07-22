@@ -9,7 +9,7 @@ Getting to Know the Environment
    :caption: Contents:
    :glob:
    
-  
+   deploy.rst
    ip_assignments.rst
    ad_account_info.rst
    internal_dns.rst
