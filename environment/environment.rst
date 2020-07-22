@@ -4,12 +4,16 @@ Getting to Know the Environment
 --------------------------------
 
 
+
+
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
    :glob:
    
    deploy.rst
+   credentials.rst
    ip_assignments.rst
    ad_account_info.rst
    internal_dns.rst
