@@ -23,7 +23,7 @@ If you would like to contribute, templates are also available for download from 
    
   
    environment/environment.rst
-   solution*/solution.rst
+   solution*/solution*
    additional_info.rst
 
    
