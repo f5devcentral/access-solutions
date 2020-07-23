@@ -34,7 +34,9 @@ The GET version of user account creation API uses a query string for passing use
 Example Request
 ^^^^^^^^^^^^^^^^
 ::
-  https://10.1.20.7/aduser/create?userIdentity=EXAMPLE_USER&employeeNumber=100&Name='Post API'&Givenname=POST&Surname=API&UserPrincipalName=postapi@f5lab.local&OU=IT&Password=F@k3P@assw0rd&email=postapi@acme.com
+  https://10.1.20.7/aduser/create?userIdentity=EXAMPLE_USER&employeeNumber=100
+  &Name='Post API'&Givenname=POST&Surname=API&UserPrincipalName=postapi@f5lab.local
+  &OU=IT&Password=F@k3P@assw0rd&email=postapi@acme.com
 
 
 
