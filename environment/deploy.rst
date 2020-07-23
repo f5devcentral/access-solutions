@@ -55,7 +55,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |    ..note:: Multiple solutions can be deployed at one time.                                          |
 |             The automation will dynamically assign addresses                                         |                                               
 |                                                                                                      |
-|  |image20|                                                                                               |
+|  |image20|                                                                                           |
 |                                                                                                      |
 +------------------------------------------------------------------------------------------------------+
 | Note: All work for this lab will be performed exclusively from the provided lab environment.         |
