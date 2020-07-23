@@ -53,16 +53,16 @@ https://{{BIGIP1_ADDRESS1}}/aduser/create
 
 **Request Body**
 ::
-{
-"Username":"POST_API",
-"employeeNumber":"100",
-"GivenName":"post",
-"Surname": "api",
-"UPN":"12890@f5lab.local",
-"OU":"IT",
-"Password":"letmein",
-"emailaddress":"postapi@acme.com"
-}
+    {
+    "Username":"POST_API",
+    "employeeNumber":"100",
+    "GivenName":"post",
+    "Surname": "api",
+    "UPN":"12890@f5lab.local",
+    "OU":"IT",
+    "Password":"letmein",
+    "emailaddress":"postapi@acme.com"
+    }
 
 
 METHOD - PATCH
