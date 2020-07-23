@@ -16,7 +16,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 
 +------------------------------------------------------------------------------------------------------+
 | 2. On logon the Chrome browser should auto launch and open the site https://portal.f5lab.local       |
-+------------------------------------------------------------------------------------------------------+
++======================================================================================================+
 |                                                                                                      |
 |                                                                                                      |
 |    |image17|                                                                                         |
@@ -27,7 +27,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |    a single Data Center(DC) deployment option.  If the automation supports a multi-datacenter        |  
 |    deployment option a second set of icon will also be displayed.                                    |
 |                                                                                                      |
-+------------------------------------------------------------------------------------------------------+
++======================================================================================================+
 |    |image18|                                                                                         |
 +------------------------------------------------------------------------------------------------------+
 
