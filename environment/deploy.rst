@@ -38,9 +38,16 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |                                                                                                      |
 |    ..note::  Wait 15 seconds and the screen should refresh with the status of the automations        |
 |              deployment                                                                              |
-|                                                                                                      |  
++------------------------------------------------------------------------------------------------------+        
+|   |image19|                                                                                          |
++------------------------------------------------------------------------------------------------------+
+
++------------------------------------------------------------------------------------------------------+                                                                                                     |  
 | 5. The accompanying solution guide will provide details on how to access the application             |
 |    that was just deployed.                                                                           |    
++------------------------------------------------------------------------------------------------------+
+
++------------------------------------------------------------------------------------------------------+
 |                                                                                                      |
 | 6. Once you are done working in that solution return to https://portal.f5lab.local and click         |
 |    the **stop** to delete everything related to that solution                                        |
@@ -48,7 +55,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |    ..note:: Multiple solutions can be deployed at one time.                                          |
 |             The automation will dynamically assign addresses                                         |                                               
 |                                                                                                      |
-|                                                                                                      |
+|  |image20|                                                                                               |
 |                                                                                                      |
 +------------------------------------------------------------------------------------------------------+
 | Note: All work for this lab will be performed exclusively from the provided lab environment.         |
@@ -59,3 +66,5 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 
 .. |image17| image:: media/image017.png
 .. |image18| image:: media/image018.png
+.. |image19| image:: media/image019.png
+.. |image20| image:: media/image020.png
