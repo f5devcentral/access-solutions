@@ -16,40 +16,43 @@ The user accounts API allows you to create, modify, and delete user accounts.
 
 
 METHOD - GET
+^^^^^^^^^^^^
 
 The GET version of user account creation API uses a query string for passing user account creation data. The following attributes are used when creating user accounts
 
-userIdentity 
-employeeNumber
-Name
-Givenname
-Surname
-UserPrincipalName
-OU
-Password
-email
+- userIdentity 
+- employeeNumber
+- Name
+- Givenname
+- Surname
+- UserPrincipalName
+- OU
+- Password
+- email
 
 
 Example Request
+^^^^^^^^^^^^^^^^
 https://10.1.20.7/aduser/create?userIdentity=EXAMPLE_USER&employeeNumber=100&Name='Post API'&Givenname=POST&Surname=API&UserPrincipalName=postapi@f5lab.local&OU=IT&Password=F@k3P@assw0rd&email=postapi@acme.com
 
 
 
 METHOD - POST
+^^^^^^^^^^^^^^^
 
 
 The POST version of the user account creation API uses a JSON Body for passing user account creation data.  The following attributes are used when creating a user account
 
 
 Example Request
+^^^^^^^^^^^^^^^^^^
 
-Request
-
+**Request**
 https://{{BIGIP1_ADDRESS1}}/aduser/create
 
 
-Request Body
-
+**Request Body**
+::
 {
 "Username":"POST_API",
 "employeeNumber":"100",
