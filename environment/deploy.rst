@@ -12,17 +12,26 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 | 1. Establish a RDP connection to **jumphost.f5lab.local**  with the following credentials:           |                           
 |                                                                                                      |
 |    - **UserID: f5lab\\user1** / **Password: user1**                                                  |
-|                                                                                                      |
++------------------------------------------------------------------------------------------------------+                                                                                                      
+
++------------------------------------------------------------------------------------------------------+
 | 2. On logon the Chrome browser should auto launch and open the site https://portal.f5lab.local       |
++------------------------------------------------------------------------------------------------------+
+|                                                                                                      |
 |                                                                                                      |
 |    |image17|                                                                                         |
-|                                                                                                      |                                                               
-|                                                                                                      |
++------------------------------------------------------------------------------------------------------+                                                                                                      
+
++------------------------------------------------------------------------------------------------------+
 | 3. Hover over the solution you would like to deploy. A start and stop icon should appear under       |
 |    a single Data Center(DC) deployment option.  If the automation supports a multi-datacenter        |  
 |    deployment option a second set of icon will also be displayed.                                    |
 |                                                                                                      |
++------------------------------------------------------------------------------------------------------+
 |    |image18|                                                                                         |
++------------------------------------------------------------------------------------------------------+
+
++------------------------------------------------------------------------------------------------------+
 |                                                                                                      |   
 |                                                                                                      |
 | 4. Click the **play** button under the deployment option you wish the automation to configure        |
