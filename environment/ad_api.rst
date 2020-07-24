@@ -1,47 +1,73 @@
 
-
+=================================
 Active Directory API Endpoints
 =================================
 
 The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution development and deployment 
 
+HTTP Listener  10.1.20.6:81
+HTTPS Listener 10.1.20.6:8443 
 
+--------------
 user accounts
 ---------------
 
 The user accounts API allows you to create, modify, and delete user accounts.
 
-/aduser/create
-^^^^^^^^^^^^^^^
 
 
-METHOD - GET
-^^^^^^^^^^^^
+ENDPOINT - /user
+^^^^^^^^^^^^^^^^^
 
-The GET version of user account creation API uses a query string for passing user account creation data. The following attributes are used when creating user accounts
+**METHOD - GET**
 
-- userIdentity 
-- employeeNumber
+Returns the following user attributes
+
+
+- sAMAccountName
+- DistinguishedName
 - Name
-- Givenname
-- Surname
+- SID
 - UserPrincipalName
-- OU
-- Password
-- email
+- EmployeeNumber
+- UserAccountControl
+- memberOf
+
 
 
 Example Request
-^^^^^^^^^^^^^^^^
 ::
-  https://10.1.20.7/aduser/create?userIdentity=EXAMPLE_USER&employeeNumber=100
-  &Name='Post API'&Givenname=POST&Surname=API&UserPrincipalName=postapi@f5lab.local
-  &OU=IT&Password=F@k3P@assw0rd&email=postapi@acme.com
+  
+https:///user?useridentity=POST_API
 
+Example Response
 
+::
+
+ {
+    "sAMAccountName": "POST_API",
+    "DistinguishedName": "CN=POST_API,OU=IT,DC=f5lab,DC=local",
+    "Name": "POST_API",
+    "SID": {
+        "BinaryLength": 28,
+        "AccountDomainSid": {
+            "BinaryLength": 24,
+            "AccountDomainSid": "S-1-5-21-2642334090-1672167261-698369401",
+            "Value": "S-1-5-21-2642334090-1672167261-698369401"
+        },
+        "Value": "S-1-5-21-2642334090-1672167261-698369401-1154"
+    },
+    "UserPrincipalName": "12890@f5lab.local",
+    "employeeNumber": "123456",
+    "userAccountControl": 66048,
+    "memberOf": [
+        "CN=Website Admin,OU=Sales Engineering,DC=f5lab,DC=local",
+        "CN=IT,CN=Users,DC=f5lab,DC=local"
+    ]
+ }
 
 METHOD - POST
-^^^^^^^^^^^^^^^
+
 
 
 The POST version of the user account creation API uses a JSON Body for passing user account creation data.  The following attributes are used when creating a user account
@@ -52,7 +78,7 @@ Example Request
 
 **Request**
 ::
-    https://{{BIGIP1_ADDRESS1}}/aduser/create
+    https://10.1.20.7/aduser/create
 
 
 **Request Body**
@@ -69,15 +95,59 @@ Example Request
     }
 
 
-METHOD - PATCH
+
+
+ENDPOINT - /user
+^^^^^^^^^^^^^^^^
+
 
 METHOD - DELETE
+
+The DELETE method removed the user account from Active Directory.  The following attributes are passed as a query string to delete the user account.
+
+- useridentity(saMAccountName)
+
+
+
+Example Request
+^^^^^^^^^^^^^^^^^
+::
+https://{{BIGIP1_ADDRESS1}}/user?useridentity=GET_API
+
+
+
+
+ENDPOINT - /aduser/delegation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Request**
+::
+   https://10.1.20.7/aduser/delegation
+
+**Request Body**
+::
+   {
+   "Username":"DELEGATION_API",
+   "UPN":"HOST/DELEGATION.f5lab.local",
+   "ou":"IT",
+   "Password":"kerbaccount",
+   "app_spn": "HTTP/{{DNS1_NAME}}"
+   }
+
 
 
 certificates
 --------------
 
 METHOD - GET
+
+
+ENDPOINT - user/cert
+
+Example Request 
+
+http://10.1.20.7/aduser/cert?useridentity=user1
+
 
 IP Addresses
 -------------
