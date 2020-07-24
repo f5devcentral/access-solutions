@@ -38,7 +38,7 @@ Returns the following user attributes
 Example Request
 ::
   
-https:///user?useridentity=POST_API
+ https:///user?useridentity=POST_API
 
 Example Response
 
@@ -66,7 +66,7 @@ Example Response
     ]
  }
 
-METHOD - POST
+**METHOD - POST**
 
 
 
@@ -74,14 +74,13 @@ The POST version of the user account creation API uses a JSON Body for passing u
 
 
 Example Request
-^^^^^^^^^^^^^^^^^^
 
-**Request**
+Request
 ::
-    https://10.1.20.7/aduser/create
+    https://10.1.20.6:81/user
 
 
-**Request Body**
+Request Body
 ::
     {
     "Username":"POST_API",
@@ -94,14 +93,17 @@ Example Request
     "emailaddress":"postapi@acme.com"
     }
 
+Example Response
+::
+
+ {
+    "sAMAccountName": "POST_API",
+    "employeeNumber": "100",
+    "userAccountControl": 66048
+ }
 
 
-
-ENDPOINT - /user
-^^^^^^^^^^^^^^^^
-
-
-METHOD - DELETE
+**METHOD - DELETE**
 
 The DELETE method removed the user account from Active Directory.  The following attributes are passed as a query string to delete the user account.
 
@@ -110,14 +112,47 @@ The DELETE method removed the user account from Active Directory.  The following
 
 
 Example Request
-^^^^^^^^^^^^^^^^^
 ::
-https://{{BIGIP1_ADDRESS1}}/user?useridentity=GET_API
+ https://10.1.20.6:1/user?useridentity=GET_API
+
+
+Example Response
+::
+ {
+    "status": "Success",
+    "useridentity": "POST_API"
+ }
 
 
 
 
-ENDPOINT - /aduser/delegation
+**METHOD - PATCH**
+
+The PATCH method allow you to modify a user attribute per request. The following attributes are supported.
+
+
+ - employeeNumber
+
+
+Example Request
+^^^^^^^^^^^^^^^^
+
+https://10.1.20.6:81/user?useridentity=POST_API&DriverLicense=123456
+
+
+
+Example Response
+^^^^^^^^^^^^^^^^^
+
+
+::
+{
+    "sAMAccountName": "POST_API",
+    "employeeNumber": "123456"
+}
+
+
+ENDPOINT - /user/delegation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Request**
