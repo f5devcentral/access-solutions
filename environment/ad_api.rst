@@ -142,8 +142,8 @@ Example Request
 
 
 Example Response
-
 ::
+ 
  {
     "sAMAccountName": "POST_API",
     "employeeNumber": "123456"
