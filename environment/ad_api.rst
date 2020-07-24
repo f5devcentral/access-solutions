@@ -135,21 +135,19 @@ The PATCH method allow you to modify a user attribute per request. The following
 
 
 Example Request
-^^^^^^^^^^^^^^^^
+::
 
-https://10.1.20.6:81/user?useridentity=POST_API&DriverLicense=123456
+ https://10.1.20.6:81/user?useridentity=POST_API&DriverLicense=123456
 
 
 
 Example Response
-^^^^^^^^^^^^^^^^^
-
 
 ::
-{
+ {
     "sAMAccountName": "POST_API",
     "employeeNumber": "123456"
-}
+ }
 
 
 ENDPOINT - /user/delegation
