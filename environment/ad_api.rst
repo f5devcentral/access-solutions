@@ -238,6 +238,8 @@ Example Response
 certificates
 --------------
 
+The certificates API retrieves the certificate associated with the specified user account
+
 METHOD - GET
 
 
@@ -245,7 +247,14 @@ ENDPOINT - user/cert
 
 Example Request 
 
-http://10.1.20.7/aduser/cert?useridentity=user1
+http://10.1.20.6:81/user/cert?username=user2
+
+Example Response
+::
+ {
+    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIGGTCCBQGgAwIBAgITXgAAAAxCnmIQT0gz9QAAAAAADDANBgkqhkiG9w0BAQsFADBIMRUwEwYK\r\nCZImiZPyLGQBGRYFbG9jYWwxFTATBgoJkiaJk/ IsZAEZFgVmNWxhYjEYMBYGA1UEAxMPZGMxLmY1\r\nbGFiLmxvY2FsMB4XDTE5MTEyNzEzMjU0NloXDTIwMTEyNjEzMjU0NlowbTEVMBMGCgmSJomT8ixk\r\nARkWBWxvY2FsMRUwEwYKCZImiZPyLGQBGRYFZjVsYWIxDjAMBgNVBAMTBVVzZXJzMQ4wDAYDVQQD\r\nEwV1c2VyMjEdMBsGCSqGSIb3DQEJARYOdXNlcjJAYWNtZS5jb20wggEiMA0GCSqGSIb3DQEBAQUA\r\nA4IBDwAwggEKAoIBAQDANjiox1b3IKVsbhbfzIZsApLQIsAvNDZTs9B6DNaffT0WqE8jyoHza0Jw\r\ndy3eVTBfmhyANq7IcdXD+mf6a0L5bcEg96LaN6sEFscyx2BYDdQoExRbu4oQNvo82SIaqqGVOyAS\r\nikay57r3isccliv7eUBM7gttIlOeEtpeWI5rKxVdlERXBXHMHEbUP/hYsW42L+aTCjFlWNL6EPqr\r\nwJW5A5ZtNpBg9Kil9jQv2haILpEFLuREYN6OTkwsbsGQE+EXVJbLQ+v/8kNNwCdRo4O7uhZfgiLu\r\n9MjaUiRHf+ZTgfs5R93BtMFM2CWcEGsQgzYiElUWRk5QwXmL4Zvnyl2/AgMBAAGjggLVMIIC0TAX\r\nBgkrBgEEAYI3FAIECh4IAFUAcwBlAHIwKQYDVR0lBCIwIAYKKwYBBAGCNwoDBAYIKwYBBQUHAwQG\r\nCCsGAQUFBwMCMA4GA1UdDwEB/wQEAwIFoDBEBgkqhkiG9w0BCQ8ENzA1MA4GCCqGSIb3DQMCAgIA\r\ngDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcNAwcwHQYDVR0OBBYEFIz84iPdCkAZ\r\nJ3Ogsu1AmtUdo3S9MB8GA1UdIwQYMBaAFNhpUMHsIixtS9g6y/FyNrayg9V6MIHJBgNVHR8EgcEw\r\ngb4wgbuggbiggbWGgbJsZGFwOi8vL0NOPWRjMS5mNWxhYi5sb2NhbCxDTj1kYzEsQ049Q0RQLENO\r\nPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9\r\nZjVsYWIsREM9bG9jYWw/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNz\r\nPWNSTERpc3RyaWJ1dGlvblBvaW50MIHqBggrBgEFBQcBAQSB3TCB2jCBrgYIKwYBBQUHMAKGgaFs\r\nZGFwOi8vL0NOPWRjMS5mNWxhYi5sb2NhbCxDTj1BSUEsQ049UHVibGljJTIwS2V5JTIwU2Vydmlj\r\nZXMsQ049U2VydmljZXMsQ049Q29uZmlndXJhdGlvbixEQz1mNWxhYixEQz1sb2NhbD9jQUNlcnRp\r\nZmljYXRlP2Jhc2U
+b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTAnBggrBgEFBQcw\r\nAYYbaHR0cDovL2RjMS5mNWxhYi5sb2NhbC9vY3NwMDwGA1UdEQQ1MDOgIQYKKwYBBAGCNxQCA6AT\r\nDBF1c2VyMkBmNWxhYi5sb2NhbIEOdXNlcjJAYWNtZS5jb20wDQYJKoZIhvcNAQELBQADggEBACsP\r\nDOoidSwHnOnxSxC2Kn8XOkBQbvYDqH6buQJpknCzsZR2oa60EYT0EQ7x0ww0aS4aaEMpB3xcyxwZ\r\ntjhWjuhznDcNc4ZvXJJGUuWzJhYXSZ2T4mpxWJKbCcCOzevgvVyRo334v543O7sLfLL8n+Wpybf9\r\nsJYIQyyWUqdleSt4PVZKPv30oa0GCBjT9cCpxCIvInbatH1Y3vE4JRTY3aZvXb1AH67Z+VjvFMFd\r\nO13IUVDjIyqUZ4yW7FwUG0Z57v8lB7HmMzHO7TA+LfkaUHKvI6BGINcMmq7fGHshmZf5rb/ U0MQj\r\nqo/E/zJ+oth1odKbBxKPcCzN+I88U6fSZ3A=\r\n-----END CERTIFICATE-----"
+ }
 
 
 IP Addresses
@@ -253,9 +262,81 @@ IP Addresses
 
 METHOD - GET 
 
+
+ENDPOINT - /addr/scope-status
+
+The scope status endpoint returns all IP address assignment associated with scope specified in the request.
+
+The following scopes are supported 
+
+- 10.1.10.96 (BIGIP1_SCOPE)
+- 10.1.10.192 (BIGIP2_SCOPE)
+- 10.1.20.32 (IIS_SCOPE)
+
+
+Example Request 
+::
+ http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
+
+
+ENDPOINT - /addr/available 
+
+The available endpoint returns the next available address for the scope specified in the request
+
+Example Request
+::
+ http://10.1.20.6:81/addr/available?scope=10.1.10.96
+
+Example Response
+::
+ {
+    "address": "10.1.10.102"
+ }
+
+
 METHOD - POST
 
+
+ENDPOINT - /addr/checkout
+
+Example Request
+::
+  http://10.1.20.6:81/addr/checkout
+
+Example Request
+::
+
+ {
+  "scope":"10.1.10.96",
+  "address":"10.1.10.103",
+  "name":"testvs"
+ }
+
+Example Response
+::
+
+{
+    "status": "Success",
+    "address": "10.1.10.103",
+    "name": "testvs"
+}
+
+
 METHOD - DELETE
+
+ENDPOINT - /addr/checkin
+
+Example Request
+
+https://10.1.20.6:81/addr/checkin?address=10.1.10.103
+
+Example Response
+
+{
+    "status": "Success",
+    "address": "10.1.10.103"
+}
+
 
 DNS
 ------
