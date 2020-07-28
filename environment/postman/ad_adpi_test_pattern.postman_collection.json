@@ -236,7 +236,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"scope\":\"{{BIGIP1_SCOPE}}\",\n\"address\":\"{{BIGIP1_ADDRESS1}}\",\n\"vs_name\":\"{{VS1_NAME}}\"\n}"
+					"raw": "{\n\"scope\":\"{{BIGIP1_SCOPE}}\",\n\"address\":\"{{BIGIP1_ADDRESS1}}\",\n\"name\":\"{{VS1_NAME}}\"\n}"
 				},
 				"url": {
 					"raw": "http://10.1.20.6:81/addr/checkout",
@@ -361,7 +361,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /user",
+			"name": "POST /user - Standard user",
 			"event": [
 				{
 					"listen": "test",
@@ -410,7 +410,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"Username\":\"POST_API\",\n\"employeeNumber\":\"100\",\n\"GivenName\":\"post\",\n\"Surname\": \"api\",\n\"UPN\":\"12890@f5lab.local\",\n\"OU\":\"IT\",\n\"Password\":\"letmein\",\n\"emailaddress\":\"postapi@acme.com\"\n}"
+					"raw": "{\n\"Username\":\"POST_API\",\n\"employeeNumber\":\"100\",\n\"GivenName\":\"post\",\n\"Surname\": \"api\",\n\"UserPrincipalName\":\"12890@f5lab.local\",\n\"OU\":\"IT\",\n\"Password\":\"letmein\",\n\"email\":\"postapi@acme.com\"\n}"
 				},
 				"url": {
 					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
@@ -426,7 +426,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /user/delegation",
+			"name": "POST /user - Delegation Account",
 			"event": [
 				{
 					"listen": "test",
@@ -475,24 +475,23 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"Username\":\"DELEGATION_API\",\n\"UPN\":\"HOST/DELEGATION.f5lab.local\",\n\"ou\":\"IT\",\n\"Password\":\"kerbaccount\",\n\"app_spn\": \"HTTP/{{DNS1_NAME}}\"\n}"
+					"raw": "{\n\"Username\":\"DELEGATION_API\",\n\"UserPrincipalName\":\"HOST/DELEGATION.f5lab.local@f5lab.local\",\n\"ou\":\"IT\",\n\"Password\":\"kerbaccount\",\n\"app_spn\": \"HTTP/{{DNS1_NAME}}\"\n}"
 				},
 				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user/delegation",
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
 					"protocol": "https",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
 					],
 					"path": [
-						"user",
-						"delegation"
+						"user"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "PATCH /user",
+			"name": "PATCH /user modify attribute",
 			"event": [
 				{
 					"listen": "test",
@@ -538,25 +537,167 @@
 					]
 				},
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"rtype\": \"attribute\", \r\n\"username\": \"POST_API\",\r\n\"employeeNumber\": \"123456789\"\r\n\r\n}\r\n\r\n"
+				},
 				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=POST_API&DriverLicense=123456",
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
 					"protocol": "https",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
 					],
 					"path": [
 						"user"
-					],
-					"query": [
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /user unlock account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "22e0ecad-8ad2-4f25-8f87-2dbf9050b75c",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
 						{
-							"key": "useridentity",
-							"value": "POST_API"
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
 						},
 						{
-							"key": "DriverLicense",
-							"value": "123456"
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
 						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"rtype\": \"unlock\", \r\n\"username\": \"POST_API\"\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH /user change password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1e86973-ff09-41ea-8179-522e20ff5a5d",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} ",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"OK\", function () {",
+							" ",
+							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "content-type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"rtype\": \"password\",\r\n\"username\": \"POST_API\",\r\n\"password\": \"123\"\r\n\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP1_ADDRESS1}}"
+					],
+					"path": [
+						"user"
 					]
 				}
 			},
@@ -604,7 +745,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=POST_API",
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user?username=POST_API",
 					"protocol": "https",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
@@ -614,58 +755,7 @@
 					],
 					"query": [
 						{
-							"key": "useridentity",
-							"value": "POST_API"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH /user/unlock",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f2bb16db-f5e3-45b9-a9b2-effd20e569ed",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"OK\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} ",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.test(\"OK\", function () {",
-							" ",
-							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "PATCH",
-				"header": [],
-				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user/unlock?useridentity=POST_API",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP1_ADDRESS1}}"
-					],
-					"path": [
-						"user",
-						"unlock"
-					],
-					"query": [
-						{
-							"key": "useridentity",
+							"key": "username",
 							"value": "POST_API"
 						}
 					]
@@ -721,7 +811,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{BIGIP1_ADDRESS1}}/user/cert?useridentity=user3",
+					"raw": "http://{{BIGIP1_ADDRESS1}}/user/cert?username=user2",
 					"protocol": "http",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
@@ -732,80 +822,8 @@
 					],
 					"query": [
 						{
-							"key": "useridentity",
-							"value": "user3"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PATCH /user/password",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "cfc457b8-e50a-42ad-951a-1bfea1c5616b",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"OK\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} ",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.test(\"OK\", function () {",
-							" ",
-							"    pm.expect(jsonData.sAMAccountName).to.eql(\"POST_API\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "accessToken",
-							"value": "ewogICJhbGciOiJIUzI1NiIsCiAgImtpZCI6ImxhYiIKfQ.ewogICJ0b2tlbl90eXBlIjoiQmVhcmVyIiwKICAiaXNzIjoiaHR0cHM6Ly9wcmVidWlsdC1hcy5hY21lLmNvbSIsCiAgImNsaWVudCI6IjMwMzJmZDEyMWY5ZGZjNjY1ZDVjM2Y1ZjllOWUwNjExMTcxZjJmNmU4MTdiMTg1ZSIsCiAgImdyb3VwaWQiOiJTZW5pb3IgU3lzdGVtcyBFbmdpbmVlciIsCiAgImdyb3VwcyI6InwgQ049bWVtYmVyLXNlcnZpY2VzLUEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049c3lzYWRtaW5zLE9VPUdyb3VwcyxEQz1mNWxhYixEQz1sb2NhbCB8IENOPWFwcDEsT1U9R3JvdXBzLERDPWY1bGFiLERDPWxvY2FsIHwgQ049RWRpdFVzZXIsT1U9SVQsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1XZWJzaXRlIEFkbWluLE9VPVNhbGVzIEVuZ2luZWVyaW5nLERDPWY1bGFiLERDPWxvY2FsIHwgQ049U2FsZXMgRW5naW5lZXJpbmcsQ049VXNlcnMsREM9ZjVsYWIsREM9bG9jYWwgfCBDTj1Eb21haW4gQWRtaW5zLENOPVVzZXJzLERDPWY1bGFiLERDPWxvY2FsIHwiLAogICJvcmciOiJGNSIsCiAgInRpZXIiOiJTYWxlcyBFbmdpbmVlcmluZyIsCiAgInVzZXIiOiJ1c2VyMSIsCiAgInN1YiI6Ii9wcmVidWlsdC9wcmVidWlsdC1hcy1wc3AudXNlcjEiLAogICJqdGkiOiJlM2Y1YzRiYzBkZTRjYzBmOWVkMTdiZjU5YzI5NzMzMDZkNmNmODNmNzA2ZmM3NzM0YTdjNGNmNTQ0MzRkM2JjIiwKICAiaWF0IjoxNTg3NDcwMzAzLAogICJleHAiOjE1ODc0Nzc1MDMsCiAgIm5iZiI6MTU4NzQ3MDAwMwp9.PizJFgeQiYuaR5ZBN5_GAo9QuA0jSkUXlsPu-OL8fl8",
-							"type": "string"
-						},
-						{
-							"key": "tokenType",
-							"value": "Bearer",
-							"type": "string"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PATCH",
-				"header": [],
-				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user/password?useridentity=POST_API&password=changeme",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP1_ADDRESS1}}"
-					],
-					"path": [
-						"user",
-						"password"
-					],
-					"query": [
-						{
-							"key": "useridentity",
-							"value": "POST_API"
-						},
-						{
-							"key": "password",
-							"value": "changeme"
+							"key": "username",
+							"value": "user2"
 						}
 					]
 				}
@@ -1069,7 +1087,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"scope\":\"{{IIS_SCOPE}}\",\n\"address\":\"{{IIS_ADDRESS1}}\",\n\"vs_name\":\"{{DNS1_NAME}}\"\n}"
+					"raw": "{\n\"scope\":\"{{IIS_SCOPE}}\",\n\"address\":\"{{IIS_ADDRESS1}}\",\n\"name\":\"{{DNS1_NAME}}\"\n}"
 				},
 				"url": {
 					"raw": "http://10.1.20.6:81/addr/checkout",
@@ -1402,20 +1420,18 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"username\":\"POST_API\"\r\n}"
+				},
 				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=POST_API",
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
 					"protocol": "https",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
 					],
 					"path": [
 						"user"
-					],
-					"query": [
-						{
-							"key": "useridentity",
-							"value": "POST_API"
-						}
 					]
 				}
 			},
@@ -1450,20 +1466,18 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"username\":\"DELEGATION_API\"\r\n}"
+				},
 				"url": {
-					"raw": "https://{{BIGIP1_ADDRESS1}}/user?useridentity=DELEGATION_API",
+					"raw": "https://{{BIGIP1_ADDRESS1}}/user",
 					"protocol": "https",
 					"host": [
 						"{{BIGIP1_ADDRESS1}}"
 					],
 					"path": [
 						"user"
-					],
-					"query": [
-						{
-							"key": "useridentity",
-							"value": "DELEGATION_API"
-						}
 					]
 				}
 			},
@@ -1802,47 +1816,47 @@
 	],
 	"variable": [
 		{
-			"id": "3260fbc0-97d6-40bd-a460-66ebf4f73f87",
+			"id": "0639119e-221d-4355-aa31-157163dd5fc8",
 			"key": "APP_NAME",
 			"value": ""
 		},
 		{
-			"id": "de0aba34-c2db-48a7-a57f-f0c2c7c267f3",
+			"id": "3805b5d1-71b2-46fe-abb4-0cae2aa67ee2",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "68331782-420e-4159-835a-f0e8620dbaa8",
+			"id": "be3adfb0-216c-4d0e-9af1-46f684f2b80c",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "5c0b05f7-3a29-40d0-a11c-86a2502be888",
+			"id": "1849cea9-e4bc-451c-b28a-dbe85bc0b704",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "74d6c440-1a2f-4870-a539-dd0a4f4a2aeb",
+			"id": "f3245073-4afb-4608-b13f-b724b24ea9ec",
 			"key": "HTTPS_RUN",
 			"value": ""
 		},
 		{
-			"id": "20618eef-a357-4e05-8b42-6e3b2770021b",
+			"id": "2f782a2d-e1b3-4aa3-b78f-b310816682b3",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "c07781ed-82e8-4829-88c3-d713e7a95fbb",
+			"id": "cc388f64-b7e6-4077-8afd-ed9cc0b683b5",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "5cf821f4-a72d-4cd4-a1de-8d90e02a8daf",
+			"id": "649addb1-b400-4285-82c7-1e773c81e9b0",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "7882fd78-1087-4e8d-a91e-3eb1f267edb7",
+			"id": "8f045fe3-f302-49fd-8cb2-c5fe9fcfbaaf",
 			"key": "IIS_ADDRESS1",
 			"value": ""
 		}
