@@ -341,29 +341,230 @@ Example Response
 DNS
 ------
 
+ENDPOINT - /dns
+
+The DNS endpoint allows the creation and deletion of A and PTR records
+
 METHOD - POST
 
+
+Example Request
+::
+ https://10.1.20.6:81/dns
+
+Example Body
+::
+
+ {
+  "record_type":"a",
+  "fqdn":"app.acme.com",
+  "computer_ip":"10.1.10.35"
+ }
+Example Rsopnose
+::  
+ 
+ {
+    "status": "Success",
+    "record_type": "A",
+    "hostname": "testapp",
+    "zone": "acme.com",
+    "computer_ip": "10.1.20.35"
+ }
+
 METHOD - DELETE
+
+Example Request
+:: 
+ https://10.1.20.6:81/dns
+
+Example Body
+:: 
+ {
+  "record_type":"a",
+  "fqdn":"{{DNS1_NAME}}",
+  "computer_ip":"{{IIS_ADDRESS1}}" 
+ }
+
+Example Response
+::
+ {
+    "status": "Success",
+    "record_type": "A",
+    "hostname": "testapp",
+    "zone": "acme.com",
+    "computer_ip": "10.1.20.35"
+ }
+
+
 
 Websites
 ---------
 
+The websites API allows dynamic creation and deletion  of websites. b
+
+
 METHOD - POST
 
+The POST method creates websites on the IIS server based on templates located in the access-infra repo.  To view examples of those site click the link below. The following authentication methods are supported 
+
+- none
+- Basic
+- kerberos
+- saml (template 1 only)
+
+Template 2 supports the customization of background colors using a customization key.  The following colors are supported.
+
+- red
+- green
+- blue
+- white
+ 
+
+
+Example Request
+::
+  https://10.1.20.6:81/websites
+
+Example Body
+
+{
+	"site_name":"site.acme.com",
+	"http_port":"80",
+	"https_port":"443",
+	"computer_ip":"10.1.20.33",
+	"template_number": "2",
+	"authentication": "none",
+	"customization": {
+		"background": "green"
+
+	}
+}
+
+
 METHOD - DELETE
+
+Example Request
+::
+  https://10.1.20.6:81/websites
+
+Example Body
+::
+ {
+  "site_name":"site.acme.com" 
+ }
+
+Example Resonse
+::
+ {
+    "status": "Success",
+    "site_name": "testapp.acme.com"
+ }
+
+
 
 Desktop
 ----------
 
+The Desktop API copied files from the student_files folder located in specified lab or solution folder to the users desktop 
+
 METHOD - POST
 
+Example Request
+::
+ https://10.1.20.6:81/desktop
+
+Example Body
+::
+ {
+  "repo":"labs",
+  "number":"3",
+  "user": "user1"
+  }
+
+
+Example Response
+::
+ {
+    "status": "Success",
+    "repo": "labs",
+    "number": "3",
+    "user": "user1"
+ }
+
+
+
+
 METHOD - DELETE
+
+Example Request
+::
+ https://10.1.20.6:81/desktop
+
+
+Example Body
+::
+ {
+  "repo":"labs",
+  "number":"3",
+  "user": "user1"
+ }
+
+Example Response
+::
+ {
+    "status": "Success",
+    "repo": "labs",
+    "number": "3",
+    "user": "user1"
+ }
 
 
 COMPUTER
 -----------
 
+The computer endpoint assigned Service Principal names to the Active Directory computer account
+
 METHOD - POST
 
+Example Request
+::
+ https://10.1.20.6:81/computer
+
+
+Example Body
+::
+ {
+  "computer":"IIS",
+  "spn":"HTTP/app.acme.com" 
+ }
+
+Example Response
+::
+ {
+    "status": "Success",
+    "computer": "IIS",
+    "spn": "HTTP/app.acme.com"
+ }
+
 METHOD - DELETE
+
+Example Request
+::
+ https://10.1.20.6:81/computer
+
+
+Example Body
+::
+ {
+  "computer":"IIS",
+  "spn":"HTTP/app.acme.com" 
+ }
+
+Example Response
+::
+ {
+    "status": "Success",
+    "computer": "IIS",
+    "spn": "HTTP/app.acme.com"
+ }
 
