@@ -3,12 +3,12 @@
 Active Directory API Endpoints
 =================================
 
-The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution development and deployment 
+The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution and lab deployment 
 
 - HTTP Listener  10.1.20.6:81
 - HTTPS Listener 10.1.20.6:8443 
 
---------------
+---------------
 user accounts
 ---------------
 
