@@ -1,18 +1,19 @@
-Solution Guides 
-=====================================
+Access Policy Manager(APM) Solution Guides 
+=============================================
 
-Welcome
--------
-
-
-The guides located on this page are designed to provide an overview of a working example on a topic.
-
-If a given topic is not highlighted currently on this page or something is incorrectly documented , please open an issue on our Github Library repo. We will do our best to prioritize the development of the content based on demand.
-
-If you would like to contribute, templates are also available for download on our Github Library repo 
+The solutions documented this site are designed to provide example configurations to address a given scenario. 
 
 
-https://github.com/teamaccessonline/library
+Each solution has an accompanying guide that provides a detailed overview of the components used in the configuration and the workflow used in Visual Policy Editor.
+
+To deploy a solution you must be logged into UDF(https://udf.f5.com). From there you need to access the Access Labs and Solution Blueprint/Course.  F5ers can access the blueprint directly from UDF without launching a course.  If you are a partner or customer please reach out to your account team.  They will be able to create a course for you to access the environment.   
+
+Proceed to the “Environment” Section to learn about the components in the blueprint and how to deploy solutions. 
+
+If a given topic is not highlighted currently on this page or something is incorrectly documented , please open an issue on on Access Solutions repo(https://github.com/f5devcentral/access-solutions/issues). We will do our best to prioritize the development of the content based on demand.
+
+If you would like to contribute, templates are also available for download from the templates folder in the repo
+
 
 
 .. toctree::
@@ -21,7 +22,8 @@ https://github.com/teamaccessonline/library
    :glob:
    
   
-   deploy.rst
+   environment/environment.rst
    solution*/solution*
+   additional_info.rst
 
    
