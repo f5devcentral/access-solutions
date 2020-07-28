@@ -12,7 +12,7 @@ The IIS server currently hosts a REST service that can used for dynamic configur
 user accounts
 ---------------
 
-The user accounts API allows you to create, modify, and delete user accounts.
+The user accounts API allows you to interact with Active Directory user accounts.
 
 
 
@@ -66,7 +66,7 @@ Example Response
 
 
 
-The POST version of the user account creation API uses a JSON Body for passing user account creation data.  The following attributes can used when creating a user account
+The following attributes can used when creating a user account
 
 - username(sAMAccountName)
 - DistinguishedName
@@ -115,7 +115,7 @@ Example Response
 
 **METHOD - DELETE**
 
-The DELETE method removed the user account from Active Directory.  The following attributes are passed as a query string to delete the user account.
+The DELETE method removed the user account from Active Directory.  
 
 - useridentity(saMAccountName)
 
@@ -125,6 +125,11 @@ Example Request
 ::
  http://10.1.20.6:81/user?useridentity=POST_API
 
+Example Body
+::
+ {
+    "Username":"POST_API"
+ }
 
 Example Response
 ::
