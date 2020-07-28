@@ -245,14 +245,14 @@ certificates
 
 The certificates API retrieves the certificate associated with the specified user account
 
-METHOD - GET
-
 
 ENDPOINT - user/cert
 
-Example Request 
+METHOD - GET
 
-http://10.1.20.6:81/user/cert?username=user2
+Example Request 
+::
+ http://10.1.20.6:81/user/cert?username=user2
 
 Example Response
 ::
@@ -310,7 +310,6 @@ Example Request
 
 Example Request
 ::
-
  {
   "scope":"10.1.10.96",
   "address":"10.1.10.103",
@@ -319,12 +318,11 @@ Example Request
 
 Example Response
 ::
-
-{
+ {
     "status": "Success",
     "address": "10.1.10.103",
     "name": "testvs"
-}
+ }
 
 
 METHOD - DELETE
@@ -332,15 +330,15 @@ METHOD - DELETE
 ENDPOINT - /addr/checkin
 
 Example Request
-
-https://10.1.20.6:81/addr/checkin?address=10.1.10.103
+::
+ https://10.1.20.6:81/addr/checkin?address=10.1.10.103
 
 Example Response
-
-{
+::
+ {
     "status": "Success",
     "address": "10.1.10.103"
-}
+ }
 
 
 DNS
@@ -405,7 +403,7 @@ Example Response
 Websites
 ---------
 
-The websites API allows dynamic creation and deletion  of websites. b
+The websites API allows dynamic creation and deletion of websites. 
 
 
 METHOD - POST
@@ -431,8 +429,8 @@ Example Request
   https://10.1.20.6:81/websites
 
 Example Body
-
-{
+::
+ {
 	"site_name":"site.acme.com",
 	"http_port":"80",
 	"https_port":"443",
@@ -443,7 +441,7 @@ Example Body
 		"background": "green"
 
 	}
-}
+ }
 
 
 METHOD - DELETE
