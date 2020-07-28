@@ -84,7 +84,6 @@ The following attributes can used when creating a user account
 
 Example Request
 
-Request
 ::
     http://10.1.20.6:81/user
 
@@ -263,11 +262,12 @@ Example Request
 IP Addresses
 -------------
 
-**METHOD - GET** 
 
 
 ENDPOINT - /addr/scope-status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**METHOD - GET** 
 
 The scope status endpoint returns all IP address assignment associated with scope specified in the request.
 
@@ -286,6 +286,8 @@ Example Request
 ENDPOINT - /addr/available 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+**METHOD - GET** 
+
 The available endpoint returns the next available address for the scope specified in the request
 
 Example Request
@@ -299,11 +301,11 @@ Example Response
  }
 
 
-**METHOD - POST**
-
 
 ENDPOINT - /addr/checkout
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**METHOD - POST**
 
 Example Request
 ::
@@ -326,10 +328,12 @@ Example Response
  }
 
 
-**METHOD - DELETE**
+
 
 ENDPOINT - /addr/checkin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**METHOD - DELETE**
 
 Example Request
 ::
