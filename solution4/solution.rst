@@ -1,11 +1,17 @@
 Solution:  SAML IDP - AD Auth
 ======================================================================================
 
-This solution documents all the necessary pieces required to create an AD Authenticated SAML IDP
+This solution documents all the necessary pieces required to create an AD Authenticated SAML IDP.  This solution is designed to be integrated with additional solutions in the UDF  deployment that require an IDP.  
 
 Keywords: SAML, IDP, AD
 
 DC: single, multi
+
+URL
+_____
+
+Https://idp.acme.com
+
 
 Objective:
 ----------
@@ -34,8 +40,6 @@ Postman Collection(s)
   - solution4-delete.postman_collection.json
 
 
-
-
 BIG-IP Versions Tested
 ^^^^^^^^^^^^^^^^^^^^^^
   - 15.1
@@ -46,6 +50,10 @@ BIG-IP Components used:
 * Virtual Server
  - HTTP Profile -https://support.f5.com/csp/article/K4707
  - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
+ - AAA AD Server  
+ - IDP Service
+ - SP Connector
+
 
 
 
