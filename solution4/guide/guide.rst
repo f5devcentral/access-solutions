@@ -31,7 +31,7 @@ The AD Auth Agent uses a defined the  AD AAA Server object that user will be aut
 Profile Settings
 -------------------
 
-
+The SSO/Auth Domains setting was modified from its default to include the idp.acme.com SAML IDP Service
 
 |image004|
 
@@ -43,17 +43,17 @@ Supporting APM Objects
 
 AAA AD Servers
 ^^^^^^^^^^^^^^^^^
-The Properties page contains the Caption name **VPN**.  This is the name displayed to a user                            
+A single domain controller was configured for Active directory AAA authentication                         
+
 
 |image005|                                                                                   
 
 
 
-
 IDP Service
 ^^^^^^^^^^^^
-A single address of **10.1.20.254** is assigned inside the lease pool.                                                    
-
+                                                   
+The settings below define all the components of the IDP Service
 
 **General Settings**
 
@@ -85,6 +85,7 @@ A single address of **10.1.20.254** is assigned inside the lease pool.
 SP Connector
 ^^^^^^^^^^^^^^^^
 
+The settings below define all the components of the SP Service
 
 **General Settings**
 
