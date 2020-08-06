@@ -1,4 +1,4 @@
-Solution:  SAML SP with APM as IDP
+Solution:  SAML SP (BIGIP-IDP)
 ======================================================================================
 
 This solution documents all the necessary pieces required to create a SAML SP
