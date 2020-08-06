@@ -112,7 +112,10 @@ The settings below define all the components of the SP Service
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://idp.acme.com they will be redirected to a logon page.  This solutions is designed to be integrated with additional solutions in the UDF that require an IDP.
+If the user attempts to access https://idp.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with the solutions in the UDF deployment that require an IDP.
+
+ - Solution5
+
 
 
 |image017|
