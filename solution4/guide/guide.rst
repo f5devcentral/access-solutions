@@ -124,6 +124,15 @@ The Policy from a user's perspective
 .. |image007| image:: media/007.png
 .. |image008| image:: media/008.png
 .. |image009| image:: media/009.png
+.. |image010| image:: media/010.png
+.. |image011| image:: media/011.png
+.. |image012| image:: media/012.png
+.. |image013| image:: media/013.png
+.. |image014| image:: media/014.png
+.. |image015| image:: media/015.png
+.. |image016| image:: media/016.png
+.. |image017| image:: media/017.png
+
 
    
 
