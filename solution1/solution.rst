@@ -1,4 +1,4 @@
-Solution: VPN - Active Directory Authenticated 
+Solution: VPN - AD Authenticated 
 ======================================================
 
 This solution documents  all the necessary pieces required to setup a basic VPN for use with Active Directory Authentication.  
@@ -6,6 +6,12 @@ This solution documents  all the necessary pieces required to setup a basic VPN 
 Keywords: vpn, ad, active, directory
 
 DC: single, multi
+
+URL
+----
+
+https://solution1.acme.com
+
 
 Objective:
 ----------
@@ -28,7 +34,7 @@ Configuration Comments
 
 Access Blueprint Revision
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  - 35
+  - 4
 
 Postman Collection(s)
 ^^^^^^^^^^^^^^^^^^^^
