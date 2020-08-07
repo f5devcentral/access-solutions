@@ -89,9 +89,13 @@ The settings below define all the components of the IDP Connector
 
 |image011|
 
+**Security Settings**
+
+|iamge012|
+
 **SLO Service Settings**
 
-|image012|                                                                                  
+|image013|                                                                                  
 
 
 
@@ -106,7 +110,7 @@ If the user attempts to access https://sp.acme.com they will be redirected to ht
 
 
 
-|image017|
+|image015|
 
 
 
@@ -125,8 +129,7 @@ If the user attempts to access https://sp.acme.com they will be redirected to ht
 .. |image013| image:: media/013.png
 .. |image014| image:: media/014.png
 .. |image015| image:: media/015.png
-.. |image016| image:: media/016.png
-.. |image017| image:: media/017.png
+
 
 
    
