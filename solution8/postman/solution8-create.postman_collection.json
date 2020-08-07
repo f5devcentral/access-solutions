@@ -437,7 +437,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n                \"pool\": \"ad-pool\",\r\n        \t\t\"snat\": \"auto\",\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"use\": \"{{VS1_NAME}}-psp\"\r\n        \t\t\t}\r\n\t            },\r\n\t\t\t\t\"{{VS1_NAME}}-psp\": {\r\n                \t\"class\": \"Access_Profile\",\r\n                \t\"url\": \"{{FILES_BASE}}/{{VS1_NAME}}/policies/profile_Common_{{VS1_NAME}}-psp.conf.tar\",\r\n                \t\"ignoreChanges\": true\r\n                },\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"ad-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.7\"\r\n                            ],\r\n                            \"servicePort\": 3389\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"icmp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}\r\n                \r\n             \r\n          \r\n       \r\n    \r\n"
+					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n                \"pool\": \"ad-pool\",\r\n        \t\t\"snat\": \"auto\",\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"use\": \"{{PARTITION_NAME}}-psp\"\r\n        \t\t\t}\r\n\t            },\r\n\t\t\t\t\"{{PARTITION_NAME}}-psp\": {\r\n                \t\"class\": \"Access_Profile\",\r\n                \t\"url\": \"{{FILES_BASE}}/{{PARTITION_NAME}}/policies/profile_Common_{{PARTITION_NAME}}-psp.conf.tar\",\r\n                \t\"ignoreChanges\": true\r\n                },\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"ad-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.7\"\r\n                            ],\r\n                            \"servicePort\": 3389\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"icmp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}\r\n                \r\n             \r\n          \r\n       \r\n    \r\n"
 				},
 				"url": {
 					"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/declare",
@@ -450,6 +450,76 @@
 						"shared",
 						"appsvcs",
 						"declare"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip1-Apply Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "591706b5-143a-4490-8f6b-bbf79953ae2a",
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Apply Policy Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-F5-REST-Coordination-Id",
+						"type": "text",
+						"value": "{{TRANSID}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"access",
+						"~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp"
 					]
 				}
 			},
@@ -831,7 +901,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP1_ADDRESS1}}:443\"\r\n}"
+					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP_ADDRESS1}}:443\"\r\n}"
 				},
 				"url": {
 					"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip1.f5lab.local/virtual-servers/",
@@ -1510,97 +1580,97 @@
 	],
 	"variable": [
 		{
-			"id": "7344d752-05a9-4e52-9f6d-eed7a8a8775a",
+			"id": "143c1c3f-2da9-4eba-84e3-9d54d3f66dd2",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "bb311242-b400-449a-acc1-1890a4a9c822",
+			"id": "765e4bc1-b35d-42fe-b6c8-7dfa21eaeae6",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "caed89b7-c0da-4a70-b3e9-57746a625fad",
+			"id": "c46afbb3-9e37-4f95-984b-4d385ea009cb",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "2841ffcf-6af5-4801-b0a5-fed73524605a",
+			"id": "6c4ebb14-7c1c-4c2e-8816-9e2ce9290f6a",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "c4118e0c-37b5-4d82-9254-9eb42013b208",
+			"id": "d7c13ab1-1278-476a-93e3-1e3e794da977",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "a8a96a59-5a89-4999-b37b-dfd1a938c5ce",
+			"id": "3e978634-2ddf-4d32-8a02-a540a8c75149",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "8d48c5a8-cefc-4b30-8aeb-8863267d7e0d",
+			"id": "0bc79eb5-9ee9-4476-8e85-28985551c3ed",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "64f4bedd-9062-4f30-8cdf-990ff87972f3",
+			"id": "4eca814f-6d64-427a-ad3b-0170c51699b6",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "65748648-25c8-4f76-af49-19368527c99c",
+			"id": "1e07692e-bcb3-4dd1-85d8-ea872095c36e",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "aac7b6c8-86a9-424f-9179-557c1b17623d",
+			"id": "21cb729a-17c5-4643-9082-c8320b50f127",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "1269c075-9057-4978-a9d6-95eabf460885",
+			"id": "15c2554b-ba4e-4a75-9e91-20897de8b9ff",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "b3e51126-37ea-46e7-b2ab-58fd89237940",
+			"id": "8d6dc391-31cd-47f4-8bb6-601c3d304d6f",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "7f2c0a6b-4b76-47ed-94ad-836d94d97269",
+			"id": "34cf2ac3-1d61-46fa-8490-f81129fda2a1",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "6ca491c9-ece7-46b4-8ea8-03bda6b67b90",
+			"id": "ce023811-89b6-4deb-adf3-84264560c9d5",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "c2079b1f-6127-4130-816e-3636dffa0023",
+			"id": "fc2770c2-b0b1-4806-829e-3495db5ad33a",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "5dd412de-4f71-4645-baa0-544cac5a40f0",
+			"id": "cf3f69c5-4ff9-417e-9844-5c3e565feb2b",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "14716daa-254b-42ff-975d-192423bcc479",
+			"id": "ff81a9ca-e465-47c4-a896-27ca402975f7",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "46bf620c-706d-48b3-acb4-a83fed3ba582",
+			"id": "0366bafb-d2b6-403b-9339-c3fb11dbdd3b",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "2bb6fa53-18f7-472c-83a1-f53a3a3a0b45",
+			"id": "a454678c-aad8-46f5-adb1-65c64b9351d6",
 			"key": "COUNTER",
 			"value": ""
 		}
