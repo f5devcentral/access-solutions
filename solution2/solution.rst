@@ -1,11 +1,16 @@
-Solution: Combined Portal with VPN - Active Directory Authenticated 
+Solution: Portal Rewrite+VPN - AD Auth 
 =============================================================
 
 This solution documents  all the necessary pieces required to setup a basic Portal and VPN for use with Active Directory Authentication.  
 
-Keywords: portal, vpn, ad, active, directory
+Keywords: portal, vpn, ad, active, directory, rewrite
 
 DC: single, multi
+
+URL
+----
+
+https://solution2.acme.com
 
 Objective:
 ----------
