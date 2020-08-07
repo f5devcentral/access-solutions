@@ -456,6 +456,76 @@
 			"response": []
 		},
 		{
+			"name": "bigip1-Apply Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "591706b5-143a-4490-8f6b-bbf79953ae2a",
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Apply Policy Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-F5-REST-Coordination-Id",
+						"type": "text",
+						"value": "{{TRANSID}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"access",
+						"~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip5-Test AS3 is running",
 			"event": [
 				{
@@ -1510,97 +1580,97 @@
 	],
 	"variable": [
 		{
-			"id": "5d801236-0c54-4af7-81b3-489be6a909a5",
+			"id": "143c1c3f-2da9-4eba-84e3-9d54d3f66dd2",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "3888c253-049b-476a-9908-be7ed3891a73",
+			"id": "765e4bc1-b35d-42fe-b6c8-7dfa21eaeae6",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "32dc0f35-8c01-40a8-961f-8b7fb122ffb7",
+			"id": "c46afbb3-9e37-4f95-984b-4d385ea009cb",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "7d93a4ea-6d6c-4983-8120-1a4c474ae009",
+			"id": "6c4ebb14-7c1c-4c2e-8816-9e2ce9290f6a",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "48b58df6-543e-45fe-90b8-02e930931413",
+			"id": "d7c13ab1-1278-476a-93e3-1e3e794da977",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "e9811e25-0bda-4893-aae5-7d1300e35a69",
+			"id": "3e978634-2ddf-4d32-8a02-a540a8c75149",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "96d1ce95-d3b4-4d89-bdb1-b6f8cfe4d887",
+			"id": "0bc79eb5-9ee9-4476-8e85-28985551c3ed",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "dcd1abd4-ba78-4f44-9d33-7ca7d17775e6",
+			"id": "4eca814f-6d64-427a-ad3b-0170c51699b6",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "53fb1cdd-8a4a-402c-bcaf-0bf9b203ebae",
+			"id": "1e07692e-bcb3-4dd1-85d8-ea872095c36e",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "6113b2f2-9c70-48d1-b287-8ae302257a42",
+			"id": "21cb729a-17c5-4643-9082-c8320b50f127",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "378822a0-ca71-471d-a11a-39677b3fc22d",
+			"id": "15c2554b-ba4e-4a75-9e91-20897de8b9ff",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "6d48dc59-33b5-48be-aec1-8a814482e029",
+			"id": "8d6dc391-31cd-47f4-8bb6-601c3d304d6f",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "34d07a34-3f9e-445d-aaf0-69831ea61ce3",
+			"id": "34cf2ac3-1d61-46fa-8490-f81129fda2a1",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "999b2d51-8af4-49c3-8cd6-fb99a34da97d",
+			"id": "ce023811-89b6-4deb-adf3-84264560c9d5",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "5366b7bd-21fd-4aff-ba76-53f3fd9d2198",
+			"id": "fc2770c2-b0b1-4806-829e-3495db5ad33a",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "89872549-b6cb-4a96-ba70-0e08d47ed4c5",
+			"id": "cf3f69c5-4ff9-417e-9844-5c3e565feb2b",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "4bf346af-0d52-47c2-b73b-bc5d3a3334c7",
+			"id": "ff81a9ca-e465-47c4-a896-27ca402975f7",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "b64b5ab6-f2db-433e-b28f-5b6958f26449",
+			"id": "0366bafb-d2b6-403b-9339-c3fb11dbdd3b",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "311f6f71-6a15-4aa4-82e6-27b349e956eb",
+			"id": "a454678c-aad8-46f5-adb1-65c64b9351d6",
 			"key": "COUNTER",
 			"value": ""
 		}
