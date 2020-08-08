@@ -187,6 +187,87 @@
 			"response": []
 		},
 		{
+			"name": "bigip-Create node 10.1.20.7",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9c4cc893-6894-427e-8aa0-e5989eebbd98",
+						"exec": [
+							"",
+							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
+							"",
+							"if (PRIOR_RESPONSE === 'OK') {",
+							"",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc8c6803-172c-4658-8f6b-3c615e71ff64",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"Node Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"Node Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"ltm",
+						"node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip-Check Scope for existing assignment",
 			"event": [
 				{
@@ -366,87 +447,6 @@
 					"path": [
 						"addr",
 						"checkout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip-Create node 10.1.20.7",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "9c4cc893-6894-427e-8aa0-e5989eebbd98",
-						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "bc8c6803-172c-4658-8f6b-3c615e71ff64",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"Node Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} else ",
-							"pm.test(\"Node Exists\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
-				},
-				"url": {
-					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP_MGMT}}"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"ltm",
-						"node"
 					]
 				}
 			},
@@ -1666,97 +1666,97 @@
 	],
 	"variable": [
 		{
-			"id": "9c10a0ce-baa0-4a27-918e-518f657a1cbc",
+			"id": "2ed41d59-0783-4f9a-a013-9ba93ace6107",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "20ab2fb7-ec5f-4796-85a5-0403e3157c7e",
+			"id": "32416ae5-9b19-4038-bda6-a17db4f18b18",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "4e07eb64-026b-4a45-9f3f-d51fa1169d98",
+			"id": "530550c7-0f76-45df-8b7c-01ca6a820b9a",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "b29d19d9-5182-4452-940a-8909be089fc4",
+			"id": "a7467eb5-5321-415a-a47f-f9aeea810730",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "85db183e-769b-458a-803c-f69693a589cf",
+			"id": "c71f34d2-843e-40c6-81bd-58e332ce20b7",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "2ff21050-3bd5-4d5c-a470-93d1c4669a41",
+			"id": "0505b07b-be0e-428b-99eb-6b8ff0b6e693",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "7fd1a362-7c76-4c18-99f3-cb9458119e59",
+			"id": "2e941cbc-6cd7-481b-a18f-b4461ca641cb",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "86694deb-a680-42a5-918f-40a3a1eb1da5",
+			"id": "1476c43e-0a92-42cf-8870-806dd753cd94",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "484d5a11-ac70-4dd5-a180-027f5afbeebb",
+			"id": "6e19e9dc-3972-448f-b614-48240e88b45f",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "94e0ad87-b09b-483c-a94e-3e1c805f1dab",
+			"id": "aa0d0416-f2c3-470f-87bc-3050a4c6a2bd",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "fbf043d1-db80-4a18-8ea0-07e467528294",
+			"id": "cd6ac285-1353-472a-b1c0-2c3396c9f558",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "d541d07f-58e3-45fd-a0d4-69bafba0dd4d",
+			"id": "85e45bdf-ee5b-42ad-bf18-f7efded0d966",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "1e8c928a-ea69-4fb8-99f1-250b3babed35",
+			"id": "d5921c05-f10f-4ccc-9c53-7f016d2b2de4",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "6a689ec5-21f8-4371-b085-e790ab2c7efe",
+			"id": "978958f3-00ff-4e5d-9a35-c762d0c4d609",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "d11ec3b4-8b4f-4958-8c96-bbf8eaffdae6",
+			"id": "dd0fd539-b196-4f55-815f-a771d6df441b",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "0d3e502a-c596-4158-8123-02aa851d20a6",
+			"id": "be690d5a-6ea8-4185-b306-cf2b91c2ef76",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "baf99e84-b67e-4b73-b527-0cd8b5114e5a",
+			"id": "b4a03129-a5ce-4934-aea4-4d4fab1e81d4",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "463e4aa4-3f75-4fed-92d6-f31ac162065d",
+			"id": "07f93c64-1409-4da3-8d29-36e5de0def48",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "9904b808-118a-4131-abaa-e4922592c78d",
+			"id": "0381df35-5a3c-42c7-a3c9-80a1598f15ec",
 			"key": "COUNTER",
 			"value": ""
 		}
