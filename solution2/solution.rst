@@ -1,4 +1,4 @@
-Solution: Portal Rewrite\+VPN - AD Auth 
+Solution: Portal Rewrite & VPN - AD Auth 
 =============================================================
 
 This solution documents  all the necessary pieces required to setup a basic Portal and VPN for use with Active Directory Authentication.  
