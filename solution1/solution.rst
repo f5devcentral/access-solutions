@@ -1,5 +1,5 @@
-Solution: VPN - AD Authenticated 
-======================================================
+Solution: VPN - AD Auth
+=======================
 
 This solution documents  all the necessary pieces required to setup a basic VPN for use with Active Directory Authentication.  
 
