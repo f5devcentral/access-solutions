@@ -1,4 +1,4 @@
-Solution: LTM+APM - Client Certificate to Single Domain kerberos SSO 
+Solution: LTM & APM - Client Certificate to Single Domain kerberos SSO 
 ======================================================================================
 
 This solution documents all the necessary pieces required to create an APM policy that prompts the user for their certificate then performs kerberos SSO to an application.  
@@ -6,6 +6,11 @@ This solution documents all the necessary pieces required to create an APM polic
 Keywords: certificate, ad, active, directory, kerberos, sso
 
 DC: single, multi
+
+
+URL
+----
+https://solution7.acme.com
 
 Objective:
 ----------

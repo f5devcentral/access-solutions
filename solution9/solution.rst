@@ -1,11 +1,17 @@
-Solution:  JWT Resource Server
-======================================================================================
+Solution:  JWT Resource Server (BIGIP-AS with preshared keys)
+===============================================================
 
 This solution documents all the necessary pieces required to create a basic JWT Resecource Server
 
 Keywords: JWT, OAUTH, OIDC
 
 DC: single, multi
+
+
+URL
+----
+
+https://api.acme.com
 
 Objective:
 ----------

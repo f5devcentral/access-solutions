@@ -1,5 +1,5 @@
-Solution:  JWT Authorization Server
-======================================================================================
+Solution:  JWT Authorization Server AD Auth with preshared keys
+==================================================================
 
 This solution documents all the necessary pieces required to create a basic JWT Authorization Server
 
@@ -7,6 +7,12 @@ This solution documents all the necessary pieces required to create a basic JWT 
 Keywords: JWT, OAUTH, OIDC
 
 DC: single, multi
+
+
+URL
+----
+
+https://as.acme.com
 
 Objective:
 ----------
