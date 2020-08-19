@@ -7,18 +7,39 @@ Policy Walk-Through
 
 |image001|     
 
-1. When a user accesses a VIP protected by this policy JWT and scope validation is performed
-2. Upon successful Authorization, the user is granted access via the Allow Terminal 
-3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+
+1. In this policy a user enters their credentials in the logon page agent.  
+    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                          
+2. The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
+3. If AD Auth is successful, an AD Query is performed to retrieve additional AD Attributes
+4. If AD Query is successful, an OAuth Authorization is performed granting the user access to a token.
+5. The user is granted access via the Allow Terminal
+6. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+7. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+8. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+                             
                                    
                                                                              
 
 Policy Agent Configuration
 ----------------------------
 
-The OAuth Scope Settings are defined as Internal.                                                                         
+The Logon Page contains only the default setting                                                                          
 
 |image002|                                                                                   
+
+The AD Auth Agent uses a defined the  AD AAA Servers that user will be authenticated against.  All Setting are the default.
+
+|image003|                                                                                  
+
+The AD Query Agent uses a defined the  AD Servers that user will be for queries against.  Additional Attributes we added.
+
+|image004|
+
+The OAuth Authorization Agent is used to define the Audience and Scope.  All Setting are the default.
+
+|image005| 
+                                                                                         
 
                                                                         
 
@@ -27,61 +48,50 @@ Profile Settings
 -------------------
 
 
-All profile settings are left the defaults
+The Oauth Profile used for issuing the JWT token is assigned under the Configuration section.
+
+|image006|
 
                                                                          
 
 Supporting APM Objects
 -----------------------
 
-Provider List
-^^^^^^^^^^^^^^
+The settings below define all the components of the OAuth Profile
 
-The provider List defines a single provider
-
-|image003|
-                                                                              
-Provider 
-^^^^^^^^^
-                                                   
-The settings below define all the components of the Authorization Server's endpoints to retrieve and validate tokens.  
-
-|image004|
+|image007|
 
                                                                              
-JSON Web Token
-^^^^^^^^^^^^^^^
-
-The JWT setting define the the signing algorithms used by a provider with a set of jwks
-
-|image005|
 
 JWT Key
 ^^^^^^^^^^^^^^^^
 
-The key settings define a type of key and its properties
+|image008|
 
-|image006|
+
+AAA AD Servers
+^^^^^^^^^^^^^^
+
+|image009|  
 
 
                                                                  
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://api.acme.com via postman located on the jumpbox they set to the Authorization server first for authentication(https://as.acme.com). Once authenticate the Post passes the JWT to https://api.acme.com  and JSON payload is presented.
 
-This solution is designed to be integrated with other Authorization Server based solutions.
-
-|image007|
+If the user attempts to access https://solution10.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with other solutions in the UDF deployment that require an Authorization Server.
 
 
 Supported Solutions
 ^^^^^^^^^^^^^^^^^^^^
- - Solution8
+ - Solution11
+
+
+
 
 
 |image010|
-
 
 
 .. |image001| image:: media/001.png
@@ -91,8 +101,8 @@ Supported Solutions
 .. |image005| image:: media/005.png
 .. |image006| image:: media/006.png
 .. |image007| image:: media/007.png
+.. |image008| image:: media/008.png
+.. |image009| image:: media/009.png
+.. |image010| image:: media/010.png
 
-
-
-   
 
