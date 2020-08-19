@@ -727,6 +727,54 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "ad-delete-A record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3292ac8b-6cf7-476f-be21-3d08a07938d6",
+						"exec": [
+							"   var jsonData = pm.response.json();",
+							"\t",
+							"    if (jsonData.status === \"nonexistent\") {",
+							"        pm.test(\"nonexistent\", function () {",
+							"        pm.expect(jsonData.status).to.eql(\"nonexistent\");",
+							"        });",
+							"    } else {",
+							"        pm.test(\"Success\", function () {",
+							"        pm.expect(jsonData[1].status).to.eql(\"Success\");",
+							"        });",
+							"    }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS1}}\"\n}"
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/dns",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -753,67 +801,67 @@
 	],
 	"variable": [
 		{
-			"id": "898e0b78-a7ca-4ff0-96b7-80cd45ab2d72",
+			"id": "5a24c58a-8ec1-490c-8cdc-afa9c098aba0",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "5b63e7ee-584d-4a4d-a597-a0d29fcce9b0",
+			"id": "795afad1-12de-498e-b16a-8693489fd347",
 			"key": "BIGIP_NUMBER",
 			"value": ""
 		},
 		{
-			"id": "e07d21df-0296-43c2-af77-5fa936f2b6f7",
+			"id": "0e73fbc3-8e8e-49c7-ab1b-43c8d4eff710",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "0ef1efbb-e90e-4d27-a14e-d7b1fa4896dd",
+			"id": "6faa07c9-e03c-4897-8522-0779b46aad9e",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "17f4bdef-555e-48c4-8b04-421a1859807c",
+			"id": "be9368fc-1314-42ce-83ab-c0236610d0af",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "44f53afd-bdf4-4911-925d-d7a9c2630830",
+			"id": "469cf348-744a-4815-835b-48e9f2673761",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "0000ec8f-442b-49f1-9f3e-7df1e7299b28",
+			"id": "c3553224-993a-4db0-8a5f-6f574efbea88",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "b135191a-f4fc-4193-ab0a-378aa03e8bf3",
+			"id": "f8825c73-2b64-4922-bee1-be939610ff36",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "f4ab93fa-ee80-42e6-9a4e-810d32fcead4",
+			"id": "de1f0839-03d7-4d57-bde1-b104990b97e1",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "169ccc51-6c11-4ca5-b6fd-097f1cb8d044",
+			"id": "38d069ff-f6d7-44fc-8e50-a96a4a57701f",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "b1a6d57d-ffe8-45b7-aaf5-9a9498cfaae4",
+			"id": "6fc1deeb-3bef-40b2-a93a-be6dd92accdb",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "7da98748-95c9-44ae-8cfc-7c3da7c44846",
+			"id": "5da5a4af-9c38-48c1-b82f-4176e7cafd02",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "2911dee0-1f36-451b-88e6-6e5ef95fd750",
+			"id": "1952e93c-2b32-4506-9940-ce6c7f31412d",
 			"key": "DNS_DEST",
 			"value": ""
 		}

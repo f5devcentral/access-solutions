@@ -113,6 +113,9 @@ Supported Solutions
 .. |image005| image:: media/005.png
 .. |image006| image:: media/006.png
 .. |image007| image:: media/007.png
+.. |image008| image:: media/008.png
+.. |image009| image:: media/009.png
+.. |image0010| image:: media/010.png
 
 
 

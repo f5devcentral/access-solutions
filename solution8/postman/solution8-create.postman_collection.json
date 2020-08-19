@@ -598,6 +598,110 @@
 			"response": []
 		},
 		{
+			"name": "ad-create-A record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d3f6cb6-c7b9-4b03-93d8-d1c9d727e6a3",
+						"exec": [
+							"   var jsonData = pm.response.json();",
+							"\tif (jsonData.length) {",
+							"",
+							"        if (jsonData[1].status === \"exists\") {",
+							"        pm.test(\"A Record Exists\", function () {",
+							"        pm.expect(jsonData[1].status).to.eql(\"exists\");",
+							"        });",
+							"        }",
+							"    } else ",
+							"       pm.test(\"A Record created\", function () {",
+							"        pm.expect(jsonData.status).to.eql(\"Success\");",
+							"        });",
+							"",
+							"       ",
+							"    ",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS1}}\"\n}"
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/dns",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ad-create-PTR record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69da2b0f-ce8d-40d7-a338-ccbc2a99c65b",
+						"exec": [
+							"   var jsonData = pm.response.json();",
+							"\tif (jsonData.length) {",
+							"",
+							"        if (jsonData[1].status === \"exists\") {",
+							"        pm.test(\"PTR Record Exists\", function () {",
+							"        pm.expect(jsonData[1].status).to.eql(\"exists\");",
+							"        });",
+							"        }",
+							"    } else ",
+							"       pm.test(\"PTR Record created\", function () {",
+							"        pm.expect(jsonData.status).to.eql(\"Success\");",
+							"        });",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"record_type\":\"ptr\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS1}}\"\n}"
+				},
+				"url": {
+					"raw": "http://10.1.20.6:81/dns",
+					"protocol": "http",
+					"host": [
+						"10",
+						"1",
+						"20",
+						"6"
+					],
+					"port": "81",
+					"path": [
+						"dns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip5-Create-DC1",
 			"event": [
 				{
@@ -1580,97 +1684,97 @@
 	],
 	"variable": [
 		{
-			"id": "143c1c3f-2da9-4eba-84e3-9d54d3f66dd2",
+			"id": "06e65736-0d61-4661-b34e-d78b79113536",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "765e4bc1-b35d-42fe-b6c8-7dfa21eaeae6",
+			"id": "abf2d5b1-ecb3-42be-b88d-64e139a084eb",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "c46afbb3-9e37-4f95-984b-4d385ea009cb",
+			"id": "962a26e7-f11a-4b57-b0fd-3226fbe12621",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "6c4ebb14-7c1c-4c2e-8816-9e2ce9290f6a",
+			"id": "c388306a-91f1-4c86-aaa5-9e295b505ccb",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "d7c13ab1-1278-476a-93e3-1e3e794da977",
+			"id": "4a2cd7ac-0abf-4749-ac07-4d44a971e0a3",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "3e978634-2ddf-4d32-8a02-a540a8c75149",
+			"id": "40cb9e83-f412-42e9-a780-bbe49ce23d2c",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "0bc79eb5-9ee9-4476-8e85-28985551c3ed",
+			"id": "0bdbc90e-05aa-4bd8-9ac3-e135325ed8a8",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "4eca814f-6d64-427a-ad3b-0170c51699b6",
+			"id": "33b92b9f-6b82-4c33-83dd-5df20c6db5a1",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "1e07692e-bcb3-4dd1-85d8-ea872095c36e",
+			"id": "c098c850-bfe6-4212-98f4-0c9e9e4da249",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "21cb729a-17c5-4643-9082-c8320b50f127",
+			"id": "6978ce3c-f886-4e52-8f53-57256335f979",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "15c2554b-ba4e-4a75-9e91-20897de8b9ff",
+			"id": "1c377ce8-8014-44b6-9ab9-eb910e019d06",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "8d6dc391-31cd-47f4-8bb6-601c3d304d6f",
+			"id": "6ba5d72a-612f-4c68-b040-3f299a1bf3c7",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "34cf2ac3-1d61-46fa-8490-f81129fda2a1",
+			"id": "c282c3e2-dcd5-4caa-a798-c2a95b54ba51",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "ce023811-89b6-4deb-adf3-84264560c9d5",
+			"id": "8d44aa62-3509-4448-b948-ebf1a96f6810",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "fc2770c2-b0b1-4806-829e-3495db5ad33a",
+			"id": "aaf75d2e-471a-41c0-a532-3d8f7e3f2b6c",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "cf3f69c5-4ff9-417e-9844-5c3e565feb2b",
+			"id": "c2d291d2-9960-4716-9d94-85271bbd5f6c",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "ff81a9ca-e465-47c4-a896-27ca402975f7",
+			"id": "95e47755-c603-472e-a3d4-f0670e4d0979",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "0366bafb-d2b6-403b-9339-c3fb11dbdd3b",
+			"id": "2b2a5f7e-365a-4928-a789-0d6d11de5077",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "a454678c-aad8-46f5-adb1-65c64b9351d6",
+			"id": "9340f9b6-a81e-408b-ac0a-d992dc3a1fb5",
 			"key": "COUNTER",
 			"value": ""
 		}
