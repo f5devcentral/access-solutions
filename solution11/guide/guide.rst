@@ -7,8 +7,8 @@ Policy Walk-Through
 
 |image001|     
 
-1. When a user accesses a VIP protected by this policy JWT and scope validation is performed
-2. Upon successful Authorization, the user is granted access via the Allow Terminal 
+1. When a user accesses a VIP protected by this policy the user is redirected to the provider selected for authentication.
+2. Upon successful Authentication, the user is granted access via the Allow Terminal 
 3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
                                    
                                                                              
@@ -16,7 +16,7 @@ Policy Walk-Through
 Policy Agent Configuration
 ----------------------------
 
-The OAuth Scope Settings are defined as Internal.                                                                         
+The OAuth Client Settings                                                                        
 
 |image002|                                                                                   
 
@@ -34,12 +34,13 @@ All profile settings are left the defaults
 Supporting APM Objects
 -----------------------
 
-Provider List
-^^^^^^^^^^^^^^
-
-The provider List defines a single provider
+Oauth Server
+^^^^^^^^^^^^^
+The OAuth Server setting specify it will be a client only.
 
 |image003|
+
+
                                                                               
 Provider 
 ^^^^^^^^^
@@ -52,35 +53,56 @@ The settings below define all the components of the Authorization Server's endpo
 JSON Web Token
 ^^^^^^^^^^^^^^^
 
-The JWT setting define the the signing algorithms used by a provider with a set of jwks
+The JWT setting define the the signing algorithms used by a provider with a set of jwks.  This token was auto discovered from the Authorization server.
 
 |image005|
 
 JWT Key
 ^^^^^^^^^^^^^^^^
 
-The key settings define a type of key and its properties
+The key settings define a type of key and its properties.  This JWK was auto discovered from the authorization server.
 
 |image006|
+
+
+Unique BIG-IP settings
+-----------------------
+
+DNS Resolver
+^^^^^^^^^^^^
+
+The properties section are default settings
+
+|image007|
+
+The Forward Zones section forwards all request to a single DNS server.
+
+|image008|
 
 
                                                                  
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://api.acme.com via postman located on the jumpbox they set to the Authorization server first for authentication(https://as.acme.com). Once authenticate the Post passes the JWT to https://api.acme.com  and JSON payload is presented.
+If the user attempts to access https://solution11.acme.com via a web browser they are redirected to the solution10 Authorization Server.  
+
+|image009|
+
+Once authenticated the user is redirected back to  the solution11 website.
+
+|image010|
 
 This solution is designed to be integrated with other Authorization Server based solutions.
 
-|image007|
+
 
 
 Supported Solutions
 ^^^^^^^^^^^^^^^^^^^^
- - Solution8
+ - Solution10
 
 
-|image010|
+
 
 
 
