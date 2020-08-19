@@ -944,92 +944,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip-create-jwt provider list",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ecd3dc6e-d534-4849-bb47-8c4ee64861a5",
-								"exec": [
-									"if (responseCode.code === 200) {",
-									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-									"pm.test(\"JWT Provider Group Created\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"} else ",
-									"pm.test(\"JWT Provider Group Exists\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "2e8dbf1a-486a-4eb5-ae1d-8807791bc446",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "X-F5-REST-Coordination-Id",
-								"type": "text",
-								"value": "{{TRANSID}}",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n \r\n            \"name\": \"{{PARTITION_NAME}}-jwt-provider\",\r\n            \"partition\": \"Common\",\r\n            \"accessTokenExpiresIn\": 0,\r\n            \"providersReference\": {\r\n            }\r\n}\r\n"
-						},
-						"url": {
-							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/jwt-provider-list",
-							"protocol": "https",
-							"host": [
-								"{{BIGIP_MGMT}}"
-							],
-							"path": [
-								"mgmt",
-								"tm",
-								"apm",
-								"oauth",
-								"jwt-provider-list"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip1-create-customization group-OAuth Client",
+					"name": "bigip-create-customization group-OAuth Client",
 					"event": [
 						{
 							"listen": "test",
@@ -1076,7 +991,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"name\": \"{{VS1_NAME}}-client_oauth_authz_client_app_customization\",\r\n    \"partition\": \"solution10\",\r\n    \"source\": \"/Common/standard\",\r\n    \"type\": \"oauth-authz-client-app\"\r\n    \r\n    \r\n}"
+							"raw": "{\r\n\r\n    \"name\": \"{{VS1_NAME}}_oauth_authz_client_app_customization\",\r\n    \"partition\": \"solution10\",\r\n    \"source\": \"/Common/standard\",\r\n    \"type\": \"oauth-authz-client-app\"\r\n    \r\n    \r\n}"
 						},
 						"url": {
 							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group/",
@@ -1097,7 +1012,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-OAuth Client",
+					"name": "bigip-create-OAuth Client",
 					"event": [
 						{
 							"listen": "test",
@@ -1143,8 +1058,8 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1169,7 +1084,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-modify-OAuth Clients list",
+					"name": "bigip-modify-OAuth Clients list",
 					"event": [
 						{
 							"listen": "test",
@@ -1238,7 +1153,77 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-OAuth Server",
+					"name": "bigip-Apply Policy on AS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eca9a9c7-624b-4056-9680-1a78e37b9a71",
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+									"pm.test(\"Apply Policy Successful\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"type": "text",
+								"value": "{{TRANSID}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+						},
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~solution10~solution10-psp",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"apm",
+								"profile",
+								"access",
+								"~solution10~solution10-psp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-create-OAuth Server",
 					"event": [
 						{
 							"listen": "test",
@@ -1305,7 +1290,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create transaction",
+					"name": "bigip-create transaction",
 					"event": [
 						{
 							"listen": "test",
@@ -1376,7 +1361,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-end deny",
+					"name": "bigip-create-customization group-end deny",
 					"event": [
 						{
 							"listen": "test",
@@ -1440,7 +1425,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-logout",
+					"name": "bigip-create-customization group-logout",
 					"event": [
 						{
 							"listen": "test",
@@ -1504,7 +1489,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-eps",
+					"name": "bigip-create-customization group-eps",
 					"event": [
 						{
 							"listen": "test",
@@ -1568,7 +1553,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-error map",
+					"name": "bigip-create-customization group-error map",
 					"event": [
 						{
 							"listen": "test",
@@ -1632,7 +1617,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-framework",
+					"name": "bigip-create-customization group-framework",
 					"event": [
 						{
 							"listen": "test",
@@ -1696,7 +1681,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create-customization group-general ui",
+					"name": "bigip-create-customization group-general ui",
 					"event": [
 						{
 							"listen": "test",
@@ -1760,7 +1745,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-agent-allow ending",
+					"name": "bigip-create-agent-allow ending",
 					"event": [
 						{
 							"listen": "test",
@@ -1826,7 +1811,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-agent-deny ending",
+					"name": "bigip-create-agent-deny ending",
 					"event": [
 						{
 							"listen": "test",
@@ -1892,7 +1877,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-agent-OAuth client",
+					"name": "bigip-create-agent-OAuth client",
 					"event": [
 						{
 							"listen": "test",
@@ -1936,7 +1921,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \n    \"name\": \"{{PARTITION_NAME}}-psp_act_oauth_client_ag\",\n    \"partition\": \"Common\",\n    \"authRedirectRequest\": \"/Common/F5AuthRedirectRequestJWT\",\n    \"grantType\": \"authorization-code\",\n    \"openidConnect\": \"disabled\",\n    \"openidFlowType\": \"code\",\n    \"openidHybridResponseType\": \"code-idtoken\",\n    \"redirectionUri\": \"https://%{session.server.network.name}/oauth/client/redirect\",\n    \"server\": \"/Common/{{PARTITION_NAME}}\",\n    \"tokenRefreshRequest\": \"/Common/F5TokenRefreshRequest\",\n    \"tokenRequest\": \"/Common/F5TokenJWTRequestByAuthzCode\",\n    \"tokenValidationMode\": \"external\",\n    \"type\": \"client\"\n}"
+							"raw": "{\n    \n    \"name\": \"{{PARTITION_NAME}}-psp_act_oauth_client_ag\",\n    \"partition\": \"Common\",\n    \"authRedirectRequest\": \"/Common/F5AuthRedirectRequestJWT\",\n    \"grantType\": \"authorization-code\",\n    \"openidConnect\": \"enabled\",\n    \"openidFlowType\": \"code\",\n    \"openidHybridResponseType\": \"code-idtoken\",\n    \"openidUserinfoRequest\": \"/Common/F5UserinfoRequest\",\n    \"redirectionUri\": \"https://%{session.server.network.name}/oauth/client/redirect\",\n    \"server\": \"/Common/{{PARTITION_NAME}}\",\n    \"tokenRefreshRequest\": \"/Common/F5TokenRefreshRequest\",\n    \"tokenRequest\": \"/Common/F5TokenJWTRequestByAuthzCode\",\n    \"tokenValidationMode\": \"external\",\n    \"type\": \"client\"\n}"
 						},
 						"url": {
 							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/aaa-oauth/",
@@ -1958,7 +1943,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create- policy item-allow ending",
+					"name": "bigip-create- policy item-allow ending",
 					"event": [
 						{
 							"listen": "test",
@@ -2023,7 +2008,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-policy item-Deny ending",
+					"name": "bigip-create-policy item-Deny ending",
 					"event": [
 						{
 							"listen": "test",
@@ -2088,7 +2073,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-policy item-Oauth client",
+					"name": "bigip-create-policy item-Oauth client",
 					"event": [
 						{
 							"listen": "test",
@@ -2153,7 +2138,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-policy item-start",
+					"name": "bigip-create-policy item-start",
 					"event": [
 						{
 							"listen": "test",
@@ -2218,7 +2203,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create Policy",
+					"name": "bigip- create Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -2283,7 +2268,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- create Profile",
+					"name": "bigip- create Profile",
 					"event": [
 						{
 							"listen": "test",
@@ -2348,7 +2333,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1- commit transaction",
+					"name": "bigip- commit transaction",
 					"event": [
 						{
 							"listen": "test",
@@ -2421,7 +2406,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Apply Policy",
+					"name": "bigip-Apply Policy",
 					"event": [
 						{
 							"listen": "test",
@@ -3955,112 +3940,112 @@
 	],
 	"variable": [
 		{
-			"id": "50d4550b-a588-4186-9d93-cf38e941e99e",
+			"id": "6264b3c1-9e94-45c2-af86-16811bbdf7b9",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "4d5d8787-4a0b-4b0f-aa83-cc32e5d4a4b2",
+			"id": "ce9d6e23-6296-413e-beda-87576ea91068",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "5f0b927f-2843-4875-8ca2-7a522b380fc4",
+			"id": "0c096af3-5fdc-4edc-8ef4-c0f2ed5ddab5",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "c12dfd2f-4763-4d51-8b26-46a72c284c4c",
+			"id": "2f4e5194-8342-477c-9998-edfc21cca3d4",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "921f570a-796c-4f70-aff4-2178d47dbac7",
+			"id": "f8ad1f3c-5e9f-4a76-8a7d-19d58419377a",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "fafb2121-2793-4353-a97f-284c5b41d2d2",
+			"id": "8754991e-6478-4623-8bbc-b6f356fca37d",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "6c7fd303-f380-4259-a699-1279bff0ab30",
+			"id": "20fe0b21-d0f3-4724-9f24-48848e659101",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "4f23012e-7d43-4458-9c1f-ac46784f275b",
+			"id": "dcc8165b-ccbd-43a9-b111-0d75222a9e8b",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "1ffc11e7-dc8a-48fe-9b9c-981f0d5ccef0",
+			"id": "b302df67-c742-452b-bf55-62bca6598e94",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "b8133a04-de0e-4859-ad79-cfad8a0c3248",
+			"id": "0917d6be-08ba-4cc8-98e6-053280fe6118",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "f4c4edea-e68a-4b45-80df-4dd003215427",
+			"id": "1b17601a-e6dc-4d89-8da1-f63144d417b3",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "07639782-e7c2-427f-8990-59c04313f27d",
+			"id": "e8beab7e-5092-49c3-b9c3-8347ac8faa80",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "8bbc8513-9fcf-4eb0-92d5-57e0f9369593",
+			"id": "ae1318a7-edc6-40a4-9a33-bcd6813c20cb",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "3e5b87c8-8f2d-438c-b4da-1f9adc543cd2",
+			"id": "4b2314ce-60f5-4847-ac3e-5229bbec8ce0",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "2b57766f-ab17-4399-84f3-723e4eaf8e9c",
+			"id": "627f649a-663d-4edb-8b79-3624d59d5d78",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "40645315-d455-42fb-9fd4-68b42081b052",
+			"id": "1c403b24-003c-492e-93e3-3ba374c5ad51",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "6f15211a-06a1-47a0-aacf-99e6374fe8cc",
+			"id": "a381dbfb-8c4f-4699-b1be-30fa0530a268",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "85637090-1c31-4247-846d-a27d8f49ed23",
+			"id": "e9bf1e45-7039-4c75-a57d-c78bfae74940",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "bfc02f82-7bb0-420e-9fbd-a01ddc6634ba",
+			"id": "5326424d-63b3-45db-8ff4-61eec59ab505",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "85f9dbd8-7b85-4d3d-9717-0460a5d39bd7",
+			"id": "32215c0c-65cb-48de-8a03-6a3cb0fc17c8",
 			"key": "CLIENT_ID",
 			"value": ""
 		},
 		{
-			"id": "901c572e-ea90-4846-8f8b-8a209a4aed88",
+			"id": "2d60462e-52a9-476b-bdf1-347964b19c04",
 			"key": "CLIENT_SECRET",
 			"value": ""
 		},
 		{
-			"id": "576a45e0-ca4b-4c1c-89ff-0f944b0deaa3",
+			"id": "2b520937-794a-46a9-9058-d854678422cb",
 			"key": "DISCOVER_ID",
 			"value": ""
 		}

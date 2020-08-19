@@ -857,92 +857,6 @@
 			"response": []
 		},
 		{
-			"name": "bigip-delete-jwt provider list",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "c131ae4b-3715-4ce8-b112-c2d6b9a754b2",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"JWT Provider List Deleted\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} else ",
-							"pm.test(\"JWT Provider List Does Not Exist\", function () {",
-							"    pm.response.to.have.status(404);",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "a21a8284-b29d-4bff-8fed-3b1691a9e1dc",
-						"exec": [
-							"setTimeout(function(){}, 1000);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "X-F5-REST-Coordination-Id",
-						"type": "text",
-						"value": "{{TRANSID}}",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/jwt-provider-list/~Common~{{PARTITION_NAME}}-jwt-provider",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP_MGMT}}"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"apm",
-						"oauth",
-						"jwt-provider-list",
-						"~Common~{{PARTITION_NAME}}-jwt-provider"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "bigip-delete-client provider",
 			"event": [
 				{
@@ -1184,6 +1098,76 @@
 			"response": []
 		},
 		{
+			"name": "bigip-Apply Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d248929-9923-43cf-aee0-38ae423a7354",
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Apply Policy Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-F5-REST-Coordination-Id",
+						"type": "text",
+						"value": "{{TRANSID}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~solution10~solution10-psp",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"access",
+						"~solution10~solution10-psp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip1-delete-OAuth Client",
 			"event": [
 				{
@@ -1249,74 +1233,6 @@
 						"oauth",
 						"oauth-client-app",
 						"~solution10~{{VS1_NAME}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip1-delete-customization group-OAuth Client",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "429cf886-526d-4184-9ee7-6851592f24af",
-						"exec": [
-							"if (responseCode.code === 200) {\r",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
-							"pm.test(\"Customization Group Deleted\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"} else \r",
-							"pm.test(\"Customization Group Does Not Exist\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group/~solution10~{{VS1_NAME}}_oauth_authz_client_app_customization",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP_MGMT}}"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"apm",
-						"policy",
-						"customization-group",
-						"~solution10~{{VS1_NAME}}_oauth_authz_client_app_customization"
 					]
 				}
 			},
@@ -1548,77 +1464,77 @@
 	],
 	"variable": [
 		{
-			"id": "b0957720-0b57-4eda-8f27-802a5a9d2c59",
+			"id": "332f3c3b-f618-4152-8189-6c4996ea3b71",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "53f2aed5-d950-4a90-aaa8-dcd7468c3a17",
+			"id": "3c81743f-0e38-4484-838a-27d2234a4c2a",
 			"key": "BIGIP_NUMBER",
 			"value": ""
 		},
 		{
-			"id": "c7ba687f-025c-48c5-b9d0-a6b4b25cd083",
+			"id": "17a8e7b8-44a6-4e27-8a86-3dfd9134d19a",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "04e7e928-3891-4a7e-ae5c-8b47f31c6fbc",
+			"id": "dffca2f6-5ee1-42d6-894a-3480d841dcbc",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "1c883730-eddd-4b54-9a36-7d44273ace6f",
+			"id": "feab7f6d-d8bd-4a6f-9e59-cb191987fb4f",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "6e686967-ade6-4298-a22c-9c73d116b3b3",
+			"id": "3af5d39d-38fe-49ec-bb16-b0f7b64903be",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "b84f93ff-afc8-452c-8edb-93e39a730306",
+			"id": "5e39b029-102b-4477-b565-0b0d004d6d21",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "8b50f9f6-c4c1-4238-8428-23a8256f09eb",
+			"id": "37443456-9105-4e7e-aa13-84f116b16089",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "f7b8330b-d662-4de5-b01a-ba9669c8b442",
+			"id": "a43dd4aa-029e-4b61-957c-e9c8994bf1ec",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "ec658d40-1e04-4731-bbc4-771c58359a51",
+			"id": "bb7b266c-60e1-4add-8b99-0da15d603f95",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "516fe73e-a545-4519-a9c5-95488af4663e",
+			"id": "aa7ad26b-5fab-4934-a73b-368c6fbcda1e",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "e63a61a3-1fdd-42a4-a841-c0312447cf99",
+			"id": "46b5a6f9-b1b5-4610-be8a-5a67e3194808",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "3f93d3c3-860e-46bb-a4a9-87e1122115ea",
+			"id": "0e84b7b5-e4c9-4c02-a9cc-2d7f8115a820",
 			"key": "DNS_DEST",
 			"value": ""
 		},
 		{
-			"id": "b3b21fba-c725-45db-b2e3-1c9aed576edf",
+			"id": "efc988c2-e891-4ac5-a0da-54def7c8a8a1",
 			"key": "CLIENT_ID",
 			"value": ""
 		},
 		{
-			"id": "2de210b1-3e39-4533-ba07-59f4690e10d4",
+			"id": "c2e4c23a-691f-4fb6-818c-19fef90d5ddb",
 			"key": "CLIENT_SECRET",
 			"value": ""
 		}
