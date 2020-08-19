@@ -103,7 +103,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Import ca.acme.com cert",
+					"name": "bigip-Import ca.acme.com cert",
 					"event": [
 						{
 							"listen": "test",
@@ -193,7 +193,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Install ca.acme.com cert",
+					"name": "bigip-Install ca.acme.com cert",
 					"event": [
 						{
 							"listen": "test",
@@ -264,7 +264,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Import ca.f5lab.local cert",
+					"name": "bigip-Import ca.f5lab.local cert",
 					"event": [
 						{
 							"listen": "test",
@@ -354,7 +354,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Install ca.f5lab.local cert",
+					"name": "bigip-Install ca.f5lab.local cert",
 					"event": [
 						{
 							"listen": "test",
@@ -425,7 +425,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-Create-DNS Resolver",
+					"name": "bigip-Create-DNS Resolver",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -491,13 +491,10 @@
 							"raw": "{\r\n\"name\":\"{{VS1_NAME}}\", \r\n \"forwardZones\": [\r\n                {\r\n                    \"name\": \".\",\r\n                    \"nameservers\": [\r\n                        {\r\n                            \"name\": \"10.1.20.7:53\"\r\n                        }\r\n                    ]\r\n                }\r\n            ]\r\n}"
 						},
 						"url": {
-							"raw": "https://10.1.1.4/mgmt/tm/net/dns-resolver",
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/net/dns-resolver",
 							"protocol": "https",
 							"host": [
-								"10",
-								"1",
-								"1",
-								"4"
+								"{{BIGIP_MGMT}}"
 							],
 							"path": [
 								"mgmt",
@@ -510,7 +507,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-client provider",
+					"name": "bigip-create-client provider",
 					"event": [
 						{
 							"listen": "test",
@@ -595,7 +592,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-provider discover",
+					"name": "bigip-create-provider discover",
 					"event": [
 						{
 							"listen": "test",
@@ -604,6 +601,23 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"pm.collectionVariables.set(\"DISCOVER_ID\",jsonData.id);",
+									"",
+									"setTimeout(function(){}, 3000);",
+									"",
+									"",
+									"if (responseCode.code === 202) {",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+									"pm.test(\"Discovery Task Created\", function () {",
+									"    pm.response.to.have.status(202);",
+									"});",
+									"postman.setNextRequest(\"bigip-cancel-provider discover task\");",
+									"",
+									"} else if (responseCode.code === 400) {",
+									"pm.test(\"Task exists\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Duplicate item. Key already exists\");",
+									"});",
+									"",
+									"}",
 									"",
 									""
 								],
@@ -673,7 +687,100 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-patch- cancel used provider discover task",
+					"name": "bigip-retrieve-discovery task id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "afe96948-1875-4298-a195-1aa30f1c69bc",
+								"exec": [
+									"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"setTimeout(function(){}, 3000);",
+									"",
+									"for (var i = 0; i < jsonData.items.length; i++) {",
+									"",
+									"if ( jsonData.items[i].providerName  === \"/Common/\"+VS_NAME+\"-provider\" ) {",
+									"    pm.collectionVariables.set(\"DISCOVER_ID\",jsonData.items[i].id);",
+									"    pm.test(\"Discovery Task ID Found\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"}",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b1f8dc42-9baf-4619-a059-70e339c71bba",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"type": "text",
+								"value": "{{TRANSID}}",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n    \"providerName\": \"{{PARTITION_NAME}}-provider\"\r\n    \r\n}"
+						},
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/access/oidc/discover",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"access",
+								"oidc",
+								"discover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-cancel-provider discover task",
 					"event": [
 						{
 							"listen": "test",
@@ -682,13 +789,10 @@
 								"exec": [
 									"if (responseCode.code === 200) {",
 									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-									"pm.test(\"Client Provider Created\", function () {",
+									"pm.test(\"Discovery Task Stopped\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"} else ",
-									"pm.test(\"Client Provider Exists\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});",
+									"} ",
 									"",
 									""
 								],
@@ -700,7 +804,7 @@
 							"script": {
 								"id": "d69fd4e7-5063-4c5a-b47b-9409a5b26b78",
 								"exec": [
-									""
+									"setTimeout(function(){}, 3000);"
 								],
 								"type": "text/javascript"
 							}
@@ -759,7 +863,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-delete-provider discover task",
+					"name": "bigip-delete-provider discover task",
 					"event": [
 						{
 							"listen": "test",
@@ -768,15 +872,10 @@
 								"exec": [
 									"if (responseCode.code === 200) {",
 									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-									"pm.test(\"Client Provider Created\", function () {",
+									"pm.test(\"Discovery Task Deleted Created\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									"} else ",
-									"pm.test(\"Client Provider Exists\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});",
-									"",
-									""
+									"} "
 								],
 								"type": "text/javascript"
 							}
@@ -845,7 +944,7 @@
 					"response": []
 				},
 				{
-					"name": "bigip1-create-jwt provider list",
+					"name": "bigip-create-jwt provider list",
 					"event": [
 						{
 							"listen": "test",
@@ -931,6 +1030,26 @@
 				},
 				{
 					"name": "bigip1-create-customization group-OAuth Client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "429cf886-526d-4184-9ee7-6851592f24af",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+									"pm.test(\"Customization Group Created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"} else \r",
+									"pm.test(\"Customization Group Exists\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -989,7 +1108,15 @@
 									"pm.collectionVariables.set(\"CLIENT_ID\",jsonData.clientId);\r",
 									"pm.collectionVariables.set(\"CLIENT_SECRET\",jsonData.clientSecret);\r",
 									"\r",
-									"\r",
+									"if (responseCode.code === 200) {\r",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+									"pm.test(\"OAuth Client Created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"} else \r",
+									"pm.test(\"OAuth Client Exists\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1043,6 +1170,26 @@
 				},
 				{
 					"name": "bigip1-modify-OAuth Clients list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c3f802e9-eedc-4bac-9d66-17912f59c0fe",
+								"exec": [
+									"if (responseCode.code === 404) {\r",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+									"pm.test(\"OAuth Client added to Auth Server\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"} else \r",
+									"pm.test(\"OAuth Client Exists on Auth Server\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -1072,13 +1219,10 @@
 							"raw": "{\r\n   \"name\": \"{{VS1_NAME}}\",\r\n   \"partition\": \"solution10\"\r\n  \r\n}"
 						},
 						"url": {
-							"raw": "https://10.1.1.4/mgmt/tm/apm/profile/oauth/~solution10~solution10-psp-solution10-as/client-apps",
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/oauth/~solution10~solution10-psp-solution10-as/client-apps",
 							"protocol": "https",
 							"host": [
-								"10",
-								"1",
-								"1",
-								"4"
+								"{{BIGIP_MGMT}}"
 							],
 							"path": [
 								"mgmt",
@@ -1095,6 +1239,26 @@
 				},
 				{
 					"name": "bigip1-create-OAuth Server",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc62cc05-df9e-4648-a8d3-6bbaf90f65ab",
+								"exec": [
+									"if (responseCode.code === 200) {\r",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+									"pm.test(\"OAuth Server Created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"} else \r",
+									"pm.test(\"OAuth Server Exists\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -1124,13 +1288,10 @@
 							"raw": "        {\r\n\r\n            \"name\": \"{{VS1_NAME}}\",\r\n            \"partition\": \"Common\",          \r\n            \"clientId\": \"{{CLIENT_ID}}\",\r\n            \"clientSecret\": \"{{CLIENT_SECRET}}\",\r\n            \"clientServersslProfileName\": \"/Common/serverssl\",\r\n            \"dnsResolverName\": \"/Common/{{VS1_NAME}}\",      \r\n            \"mode\": \"client\",\r\n            \"providerName\": \"/Common/{{VS1_NAME}}-provider\", \r\n            \"tokenValidationInterval\": 60\r\n        }"
 						},
 						"url": {
-							"raw": "https://10.1.1.4/mgmt/tm/apm/aaa/oauth-server",
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/oauth-server",
 							"protocol": "https",
 							"host": [
-								"10",
-								"1",
-								"1",
-								"4"
+								"{{BIGIP_MGMT}}"
 							],
 							"path": [
 								"mgmt",
@@ -3750,7 +3911,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"site_name\":\"{{DNS1_NAME}}\",\n\t\"http_port\":\"80\",\n\t\"https_port\":\"443\",\n\t\"template_number\":\"4\",\n\t\"computer_ip\":\"10.1.20.6\",\n\t\"authentication\": \"none\"\n\n}"
+					"raw": "{\n\t\"site_name\":\"{{DNS1_NAME}}\",\n\t\"http_port\":\"80\",\n\t\"https_port\":\"443\",\n\t\"computer_ip\":\"10.1.20.6\",\n\t\"template_number\": \"2\",\n\t\"authentication\": \"none\",\n\t\"customization\": {\n\t\t\"background\": \"green\"\n\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://10.1.20.6:81/website",
@@ -3794,113 +3955,113 @@
 	],
 	"variable": [
 		{
-			"id": "087ac0f0-41b5-4651-94bc-c2f256af495c",
+			"id": "50d4550b-a588-4186-9d93-cf38e941e99e",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "9ebf667d-253f-4eed-a458-35ffa0669076",
+			"id": "4d5d8787-4a0b-4b0f-aa83-cc32e5d4a4b2",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "0a80e713-ede1-47e0-ae82-83e7297e0b66",
+			"id": "5f0b927f-2843-4875-8ca2-7a522b380fc4",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "9a500048-4cd4-40d3-804e-3dd319ba2664",
+			"id": "c12dfd2f-4763-4d51-8b26-46a72c284c4c",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "69e3d0ec-ba32-4bf2-9fa4-86a8d183494b",
+			"id": "921f570a-796c-4f70-aff4-2178d47dbac7",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "c8090f43-2cff-4251-ab89-b7f4c9ca4790",
+			"id": "fafb2121-2793-4353-a97f-284c5b41d2d2",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "cf8cf986-b031-4bc0-a0e1-929b56669900",
+			"id": "6c7fd303-f380-4259-a699-1279bff0ab30",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "b0418d7b-d0bd-4aab-a53d-a58aa4418c05",
+			"id": "4f23012e-7d43-4458-9c1f-ac46784f275b",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "aa373595-b572-43e1-b9b0-61ad42941b8e",
+			"id": "1ffc11e7-dc8a-48fe-9b9c-981f0d5ccef0",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "e09cdc05-8a91-4e5b-980d-b23b82b155cf",
+			"id": "b8133a04-de0e-4859-ad79-cfad8a0c3248",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "ae3927d6-4cf3-4668-a5e2-9dcd14e840db",
+			"id": "f4c4edea-e68a-4b45-80df-4dd003215427",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "fd0b953b-19d3-49e7-9b31-451d996c8645",
+			"id": "07639782-e7c2-427f-8990-59c04313f27d",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "68d43ac5-422d-4ea4-9c37-7a2966bd7f61",
+			"id": "8bbc8513-9fcf-4eb0-92d5-57e0f9369593",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "b4a3aa5f-84b5-4d8d-b9a6-ead1d6c2e6b9",
+			"id": "3e5b87c8-8f2d-438c-b4da-1f9adc543cd2",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "d2654663-6538-45eb-9d47-8a7527aa86a5",
+			"id": "2b57766f-ab17-4399-84f3-723e4eaf8e9c",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "9de33a64-4496-42e3-a3f2-e4f5bd3c0e41",
+			"id": "40645315-d455-42fb-9fd4-68b42081b052",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "4ac7a5ae-c4cc-4fd9-bfef-568bd117ee9b",
+			"id": "6f15211a-06a1-47a0-aacf-99e6374fe8cc",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "f6dab5de-2898-4187-af63-7fec92d34903",
+			"id": "85637090-1c31-4247-846d-a27d8f49ed23",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "2f209adf-5d69-4ed1-bd73-f064c1fb16eb",
+			"id": "bfc02f82-7bb0-420e-9fbd-a01ddc6634ba",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "0ef48182-ec9d-4773-b0b1-23e4b235dab9",
-			"key": "DISCOVER_ID",
-			"value": ""
-		},
-		{
-			"id": "6f41d718-c4b9-48ba-acb4-3eacd747bcd9",
+			"id": "85f9dbd8-7b85-4d3d-9717-0460a5d39bd7",
 			"key": "CLIENT_ID",
 			"value": ""
 		},
 		{
-			"id": "7663433d-adb0-4b6a-a50a-a66296d3dd9a",
+			"id": "901c572e-ea90-4846-8f8b-8a209a4aed88",
 			"key": "CLIENT_SECRET",
+			"value": ""
+		},
+		{
+			"id": "576a45e0-ca4b-4c1c-89ff-0f944b0deaa3",
+			"key": "DISCOVER_ID",
 			"value": ""
 		}
 	],
