@@ -33,11 +33,11 @@
 					"script": {
 						"id": "f4d87c3d-de04-406c-9fe1-60bc08569536",
 						"exec": [
-							"pm.collectionVariables.set(\"DNS1_NAME\", \"api.acme.com\");",
-							"pm.collectionVariables.set(\"VS1_NAME\", \"api\");",
+							"pm.collectionVariables.set(\"DNS1_NAME\", \"solution9.acme.com\");",
+							"pm.collectionVariables.set(\"VS1_NAME\", \"solution9\");",
 							"pm.collectionVariables.set(\"PATH_NAME\", \"solution9\");",
 							"pm.collectionVariables.set(\"PARTITION_NAME\", \"solution9\");",
-							"pm.collectionVariables.set(\"DNS2_NAME\", \"as.acme.com\");",
+							"pm.collectionVariables.set(\"DNS2_NAME\", \"solution8.acme.com\");",
 							"pm.collectionVariables.set(\"CUSTOM_TYPE\", \"modern\");",
 							"",
 							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");",
@@ -744,6 +744,16 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b64ec934-e865-4add-a805-49cff98e7b18",
+						"exec": [
+							"setTimeout(function(){}, 1000);"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -1143,6 +1153,219 @@
 			"response": []
 		},
 		{
+			"name": "bigip1-modify-OAuth Clients list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "22f36751-ed12-467b-9a9b-c8eb95ee42c5",
+						"exec": [
+							"if (responseCode.code === 200) {\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Client Removed from Auth Server\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"} else \r",
+							"pm.test(\"Client not Attached\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/oauth/~solution8~solution8-psp-solution8-as/client-apps/~solution8~{{VS1_NAME}}",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"oauth",
+						"~solution8~solution8-psp-solution8-as",
+						"client-apps",
+						"~solution8~{{VS1_NAME}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip-Apply Policy-AS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d248929-9923-43cf-aee0-38ae423a7354",
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Apply Policy Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-F5-REST-Coordination-Id",
+						"type": "text",
+						"value": "{{TRANSID}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~solution8~solution8-psp",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"access",
+						"~solution8~solution8-psp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip1-delete-OAuth Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a4fe3c2-1c21-42ab-9f14-4d04845df295",
+						"exec": [
+							"\r",
+							"if (responseCode.code === 200) {\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Client Deleted\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"} else \r",
+							"pm.test(\"Client Does Not exist\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/oauth-client-app/~solution8~{{VS1_NAME}}",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"oauth",
+						"oauth-client-app",
+						"~solution8~{{VS1_NAME}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip-delete-ca.acme.com cert",
 			"event": [
 				{
@@ -1368,67 +1591,67 @@
 	],
 	"variable": [
 		{
-			"id": "3d406598-3560-4465-8329-a27199afb069",
+			"id": "e4765b58-ee40-4e2e-be4b-2d39736a3f1c",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "eba3e6cf-6be2-4eb1-a2a6-e0956677e2be",
+			"id": "4472972f-0099-4422-90cb-9e4d75c52df3",
 			"key": "BIGIP_NUMBER",
 			"value": ""
 		},
 		{
-			"id": "77a5c676-c92c-4cfb-acc0-a1b96f4e5e96",
+			"id": "2af057d4-98cb-4a8b-b09d-9a31ebca0e45",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "be28676f-fd9f-42d8-a681-9af415e3e099",
+			"id": "6977b4b6-5d5b-4886-a3d2-0ec481f18174",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "2a723ef3-6425-432d-aac0-b169f1b25b9a",
+			"id": "f90086b0-07c6-4c7c-b27c-c2821226486b",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "faf09d7f-1a86-4647-90f2-b4b9b996f072",
+			"id": "fc2f7e40-868e-42c0-8018-ed9e45ea09bc",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "e833c99d-457c-44a5-8621-581d39d034b9",
+			"id": "f7806029-09d4-4914-a50f-80e255e96ab4",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "5d1def40-ddba-4a65-9aa3-6369aab33689",
+			"id": "7f9201aa-9d86-4fd3-a3ad-caf5a9f4daac",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "441e665f-4335-4a60-896c-ac660b0bcd79",
+			"id": "7119e06d-3ed7-4627-bbe8-91b695159115",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "f96e163a-04fd-4a71-9045-3ee0c4d7828b",
+			"id": "6cd4f79a-89a4-4699-8c9a-43541e33a03b",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "e8bd546d-232b-462c-a5c8-550cef7aa9f1",
+			"id": "813a1741-28f6-4641-8e41-6cae2a8c2d34",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "5db0e2cd-52ce-4851-9d81-ff3856ea6517",
+			"id": "b45e243c-574c-452e-a634-13f8ee770a17",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "4431dbaa-a3e4-4f49-8d5e-c7590ccedd5a",
+			"id": "fdb7b2fd-e4d1-4ba0-9c66-38e11ff18bb7",
 			"key": "DNS_DEST",
 			"value": ""
 		}
