@@ -412,6 +412,87 @@
 					"response": []
 				},
 				{
+					"name": "bigip-Create node 10.1.20.7",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "aef36e8b-e388-400b-901a-aa76d003345d",
+								"exec": [
+									"",
+									"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
+									"",
+									"if (PRIOR_RESPONSE === 'OK') {",
+									"",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "98d80f0d-384a-4b6f-909f-8a13e69a34aa",
+								"exec": [
+									"if (responseCode.code === 200) {",
+									"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+									"pm.test(\"Node Created\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"} else ",
+									"pm.test(\"Node Exists\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"node"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "bigip-create-LDAP Server Pool",
 					"event": [
 						{
@@ -2279,87 +2360,6 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "bigip-Create node 10.1.20.7",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "aef36e8b-e388-400b-901a-aa76d003345d",
-						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "98d80f0d-384a-4b6f-909f-8a13e69a34aa",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"Node Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} else ",
-							"pm.test(\"Node Exists\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
-				},
-				"url": {
-					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
-					"protocol": "https",
-					"host": [
-						"{{BIGIP_MGMT}}"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"ltm",
-						"node"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "bigip-Check Scope for existing assignment",
 			"event": [
 				{
@@ -4206,67 +4206,67 @@
 	],
 	"variable": [
 		{
-			"id": "7dd3f9b8-6565-485d-b8cb-5eb8dd43ffc1",
+			"id": "13b007be-ce13-4f28-bd9c-e1dd13290fbd",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "7c2965f6-ccd3-4824-8a80-8c76a33f621e",
+			"id": "1cda449f-d95c-4c3c-ae9a-99c07cfb54be",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "c7897f11-d0cf-4441-a0ef-54936e8cc535",
+			"id": "c8f8b4ee-e242-482c-83da-0924a07c3cdc",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "d12f92cc-8170-4f0d-ad6e-2dcb4e6bb5c3",
+			"id": "47cd8b54-e03b-41cc-ae09-b3f5f37b9add",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "17c5fcd2-c713-4835-81ed-2a71146ce0cb",
+			"id": "57f61f53-78ba-45eb-8785-e2c31490a1f4",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "8df9d2e7-5c69-42c7-bd4d-c193dba33adc",
+			"id": "84d6f294-78fb-49f2-a64a-bc9fb818df38",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "d9cec2c2-52f1-4b3e-bf66-4ef0b80b92f7",
+			"id": "09318c6b-94fe-4000-a024-84cd10372eca",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "e1f93e6d-142d-43cb-bbfe-bf318ff149ec",
+			"id": "67e0003f-5b65-4f59-83db-87bb8f607989",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "a066d304-bac0-44d9-9b78-80fcb02f582f",
+			"id": "71504846-2af6-4199-b89c-3ad7e65851f0",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "0624a024-c1c9-403f-b780-3d87d09d4019",
+			"id": "197a4830-e9c6-4c0f-839d-912512312330",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "f0ee221d-5332-403f-a5fd-22085acb2e48",
+			"id": "90c5d3b4-5ba2-4ef9-bf67-56d4d6893649",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "2458dae3-c69b-4105-ab75-615bc6842986",
+			"id": "2292a9a1-7c16-486f-bd84-8657168171b9",
 			"key": "COUNTER",
 			"value": ""
 		},
 		{
-			"id": "2616c235-b847-459c-975a-204188690126",
+			"id": "d727a891-d900-4863-bcf8-801a525c55c6",
 			"key": "IIS_ADDRESS1",
 			"value": ""
 		}
