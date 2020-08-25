@@ -4,18 +4,18 @@ Traffic Flow
 ======================
 
 
-The Policies
-======================================================
 
 
+Send-Sideband Policy
+===========================
 
 
-Send-Sideband Policy Walk-Through
+Policy Walk-Through
 -------------------------------------
 
 |image001|  
 
-1. A user is redirect to the SAML IDP 
+1. A user is redirect to the external SAML IDP 
   - Once authenticated at the IDP the user is redirected back to the BIG-IP.                                            
 2. If the SAML assertion is valid an AD Query is performed to match the email address in the assertion to an AD Account.
   -  The attribute sAMAccountName is returned to be used in the send-sideband irule
@@ -27,117 +27,231 @@ Send-Sideband Policy Walk-Through
 
                                        
 
-                                                                                    
-
+                                                                                  
 
 
 Policy Agent Configuration
 ----------------------------
 
-- The On-Demand Cert Auth Agent uses the default settings                                                                   
+- The SAML Auth Agent selected the SP service to be used.  This selection indirectly selects the IDP to be used.                                                                   
 
    |image002|                                                                                   
 
-- The OCSP Agent validates the certificate against the OCSP responder configured
+- The AD Query Agent validates the email address(username) specified in the SAML nameID attribute exists in Active Directory
 
    |image003|     
 
-- The othername field is extracted from the certificate and saved as session variable session.logon.upn  
+- The SAML nameID attribute is passed to the username attribute
 
   |image004|
 
-- The LDAP query connects to the LDAP server to the dc=f5lab,dc=local DN for a user that contains the userPrincipalName matching the value stored in session.custom.upn
-- The LDAP query requests the sAMAccountName attribute if the user is found
+- The irule event triggers the send-sideband request
 
    |image005|                                                                            
 
-- The branch rule was modified to only require a LDAP Query passed condition
+        
+Customized APM Profile Settings
+----------------------------------
 
-   |image006|
+- The APM Profiles SSO Configurtion section has the BIG-IP SAML IDP service selected.
 
-- Two session variables are set
-   - session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
-   - session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
-   
-   |image007|               
+|image006| 
+
 
                                                                                
-Customized LTM Profile settings
+Send Side-band irule
 ---------------------------------
+::
+  when ACCESS_POLICY_AGENT_EVENT {
+	switch -glob [string tolower [ACCESS::policy agent_id]] {
+		"send-sideband" {
+			#established a TCP based sideband connetion to virtual server receive-sideband
+			set conn [connect -protocol TCP -timeout 100 -idle 30 -status conn_status /solution7/receive-sideband/receive-sideband]
+			#converts the APM session variable to a TCL variable
+			#sends a HTTP requrest over the sideband with the username in a query string
+			set username [ACCESS::session data get "session.ad.last.attr.sAMAccountName"]
+			set data "GET /?username=$username HTTP/1.1\r\nHost: sp.acme.com\r\nUser-Agent: Side-band\r\nclientless-mode: 1\r\n\r\n"
+			set send_info [send -timeout 3000 -status send_status $conn $data]
+			# waits 1 second and then closes the connection
+			after 1000
+			close $conn
+                 }
+        }
+  }  
 
-- The Client-side SSL profile Client Authentication section has been modificed to support certiciate authentication
-   - Trusted Certificate Authorities has been set to ca.f5lab.local.crt
-	   - The bundle validates client certificates by these issuers 
-	   - The bundle must include all CAs in the chain
-   - Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
-	   - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate 
 
-|image008|	   
+
+
+
+
+Supporting APM Objects
+-----------------------
+
+SP Service
+^^^^^^^^^^^^
+
+**General Settings**
+
+SP Service sections not displayed contain default values
+
+- Entity ID: https://sp.acme.com
+- Host:      sp.acme.com                     
+
+|image007|                                                                                   
+
+
+**Security Settings**
+
+- Want Signed Assertion is **checked**
+
+|image008|
+
+
+
+                                                                               
+IDP Connector
+^^^^^^^^^^^^^^^
+
+**General Settings**
+
+- Okta's Entity ID
+
+|image009|
+
+**Single Sign On Service URL**
+
+- Okta's SSO Service URL
+
+|image010|
+
+
+**Security Settings**
+
+- Okta's IDP Certificate selected
+
+                                          
+|image011|    
+
+
+IDP Service
+^^^^^^^^^^^^
+
+**General Settings**
+
+- IDP Entity ID: https://sp.acme.com/bigip
+- Host:    sp.acme.com
+
+|image012|
+
+**Assertion Settings**
+
+- Assertion Subject Type: Transient Identifier
+- Assertion Subject Value: %{session.logon.last.username}
+
+|image013|
+
+
+**Security Settings**
+
+|image014|
+
+
+SP Connector
+^^^^^^^^^^^^^
+
+**General Settings**
+
+|image015|
+
+**Security Settings**
+
+|image016|
+
+**SLO Service Settings**
+
+|image017|
+
+**SP Location Settings**
+
+This setting determines whether the client has direct access to the BIG-IP IDP.  
+
+Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML Assertion to the application on behalf of the user. 
+
+The user will only have access to the external IDP Assertion and not any assertions from the BIG-IP IDP when internal is selected.
+
+Service Provider Location:  Internal
+
+|image018|
+
+
+AAA Active Directory
+^^^^^^^^^^^^^^^^^^^^^^^
+
+|image019|
+
+
+Send-Sideband Policy
+===========================
+
+
+                                                                             
+Policy Walk-Through
+-------------------------------------
+
+|image020|
+
+1. The session variable session.logon.last.domain is set to the AD Domain f5lab.local
+2. The sideband request is granted access via the Allow Terminal
+
 
 Customized APM Profile Settings
 ----------------------------------
 
 - The SSO/Auth Domains of the APM profile is configured with the Kerberos SSO Profile needed to authenticate to the server.
 
-|image009| 
+|image021|
+
+
+Send Side-band irule
+---------------------------
+::
+
+ when CLIENT_ACCEPTED {
+  ACCESS::restrict_irule_events disable
+   }
+ when HTTP_REQUEST {
+  #Parses query string and splits the first parameter name from the value.
+  #The value is stored as the username variable
+  set username [lindex [split [HTTP::query] =] 1]
+  }
+ when ACCESS_SESSION_STARTED {
+  #Stores the tcl username variable as a session variable
+  ACCESS::session data set session.logon.last.username $username
+  }  
+	
 
 
 Supporting APM Objects
 -----------------------
 
-AAA OCSP Responder
-^^^^^^^^^^^^^^^^^^^^^^^^
+Kerberos SSO
+^^^^^^^^^^^^^^
 
-The OCSP Responder has been configured with the following settings
-
-- URL: this field is only used if you check the Ignore AIA field  
-- Certificate Authority File:  contains the root ca bundle
-- Certificate Authority Path:  this field is only used if you check the Ignore AIA field                        
-
-|image010|                                                                                   
-
-
-                                                                               
-AAA LDAP Object
-^^^^^^^^^^^^^^^^^^
-
-A single LDAP server of 10.1.20.7 has been configured with a admin service account to support queries                                                   
-
-|image011|    
-
-Kerberos SSO Object
-^^^^^^^^^^^^^^^^^^^^^
-
-- The Username Source field has been modified from the default to reference the sAMAccountName stored in session.logon.last.username
-- Kerberos Realm has been set to the Active Directory domain (realms should always be in uppercase)
-- The service account used for Kerberos Contrained Delegation (Service Account Names should be in SPN format)
-- SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)                                                
-
-|image014| 
-                                                                               
-Receive-Sideband Policy Walk-Through
--------------------------------------
-
-|image002|
-
-1. The session variable session.logon.last.domain is set to the AD Domain f5lab.local
-2. The sideband request is granted access via the Allow Terminal
+|image022|
 
 
 
 User1's Perspective
 -------------------------------------
 
-User1
-^^^^^^
 
 #. User1 is connects to https://sp.acme.com and is redirect to the external IDP
 
-   |image003|
+   |image023|
 
-#. After successful
+#. After successful logon the user is granted access to the application
 
-   |image004|
+   |image024|
 
 
 .. |image001| image:: media/001.png
@@ -157,6 +271,11 @@ User1
 .. |image015| image:: media/015.png
 .. |image016| image:: media/016.png
 .. |image017| image:: media/017.png
+.. |image018| image:: media/018.png
+.. |image019| image:: media/019.png
+.. |image020| image:: media/020.png
+.. |image021| image:: media/021.png
+.. |image022| image:: media/022.png
 
    
 
