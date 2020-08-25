@@ -54,7 +54,7 @@ BIG-IP Components used:
 ------------------------
 
 * Virtual Server
- - HTTP Profile -
+ - HTTP Profile 
  - Client-side SSL Profile 
  - Connectivity profile 
  - Access Profile
