@@ -242,11 +242,15 @@ Kerberos SSO
 
 
 
-User1's Perspective
+User's Perspective
 ---------------------
 
 
-#. User1 connects to https://sp.acme.com and is redirect to the external IDP
+#. A user connects to https://sp.acme.com and is redirect to the external IDP.
+     
+	username: coyote@acme.com
+        Password: user1
+    
 
    |image023|
 
@@ -278,6 +282,8 @@ User1's Perspective
 .. |image021| image:: media/021.png
 .. |image022| image:: media/022.png
 .. |image023| image:: media/023.png
+.. |image024| image:: media/024.png
+.. |image025| image:: media/025.png
 
    
 
