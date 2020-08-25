@@ -23,6 +23,7 @@ Policy Walk-Through
 Policy Agent Configuration
 ----------------------------
 
+
 The Logon Page contains only the default setting                                                                          
 
 |image002|                                                                                   
@@ -34,11 +35,12 @@ The AD Auth Agent uses a defined the  AD AAA Server object that user will be aut
 
 The Advanced resource Assign Agent grants a user access to assigned in the screenshot                                     
 
-|image004|                                                                                   
+|image004|                                                                              
 
 
 Supporting APM Objects
 -----------------------
+
 
 Network Access Resource
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -72,7 +74,9 @@ Webtop
 - A Full Webtop was defined with modified default settings.                                  
 - The Minimize to Tray box was checked to ensure when a user connects to the VPN the Webtop is not displayed               
 
-|image009|                                                                                   
+|image009|   
+
+                                                                              
 
 
 
