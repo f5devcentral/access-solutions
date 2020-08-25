@@ -25,10 +25,10 @@ The links below highlight core pieces of the blueprint so others can understand 
 Lab Topology
 ~~~~~~~~~~~~
 
-|000|  
+|image000|  
 
 
-.. |image000| image:: media/image000.png
+.. |image000| image:: media/000.png
    :width: 6.96097in
    :height: 4.46512in
 
