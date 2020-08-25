@@ -36,26 +36,28 @@ Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
   - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+----------------------------
+
   - solution2-create.postman_collection.json
   - solution2-delete.postman_collection.json
 
 
 APM Profile(s) 
-^^^^^^^^^^^^
+-------------------
   - profile_Common_solution2-psp.conf.tar
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
+
   - 15.1
 
 BIG-IP Components used:
------------------
+-----------------------------
 
 * Virtual Server
  - HTTP Profile 

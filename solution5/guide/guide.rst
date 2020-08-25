@@ -5,9 +5,9 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|     
+|image1|     
 
-1. When a user accesses a VIP protected by this policy they are redirected to the IDP provider Selected by the SP Service.         
+1. A user accesses a VIP protected by this policy they are redirected to the IDP provider Selected by the SP Service.         
 2. Upon successful authentication at the IDP, the IDP redirects the user back to the SP.  The SP service consumes the Assertion.  The user is granted access via the Allow Terminal 
 3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
                                        
@@ -18,7 +18,7 @@ Policy Agent Configuration
 
 The SAML Auth Policy Item contains the following settings                                                                         
 
-|image014|                                                                                   
+|image14|                                                                                   
 
                                                                                 
 
@@ -42,28 +42,28 @@ The settings below define all the components of the SP Service
 
 **General Settings**
 
-|image002|
+|image2|
 
 
 **Endpoint Settings**
 
-|image003|
+|image3|
 
 **Security Settings**
 
-|image004|
+|image4|
 
 **Authentication Context**
 
-|image005|
+|image5|
 
 **Requested Attributes**
 
-|image006|
+|image6|
 
 **Advanced Settings**
 
-|image007|
+|image7|
 
 
                                                                              
@@ -75,27 +75,27 @@ The settings below define all the components of the IDP Connector
 
 **General Settings**
 
-|image008|
+|image8|
 
 **Single Sign On Service**
                                                              
-|image009| 
+|image9| 
 
 **Artifact Resolution Service**
 
-|image010|
+|image10|
 
 **Assertion Settings**
 
-|image011|
+|image11|
 
 **Security Settings**
 
-|iamge012|
+|image12|
 
 **SLO Service Settings**
 
-|image013|                                                                                  
+|image13|                                                                                  
 
 
 
@@ -110,25 +110,25 @@ If the user attempts to access https://sp.acme.com they will be redirected to ht
 
 
 
-|image015|
+|image15|
 
 
 
-.. |image001| image:: media/001.png
-.. |image002| image:: media/002.png
-.. |image003| image:: media/003.png
-.. |image004| image:: media/004.png
-.. |image005| image:: media/005.png
-.. |image006| image:: media/006.png
-.. |image007| image:: media/007.png
-.. |image008| image:: media/008.png
-.. |image009| image:: media/009.png
-.. |image010| image:: media/010.png
-.. |image011| image:: media/011.png
-.. |image012| image:: media/012.png
-.. |image013| image:: media/013.png
-.. |image014| image:: media/014.png
-.. |image015| image:: media/015.png
+.. |image1| image:: media/001.png
+.. |image2| image:: media/002.png
+.. |image3| image:: media/003.png
+.. |image4| image:: media/004.png
+.. |image5| image:: media/005.png
+.. |image6| image:: media/006.png
+.. |image7| image:: media/007.png
+.. |image8| image:: media/008.png
+.. |image9| image:: media/009.png
+.. |image10| image:: media/010.png
+.. |image11| image:: media/011.png
+.. |image12| image:: media/012.png
+.. |image13| image:: media/013.png
+.. |image14| image:: media/014.png
+.. |image15| image:: media/015.png
 
 
 

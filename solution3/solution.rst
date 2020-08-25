@@ -31,22 +31,23 @@ Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
   - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+------------------------
+
   - solution3-create.postman_collection.json
   - solution3-delete.postman_collection.json
 
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
   - 15.1
 
 BIG-IP Components used:
------------------
+---------------------------
 
 * Virtual Server
  - HTTP Profile 

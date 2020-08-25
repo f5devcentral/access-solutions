@@ -1,7 +1,7 @@
-Solution:  JWT Authorization Server using RSA keys
+Solution:  JWT Authorization Server(RSA keys) - AD Auth
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic JWT Resecource Server using RSA keys
+This solution documents all the necessary pieces required to create a basic JWT Resource Server using RSA keys
 
 Keywords: JWT, OAUTH, OIDC, RSA
 
@@ -31,26 +31,29 @@ Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  - 3
+---------------------------
+  - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+-------------------------
   - solution10-create.postman_collection.json
   - solution10-delete.postman_collection.json
 
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
   - 15.1
 
 BIG-IP Components used:
------------------
+-------------------------
 
 * Virtual Server
- - HTTP Profile -https://support.f5.com/csp/article/K4707
- - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
+ - HTTP Profile 
+ - Client-side SSL Profile 
+ - Access Profile
+   + AD Server
+   + OAuth Profile
 
 
 
