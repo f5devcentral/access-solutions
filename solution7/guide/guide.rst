@@ -248,8 +248,8 @@ User's Perspective
 
 #. A user connects to https://sp.acme.com and is redirect to the external IDP.
      
-	username: coyote@acme.com
-        Password: user1
+   - username: coyote@acme.com
+   - Password: user1
     
 
    |image023|
