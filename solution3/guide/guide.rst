@@ -8,9 +8,9 @@ Policy Walk-Through
 
 |image001|     
 
-1. When a user accesses a VIP protected by this policy they are redirected to the IDP provider Selected by the SP Service.         
-2. Upon successful authentication at the IDP, the IDP redirects the user back to the SP.  The SP service consumes the Assertion.  The user is granted access via the Allow Terminal 
-3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+1. When a user accesses a VIP protected by this policy they are redirected to the IDP selected by the SP Service.         
+2. Upon successful authentication at the IDP, the user is redirected back to the SP.  The SP service consumes the Assertion.  The user is granted access via the Allow Terminal 
+3. Upon unsuccessful authentication, the user proceeds down the fallback branch and denied access via the Deny Terminal
                                        
                                                                              
 
@@ -33,8 +33,7 @@ All profile settings are left the defaults
 
 Supporting APM Objects
 -----------------------
-
-                                                                              
+                                                                             
 
 SP Service
 ^^^^^^^^^^^^
@@ -55,7 +54,7 @@ Sections not specified contain default values
 IDP Connector
 ^^^^^^^^^^^^^^^^
 
-The settings below define all the components of the IDP Connector
+Sections not specified contain default values
 
 **General Settings**
 
@@ -74,13 +73,12 @@ The settings below define all the components of the IDP Connector
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://sp.acme.com they will be redirected to its IDP(Okta). 
+If a user attempts to access https://sp.acme.com they will be redirected to its IDP(Okta) for authentication. 
 
  - Username: coyote@acme.com
  - Password: user1
 
 |image008|
-
 
 
 Once authenticated the user will be redirect back to the application and granted access
