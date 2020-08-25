@@ -31,17 +31,17 @@ Configuration Comments
 
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
   - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+------------------------
   - solution12-create.postman_collection.json
   - solution12-delete.postman_collection.json
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
   - 15.1
 
 BIG-IP Components used:
