@@ -1,7 +1,7 @@
 Solution: VPN - AD Auth
 =======================
 
-This solution documents  all the necessary pieces required to setup a basic VPN using  Active Directory Authentication.  
+This solution documents  all the necessary pieces required to setup a basic AD authenticated VPN.
 
 Keywords: vpn, ad, active, directory
 
@@ -18,7 +18,7 @@ Objective:
 
 -  Gain an understanding of a basic VPN configuration
 
--  Gain an initial understanding of Active Directory AAA Objects
+-  Gain an initial understanding of AAA Active Directory Objects
 
 .. toctree::
    :maxdepth: 1
