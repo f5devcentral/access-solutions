@@ -1,17 +1,17 @@
 {
 	"info": {
-		"_postman_id": "ea64bc96-8017-4e57-8073-dbd056f4540a",
+		"_postman_id": "7a37de5c-33d6-4c1f-9e05-a16aae478343",
 		"name": "solution2-create",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "bigip1-Test AS3 is running",
+			"name": "bigip-Test AS3 is running",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "d1ababb1-bae6-47d3-b363-33db2a34d258",
+						"id": "b5132e7b-a655-4c7a-b13b-2ed8d2e3e4bf",
 						"exec": [
 							"",
 							"if (responseCode.code === 200) {",
@@ -32,12 +32,35 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "7828aad9-df4b-4c1b-97a4-7e2e55e176ee",
+						"id": "13339d19-a187-46d6-a394-778e50da9f96",
 						"exec": [
-							"pm.collectionVariables.set(\"DNS_NAME\", \"solution2.acme.com\");",
-							"pm.collectionVariables.set(\"VS_NAME\", \"solution2\");",
-							"pm.collectionVariables.set(\"PATH_NAME\", \"solution2\");",
-							"pm.collectionVariables.set(\"PARTITION_NAME\", \"solution2\");"
+							"pm.collectionVariables.set(\"DNS1_NAME\", \"solution2.acme.com\");\r",
+							"pm.collectionVariables.set(\"VS1_NAME\", \"solution2\");\r",
+							"pm.collectionVariables.set(\"PATH_NAME\", \"solution2\");\r",
+							"pm.collectionVariables.set(\"PARTITION_NAME\", \"solution2\");\r",
+							"\r",
+							"pm.collectionVariables.set(\"CUSTOM_TYPE\", \"modern\");\r",
+							"\r",
+							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+							"var DC2_APM = pm.environment.get(\"DC2_APM\");\r",
+							"\r",
+							"\r",
+							"if (DC2_APM === 'true' && COUNTER === '2') {\r",
+							"pm.collectionVariables.set(\"BIGIP_MGMT\", \"10.1.1.5\");\r",
+							"pm.collectionVariables.set(\"BIGIP_SCOPE\", pm.environment.get(\"BIGIP2_SCOPE\"));\r",
+							"\r",
+							"} else {\r",
+							"pm.collectionVariables.set(\"BIGIP_MGMT\", \"10.1.1.4\");\r",
+							"pm.collectionVariables.set(\"BIGIP_SCOPE\", pm.environment.get(\"BIGIP1_SCOPE\"));\r",
+							"pm.collectionVariables.set('COUNTER', '1' );\r",
+							"\r",
+							"}\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -62,13 +85,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/info",
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
 					"protocol": "https",
 					"host": [
-						"10",
-						"1",
-						"1",
-						"4"
+						"{{BIGIP_MGMT}}"
 					],
 					"path": [
 						"mgmt",
@@ -81,12 +101,12 @@
 			"response": []
 		},
 		{
-			"name": "bigip1-Create Connectivity Profile",
+			"name": "bigip-Create node 10.1.20.7",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b9845a91-5e84-4b36-9cd3-d6fab9a91c00",
+						"id": "6486b956-ff24-4fb3-bcf3-f4227788010a",
 						"exec": [
 							"",
 							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
@@ -101,7 +121,88 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bcbdcce5-6027-4aa5-961b-6cc29bb07bd0",
+						"id": "6519eedc-f16d-4cae-95ed-80dc9076cb69",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"Node Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"Node Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"ltm",
+						"node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip1-Create Connectivity Profile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1789945b-2d7b-473c-a7e8-6d2755235084",
+						"exec": [
+							"",
+							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
+							"",
+							"if (PRIOR_RESPONSE === 'OK') {",
+							"",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "51d763e4-3b98-4f51-8214-a7218109841a",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -145,16 +246,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"name\": \"{{VS_NAME}}-cp\"\n}"
+					"raw": "{\n\"name\": \"{{PARTITION_NAME}}-cp\"\n}"
 				},
 				"url": {
-					"raw": "https://10.1.1.4/mgmt/tm/apm/profile/connectivity/",
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/connectivity/",
 					"protocol": "https",
 					"host": [
-						"10",
-						"1",
-						"1",
-						"4"
+						"{{BIGIP_MGMT}}"
 					],
 					"path": [
 						"mgmt",
@@ -169,14 +267,15 @@
 			"response": []
 		},
 		{
-			"name": "bigip1-Check Scope for existing assignment",
+			"name": "bigip-Check Scope for existing assignment",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "2c68250e-39fb-40d0-a0e0-da2e1a19cffd",
+						"id": "e637d22b-95b0-4855-b972-2e637834d445",
 						"exec": [
-							"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+							"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
+							"\r",
 							"\r",
 							"if (responseCode.code === 200) {\r",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
@@ -189,8 +288,8 @@
 							"\r",
 							"if(!jsonData.length) {\r",
 							" if ( jsonData.Description  === VS_NAME ) {\r",
-							"\tpm.collectionVariables.set(\"BIGIP1_ADDRESS\", jsonData.IPAddress.IPAddressToString );\r",
-							"\tpostman.setNextRequest(\"bigip1-Create Application using AS3\");  \r",
+							"\tpm.collectionVariables.set(\"BIGIP_ADDRESS1\", jsonData.IPAddress.IPAddressToString );\r",
+							"\tpostman.setNextRequest(\"bigip-Create Application using AS3\");  \r",
 							" }\r",
 							"} else {\r",
 							"\r",
@@ -198,8 +297,8 @@
 							"for (var i = 0; i < jsonData.length; i++) {\r",
 							"\r",
 							"if ( jsonData[i].Description  === VS_NAME ) {\r",
-							"\tpm.collectionVariables.set(\"BIGIP1_ADDRESS\", jsonData[i].IPAddress.IPAddressToString );\r",
-							"\tpostman.setNextRequest(\"bigip1-Create Application using AS3\");\r",
+							"\tpm.collectionVariables.set(\"BIGIP_ADDRESS1\", jsonData[i].IPAddress.IPAddressToString );\r",
+							"\tpostman.setNextRequest(\"bigip-Create Application using AS3\");\r",
 							"}\r",
 							"}\r",
 							"}"
@@ -218,7 +317,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP1_SCOPE}}",
+					"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP_SCOPE}}",
 					"protocol": "http",
 					"host": [
 						"10",
@@ -234,7 +333,7 @@
 					"query": [
 						{
 							"key": "scope",
-							"value": "{{BIGIP1_SCOPE}}"
+							"value": "{{BIGIP_SCOPE}}"
 						}
 					]
 				}
@@ -242,22 +341,28 @@
 			"response": []
 		},
 		{
-			"name": "bigip1-Check for next available address",
+			"name": "bigip-Check for next available address",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "0ba76cc4-017e-4c40-b213-3eb0d368f9db",
+						"id": "8197b6b5-159b-4921-aecb-3e9e392ef794",
 						"exec": [
 							"\r",
 							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.collectionVariables.set(\"BIGIP1_ADDRESS\",jsonData.address);\r",
+							"pm.collectionVariables.set(\"BIGIP_ADDRESS1\",jsonData.address);\r",
 							"\r",
 							"\r",
 							"\r",
 							"var jsonData = pm.response.json();\r",
-							"pm.test('Next Available Address Found', function() {\r",
+							"pm.test('Address Key returned', function() {\r",
 							"  pm.expect(jsonData).to.have.property('address');\r",
+							"\r",
+							"  \r",
+							"pm.test(\"Address value is not null\", function () {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.address).not.eql(null);\r",
+							"});\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -274,7 +379,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP1_SCOPE}}",
+					"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP_SCOPE}}",
 					"protocol": "http",
 					"host": [
 						"10",
@@ -290,7 +395,7 @@
 					"query": [
 						{
 							"key": "scope",
-							"value": "{{BIGIP1_SCOPE}}"
+							"value": "{{BIGIP_SCOPE}}"
 						}
 					]
 				}
@@ -298,19 +403,23 @@
 			"response": []
 		},
 		{
-			"name": "bigip1-Checkout Address",
+			"name": "bigip-Checkout Address",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "1aa4d46d-f13d-48a0-a979-67b736b308b8",
+						"id": "7e4ee33a-73c1-47ca-b6c8-e0afc9e9fd50",
 						"exec": [
-							"",
-							"",
 							"var jsonData = pm.response.json();",
-							"pm.test(\"Address checked out\", function () {",
+							"pm.test(\"Address Checked Out\", function () {",
 							" ",
 							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Name field is not Null\", function () {",
+							"var jsonData = pm.response.json();",
+							"pm.expect(jsonData.name).not.eql(null);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -322,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"scope\":\"{{BIGIP1_SCOPE}}\",\n\"address\":\"{{BIGIP1_ADDRESS}}\",\n\"vs_name\":\"{{VS_NAME}}\"\n}"
+					"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS1}}\",\n\"name\":\"{{VS1_NAME}}\"\n}"
 				},
 				"url": {
 					"raw": "http://10.1.20.6:81/addr/checkout",
@@ -343,12 +452,12 @@
 			"response": []
 		},
 		{
-			"name": "bigip1-Create Application using AS3",
+			"name": "bigip-Create Application using AS3",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "021a6396-df37-4b01-b192-d460ab17a715",
+						"id": "1fa6daa7-2f84-4cec-9f6f-3dc00b12bbc1",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -356,7 +465,18 @@
 							"",
 							"pm.test(\"Application created\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"",
+							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");",
+							"",
+							"if (COUNTER === '2') {",
+							"postman.setNextRequest(\"bigip5-Determine if bigip2 exists\");",
+							"",
+							"} else {",
+							"",
+							"",
+							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -364,7 +484,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "91024d76-6aab-4034-a366-5cd2c28bddda",
+						"id": "82bdd1e6-587b-4f3b-908c-1355a436efa5",
 						"exec": [
 							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
 							"",
@@ -402,16 +522,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP1_ADDRESS}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS_NAME}}-clientssl\",\r\n                \"clientTLS\": \"{{VS_NAME}}-serverssl\",\r\n                \"pool\": \"ad-pool\",\r\n        \t\t\"snat\": \"auto\",\r\n        \t\t\"profileRewrite\": {\r\n        \t\t\t\"bigip\": \"/Common/rewrite\"\r\n        \t\t},\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"use\": \"{{VS_NAME}}-psp\"\r\n        \t\t\t},\r\n\t\t\t\t\"profileConnectivity\": {\r\n                \t\"bigip\": \"/Common/{{VS_NAME}}-cp\"\r\n\t\t\t\t\t}\r\n                },\r\n\t\t\t\t\"{{VS_NAME}}-psp\": {\r\n                \t\"class\": \"Access_Profile\",\r\n                \t\"url\": \"{{FILES_BASE}}/{{VS_NAME}}/policies/profile_Common_{{VS_NAME}}-psp.conf.tar\",\r\n                \t\"ignoreChanges\": true\r\n                },\r\n                \"{{VS_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"{{VS_NAME}}-serverssl\": {\r\n                    \"class\": \"TLS_Client\"\r\n                        },\r\n                \"ad-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.7\"\r\n                            ],\r\n                            \"servicePort\": 3389\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"tcp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}"
+					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n                \"clientTLS\": \"{{VS1_NAME}}-serverssl\",\r\n                \"pool\": \"ad-pool\",\r\n        \t\t\"snat\": \"auto\",\r\n                \"profileRewrite\": {\r\n        \t\t\t\"bigip\": \"/Common/rewrite\"\r\n        \t\t},\r\n                \"profileConnectivity\": {\r\n                \t\"bigip\": \"/Common/{{PARTITION_NAME}}-cp\"\r\n\t\t\t\t},\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"use\": \"{{PARTITION_NAME}}-psp\"\r\n        \t\t\t}\r\n\t            },\r\n\t\t\t\t\"{{PARTITION_NAME}}-psp\": {\r\n                \t\"class\": \"Access_Profile\",\r\n                \t\"url\": \"{{FILES_BASE}}/{{PARTITION_NAME}}/policies/profile_Common_{{PARTITION_NAME}}-psp.conf.tar\",\r\n                \t\"ignoreChanges\": true\r\n                },\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                 \"{{VS1_NAME}}-serverssl\": {\r\n                    \"class\": \"TLS_Client\"\r\n                },\r\n                \"ad-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.7\"\r\n                            ],\r\n                            \"servicePort\": 3389\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"icmp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}\r\n                \r\n             \r\n          \r\n       \r\n    \r\n"
 				},
 				"url": {
-					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/declare",
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/declare",
 					"protocol": "https",
 					"host": [
-						"10",
-						"1",
-						"1",
-						"4"
+						"{{BIGIP_MGMT}}"
 					],
 					"path": [
 						"mgmt",
@@ -424,12 +541,82 @@
 			"response": []
 		},
 		{
+			"name": "bigip1-Apply Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "add2273a-1662-4990-9fe6-f836c73aa68a",
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"pm.test(\"Apply Policy Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-F5-REST-Coordination-Id",
+						"type": "text",
+						"value": "{{TRANSID}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+				},
+				"url": {
+					"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp",
+					"protocol": "https",
+					"host": [
+						"{{BIGIP_MGMT}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"apm",
+						"profile",
+						"access",
+						"~{{PARTITION_NAME}}~{{PARTITION_NAME}}-psp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "bigip5-Test AS3 is running",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "ebdfa72c-533e-4890-bc74-b91ae37051ca",
+						"id": "6e68dc51-e81a-41ea-a6b6-885efa26d2a0",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -445,7 +632,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "78cb0b62-7146-4f5a-98d5-6cb5e2a7c99e",
+						"id": "5b0c89f0-4b2c-464f-a7d0-acd103fc9582",
 						"exec": [
 							"",
 							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
@@ -477,13 +664,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://10.1.1.4/mgmt/shared/appsvcs/info",
+					"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
 					"protocol": "https",
 					"host": [
 						"10",
 						"1",
 						"1",
-						"4"
+						"11"
 					],
 					"path": [
 						"mgmt",
@@ -496,22 +683,23 @@
 			"response": []
 		},
 		{
-			"name": "bigip5-Add bigip1 application VS to Server",
+			"name": "bigip5-Create-DC1",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "a6bd10be-ed50-4d31-8f3e-33d2db296f10",
+						"id": "844b9c23-7b33-4d3c-8a5e-fa6742d31929",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');",
-							"    pm.test(\"Virtual Server added to Server\", function () {",
-							"        pm.response.to.have.status(200);",
-							"    });",
-							"} else",
-							"    pm.test(\"Virtual Server Exists\", function () {",
-							"        pm.response.to.have.status(409);",
-							"    });"
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"DC1 Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"DC1 Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -519,9 +707,248 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "07c72459-a22a-4d40-a06a-08275cb5a035",
+						"id": "2084f9ef-6d53-4d52-a1dc-8b3f92abaff7",
 						"exec": [
-							"setTimeout(function () { }, 2000);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"DC1\"\n}"
+				},
+				"url": {
+					"raw": "https://10.1.1.11/mgmt/tm/gtm/datacenter",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"11"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"gtm",
+						"datacenter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip5-Create-bigip1 server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04fa7350-679e-4e63-8457-6e343d2657b3",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"bigip1 server Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"bigip1 server Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9417cd23-6a32-497f-8d17-a4ef2e593630",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"name\": \"bigip1.f5lab.local\",\r\n            \"datacenter\": \"/Common/DC1\",\r\n            \"enabled\": true,\r\n            \"exposeRouteDomains\": \"no\",\r\n            \"iqAllowPath\": \"yes\",\r\n            \"iqAllowServiceCheck\": \"yes\",\r\n            \"iqAllowSnmp\": \"yes\",\r\n            \"limitCpuUsage\": 0,\r\n            \"limitCpuUsageStatus\": \"disabled\",\r\n            \"limitMaxBps\": 0,\r\n            \"limitMaxBpsStatus\": \"disabled\",\r\n            \"limitMaxConnections\": 0,\r\n            \"limitMaxConnectionsStatus\": \"disabled\",\r\n            \"limitMaxPps\": 0,\r\n            \"limitMaxPpsStatus\": \"disabled\",\r\n            \"limitMemAvail\": 0,\r\n            \"limitMemAvailStatus\": \"disabled\",\r\n            \"linkDiscovery\": \"disabled\",\r\n            \"monitor\": \"/Common/bigip\",\r\n  \r\n            \"product\": \"bigip\",\r\n            \"virtualServerDiscovery\": \"disabled\",\r\n            \"addresses\": [\r\n                {\r\n                    \"name\": \"10.1.10.4\",\r\n                    \"deviceName\": \"bigip1.f5lab.local\",\r\n                    \"translation\": \"none\"\r\n                }\r\n            ]\r\n\r\n        }\r\n"
+				},
+				"url": {
+					"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"11"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"gtm",
+						"server"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip5-Create-bigip5 server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "867ea3d0-af45-413d-be2f-0ee44e1516bb",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"bigip5 server Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"bigip5 server Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "241f901d-671d-49d0-a53f-79ccd28b3066",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"name\": \"bigip5.f5lab.local\",\r\n            \"datacenter\": \"/Common/DC1\",\r\n            \"enabled\": true,\r\n            \"exposeRouteDomains\": \"no\",\r\n            \"iqAllowPath\": \"yes\",\r\n            \"iqAllowServiceCheck\": \"yes\",\r\n            \"iqAllowSnmp\": \"yes\",\r\n            \"limitCpuUsage\": 0,\r\n            \"limitCpuUsageStatus\": \"disabled\",\r\n            \"limitMaxBps\": 0,\r\n            \"limitMaxBpsStatus\": \"disabled\",\r\n            \"limitMaxConnections\": 0,\r\n            \"limitMaxConnectionsStatus\": \"disabled\",\r\n            \"limitMaxPps\": 0,\r\n            \"limitMaxPpsStatus\": \"disabled\",\r\n            \"limitMemAvail\": 0,\r\n            \"limitMemAvailStatus\": \"disabled\",\r\n            \"linkDiscovery\": \"disabled\",\r\n            \"monitor\": \"/Common/bigip\",\r\n  \r\n            \"product\": \"bigip\",\r\n            \"virtualServerDiscovery\": \"disabled\",\r\n            \"addresses\": [\r\n                {\r\n                    \"name\": \"10.1.10.11\",\r\n                    \"deviceName\": \"bigip5.f5lab.local\",\r\n                    \"translation\": \"none\"\r\n                }\r\n            ]\r\n\r\n        }\r\n"
+				},
+				"url": {
+					"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"11"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"gtm",
+						"server"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bigip5-Add bigip1 application VS to Server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed412bd6-92f3-4cd7-b8ce-f3e70a2cb826",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"Virtual Server added to Server\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"Virtual Server Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7d65d492-9a8c-4995-8aa0-f898dca90a4b",
+						"exec": [
+							"setTimeout(function(){}, 2000);",
 							"",
 							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
 							"",
@@ -559,7 +986,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS_NAME}}\",\r\n\"destination\": \"{{BIGIP1_ADDRESS}}:443\"\r\n}"
+					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP_ADDRESS1}}:443\"\r\n}"
 				},
 				"url": {
 					"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip1.f5lab.local/virtual-servers/",
@@ -589,7 +1016,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "aac1b13f-d625-4d25-a4b8-547b80ce7d47",
+						"id": "81cc0b8e-9623-4c3a-8d6f-7d76953c6530",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -601,14 +1028,18 @@
 							"",
 							"",
 							"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");",
 							"",
-							"if (DC2_APM === 'true') {",
+							"if (DC2_APM === 'true' && COUNTER === '1') {",
+							"postman.setNextRequest(\"bigip-Test AS3 is running\");",
+							"pm.collectionVariables.set('COUNTER', '2' );",
 							"",
 							"} else {",
-							"postman.setNextRequest(null);",
+							"postman.setNextRequest(\"iis-Create Website\");",
 							"pm.test(\"Environment Variable set to Single Data Center APM \", function () {",
 							"    pm.expect(pm.environment.get(\"DC2_APM\")).to.equal(\"false\");",
 							"});",
+							"",
 							"}"
 						],
 						"type": "text/javascript"
@@ -617,7 +1048,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "790f8f70-d55a-4314-9cdc-f0c33ac73579",
+						"id": "5bdd21cd-82ed-40f2-a8d6-4db0f7e0b833",
 						"exec": [
 							"setTimeout(function(){}, 5000);",
 							"",
@@ -651,7 +1082,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"class\": \"ADC\",\r\n    \"schemaVersion\": \"3.6.0\",\r\n    \"id\": \"GSLB_Sample\",\r\n    \"{{VS_NAME}}\": {\r\n        \"class\": \"Tenant\",\r\n        \"Application\": {\r\n            \"class\": \"Application\",\r\n            \"template\": \"generic\",\r\n            \"testDomain\": {\r\n                \"class\": \"GSLB_Domain\",\r\n                \"domainName\": \"{{DNS_NAME}}\",\r\n                \"resourceRecordType\": \"A\",\r\n                \"poolLbMode\": \"ratio\",\r\n                \"pools\": [\r\n                              { \"use\": \"{{VS_NAME}}-pool\" }\r\n                ]\r\n            },\r\n            \"{{VS_NAME}}-pool\": {\r\n               \"class\": \"GSLB_Pool\",\r\n                \"enabled\": true,\r\n                \"lbModeAlternate\": \"ratio\",\r\n                \"lbModeFallback\": \"ratio\",\r\n                \"manualResumeEnabled\": false,\r\n                \"verifyMemberEnabled\": true,\r\n                \"members\": [\r\n                \t{\r\n                \t\"ratio\":10,\r\n                \t\"server\": {\r\n                \t\t\"bigip\": \"/Common/bigip1.f5lab.local\"\r\n                \t\t},\r\n                \t\t\"virtualServer\":\"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS_NAME}}\"\r\n                \t}\r\n                ],\r\n                \"resourceRecordType\": \"A\"\r\n            }\r\n        }\r\n    }\r\n \r\n}"
+					"raw": "{\r\n \"class\": \"ADC\",\r\n    \"schemaVersion\": \"3.6.0\",\r\n    \"id\": \"GSLB_Sample\",\r\n    \"{{PARTITION_NAME}}\": {\r\n        \"class\": \"Tenant\",\r\n        \"Application\": {\r\n            \"class\": \"Application\",\r\n            \"template\": \"generic\",\r\n            \"testDomain\": {\r\n                \"class\": \"GSLB_Domain\",\r\n                \"domainName\": \"{{DNS1_NAME}}\",\r\n                \"resourceRecordType\": \"A\",\r\n                \"poolLbMode\": \"ratio\",\r\n                \"pools\": [\r\n                              { \"use\": \"{{VS1_NAME}}-pool\" }\r\n                ]\r\n            },\r\n            \"{{VS1_NAME}}-pool\": {\r\n               \"class\": \"GSLB_Pool\",\r\n                \"enabled\": true,\r\n                \"lbModeAlternate\": \"ratio\",\r\n                \"lbModeFallback\": \"ratio\",\r\n                \"manualResumeEnabled\": false,\r\n                \"verifyMemberEnabled\": true,\r\n                \"members\": [\r\n                \t{\r\n                \t\"ratio\":10,\r\n                \t\"server\": {\r\n                \t\t\"bigip\": \"/Common/bigip1.f5lab.local\"\r\n                \t\t},\r\n                \t\t\"virtualServer\":\"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n                \t}\r\n                ],\r\n                \"resourceRecordType\": \"A\"\r\n            }\r\n        }\r\n    }\r\n \r\n}"
 				},
 				"url": {
 					"raw": "https://10.1.1.11/mgmt/shared/appsvcs/declare",
@@ -673,122 +1104,28 @@
 			"response": []
 		},
 		{
-			"name": "bigip2-Test AS3 is running",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "6fdf89b7-5462-4a96-9651-2bd246d40f17",
-						"exec": [
-							"",
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"",
-							"} ",
-							"",
-							"pm.test(\"AS3 is running\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"var DC2_APM = pm.environment.get(\"DC2_APM\");",
-							"",
-							"if (DC2_APM === 'true') {",
-							"",
-							"} else {",
-							"postman.setNextRequest(null);",
-							"pm.test(\"Environment Variable set to Single Data Center APM \", function () {",
-							"    pm.expect(pm.environment.get(\"DC2_APM\")).to.equal(\"false\");",
-							"});",
-							"}",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "8024b288-9bd9-4e30-b1e9-93f6be174678",
-						"exec": [
-							"",
-							"",
-							"",
-							"",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://10.1.1.5/mgmt/shared/appsvcs/info",
-					"protocol": "https",
-					"host": [
-						"10",
-						"1",
-						"1",
-						"5"
-					],
-					"path": [
-						"mgmt",
-						"shared",
-						"appsvcs",
-						"info"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "bigip5-Determine if bigip2 exists",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "bd35a499-d035-4180-9a67-735e2abe251b",
+						"id": "fbf39da5-e572-47f3-acfa-48ca7d6195d9",
 						"exec": [
 							"\r",
 							"var jsonData = pm.response.json();\r",
-							"var EXISTS = 0;\r",
+							"\r",
 							"\r",
 							"for (var i = 0; i < jsonData.items.length; i++) {\r",
+							"\r",
 							"\tif (jsonData.items[i].name === \"bigip2.f5lab.local\") {\r",
-							"        \r",
+							"\r",
+							"\r",
 							"\t\tpm.test(\"BIGIP2 already exists\", function () {\r",
 							"        pm.response.to.have.status(200);\r",
 							"\t\t});\r",
-							"        var EXISTS = 1;\r",
 							"\r",
-							"\t\tpostman.setNextRequest(\"bigip2-Check Scope for existing assignment\");\r",
-							"\t} \r",
-							"}\r",
-							"\r",
-							"if (EXISTS === 0) {\r",
-							"        \r",
-							"\t\tpm.test(\"BIGIP2 does not exist\", function () {\r",
-							"        pm.response.to.have.status(200);\r",
-							"\t\t});\r",
-							"\r",
+							"\t\tpostman.setNextRequest(\"bigip5-Add bigip2 Application VS to Server\");\r",
+							"\t}\r",
 							"}\r",
 							"\r",
 							"\r",
@@ -849,18 +1186,17 @@
 			"response": []
 		},
 		{
-			"name": "bigip_add-bigip2 to bigip5",
+			"name": "bigip_add - bigip2 to bigip5",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "da54b918-2b3d-49c4-a71f-d977a5b27847",
+						"id": "4768f27e-e0ab-4aa0-b93c-609ec0e4e6aa",
 						"exec": [
 							"\r",
 							"\t\tpm.test(\"bigip_add command successfully run\", function () {\r",
 							"        pm.response.to.have.status(200);\r",
-							"\t\t});\r",
-							""
+							"\t\t});"
 						],
 						"type": "text/javascript"
 					}
@@ -914,12 +1250,12 @@
 			"response": []
 		},
 		{
-			"name": "bigip2.f5lab.local-big3d_install",
+			"name": "bigip2.f5lab.local - big3d_install",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "fe3702e7-4504-4bc3-ba7b-a7f462d0d3cb",
+						"id": "fbcf47e0-d35e-4245-8fec-e9318f22da4f",
 						"exec": [
 							"\r",
 							"\t\tpm.test(\"big3d_install command successfully run\", function () {\r",
@@ -978,12 +1314,92 @@
 			"response": []
 		},
 		{
-			"name": "Add Server-BIG-IP2 to BIG-IP5",
+			"name": "bigip5-Create-DC2",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "a32d003c-c928-4a22-bcc1-7ab537148eb7",
+						"id": "1b7831b5-9fa7-477e-a7ff-1f052d657fb0",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"pm.test(\"DC2 Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"} else ",
+							"pm.test(\"DC2 Exists\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6eeb983a-e280-44b9-8f03-d0e0a3deddae",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"DC2\"\n}"
+				},
+				"url": {
+					"raw": "https://10.1.1.11/mgmt/tm/gtm/datacenter",
+					"protocol": "https",
+					"host": [
+						"10",
+						"1",
+						"1",
+						"11"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"gtm",
+						"datacenter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Server -  BIG-IP2 to BIG-IP5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fdaaf7b-0dc7-45c7-8516-71b594c625df",
 						"exec": [
 							"if (responseCode.code === 200) {\r",
 							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');\r",
@@ -1047,434 +1463,12 @@
 			"response": []
 		},
 		{
-			"name": "bigip2-Check Scope for existing assignment",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "31dbd26c-5e4b-4ba1-ae21-55fc5c477680",
-						"exec": [
-							"\r",
-							"if (responseCode.code === 200) {\r",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
-							"pm.test(\"Scope Request successful\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"}\r",
-							"\r",
-							"\r",
-							"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
-							"\r",
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"if(!jsonData.length) {\r",
-							" if ( jsonData.Description  === VS_NAME ) {\r",
-							"\tpm.collectionVariables.set(\"BIGIP2_ADDRESS\", jsonData.IPAddress.IPAddressToString );\r",
-							"\tpostman.setNextRequest(\"bigip2-Create Connectivity Profile\");  \r",
-							" }\r",
-							"} else {\r",
-							"\r",
-							"\r",
-							"for (var i = 0; i < jsonData.length; i++) {\r",
-							"\r",
-							"if ( jsonData[i].Description  === VS_NAME ) {\r",
-							"\tpm.collectionVariables.set(\"BIGIP2_ADDRESS\", jsonData[i].IPAddress.IPAddressToString );\r",
-							"\tpostman.setNextRequest(\"bigip2-Create Connectivity Profile\");\r",
-							"}\r",
-							"}\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP2_SCOPE}}",
-					"protocol": "http",
-					"host": [
-						"10",
-						"1",
-						"20",
-						"6"
-					],
-					"port": "81",
-					"path": [
-						"addr",
-						"scope-status"
-					],
-					"query": [
-						{
-							"key": "scope",
-							"value": "{{BIGIP2_SCOPE}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip2-Check for next available address",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e49bac56-1c17-4583-beef-2aef8cf33245",
-						"exec": [
-							"\r",
-							"var jsonData = JSON.parse(responseBody);\r",
-							"pm.collectionVariables.set(\"BIGIP2_ADDRESS\",jsonData.address);\r",
-							"\r",
-							"\r",
-							"\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.test('Next Available Address Found', function() {\r",
-							"  pm.expect(jsonData).to.have.property('address');\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP2_SCOPE}}",
-					"protocol": "http",
-					"host": [
-						"10",
-						"1",
-						"20",
-						"6"
-					],
-					"port": "81",
-					"path": [
-						"addr",
-						"available"
-					],
-					"query": [
-						{
-							"key": "scope",
-							"value": "{{BIGIP2_SCOPE}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip2-Checkout Address",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "786e167a-033c-434c-8c74-1545bbaf166e",
-						"exec": [
-							"",
-							"",
-							"var jsonData = pm.response.json();",
-							"pm.test(\"Address Checked out\", function () {",
-							" ",
-							"    pm.expect(jsonData.status).to.eql(\"Success\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"scope\":\"{{BIGIP2_SCOPE}}\",\n\"address\":\"{{BIGIP2_ADDRESS}}\",\n\"vs_name\":\"{{VS_NAME}}\"\n}"
-				},
-				"url": {
-					"raw": "http://10.1.20.6:81/addr/checkout",
-					"protocol": "http",
-					"host": [
-						"10",
-						"1",
-						"20",
-						"6"
-					],
-					"port": "81",
-					"path": [
-						"addr",
-						"checkout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip2-Create Connectivity Profile",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "2eb258c6-a3be-4fd2-aa56-6593af0ef549",
-						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "37e66e39-af3f-4ce6-9738-7357c196f735",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"Connectivity Profile Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} else ",
-							"pm.test(\"Connectivity Profile Exists\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\"name\": \"{{VS_NAME}}-cp\"\n}"
-				},
-				"url": {
-					"raw": "https://10.1.1.5/mgmt/tm/apm/profile/connectivity/",
-					"protocol": "https",
-					"host": [
-						"10",
-						"1",
-						"1",
-						"5"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"apm",
-						"profile",
-						"connectivity",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip2-Create node 10.1.20.7",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "eee57855-2ae6-4aff-8788-17fac7765120",
-						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "ef7828c6-cbd9-48d2-a65c-e3615ff3fa47",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"pm.test(\"Node Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"} else ",
-							"pm.test(\"Node Exists\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
-				},
-				"url": {
-					"raw": "https://10.1.1.5/mgmt/tm/ltm/node",
-					"protocol": "https",
-					"host": [
-						"10",
-						"1",
-						"1",
-						"5"
-					],
-					"path": [
-						"mgmt",
-						"tm",
-						"ltm",
-						"node"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "bigip2-Create Application using AS3",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "f6d3001d-3570-4301-9b25-c4cb9775ec6f",
-						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"}",
-							"",
-							"pm.test(\"Application Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "b47be818-687f-4b3b-8564-5d2d5c065eb8",
-						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{PATH_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                   \"{{BIGIP2_ADDRESS}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS_NAME}}-clientssl\",\r\n                \"clientTLS\": \"{{VS_NAME}}-serverssl\",\r\n                \"pool\": \"ad-pool\",\r\n        \t\t\"snat\": \"auto\",\r\n        \t\t\"profileRewrite\": {\r\n        \t\t\t\"bigip\": \"/Common/rewrite\"\r\n        \t\t},\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"use\": \"{{VS_NAME}}-psp\"\r\n        \t\t\t},\r\n\t\t\t\t\"profileConnectivity\": {\r\n                \t\"bigip\": \"/Common/{{VS_NAME}}-cp\"\r\n\t\t\t\t\t}\r\n                },\r\n\t\t\t\t\"{{VS_NAME}}-psp\": {\r\n                \t\"class\": \"Access_Profile\",\r\n                \t\"url\": \"{{FILES_BASE}}/{{VS_NAME}}/policies/profile_Common_{{VS_NAME}}-psp.conf.tar\",\r\n                \t\"ignoreChanges\": true\r\n                },\r\n                \"{{VS_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                },\r\n                \"{{VS_NAME}}-serverssl\": {\r\n                    \"class\": \"TLS_Client\"\r\n                },\r\n                \"ad-pool\": {\r\n                    \"class\": \"Pool\",  \r\n                        \"members\": [\r\n                            {\r\n                            \"serverAddresses\": [\r\n                            \"10.1.20.7\"\r\n                            ],\r\n                            \"servicePort\": 3389\r\n                            }\r\n                        ],\r\n                    \"monitors\": [\r\n                        \"tcp\"\r\n                    ]\r\n                }\r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}"
-				},
-				"url": {
-					"raw": "https://10.1.1.5/mgmt/shared/appsvcs/declare",
-					"protocol": "https",
-					"host": [
-						"10",
-						"1",
-						"1",
-						"5"
-					],
-					"path": [
-						"mgmt",
-						"shared",
-						"appsvcs",
-						"declare"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "bigip5-Add bigip2 Application VS to Server",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "243712e1-972d-4560-ad9c-a8f6ccf468f4",
+						"id": "425e4b82-4090-4f6e-a05c-bd7f6eaf5f99",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -1492,7 +1486,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "be30bbcd-dabc-4e4c-8ab9-9704db7fc30e",
+						"id": "d24bb22c-ee2d-46b1-ae60-1f23173cd149",
 						"exec": [
 							"setTimeout(function(){}, 2000);",
 							"",
@@ -1532,7 +1526,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS_NAME}}\",\r\n\"destination\": \"{{BIGIP2_ADDRESS}}:443\"\r\n}"
+					"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP_ADDRESS1}}:443\"\r\n}"
 				},
 				"url": {
 					"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip2.f5lab.local/virtual-servers/",
@@ -1562,7 +1556,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c5b766d0-0b97-4f6e-8a11-d2facbbea8ba",
+						"id": "d15ad58f-d1ba-43e0-839e-30e5629fc28e",
 						"exec": [
 							"setTimeout(function(){},5000);",
 							"",
@@ -1578,7 +1572,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8cb465f2-2461-4e85-b4b3-7c40c2d7bb61",
+						"id": "c07c1f59-3958-451a-98e8-14304ce56fd5",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -1588,7 +1582,9 @@
 							"} else ",
 							"pm.test(\"Virtual Server Exists\", function () {",
 							"    pm.response.to.have.status(409);",
-							"});"
+							"});",
+							"",
+							"pm.collectionVariables.set('COUNTER', '1' );"
 						],
 						"type": "text/javascript"
 					}
@@ -1620,10 +1616,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"name\":\"bigip2.f5lab.local:/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS_NAME}}\"\r\n\t\r\n\t\r\n}"
+					"raw": "{\r\n\"name\":\"bigip2.f5lab.local:/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n\t\r\n\t\r\n}"
 				},
 				"url": {
-					"raw": "https://10.1.1.11/mgmt/tm/gtm/pool/a/~{{VS_NAME}}~Application~{{VS_NAME}}-pool/members",
+					"raw": "https://10.1.1.11/mgmt/tm/gtm/pool/a/~{{PARTITION_NAME}}~Application~{{VS1_NAME}}-pool/members",
 					"protocol": "https",
 					"host": [
 						"10",
@@ -1637,7 +1633,7 @@
 						"gtm",
 						"pool",
 						"a",
-						"~{{VS_NAME}}~Application~{{VS_NAME}}-pool",
+						"~{{PARTITION_NAME}}~Application~{{VS1_NAME}}-pool",
 						"members"
 					]
 				}
@@ -1649,7 +1645,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "609ee108-d11a-48eb-a802-d62d6ec5000b",
+				"id": "68a4a6c8-cd81-48ce-a706-f53e023a2607",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1659,7 +1655,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "8e413cd3-3436-420e-9c09-8d49cd97e08a",
+				"id": "e97c3783-4dcc-466c-af85-08112a04ec80",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1669,52 +1665,99 @@
 	],
 	"variable": [
 		{
-			"id": "02b553de-d2be-4bee-8a54-4abc208c036b",
+			"id": "3c83427d-6ec8-4b2b-8425-b517eba22347",
 			"key": "APP_NAME",
-			"value": "portal.acme.com",
-			"type": "string"
+			"value": "portal.acme.com"
 		},
 		{
-			"id": "429d6c8d-225f-48b8-8d23-64b1402dd8f6",
+			"id": "450ea9e0-9a63-46b7-a302-ed2325ca2705",
 			"key": "PARTITION_NAME",
-			"value": "portal",
-			"type": "string"
+			"value": "portal"
 		},
 		{
-			"id": "ee01aec4-15b5-4f4c-a3f3-58f245844a6a",
+			"id": "3493a766-9c93-40da-a999-b13fccec4994",
 			"key": "PATH_NAME",
-			"value": "portal",
-			"type": "string"
+			"value": "portal"
 		},
 		{
-			"id": "a60745d7-039c-40f2-bfda-c7329fd8afae",
+			"id": "2c965940-f092-46d0-851a-d7807b26cb5e",
 			"key": "PRIOR_RESPONSE",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
-			"id": "2393fd54-ea56-4265-819a-6eef75562663",
+			"id": "fbe65248-5cba-4c6d-a78f-303ec2a04cee",
 			"key": "DNS_NAME",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
-			"id": "ea5f4ede-7ba5-48b0-96ed-df0253fe574d",
+			"id": "1435336f-af20-4704-ae4d-0fb952e5754a",
 			"key": "VS_NAME",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
-			"id": "65b66736-4918-4087-a7ca-380112be27ee",
+			"id": "ebc20e56-459b-46a5-95ef-c7d060278beb",
 			"key": "BIGIP1_ADDRESS",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
-			"id": "2b401766-eca1-4ee0-8053-951b12d4268c",
+			"id": "86af8389-4065-4a00-ab58-375651276554",
 			"key": "BIGIP2_ADDRESS",
-			"value": "",
-			"type": "string"
+			"value": ""
+		},
+		{
+			"id": "47367b83-39b0-4596-b1d2-b4c1546ca8e0",
+			"key": "BIGIP1_ADDRESS1",
+			"value": ""
+		},
+		{
+			"id": "ab583173-be8b-411d-8148-e7e715e78ec8",
+			"key": "CUSTOM_TYPE",
+			"value": ""
+		},
+		{
+			"id": "45d8b0cc-c949-442d-92b6-b3e6fa3e28f8",
+			"key": "DNS1_NAME",
+			"value": ""
+		},
+		{
+			"id": "3158ca6c-7ded-46f9-a1c1-9dba3c349ce5",
+			"key": "DNS2_NAME",
+			"value": ""
+		},
+		{
+			"id": "da004ad4-be9d-4659-a5a4-d961e27c1a1e",
+			"key": "VS1_NAME",
+			"value": ""
+		},
+		{
+			"id": "0e636aa1-6e12-4894-b279-a536836ce2a9",
+			"key": "TRANSID",
+			"value": ""
+		},
+		{
+			"id": "272e8717-2b94-40be-a39e-5ae32c5c07de",
+			"key": "BIGIP",
+			"value": ""
+		},
+		{
+			"id": "d2de0249-34e3-4818-9b8a-98043ae07670",
+			"key": "BIGIP_SCOPE",
+			"value": ""
+		},
+		{
+			"id": "09e5bb66-5a8f-429c-bf79-3b8621779b52",
+			"key": "BIGIP_ADDRESS1",
+			"value": ""
+		},
+		{
+			"id": "54debf61-2477-4c01-a58a-3b4af85714b8",
+			"key": "BIGIP_MGMT",
+			"value": ""
+		},
+		{
+			"id": "964caf19-bf67-4740-950a-098037390388",
+			"key": "COUNTER",
+			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}

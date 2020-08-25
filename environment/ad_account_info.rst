@@ -226,7 +226,7 @@ Kerbsso Delegation Setting
 
 |image2|
 
-.. |image1| image:: media/image001.png
-.. |image2| image:: media/image002.png
+.. |image1| image:: media/001.png
+.. |image2| image:: media/002.png
 
                                        

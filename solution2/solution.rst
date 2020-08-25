@@ -1,11 +1,16 @@
-Solution: Combined Portal with VPN - Active Directory Authenticated 
+Solution: Portal Rewrite & VPN - AD Auth 
 =============================================================
 
-This solution documents  all the necessary pieces required to setup a basic Portal and VPN for use with Active Directory Authentication.  
+This solution documents all the necessary pieces required to setup a AD authenticated Portal and VPN  
 
-Keywords: portal, vpn, ad, active, directory
+Keywords: portal, vpn, ad, active, directory, rewrite
 
 DC: single, multi
+
+URL
+----
+
+https://solution2.acme.com
 
 Objective:
 ----------
@@ -14,7 +19,7 @@ Objective:
 
 -  Gain an understanding of a basic VPN configuration
 
--  Gain an initial understanding of Active Directory AAA Objects
+-  Gain an initial understanding of AAA Active Directory Objects
 
 -  Gain an initial understanding of AD Queries
 
@@ -24,37 +29,39 @@ Objective:
    :glob:
   
    guide/guide.rst
-   postman/postman.rst
+
 
 
 Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  - 44
+---------------------------
+  - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+----------------------------
+
   - solution2-create.postman_collection.json
   - solution2-delete.postman_collection.json
 
 
 APM Profile(s) 
-^^^^^^^^^^^^
+-------------------
   - profile_Common_solution2-psp.conf.tar
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
+
   - 15.1
 
 BIG-IP Components used:
------------------
+-----------------------------
 
 * Virtual Server
- - HTTP Profile -https://support.f5.com/csp/article/K4707
- - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
+ - HTTP Profile 
+ - Client-side SSL Profile 
  - Connectivity profile
  - Rewrite profile
  - Access Profile
@@ -63,7 +70,7 @@ BIG-IP Components used:
       + IPv4 Lease Pool
       + Webtop
       + Webtop Sections
-	  + Portal Resource
+      + Portal Resource
 
 
 

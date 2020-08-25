@@ -11,7 +11,8 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 
 1. Establish a RDP connection to **jumphost.f5lab.local**  with the following credentials:                                      
                                                                                                      
-   - **UserID: f5lab\\user1** / **Password: user1**                                                  
+   - Username: **f5lab\\user1** 
+   - Password: **user1**                                                  
                                                                                                     
 
 
@@ -29,13 +30,12 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
  |image18|                                                                                         
 
 
-
+    ..note:: While multiple solutions can normally be deployed, solutions involving a IDaaS must be restricted to a single deployment at a time.  That is eliminates the configuration changes required on the IDaaS by having  SAML applications resolve to sp.acme.com and OAuth applications resolve to rs.acme.com.    
                                                                                                        
                                                                                                       
- 4. Click the **play** button under the deployment option you wish the automation to configure        
+ 4. Click the **play** button under the deployment option you wish the automation to configure.  Scroll to the bottom of the automation workflow to ensure all requests succeeded.  If you you experience errors try running the automation a second time or open an issue on the **access-solutions** repo.        
                                                                                                      
-    ..note::  Wait 15 seconds and the screen should refresh with the status of the automations        
-              deployment                                                                              
+    ..note::  Wait 15 seconds and the screen should refresh with the automation status                                                                              
        
     |image19|                                                                                          
 
@@ -49,8 +49,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
                                                                                                       
 6. Once you are done working in that solution return to https://portal.f5lab.local and click the **stop** to delete everything related to that solution                                        
                                                                                                       
-    ..note:: Multiple solutions can be deployed at one time.                                          
-             The automation will dynamically assign addresses                                                                                        
+                                                                                 
                                                                                                      
   |image20|                                                                                           
                                                                                                      
@@ -60,7 +59,7 @@ Note: All work for this lab will be performed exclusively from the provided lab 
 
 
 
-.. |image17| image:: media/image017.png
-.. |image18| image:: media/image018.png
-.. |image19| image:: media/image019.png
-.. |image20| image:: media/image020.png
+.. |image17| image:: media/017.png
+.. |image18| image:: media/018.png
+.. |image19| image:: media/019.png
+.. |image20| image:: media/020.png

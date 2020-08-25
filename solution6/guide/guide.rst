@@ -5,18 +5,18 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|  
+|image1|  
 
 1. A user is prompted to select their certificate.  
   - The validation of the user certificates is controlled via CA bundles selected in the Client-side SSL Profile.                                            
 2. The certificate is validated by OCSP if the user presents a certificate issued by a trusted CA
-3. The Othername field is extracted from the certificate
+3. The othername field is extracted from the certificate
 4. A LDAP query is performed to collect the sAMAccountName of the user 
 5. The domain and username variables are set
 6. The user is granted access via the Allow Terminal
-7. If the LDAP Query is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
-8. If the OCSP check is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
-9. If the user fails to present a certificate, the user proceeds down the failback branch to the Deny Terminal
+7. If the LDAP Query is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+8. If the OCSP check is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+9. If the user fails to present a certificate, the user proceeds down the fallback branch to the Deny Terminal
                                                                                     
 
 
@@ -26,15 +26,15 @@ Policy Agent Configuration
 
 - The On-Demand Cert Auth Agent uses the default settings                                                                   
 
-   |image002|                                                                                   
+   |image2|                                                                                   
 
 - The OCSP Agent validates the certificate against the OCSP responder configured
 
-   |image003|     
+   |image3|     
 
 - The othername field is extracted from the certificate and saved as session variable session.logon.upn  
 
-  |image004|
+  |image4|
 
 .. code-block:: text  
 
@@ -43,17 +43,17 @@ Policy Agent Configuration
 - The LDAP query connects to the LDAP server to the dc=f5lab,dc=local DN for a user that contains the userPrincipalName matching the value stored in session.custom.upn
 - The LDAP query requests the sAMAccountName attribute if the user is found
 
-   |image005|                                                                            
+   |image5|                                                                            
 
 - The branch rule was modified to only require a LDAP Query passed condition
 
-   |image006|
+   |image6|
 
 - Two session variables are set
    - session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
    - session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
    
-   |image007|               
+   |image7|               
 
                                                                                
 Customized LTM Profile settings
@@ -66,14 +66,14 @@ Customized LTM Profile settings
    - Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
 	   - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate 
 
-|image008|	   
+|image8|	   
 
 Customized APM Profile Settings
 ----------------------------------
 
 - The SSO/Auth Domains of the APM profile is configured with the Kerberos SSO Profile needed to authenticate to the server.
 
-|image009| 
+|image9| 
 
 
 Supporting APM Objects
@@ -88,7 +88,7 @@ The OCSP Responder has been configured with the following settings
 - Certificate Authority File:  contains the root ca bundle
 - Certificate Authority Path:  this field is only used if you check the Ignore AIA field                        
 
-|image010|                                                                                   
+|image10|                                                                                   
 
 
                                                                                
@@ -97,17 +97,17 @@ AAA LDAP Object
 
 A single LDAP server of 10.1.20.7 has been configured with a admin service account to support queries                                                   
 
-|image011|    
+|image11|    
 
 Kerberos SSO Object
 ^^^^^^^^^^^^^^^^^^^^^
 
 - The Username Source field has been modified from the default to reference the sAMAccountName stored in session.logon.last.username
 - Kerberos Realm has been set to the Active Directory domain (realms should always be in uppercase)
-- The service account used for Kerberos Contrained Delegation (Service Account Names should be in SPN format)
+- The service account used for Kerberos Constrained Delegation (Service Account Names should be in SPN format)
 - SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)                                                
 
-|image014| 
+|image14| 
                                                                                
 
 
@@ -120,30 +120,30 @@ User1
 
 #. User1 is prompted to select their certificate
 
-   |image012|
+   |image12|
 
 #. If successful the user is granted access to the application
 
-   |image013|
+   |image13|
 
 
-.. |image001| image:: media/001.png
-.. |image002| image:: media/002.png
-.. |image003| image:: media/003.png
-.. |image004| image:: media/004.png
-.. |image005| image:: media/005.png
-.. |image006| image:: media/006.png
-.. |image007| image:: media/007.png
-.. |image008| image:: media/008.png
-.. |image009| image:: media/009.png
-.. |image010| image:: media/010.png
-.. |image011| image:: media/011.png
-.. |image012| image:: media/012.png
-.. |image013| image:: media/013.png
-.. |image014| image:: media/014.png
-.. |image015| image:: media/015.png
-.. |image016| image:: media/016.png
-.. |image017| image:: media/017.png
+.. |image1| image:: media/001.png
+.. |image2| image:: media/002.png
+.. |image3| image:: media/003.png
+.. |image4| image:: media/004.png
+.. |image5| image:: media/005.png
+.. |image6| image:: media/006.png
+.. |image7| image:: media/007.png
+.. |image8| image:: media/008.png
+.. |image9| image:: media/009.png
+.. |image10| image:: media/010.png
+.. |image11| image:: media/011.png
+.. |image12| image:: media/012.png
+.. |image13| image:: media/013.png
+.. |image14| image:: media/014.png
+.. |image15| image:: media/015.png
+.. |image16| image:: media/016.png
+.. |image17| image:: media/017.png
 
    
 
