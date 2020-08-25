@@ -10,11 +10,13 @@ Policy Walk-Through
 1. A user enters their credentials into the logon page agent.  
     - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                
           
+
 2. The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
 3. The user is assigned resources defined in the Advanced Resource Assign Agent
 4. The user is granted access via the Allow Terminal
 5. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
                                                                                                     
+
 
 
 Policy Agent Configuration
