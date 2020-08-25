@@ -1,9 +1,9 @@
-Solution:  JWT Authorization Server(RSA keys) - AD Auth
+Solution:  OIDC IDP - AD Auth
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic JWT Resource Server using RSA keys
+This solution documents all the necessary pieces required to create a basic OIDC IDP 
 
-Keywords: JWT, OAUTH, OIDC, RSA
+Keywords: JWT, OAUTH, OIDC, RSA, IDP
 
 DC: single, multi
 
@@ -16,7 +16,7 @@ https://solution10.acme.com
 Objective:
 ----------
 
--  Gain an basic understanding of BIG-IP as JWT Resource Server
+-  Gain an basic understanding of BIG-IP as OIDC IDP
 
 .. toctree::
    :maxdepth: 1
@@ -24,7 +24,7 @@ Objective:
    :glob:
   
    guide/guide.rst
-   postman/postman.rst
+
 
 
 Configuration Comments

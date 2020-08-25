@@ -1,7 +1,7 @@
-Solution:  OAuth client using RSA keys
+Solution:  OIDC RP - BIGIP IDP
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic OAuth Client using RSA keys
+This solution documents all the necessary pieces required to create a basic OIDC RP
 
 Keywords: JWT, OAUTH, OIDC, RSA, RS
 
@@ -16,7 +16,7 @@ https://solution11.acme.com
 Objective:
 ----------
 
--  Gain an basic understanding of BIG-IP as OAuth Client
+-  Gain an basic understanding of BIG-IP as OIDC RP
 
 .. toctree::
    :maxdepth: 1
@@ -52,7 +52,7 @@ BIG-IP Components used:
  - HTTP Profile 
  - Client-side SSL Profile 
  - Access Profile
-    + Oauth Provider
+    + OAuth Server
 
 
 
