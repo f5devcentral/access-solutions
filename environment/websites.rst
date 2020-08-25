@@ -2,7 +2,7 @@
 Websites hosted in the environment
 -------------------------------------
 
-The websites for this blueprint are currently hosted in three locations.  The IIS VM, Lentos VM, or as a container.  All sites must be used using it's FDQN and not the IP address.
+The websites for this blueprint are currently hosted in three locations.  The IIS VM, Centos VM, or as a container.  All sites must be accessed using its FDQN and not the IP address.  Sites can also be created dynamically using the APIs.
 
 IIS
 ~~~~~~~~

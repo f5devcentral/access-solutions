@@ -1,7 +1,7 @@
 Solution: VPN - AD Auth
 =======================
 
-This solution documents  all the necessary pieces required to setup a basic VPN for use with Active Directory Authentication.  
+This solution documents  all the necessary pieces required to setup a basic AD authenticated VPN.
 
 Keywords: vpn, ad, active, directory
 
@@ -18,7 +18,7 @@ Objective:
 
 -  Gain an understanding of a basic VPN configuration
 
--  Gain an initial understanding of Active Directory AAA Objects
+-  Gain an initial understanding of AAA Active Directory Objects
 
 .. toctree::
    :maxdepth: 1
@@ -26,18 +26,16 @@ Objective:
    :glob:
   
    guide/guide.rst
-   postman/postman.rst
-
 
 Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
   - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+-----------------------
   - solution1-create.postman_collection.json
   - solution1-delete.postman_collection.json
 
@@ -48,18 +46,19 @@ APM Profile(s)
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+------------------------
+
   - 15.1
 
 BIG-IP Components used:
------------------
+------------------------
 
 * Virtual Server
- - HTTP Profile -https://support.f5.com/csp/article/K4707
- - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
- - Connectivity profile
+ - HTTP Profile -
+ - Client-side SSL Profile 
+ - Connectivity profile 
  - Access Profile
-      + Active Directory AAA Object
+      + AAA Active Directory Object
       + Network Access Resource
       + IPv4 Lease Pool
       + Webtop
