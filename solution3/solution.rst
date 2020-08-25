@@ -24,7 +24,7 @@ Objective:
    :glob:
   
    guide/guide.rst
-   postman/postman.rst
+
 
 
 Configuration Comments
@@ -49,8 +49,8 @@ BIG-IP Components used:
 -----------------
 
 * Virtual Server
- - HTTP Profile -https://support.f5.com/csp/article/K4707
- - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
+ - HTTP Profile 
+ - Client-side SSL Profile 
  - Access Profile(s)
       + SP Service
       + IDP Connector
