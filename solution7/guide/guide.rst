@@ -191,7 +191,7 @@ AAA Active Directory
 |image019|
 
 
-Send-Sideband Policy
+Receive-Sideband Policy
 ===========================
 
 
