@@ -1,4 +1,4 @@
-Solution:  JWT Resource Server(preshared key) - BIGIP AS
+Solution:  JWT RS (preshared key) - BIGIP AS
 ===============================================================
 
 This solution documents all the necessary pieces required to create a basic JWT Resource Server
