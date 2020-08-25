@@ -1,16 +1,16 @@
 Solution:  Inline SAML with Kerberos sideband
 ======================================================================================
 
-This solution documents all the necessary pieces required to create a set of APM policies that updates the AD lastlogontimestamp when only using SAML.  
+This solution documents all the necessary pieces required to create a basic SAML SP integrated with OKta
 
-Keywords: saml, kerberos, ad, active, directory, idp, sp, chaining, inline
+Keywords: saml, sp, okta
 
 DC: single, multi
 
 
 URL
 ----
-https://sp.acme.com
+https://solution3.acme.com
 
 Objective:
 ----------
