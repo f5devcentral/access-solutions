@@ -25,7 +25,7 @@ The links below highlight core pieces of the blueprint so others can understand 
 Lab Topology
 ~~~~~~~~~~~~
 
-|image000|  
+|000|  
 
 
 .. |image000| image:: media/image000.png
