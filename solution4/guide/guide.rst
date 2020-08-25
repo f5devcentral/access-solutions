@@ -5,12 +5,12 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|     
+|image1|     
 
-1. In this policy a user enters their credentials in the logon page agent.  
+1. A user enters their credentials in the logon page agent.  
     - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                
           
-2. The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
+2. The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
 3. The user is granted access via the Allow Terminal
 4. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
                                        
@@ -21,11 +21,11 @@ Policy Agent Configuration
 
 The Logon Page contains only the default setting                                                                          
 
-|image002|                                                                                   
+|image2|                                                                                   
 
-The AD Auth Agent uses a defined the  AD AAA Server object that user will be authenticated against.  All Setting are the default.
+The AD Auth agent defines the AAA AD Servers that a user will be authenticated against.  All Setting are the default.
 
-|image003|                                                                                   
+|image3|                                                                                   
 
 
 Profile Settings
@@ -33,7 +33,7 @@ Profile Settings
 
 The SSO/Auth Domains setting was modified from its default to include the idp.acme.com SAML IDP Service
 
-|image004|
+|image4|
 
                                                                            
 
@@ -46,7 +46,7 @@ AAA AD Servers
 A single domain controller was configured for Active directory AAA authentication                         
 
 
-|image005|                                                                                   
+|image5|                                                                                   
 
 
 
@@ -57,27 +57,27 @@ The settings below define all the components of the IDP Service
 
 **General Settings**
 
-|image006|
+|image6|
 
 **SAML Profile**
 
-|image007|
+|image7|
 
 **Endpoint Settings**
 
-|image008|
+|image8|
 
 **Assertion Settings**
 
-|image009|
+|image9|
 
 **SAML Attributes**
 
-|image010|
+|image10|
 
 **Security Settings**
 
-|image011|
+|image11|
 
 
                                                                              
@@ -89,23 +89,23 @@ The settings below define all the components of the SP Service
 
 **General Settings**
 
-|image012|
+|image12|
 
 **Endpoint Settings**
                                                              
-|image013| 
+|image13| 
 
 **Security Settings**
 
-|image014|
+|image14|
 
 **SLO Service Settings**
 
-|image015|
+|image15|
 
 **SP Location Settings**
 
-|image016|                                                                                  
+|image16|                                                                                  
 
 
 
@@ -118,27 +118,27 @@ If the user attempts to access https://idp.acme.com they will be redirected to a
 
 
 
-|image017|
+|image17|
 
 
 
-.. |image001| image:: media/001.png
-.. |image002| image:: media/002.png
-.. |image003| image:: media/003.png
-.. |image004| image:: media/004.png
-.. |image005| image:: media/005.png
-.. |image006| image:: media/006.png
-.. |image007| image:: media/007.png
-.. |image008| image:: media/008.png
-.. |image009| image:: media/009.png
-.. |image010| image:: media/010.png
-.. |image011| image:: media/011.png
-.. |image012| image:: media/012.png
-.. |image013| image:: media/013.png
-.. |image014| image:: media/014.png
-.. |image015| image:: media/015.png
-.. |image016| image:: media/016.png
-.. |image017| image:: media/017.png
+.. |image1| image:: media/001.png
+.. |image2| image:: media/002.png
+.. |image3| image:: media/003.png
+.. |image4| image:: media/004.png
+.. |image5| image:: media/005.png
+.. |image6| image:: media/006.png
+.. |image7| image:: media/007.png
+.. |image8| image:: media/008.png
+.. |image9| image:: media/009.png
+.. |image10| image:: media/010.png
+.. |image11| image:: media/011.png
+.. |image12| image:: media/012.png
+.. |image13| image:: media/013.png
+.. |image14| image:: media/014.png
+.. |image15| image:: media/015.png
+.. |image16| image:: media/016.png
+.. |image17| image:: media/017.png
 
 
    
