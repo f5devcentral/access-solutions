@@ -47,6 +47,8 @@ BIG-IP Versions Tested
 BIG-IP Components used:
 -------------------------
 
+Read more about the individual components by clicking on the below links
+
 * Virtual Server
  - HTTP Profile -https://support.f5.com/csp/article/K4707
  - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
