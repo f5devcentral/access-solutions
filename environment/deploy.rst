@@ -35,8 +35,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
                                                                                                       
  4. Click the **play** button under the deployment option you wish the automation to configure        
                                                                                                      
-    ..note::  Wait 15 seconds and the screen should refresh with the status of the automations        
-              deployment                                                                              
+    ..note::  Wait 15 seconds and the screen should refresh with the automation status                                                                              
        
     |image19|                                                                                          
 
