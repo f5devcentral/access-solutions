@@ -17,11 +17,7 @@ Policy Walk-Through
 5. The user is assigned resourced defined in the Advanced Resource Assign Agent
 6. The user is granted access via the Allow Terminal
 7. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                      
-                                       
-
-                                                                                  
-
+                                                                                     
 
 Policy Agent Configuration
 ----------------------------
@@ -55,18 +51,15 @@ Customized APM Profile Settings
 
 - The APM Profiles settings are the default.
 
-
   
 Supporting APM Objects
 -----------------------
 
 AAA AD Server Object
 ^^^^^^^^^^^^^^^^^^^^^
-
-            
+          
 |image007|                                                                                   
-
-                                                                             
+                                                                          
 
 Webtop
 ^^^^^^^^^^^^^^^
@@ -74,9 +67,6 @@ Webtop
 |image008|
 
                                           
-  
-
-
 Connectivity Profile
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -99,8 +89,8 @@ RDP Resource
 |image011|
 
 
-RDG Profile
-===========================
+RDG policy
+^^^^^^^^^^^^^^
 
 The RDG profile is used for controlling access to RDP resources.  The profile permits access to any resource.
 
@@ -124,7 +114,7 @@ User's Perspective
 
    |image014|
 
-#. The user clicks the RDP resource icon and downloads the .rdp file.
+#. The user clicks the RDP resource icon on the webtop, downloads the .rdp file, and clicks the .rdp file.
 
    |image015| 
 
