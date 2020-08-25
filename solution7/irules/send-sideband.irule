@@ -4,13 +4,13 @@ when ACCESS_POLICY_AGENT_EVENT {
 
 		"send-sideband" {
 
-			#established a TCP based sideband connetion to virtual server receive-sideband
+			#established a TCP based sideband connection to virtual server receive-sideband
 			set conn [connect -protocol TCP -timeout 100 -idle 30 -status conn_status /solution7/receive-sideband/receive-sideband]
 
 			#converts the APM session variable to a TCL variable
-			#sends a HTTP requrest over the sideband with the username in a query string 
+			#sends a HTTP request over the sideband with the username in a query string 
 			set username [ACCESS::session data get "session.ad.last.attr.sAMAccountName"]
-			set data "GET /?username=$username HTTP/1.1\r\nHost: sp.acme.com\r\nUser-Agent: Side-band\r\nclientless-mode: 1\r\nCache-Control: no-cache\r\nPostman-Token: 12345678-abcd-efgh-ijkl-qazwsxedcrfv\r\n\r\n"
+			set data "GET /?username=$username HTTP/1.1\r\nHost: sp.acme.com\r\nUser-Agent: Side-band\r\nclientless-mode: 1\r\n\r\n"
 			set send_info [send -timeout 3000 -status send_status $conn $data]
 
 
