@@ -1,7 +1,7 @@
-Solution:  JWT Resource Server (BIGIP-AS with preshared keys)
+Solution:  JWT Resource Server(preshared key) - BIGIP AS
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic JWT Resecource Server
+This solution documents all the necessary pieces required to create a basic JWT Resource Server
 
 Keywords: JWT, OAUTH, OIDC
 
@@ -24,33 +24,35 @@ Objective:
    :glob:
   
    guide/guide.rst
-   postman/postman.rst
+ 
 
 
 Configuration Comments
 ------------------------
 
 Access Blueprint Revision
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  - 3
+----------------------------
+  - 4
 
 Postman Collection(s)
-^^^^^^^^^^^^^^^^^^^^
+-------------------------
   - solution9-create.postman_collection.json
   - solution9-delete.postman_collection.json
 
 
 
 BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
   - 15.1
 
 BIG-IP Components used:
------------------
+--------------------------
 
 * Virtual Server
- - HTTP Profile -https://support.f5.com/csp/article/K4707
- - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
+ - HTTP Profile -
+ - Client-side SSL Profile 
+ - Access Profile
+   + Oauth Server
 
 
 
