@@ -15,7 +15,7 @@ https://solution12.acme.com
 Objective:
 ----------
 
--  Gain a basic understanding of RDP gateway policies
+   -  Gain a basic understanding of RDP gateway policies
 
 .. toctree::
    :maxdepth: 1

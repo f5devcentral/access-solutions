@@ -11,7 +11,8 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 
 1. Establish a RDP connection to **jumphost.f5lab.local**  with the following credentials:                                      
                                                                                                      
-   - **UserID: f5lab\\user1** / **Password: user1**                                                  
+   - Username: **f5lab\\user1** 
+   - Password: **user1**                                                  
                                                                                                     
 
 
@@ -60,7 +61,7 @@ Note: All work for this lab will be performed exclusively from the provided lab 
 
 
 
-.. |image17| image:: media/image017.png
-.. |image18| image:: media/image018.png
-.. |image19| image:: media/image019.png
-.. |image20| image:: media/image020.png
+.. |image17| image:: media/017.png
+.. |image18| image:: media/018.png
+.. |image19| image:: media/019.png
+.. |image20| image:: media/020.png

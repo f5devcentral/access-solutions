@@ -153,17 +153,17 @@ mtls.acme.com
 |image16|
 
 
-.. |image3| image:: media/image003.png
-.. |image4| image:: media/image004.png
-.. |image5| image:: media/image005.png
-.. |image6| image:: media/image006.png
-.. |image7| image:: media/image007.png
-.. |image8| image:: media/image008.png
-.. |image9| image:: media/image009.png
-.. |image10| image:: media/image010.png
-.. |image11| image:: media/image011.png
-.. |image12| image:: media/image012.png
-.. |image13| image:: media/image013.png
-.. |image14| image:: media/image014.png
-.. |image15| image:: media/image015.png
-.. |image16| image:: media/image016.png
+.. |image3| image:: media/003.png
+.. |image4| image:: media/004.png
+.. |image5| image:: media/005.png
+.. |image6| image:: media/006.png
+.. |image7| image:: media/007.png
+.. |image8| image:: media/008.png
+.. |image9| image:: media/009.png
+.. |image10| image:: media/010.png
+.. |image11| image:: media/011.png
+.. |image12| image:: media/012.png
+.. |image13| image:: media/013.png
+.. |image14| image:: media/014.png
+.. |image15| image:: media/015.png
+.. |image16| image:: media/016.png
