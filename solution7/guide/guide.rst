@@ -3,7 +3,7 @@
 Traffic Flow
 ======================
 
-
+|image023|
 
 
 Send-Sideband Policy
@@ -62,7 +62,8 @@ Customized APM Profile Settings
 Send Side-band irule
 ---------------------------------
 ::
-  when ACCESS_POLICY_AGENT_EVENT {
+
+ when ACCESS_POLICY_AGENT_EVENT {
 	switch -glob [string tolower [ACCESS::policy agent_id]] {
 		"send-sideband" {
 			#established a TCP based sideband connetion to virtual server receive-sideband
@@ -242,10 +243,10 @@ Kerberos SSO
 
 
 User1's Perspective
--------------------------------------
+---------------------
 
 
-#. User1 is connects to https://sp.acme.com and is redirect to the external IDP
+#. User1 connects to https://sp.acme.com and is redirect to the external IDP
 
    |image023|
 
@@ -276,6 +277,7 @@ User1's Perspective
 .. |image020| image:: media/020.png
 .. |image021| image:: media/021.png
 .. |image022| image:: media/022.png
+.. |image023| image:: media/023.png
 
    
 
