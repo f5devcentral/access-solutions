@@ -19,7 +19,7 @@ Policy Agent Configuration
 
 The SAML Auth Policy Item contains the following settings                                                                         
 
-|image02|                                                                                   
+|image002|                                                                                   
 
                                                                                 
 
