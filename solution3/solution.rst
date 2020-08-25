@@ -1,7 +1,7 @@
-Solution:  Inline SAML with Kerberos sideband
-======================================================================================
+Solution:  SAML SP (Okta IDP) 
+=================================
 
-This solution documents all the necessary pieces required to create a basic SAML SP integrated with OKta
+This solution documents all the necessary pieces required to create a basic SAML SP integrated with Okta
 
 Keywords: saml, sp, okta
 
@@ -52,8 +52,8 @@ BIG-IP Components used:
  - HTTP Profile -https://support.f5.com/csp/article/K4707
  - Client-side SSL Profile -https://support.f5.com/csp/article/K14783
  - Access Profile(s)
-      + SAML SP
-      + SAML IDP
+      + SP Service
+      + IDP Connector
 
 
 
