@@ -38,30 +38,32 @@ Returns the following user attributes
 
 
 Example Request
+
 .. code-block:: json
   
  http://10.1.20.6:81/user?username=user2
 
 Example Response
-.. code-block:: json
-    :caption: Example Response.
 
- {
-    "sAMAccountName": "user2",
-    "DistinguishedName": "CN=user2,OU=Product Development,DC=f5lab,DC=local",
-    "Name": "user2",
-    "GivenName": "Road",
-    "Surname": "Runner",
-    "UserPrincipalName": "user2@f5lab.local",
-    "employeeNumber": null,
-    "mail": "runner@acme.com",
-    "userAccountControl": 66048,
-    "memberOf": [
-        "CN=CreateUser,OU=IT,DC=f5lab,DC=local",
-        "CN=Product Management,CN=Users,DC=f5lab,DC=local",
-        "CN=Domain Admins,CN=Users,DC=f5lab,DC=local"
-    ]
- }
+.. code-block:: json
+
+
+	 {
+	    "sAMAccountName": "user2",
+	    "DistinguishedName": "CN=user2,OU=Product Development,DC=f5lab,DC=local",
+	    "Name": "user2",
+	    "GivenName": "Road",
+	    "Surname": "Runner",
+	    "UserPrincipalName": "user2@f5lab.local",
+	    "employeeNumber": null,
+	    "mail": "runner@acme.com",
+	    "userAccountControl": 66048,
+	    "memberOf": [
+	        "CN=CreateUser,OU=IT,DC=f5lab,DC=local",
+	        "CN=Product Management,CN=Users,DC=f5lab,DC=local",
+	        "CN=Domain Admins,CN=Users,DC=f5lab,DC=local"
+	    ]
+	 }
 
 **METHOD - POST**
 
