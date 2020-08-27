@@ -94,7 +94,7 @@ Example Request
 
 Request Body
 
-.. code-block:: 
+.. code-block:: json
 
 	  {
 	    "Username":"POST_API",
