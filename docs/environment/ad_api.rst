@@ -172,7 +172,7 @@ The **rtype** key supports the following values
 
 The attribute key supports the following attributes to be modified
 
- - employeeNumber
+- employeeNumber
 
 
 Example Request
