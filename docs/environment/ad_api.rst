@@ -38,12 +38,13 @@ Returns the following user attributes
 
 
 Example Request
-::
+.. code-block:: json
   
  http://10.1.20.6:81/user?username=user2
 
 Example Response
-::
+.. code-block:: json
+    :caption: Example Response.
 
  {
     "sAMAccountName": "user2",
@@ -84,12 +85,12 @@ The following attributes can used when creating a user account
 
 Example Request
 
-::
+.. code-block:: json
     http://10.1.20.6:81/user
 
 
 Request Body
-::
+.. code-block:: json
 
   {
     "Username":"POST_API",
@@ -104,7 +105,7 @@ Request Body
   }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "sAMAccountName": "POST_API",
@@ -122,19 +123,19 @@ Removed the user account from Active Directory.
 
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/user
 
 Example Body
-::
+.. code-block:: json
 
  {
     "Username":"POST_API"
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -167,12 +168,12 @@ The attribute key supports the following attributes to be modified
 
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/user
 
 Request Body
-::
+.. code-block:: json
   
   {
     "rtype": "attribute", 
@@ -183,7 +184,7 @@ Request Body
 
 
 Example Response
-::
+.. code-block:: json
  
  {
     "sAMAccountName": "POST_API",
@@ -193,12 +194,12 @@ Example Response
 **Password Change**
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/user
 
 Request Body
-::
+.. code-block:: json
 
  {
   "rtype": "password",
@@ -210,7 +211,7 @@ Request Body
 
 
 Example Response
-::
+.. code-block:: json
  
  {
     "sAMAccountName": "POST_API"
@@ -219,12 +220,12 @@ Example Response
 **Account Unlock**
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/user
 
 Request Body
-::
+.. code-block:: json
   
  {
   "rtype": "unlock", 
@@ -234,7 +235,7 @@ Request Body
 
 
 Example Response
-::
+.. code-block:: json
  
  {
     "sAMAccountName": "POST_API",
@@ -255,7 +256,7 @@ ENDPOINT - user/cert
 **METHOD - GET**
 
 Example Request 
-::
+.. code-block:: json
 
  http://10.1.20.6:81/user/cert?username=user2
 
@@ -281,7 +282,7 @@ The following scopes are supported
 
 
 Example Request 
-::
+.. code-block:: json
 
  http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
 
@@ -294,12 +295,12 @@ ENDPOINT - /addr/available
 The available endpoint returns the next available address for the scope specified in the request
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/addr/available?scope=10.1.10.96
 
 Example Response
-::
+.. code-block:: json
 
  {
     "address": "10.1.10.102"
@@ -313,12 +314,12 @@ ENDPOINT - /addr/checkout
 **METHOD - POST**
 
 Example Request
-::
+.. code-block:: json
 
  http://10.1.20.6:81/addr/checkout
 
 Example Request
-::
+.. code-block:: json
 
  {
   "scope":"10.1.10.96",
@@ -327,7 +328,7 @@ Example Request
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -344,12 +345,12 @@ ENDPOINT - /addr/checkin
 **METHOD - DELETE**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/addr/checkin?address=10.1.10.103
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -370,12 +371,12 @@ The DNS endpoint allows the creation and deletion of A and PTR records
 
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/dns
 
 Example Body
-::
+.. code-block:: json
 
  {
   "record_type":"a",
@@ -384,7 +385,7 @@ Example Body
  }
 
 Example Rsopnose
-::  
+.. code-block:: json
  
  {
     "status": "Success",
@@ -397,12 +398,12 @@ Example Rsopnose
 **METHOD - DELETE**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/dns
 
 Example Body
-::
+.. code-block:: json
 
  {
   "record_type":"a",
@@ -411,7 +412,7 @@ Example Body
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -450,12 +451,12 @@ Template 2 supports the customization of background colors using a customization
 
 
 Example Request
-::
+.. code-block:: json
 
   https://10.1.20.6:81/websites
 
 Example Body
-::
+.. code-block:: json
 
  {
 	"site_name":"site.acme.com",
@@ -474,19 +475,19 @@ Example Body
 **METHOD - DELETE**
 
 Example Request
-::
+.. code-block:: json
 
   https://10.1.20.6:81/websites
 
 Example Body
-::
+.. code-block:: json
 
  {
   "site_name":"site.acme.com" 
  }
 
 Example Resonse
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -506,12 +507,12 @@ The Desktop API copied files from the student_files folder located in specified 
 **METHOD - POST**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/desktop
 
 Example Body
-::
+.. code-block:: json
 
  {
   "repo":"labs",
@@ -521,7 +522,7 @@ Example Body
 
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -536,13 +537,13 @@ Example Response
 **METHOD - DELETE**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/desktop
 
 
 Example Body
-::
+.. code-block:: json
 
  {
   "repo":"labs",
@@ -551,7 +552,7 @@ Example Body
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -573,13 +574,13 @@ The computer endpoint assigned Service Principal names to the Active Directory c
 **METHOD - POST**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/computer
 
 
 Example Body
-::
+.. code-block:: json
 
  {
   "computer":"IIS",
@@ -587,7 +588,7 @@ Example Body
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
@@ -598,13 +599,13 @@ Example Response
 **METHOD - DELETE**
 
 Example Request
-::
+.. code-block:: json
 
  https://10.1.20.6:81/computer
 
 
 Example Body
-::
+.. code-block:: json
 
  {
   "computer":"IIS",
@@ -612,7 +613,7 @@ Example Body
  }
 
 Example Response
-::
+.. code-block:: json
 
  {
     "status": "Success",
