@@ -90,6 +90,7 @@ Example Request
 
 Request Body
 ::
+
   {
     "Username":"POST_API",
     "employeeNumber":"100",
@@ -122,16 +123,19 @@ Removed the user account from Active Directory.
 
 Example Request
 ::
+
  http://10.1.20.6:81/user
 
 Example Body
 ::
+
  {
     "Username":"POST_API"
  }
 
 Example Response
 ::
+
  {
     "status": "Success",
     "username": "POST_API"
@@ -195,14 +199,11 @@ Example Request
 
 Request Body
 ::
-  
 
  {
-
   "rtype": "password",
   "username": "POST_API",
   "password": "123"
-
  }
 
 
@@ -255,6 +256,7 @@ ENDPOINT - user/cert
 
 Example Request 
 ::
+
  http://10.1.20.6:81/user/cert?username=user2
 
 
@@ -280,6 +282,7 @@ The following scopes are supported
 
 Example Request 
 ::
+
  http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
 
 
@@ -292,10 +295,12 @@ The available endpoint returns the next available address for the scope specifie
 
 Example Request
 ::
+
  http://10.1.20.6:81/addr/available?scope=10.1.10.96
 
 Example Response
 ::
+
  {
     "address": "10.1.10.102"
  }
@@ -309,10 +314,12 @@ ENDPOINT - /addr/checkout
 
 Example Request
 ::
+
  http://10.1.20.6:81/addr/checkout
 
 Example Request
 ::
+
  {
   "scope":"10.1.10.96",
   "address":"10.1.10.103",
@@ -321,6 +328,7 @@ Example Request
 
 Example Response
 ::
+
  {
     "status": "Success",
     "address": "10.1.10.103",
@@ -337,10 +345,12 @@ ENDPOINT - /addr/checkin
 
 Example Request
 ::
+
  https://10.1.20.6:81/addr/checkin?address=10.1.10.103
 
 Example Response
 ::
+
  {
     "status": "Success",
     "address": "10.1.10.103"
@@ -361,6 +371,7 @@ The DNS endpoint allows the creation and deletion of A and PTR records
 
 Example Request
 ::
+
  https://10.1.20.6:81/dns
 
 Example Body
@@ -386,11 +397,13 @@ Example Rsopnose
 **METHOD - DELETE**
 
 Example Request
-:: 
+::
+
  https://10.1.20.6:81/dns
 
 Example Body
-:: 
+::
+
  {
   "record_type":"a",
   "fqdn":"{{DNS1_NAME}}",
@@ -399,6 +412,7 @@ Example Body
 
 Example Response
 ::
+
  {
     "status": "Success",
     "record_type": "A",
@@ -437,10 +451,12 @@ Template 2 supports the customization of background colors using a customization
 
 Example Request
 ::
+
   https://10.1.20.6:81/websites
 
 Example Body
 ::
+
  {
 	"site_name":"site.acme.com",
 	"http_port":"80",
@@ -459,16 +475,19 @@ Example Body
 
 Example Request
 ::
+
   https://10.1.20.6:81/websites
 
 Example Body
 ::
+
  {
   "site_name":"site.acme.com" 
  }
 
 Example Resonse
 ::
+
  {
     "status": "Success",
     "site_name": "testapp.acme.com"
@@ -488,10 +507,12 @@ The Desktop API copied files from the student_files folder located in specified 
 
 Example Request
 ::
+
  https://10.1.20.6:81/desktop
 
 Example Body
 ::
+
  {
   "repo":"labs",
   "number":"3",
@@ -501,6 +522,7 @@ Example Body
 
 Example Response
 ::
+
  {
     "status": "Success",
     "repo": "labs",
@@ -515,11 +537,13 @@ Example Response
 
 Example Request
 ::
+
  https://10.1.20.6:81/desktop
 
 
 Example Body
 ::
+
  {
   "repo":"labs",
   "number":"3",
@@ -528,6 +552,7 @@ Example Body
 
 Example Response
 ::
+
  {
     "status": "Success",
     "repo": "labs",
@@ -549,11 +574,13 @@ The computer endpoint assigned Service Principal names to the Active Directory c
 
 Example Request
 ::
+
  https://10.1.20.6:81/computer
 
 
 Example Body
 ::
+
  {
   "computer":"IIS",
   "spn":"HTTP/app.acme.com" 
@@ -561,6 +588,7 @@ Example Body
 
 Example Response
 ::
+
  {
     "status": "Success",
     "computer": "IIS",
@@ -571,11 +599,13 @@ Example Response
 
 Example Request
 ::
+
  https://10.1.20.6:81/computer
 
 
 Example Body
 ::
+
  {
   "computer":"IIS",
   "spn":"HTTP/app.acme.com" 
@@ -583,6 +613,7 @@ Example Body
 
 Example Response
 ::
+
  {
     "status": "Success",
     "computer": "IIS",
