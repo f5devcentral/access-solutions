@@ -27,7 +27,7 @@ basic.acme.com
 
 
 header.acme.com
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
  - Authentication method: Anonymous
  - IP Address: 10.1.20.6
@@ -38,7 +38,7 @@ header.acme.com
 
 
 Kerb.acme.com
-^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
  - Authentication method: Kerberos
  - IP Address: 10.1.20.16
@@ -129,7 +129,7 @@ NGINX
 ~~~~~~~~
 
 files-dev.f5lab.local
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
  - Authentication method: - Anonymous
  - IP Address: 10.1.20.9
@@ -137,7 +137,7 @@ files-dev.f5lab.local
 |image15|
 
 files-master.f5lab.local
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
  - Authentication method: - Anonymous
  - IP Address: 10.1.20.9
