@@ -22,13 +22,18 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 
 |image18|                                                                                         
 
-.. Note:: While multiple solutions can normally be deployed, solutions involving a IDaaS must be restricted to a single deployment at a time.  That is eliminates the configuration changes required on the IDaaS by having  SAML applications resolve to sp.acme.com and OAuth applications resolve to rs.acme.com.    
-                                                                                                       
-                                                                                                      
+```{note}
+:class: tag_fullwidth
+While multiple solutions can normally be deployed, solutions involving a IDaaS must be restricted to a single deployment at a time.  That is eliminates the configuration changes required on the IDaaS by having  SAML applications resolve to sp.acme.com and OAuth applications resolve to rs.acme.com. 
+```
+                                                                                                  
 4. Click the **play** button under the deployment option you wish the automation to configure.  Scroll to the bottom of the automation workflow to ensure all requests succeeded.  If you you experience errors try running the automation a second time or open an issue on the **access-solutions** repo.        
-                                                                                                     
-.. Note::  Wait 15 seconds and the screen should refresh with the automation status                                                                              
-       
+
+```{note}
+:class: tag_fullwidth
+Wait 15 seconds and the screen should refresh with the automation status
+```
+
 |image19|                                                                                          
                                                                                 
 5. The accompanying solution guide will provide details on how to access the application             
@@ -38,11 +43,11 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
                                                                                                  
 |image20|                                                                                           
 
-.. Note:: All work for this lab will be performed exclusively from the provided lab environment. 
-      No installation or interaction with your local system is required.                             
-
-
-
+```{note}
+:class: tag_fullwidth
+All work for this lab will be performed exclusively from the provided lab environment. No installation or interaction with your local system is required.
+```
+  
 .. |image17| image:: media/017.png
 .. |image18| image:: media/018.png
 .. |image19| image:: media/019.png
