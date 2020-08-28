@@ -44,21 +44,21 @@ Access Blueprint Revision
 Postman Collection(s)
 ----------------------------
 
-  solution2-create.postman_collection.json_
+solution2-create.postman_collection.json_
 
-  .. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-create.postman_collection.json
+.. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-create.postman_collection.json
 
-  solution2-delete.postman_collection.json_
+solution2-delete.postman_collection.json_
 
-  .. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-delete.postman_collection.json
+.. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-delete.postman_collection.json
 
 
 APM Profile(s)
 -------------------
 
-  profile_Common_solution2-psp.conf.tar_
+profile_Common_solution2-psp.conf.tar_
 
-  .. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution2/policies/
+.. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution2/policies/
 
 
 BIG-IP Versions Tested
@@ -70,11 +70,13 @@ BIG-IP Components used:
 -----------------------------
 
 - Virtual Server
+
   * HTTP Profile
   * Client-side SSL Profile
   * Connectivity profile
   * Rewrite profile
   * Access Profile
+
     - Active Directory AAA Object
     - Network Access Resource
     - IPv4 Lease Pool
