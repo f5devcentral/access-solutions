@@ -7,9 +7,9 @@ Policy Walk-Through
 
 |image1|
 
-1. A user accesses a VIP protected by this policy they are redirected to the IDP provider Selected by the SP Service.
-2. Upon successful authentication at the IDP, the IDP redirects the user back to the SP.  The SP service consumes the Assertion.  The user is granted access via the Allow Terminal
-3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+#.  A user accesses a VIP protected by this policy they are redirected to the IDP provider Selected by the SP Service.
+#.  Upon successful authentication at the IDP, the IDP redirects the user back to the SP.  The SP service consumes the Assertion.  The user is granted access via the Allow Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
 
 
 
@@ -106,7 +106,12 @@ If the user attempts to access https://sp.acme.com they will be redirected to ht
 
 **Supported IDP Solutions**
 
- - Solution4
+.. toctree::
+   :maxdepth: 1
+   :caption: Content:
+   :glob:
+
+   solution4/guide/guide.rst
 
 
 
