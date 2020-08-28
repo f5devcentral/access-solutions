@@ -1,4 +1,4 @@
-Solution:  JWT RS (preshared key) - BIGIP AS
+Solution:  JWT RS using preshared keys  (BIG-IP AS)
 ===============================================================
 
 This solution documents all the necessary pieces required to create a basic JWT Resource Server
@@ -11,7 +11,7 @@ DC: single, multi
 URL
 ----
 
-https://api.acme.com
+https://solution9.acme.com
 
 Objective:
 ----------

@@ -21,7 +21,7 @@ Objective:
    :maxdepth: 1
    :caption: Content:
    :glob:
-  
+
    guide/guide.rst
 
 
@@ -29,17 +29,24 @@ Objective:
 
 Configuration Comments
 ------------------------
+|
+|
 
 Access Blueprint Revision
 ---------------------------
 
-  - 4
+**4**
 
 Postman Collection(s)
 -----------------------
 
-  - solution5-create.postman_collection.json
-  - solution5-delete.postman_collection.json
+solution5-create.postman_collection.json_
+
+.. _solution5-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution5/postman/solution5-create.postman_collection.json
+
+solution5-delete.postman_collection.json_
+
+.. _solution5-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution5/postman/solution5-delete.postman_collection.json
 
 
 
@@ -47,23 +54,16 @@ Postman Collection(s)
 BIG-IP Versions Tested
 --------------------------
 
-  - 15.1
+- 15.1
 
 BIG-IP Components used:
 ---------------------------
 
-* Virtual Server
- - HTTP Profile 
- - Client-side SSL Profile 
- - Access Profile
-    + SP Service
-    + IDP Connector
+- Virtual Server
 
+  * HTTP Profile
+  * Client-side SSL Profile
+  * Access Profile
 
-
-
-
-
-
-   
-
+    - SP Service
+    - IDP Connector

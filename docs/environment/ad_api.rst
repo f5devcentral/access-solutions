@@ -3,10 +3,10 @@
 Active Directory API Endpoints
 =================================
 
-The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution and lab deployment 
+The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution and lab deployment
 
 - HTTP Listener  10.1.20.6:81
-- HTTPS Listener 10.1.20.6:8443 
+- HTTPS Listener 10.1.20.6:8443
 
 ---------------
 user accounts
@@ -38,29 +38,32 @@ Returns the following user attributes
 
 
 Example Request
-::
-  
- http://10.1.20.6:81/user?username=user2
+
+.. code-block:: json
+
+	http://10.1.20.6:81/user?username=user2
 
 Example Response
-::
 
- {
-    "sAMAccountName": "user2",
-    "DistinguishedName": "CN=user2,OU=Product Development,DC=f5lab,DC=local",
-    "Name": "user2",
-    "GivenName": "Road",
-    "Surname": "Runner",
-    "UserPrincipalName": "user2@f5lab.local",
-    "employeeNumber": null,
-    "mail": "runner@acme.com",
-    "userAccountControl": 66048,
-    "memberOf": [
-        "CN=CreateUser,OU=IT,DC=f5lab,DC=local",
-        "CN=Product Management,CN=Users,DC=f5lab,DC=local",
-        "CN=Domain Admins,CN=Users,DC=f5lab,DC=local"
-    ]
- }
+.. code-block:: json
+
+
+	 {
+	    "sAMAccountName": "user2",
+	    "DistinguishedName": "CN=user2,OU=Product Development,DC=f5lab,DC=local",
+	    "Name": "user2",
+	    "GivenName": "Road",
+	    "Surname": "Runner",
+	    "UserPrincipalName": "user2@f5lab.local",
+	    "employeeNumber": null,
+	    "mail": "runner@acme.com",
+	    "userAccountControl": 66048,
+	    "memberOf": [
+	        "CN=CreateUser,OU=IT,DC=f5lab,DC=local",
+	        "CN=Product Management,CN=Users,DC=f5lab,DC=local",
+	        "CN=Domain Admins,CN=Users,DC=f5lab,DC=local"
+	    ]
+	 }
 
 **METHOD - POST**
 
@@ -84,63 +87,73 @@ The following attributes can used when creating a user account
 
 Example Request
 
-::
-    http://10.1.20.6:81/user
+.. code-block:: json
+
+	http://10.1.20.6:81/user
 
 
 Request Body
-::
-  {
-    "Username":"POST_API",
-    "employeeNumber":"100",
-    "GivenName":"post",
-    "Surname": "api",
-    "UserPrincipalName":"12890@f5lab.local",
-    "OU":"IT",
-    "Password":"letmein",
-    "email":"postapi@acme.com"
-    "app_spn": "HTTP/testapp.acme.com"
-  }
+
+.. code-block:: json
+
+	  {
+	    "Username":"POST_API",
+	    "employeeNumber":"100",
+	    "GivenName":"post",
+	    "Surname": "api",
+	    "UserPrincipalName":"12890@f5lab.local",
+	    "OU":"IT",
+	    "Password":"letmein",
+	    "email":"postapi@acme.com"
+	    "app_spn": "HTTP/testapp.acme.com"
+	  }
 
 Example Response
-::
 
- {
-    "sAMAccountName": "POST_API",
-    "employeeNumber": "100",
-    "userAccountControl": 66048
- }
+.. code-block:: json
+
+	 {
+	    "sAMAccountName": "POST_API",
+	    "employeeNumber": "100",
+	    "userAccountControl": 66048
+	 }
 
 
 **METHOD - DELETE**
 
-Removed the user account from Active Directory.  
+Removed the user account from Active Directory.
 
 - useridentity(saMAccountName)
 
 
 
 Example Request
-::
- http://10.1.20.6:81/user
+
+.. code-block:: json
+
+ 	http://10.1.20.6:81/user
 
 Example Body
-::
- {
-    "Username":"POST_API"
- }
+
+.. code-block:: json
+
+	 {
+	    "Username":"POST_API"
+	 }
 
 Example Response
-::
- {
-    "status": "Success",
-    "username": "POST_API"
- }
+
+.. code-block:: json
+
+	 {
+	    "status": "Success",
+	    "username": "POST_API"
+	 }
 
 
 **METHOD - PATCH**
 
-Allows modification of a user account with a single request.  
+Allows modification of a user account with a single request.
 
 This request requires a **rtype** key to identity the type of request the API is receiving.
 
@@ -159,86 +172,93 @@ The **rtype** key supports the following values
 
 The attribute key supports the following attributes to be modified
 
- - employeeNumber
+
+-	employeeNumber
 
 
 Example Request
-::
 
- http://10.1.20.6:81/user
+.. code-block:: json
+
+ 	http://10.1.20.6:81/user
 
 Request Body
-::
-  
-  {
-    "rtype": "attribute", 
-    "username": "POST_API",
-    "employeeNumber": "123456789"
 
-  }
+.. code-block:: json
+
+	  {
+	    "rtype": "attribute",
+	    "username": "POST_API",
+	    "employeeNumber": "123456789"
+
+	  }
 
 
 Example Response
-::
- 
- {
-    "sAMAccountName": "POST_API",
-    "employeeNumber": "123456"
- }
+
+.. code-block:: json
+
+	 {
+	    "sAMAccountName": "POST_API",
+	    "employeeNumber": "123456"
+	 }
 
 **Password Change**
 
 Example Request
-::
 
- http://10.1.20.6:81/user
+.. code-block:: json
+
+	http://10.1.20.6:81/user
 
 Request Body
-::
-  
 
- {
+.. code-block:: json
 
-  "rtype": "password",
-  "username": "POST_API",
-  "password": "123"
-
- }
+	 {
+	  "rtype": "password",
+	  "username": "POST_API",
+	  "password": "123"
+	 }
 
 
 
 
 Example Response
-::
- 
- {
-    "sAMAccountName": "POST_API"
- }
+
+.. code-block:: json
+
+	 {
+	    "sAMAccountName": "POST_API"
+	 }
 
 **Account Unlock**
 
 Example Request
-::
 
- http://10.1.20.6:81/user
+.. code-block:: json
+
+	 http://10.1.20.6:81/user
 
 Request Body
-::
-  
- {
-  "rtype": "unlock", 
-  "username": "POST_API"
- }
+
+.. code-block:: json
+
+	 {
+	  "rtype": "unlock",
+	  "username": "POST_API"
+	 }
 
 
 
 Example Response
-::
- 
- {
-    "sAMAccountName": "POST_API",
-    "Enabled": true
- }
+
+.. code-block:: json
+
+	{
+	    "sAMAccountName": "POST_API",
+	    "Enabled": true
+	}
 
 
 --------------
@@ -253,9 +273,11 @@ ENDPOINT - user/cert
 
 **METHOD - GET**
 
-Example Request 
-::
- http://10.1.20.6:81/user/cert?username=user2
+Example Request
+
+.. code-block:: json
+
+ 	http://10.1.20.6:81/user/cert?username=user2
 
 
 -------------
@@ -267,38 +289,44 @@ IP Addresses
 ENDPOINT - /addr/scope-status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**METHOD - GET** 
+**METHOD - GET**
 
 The scope status endpoint returns all IP address assignment associated with scope specified in the request.
 
-The following scopes are supported 
+The following scopes are supported
 
 - 10.1.10.96 (BIGIP1_SCOPE)
 - 10.1.10.192 (BIGIP2_SCOPE)
 - 10.1.20.32 (IIS_SCOPE)
 
 
-Example Request 
-::
- http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
+Example Request
+
+.. code-block:: json
+
+ 	http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
 
 
-ENDPOINT - /addr/available 
+ENDPOINT - /addr/available
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**METHOD - GET** 
+**METHOD - GET**
 
 The available endpoint returns the next available address for the scope specified in the request
 
 Example Request
-::
- http://10.1.20.6:81/addr/available?scope=10.1.10.96
+
+.. code-block:: json
+
+	http://10.1.20.6:81/addr/available?scope=10.1.10.96
 
 Example Response
-::
- {
-    "address": "10.1.10.102"
- }
+
+.. code-block:: json
+
+	{
+	   "address": "10.1.10.102"
+	}
 
 
 
@@ -308,24 +336,30 @@ ENDPOINT - /addr/checkout
 **METHOD - POST**
 
 Example Request
-::
- http://10.1.20.6:81/addr/checkout
+
+.. code-block:: json
+
+	http://10.1.20.6:81/addr/checkout
 
 Example Request
-::
- {
-  "scope":"10.1.10.96",
-  "address":"10.1.10.103",
-  "name":"testvs"
- }
+
+.. code-block:: json
+
+	{
+	 "scope":"10.1.10.96",
+	 "address":"10.1.10.103",
+	 "name":"testvs"
+	}
 
 Example Response
-::
- {
-    "status": "Success",
-    "address": "10.1.10.103",
-    "name": "testvs"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "address": "10.1.10.103",
+	   "name": "testvs"
+	}
 
 
 
@@ -336,15 +370,19 @@ ENDPOINT - /addr/checkin
 **METHOD - DELETE**
 
 Example Request
-::
- https://10.1.20.6:81/addr/checkin?address=10.1.10.103
+
+.. code-block:: json
+
+	https://10.1.20.6:81/addr/checkin?address=10.1.10.103
 
 Example Response
-::
- {
-    "status": "Success",
-    "address": "10.1.10.103"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "address": "10.1.10.103"
+	}
 
 ------
 DNS
@@ -360,66 +398,76 @@ The DNS endpoint allows the creation and deletion of A and PTR records
 
 
 Example Request
-::
- https://10.1.20.6:81/dns
+
+.. code-block:: json
+
+	https://10.1.20.6:81/dns
 
 Example Body
-::
 
- {
-  "record_type":"a",
-  "fqdn":"app.acme.com",
-  "computer_ip":"10.1.10.35"
- }
+.. code-block:: json
+
+	{
+	 "record_type":"a",
+	 "fqdn":"app.acme.com",
+	 "computer_ip":"10.1.10.35"
+	}
 
 Example Rsopnose
-::  
- 
- {
-    "status": "Success",
-    "record_type": "A",
-    "hostname": "testapp",
-    "zone": "acme.com",
-    "computer_ip": "10.1.20.35"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "record_type": "A",
+	   "hostname": "testapp",
+	   "zone": "acme.com",
+	   "computer_ip": "10.1.20.35"
+	}
 
 **METHOD - DELETE**
 
 Example Request
-:: 
- https://10.1.20.6:81/dns
+
+.. code-block:: json
+
+	https://10.1.20.6:81/dns
 
 Example Body
-:: 
- {
-  "record_type":"a",
-  "fqdn":"{{DNS1_NAME}}",
-  "computer_ip":"{{IIS_ADDRESS1}}" 
- }
+
+.. code-block:: json
+
+	{
+	 "record_type":"a",
+	 "fqdn":"{{DNS1_NAME}}",
+	 "computer_ip":"{{IIS_ADDRESS1}}"
+	}
 
 Example Response
-::
- {
-    "status": "Success",
-    "record_type": "A",
-    "hostname": "testapp",
-    "zone": "acme.com",
-    "computer_ip": "10.1.20.35"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "record_type": "A",
+	   "hostname": "testapp",
+	   "zone": "acme.com",
+	   "computer_ip": "10.1.20.35"
+	}
 
 
 ---------
 Websites
 ---------
 
-The websites API allows dynamic creation and deletion of websites. 
+The websites API allows dynamic creation and deletion of websites.
 
 ENDPOINT - /websites
 ^^^^^^^^^^^^^^^^^^^^
 
 **METHOD - POST**
 
-The POST method creates websites on the IIS server based on templates located in the access-infra repo.  To view examples of those site click the link below. The following authentication methods are supported 
+The POST method creates websites on the IIS server based on templates located in the access-infra repo.  To view examples of those site click the link below. The following authentication methods are supported
 
 - none
 - Basic
@@ -432,47 +480,57 @@ Template 2 supports the customization of background colors using a customization
 - green
 - blue
 - white
- 
+
 
 
 Example Request
-::
-  https://10.1.20.6:81/websites
+
+.. code-block:: json
+
+	https://10.1.20.6:81/websites
 
 Example Body
-::
- {
-	"site_name":"site.acme.com",
-	"http_port":"80",
-	"https_port":"443",
-	"computer_ip":"10.1.20.33",
-	"template_number": "2",
-	"authentication": "none",
-	"customization": {
+
+.. code-block:: json
+
+	{
+	  "site_name":"site.acme.com",
+	  "http_port":"80",
+	  "https_port":"443",
+	  "computer_ip":"10.1.20.33",
+	  "template_number": "2",
+	  "authentication": "none",
+	  "customization": {
 		"background": "green"
 
+		}
 	}
- }
 
 
 **METHOD - DELETE**
 
 Example Request
-::
-  https://10.1.20.6:81/websites
+
+.. code-block:: json
+
+	https://10.1.20.6:81/websites
 
 Example Body
-::
- {
-  "site_name":"site.acme.com" 
- }
+
+.. code-block:: json
+
+	{
+	 "site_name":"site.acme.com"
+	}
 
 Example Resonse
-::
- {
-    "status": "Success",
-    "site_name": "testapp.acme.com"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "site_name": "testapp.acme.com"
+	}
 
 
 ----------
@@ -482,31 +540,37 @@ Desktop
 ENDPOINT - /desktop
 ^^^^^^^^^^^^^^^^^^^^
 
-The Desktop API copied files from the student_files folder located in specified lab or solution folder to the users desktop 
+The Desktop API copied files from the student_files folder located in specified lab or solution folder to the users desktop
 
 **METHOD - POST**
 
 Example Request
-::
- https://10.1.20.6:81/desktop
+
+.. code-block:: json
+
+	https://10.1.20.6:81/desktop
 
 Example Body
-::
- {
-  "repo":"labs",
-  "number":"3",
-  "user": "user1"
-  }
+
+.. code-block:: json
+
+	{
+	 "repo":"labs",
+	 "number":"3",
+	 "user": "user1"
+	 }
 
 
 Example Response
-::
- {
-    "status": "Success",
-    "repo": "labs",
-    "number": "3",
-    "user": "user1"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "repo": "labs",
+	   "number": "3",
+	   "user": "user1"
+	}
 
 
 
@@ -514,26 +578,32 @@ Example Response
 **METHOD - DELETE**
 
 Example Request
-::
- https://10.1.20.6:81/desktop
+
+.. code-block:: json
+
+	https://10.1.20.6:81/desktop
 
 
 Example Body
-::
- {
-  "repo":"labs",
-  "number":"3",
-  "user": "user1"
- }
+
+.. code-block:: json
+
+	{
+	 "repo":"labs",
+	 "number":"3",
+	 "user": "user1"
+	}
 
 Example Response
-::
- {
-    "status": "Success",
-    "repo": "labs",
-    "number": "3",
-    "user": "user1"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "repo": "labs",
+	   "number": "3",
+	   "user": "user1"
+	}
 
 -----------
 COMPUTER
@@ -548,44 +618,55 @@ The computer endpoint assigned Service Principal names to the Active Directory c
 **METHOD - POST**
 
 Example Request
-::
- https://10.1.20.6:81/computer
+
+.. code-block:: json
+
+	https://10.1.20.6:81/computer
 
 
 Example Body
-::
- {
-  "computer":"IIS",
-  "spn":"HTTP/app.acme.com" 
- }
+
+.. code-block:: json
+
+	{
+	 "computer":"IIS",
+	 "spn":"HTTP/app.acme.com"
+	}
 
 Example Response
-::
- {
-    "status": "Success",
-    "computer": "IIS",
-    "spn": "HTTP/app.acme.com"
- }
+
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "computer": "IIS",
+	   "spn": "HTTP/app.acme.com"
+	}
 
 **METHOD - DELETE**
 
 Example Request
-::
- https://10.1.20.6:81/computer
+
+.. code-block:: json
+
+	https://10.1.20.6:81/computer
 
 
 Example Body
-::
- {
-  "computer":"IIS",
-  "spn":"HTTP/app.acme.com" 
- }
+
+.. code-block:: json
+
+	{
+	 "computer":"IIS",
+	 "spn":"HTTP/app.acme.com"
+	}
 
 Example Response
-::
- {
-    "status": "Success",
-    "computer": "IIS",
-    "spn": "HTTP/app.acme.com"
- }
 
+.. code-block:: json
+
+	{
+	   "status": "Success",
+	   "computer": "IIS",
+	   "spn": "HTTP/app.acme.com"
+	}

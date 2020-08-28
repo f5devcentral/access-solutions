@@ -1,9 +1,9 @@
-Solution:  OIDC RP - BIGIP IDP
+Solution:  OIDC RP/RS (BIG-IP IDP/AS)
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic OIDC RP
+This solution documents all the necessary pieces required to create a basic OIDC RP/RS
 
-Keywords: JWT, OAUTH, OIDC, RSA, RS
+Keywords: JWT, OAUTH, OIDC, RSA, RS. RP
 
 DC: single, multi
 
