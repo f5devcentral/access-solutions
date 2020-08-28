@@ -5,73 +5,80 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|  
+|image001|
 
-1. A user is prompted to select their certificate.  
-  - The validation of the user certificates is controlled via CA bundles selected in the Client-side SSL Profile.                                            
-2. The certificate is validated by OCSP if the user presents a certificate issued by a trusted CA
-3. The Othername field is extracted from the certificate
-4. A LDAP query is performed to collect the sAMAccountName of the user 
-5. The domain and username variables are set
-6. The user is granted access via the Allow Terminal
-7. If the LDAP Query is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
-8. If the OCSP check is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
-9. If the user fails to present a certificate, the user proceeds down the failback branch to the Deny Terminal
-                                       
+#.  A user is prompted to select their certificate.
 
-                                                                                    
+    - The validation of the user certificates is controlled via CA bundles selected in the Client-side SSL Profile.
+
+#.  The certificate is validated by OCSP if the user presents a certificate issued by a trusted CA
+#.  The Othername field is extracted from the certificate
+#.  A LDAP query is performed to collect the sAMAccountName of the user
+#.  The domain and username variables are set
+#.  The user is granted access via the Allow Terminal
+#.  If the LDAP Query is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
+#.  If the OCSP check is unsuccessful, the user proceeds down the failback branch to the Deny Terminal
+#.  If the user fails to present a certificate, the user proceeds down the failback branch to the Deny Terminal
+
+
+
 
 
 
 Policy Agent Configuration
 ----------------------------
 
-- The On-Demand Cert Auth Agent uses the default settings                                                                   
+- The On-Demand Cert Auth Agent uses the default settings
 
-   |image002|                                                                                   
+|image002|
 
 - The OCSP Agent validates the certificate against the OCSP responder configured
 
-   |image003|     
+|image003|
 
-- The othername field is extracted from the certificate and saved as session variable session.logon.upn  
+- The othername field is extracted from the certificate and saved as session variable session.logon.upn
 
-  |image004|
+image004|
 
 - The LDAP query connects to the LDAP server to the dc=f5lab,dc=local DN for a user that contains the userPrincipalName matching the value stored in session.custom.upn
 - The LDAP query requests the sAMAccountName attribute if the user is found
 
-   |image005|                                                                            
+|image005|
 
 - The branch rule was modified to only require a LDAP Query passed condition
 
-   |image006|
+|image006|
 
 - Two session variables are set
-   - session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
-   - session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
-   
-   |image007|               
 
-                                                                               
+   * session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
+   * session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
+
+|image007|
+
+
 Customized LTM Profile settings
 ---------------------------------
 
 - The Client-side SSL profile Client Authentication section has been modificed to support certiciate authentication
-   - Trusted Certificate Authorities has been set to ca.f5lab.local.crt
-	   - The bundle validates client certificates by these issuers 
-	   - The bundle must include all CAs in the chain
-   - Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
-	   - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate 
 
-|image008|	   
+  * Trusted Certificate Authorities has been set to ca.f5lab.local.crt
+
+      - The bundle validates client certificates by these issuers
+      - The bundle must include all CAs in the chain
+
+  * Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
+
+      - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate
+
+|image008|
 
 Customized APM Profile Settings
 ----------------------------------
 
 - The SSO/Auth Domains of the APM profile is configured with the Kerberos SSO Profile needed to authenticate to the server.
 
-|image009| 
+|image009|
 
 
 Supporting APM Objects
@@ -82,20 +89,20 @@ AAA OCSP Responder
 
 The OCSP Responder has been configured with the following settings
 
-- URL: this field is only used if you check the Ignore AIA field  
-- Certificate Authority File:  contains the root ca bundle
-- Certificate Authority Path:  this field is only used if you check the Ignore AIA field                        
+:URL: this field is only used if you check the Ignore AIA field
+:Certificate Authority File:  contains the root ca bundle
+:Certificate Authority Path:  this field is only used if you check the Ignore AIA field                        
 
-|image010|                                                                                   
+|image010|
 
 
-                                                                               
+
 AAA LDAP Object
 ^^^^^^^^^^^^^^^^^^
 
-A single LDAP server of 10.1.20.7 has been configured with a admin service account to support queries                                                   
+A single LDAP server of 10.1.20.7 has been configured with a admin service account to support queries
 
-|image011|    
+|image011|
 
 Kerberos SSO Object
 ^^^^^^^^^^^^^^^^^^^^^
@@ -103,10 +110,10 @@ Kerberos SSO Object
 - The Username Source field has been modified from the default to reference the sAMAccountName stored in session.logon.last.username
 - Kerberos Realm has been set to the Active Directory domain (realms should always be in uppercase)
 - The service account used for Kerberos Contrained Delegation (Service Account Names should be in SPN format)
-- SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)                                                
+- SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)
 
-|image014| 
-                                                                               
+|image014|
+
 
 
 
@@ -142,6 +149,3 @@ User1
 .. |image015| image:: media/015.png
 .. |image016| image:: media/016.png
 .. |image017| image:: media/017.png
-
-   
-
