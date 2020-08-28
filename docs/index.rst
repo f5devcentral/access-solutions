@@ -1,6 +1,9 @@
 Access Policy Manager(APM) Solution Guides 
 =============================================
 
+
+Reading from docs folder
+
 The solutions documented on this site are designed to provide example configurations to address a given scenario.
 
 Each solution has an accompanying guide that provides a detailed overview of the components used in the configuration and the workflow used in Visual Policy Editor.
