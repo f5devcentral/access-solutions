@@ -7,18 +7,18 @@ Policy Walk-Through
 
 |image1|
 
-#. A user enters their credentials in the logon page agent.
+#.  A user enters their credentials in the logon page agent.
     - Those credentials are collected, then stored as the default system session variables of session.logon.last.username and session.logon.last.password.
     - The user proceeds down the logon page fallback branch to the AD Auth Agent
 
-#. The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
-#. If AD Authentication is successful, the user proceeds down the Successful Branch
+#.  The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
+#.  If AD Authentication is successful, the user proceeds down the Successful Branch
     - The AD Query Agent connects to the AD Server to retrieve user attributes (Specifically memberOf)
 
-#. If the query succeeds, the user is assigned resourced defined in the AD Group Resource Assign
-#. The user is granted access via the Allow Terminal
-#. If the AD query fails,  the user is denied access via the Deny Terminal
-#. If AD Authentication is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+#.  If the query succeeds, the user is assigned resourced defined in the AD Group Resource Assign
+#.  The user is granted access via the Allow Terminal
+#.  If the AD query fails,  the user is denied access via the Deny Terminal
+#.  If AD Authentication is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
 
 
 Policy Agent Configuration
@@ -61,7 +61,7 @@ The Properties page contains the Caption name **VPN**.  This is the name display
 - The Network Settings tab assigns the **lease pool** of ip addresses that will be used for the VPN
 - Split Tunneling is configured to permit only the **10.1.20.0/24** subnet range inside the VPN
 
-|image8|                                                                                   
+|image8|
 
 
 Lease Pool
@@ -105,24 +105,24 @@ The Policy from a user's perspective
 User1
 ^^^^^^
 
-#. User1 is presented a logon page to collect AD credentials
+#.  User1 is presented a logon page to collect AD credentials
 
-   |image14|
+|image14|
 
-#. User1 is presented resources based on their **Sales Engineering** group membership
+#.  User1 is presented resources based on their **Sales Engineering** group membership
 
-   |image15|
+|image15|
 
 User2
 ^^^^^^
 
-#. User2 is presented a logon page to collect AD Credentials
+#.  User2 is presented a logon page to collect AD Credentials
 
-   |image16|
+|image16|
 
-#. User2 is presented resources based on the **Product Management** group membership
+#.  User2 is presented resources based on the **Product Management** group membership
 
-   |image17|
+|image17|
 
 
 .. |image1| image:: media/001.png
