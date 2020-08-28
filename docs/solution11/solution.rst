@@ -1,4 +1,4 @@
-Solution:  OIDC RP - BIGIP IDP
+Solution:  OIDC RP/RS (BIG-IP IDP)
 ===============================================================
 
 This solution documents all the necessary pieces required to create a basic OIDC RP
