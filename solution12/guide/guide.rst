@@ -6,29 +6,30 @@ The Policy
 Policy Walk-Through
 -------------------------------------
 
-|image001|  
+|image001|
 
-1. In this policy a user enters their credentials in the logon page agent.  
-    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                
-          
-2. The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
-3. The RDG policy is evaluated for access control
-4. Domain variables are assigned
-5. The user is assigned resourced defined in the Advanced Resource Assign Agent
-6. The user is granted access via the Allow Terminal
-7. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                                                                                     
+#.  In this policy a user enters their credentials in the logon page agent.
+
+    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.
+
+#.  The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
+#.  The RDG policy is evaluated for access control
+#.  Domain variables are assigned
+#.  The user is assigned resourced defined in the Advanced Resource Assign Agent
+#.  The user is granted access via the Allow Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+
 
 Policy Agent Configuration
 ----------------------------
 
-The Logon Page contains only the default setting                                                                          
+The Logon Page contains only the default setting
 
-|image002|                                                                                   
+|image002|
 
 The AD Auth Agent uses a defined the  AD AAA Server object that user will be authenticated against.  All Setting are the default.
 
-|image003|                                                                                   
+|image003|
 
 
 The RDG Policy assignment agent inherits the settings defined in a separate RDG Policy.
@@ -41,32 +42,32 @@ The Variable Assign objects defined the AD domain name to support SSO to the VDI
 |image005|
 
 
-The Advanced resource Assign Agent grants a user access to the assigned RDP resource and webtop.                                     
+The Advanced resource Assign Agent grants a user access to the assigned RDP resource and webtop.
 
-|image006|                                                                                   
-   
-                            
+|image006|
+
+
 Customized APM Profile Settings
 ----------------------------------
 
 - The APM Profiles settings are the default.
 
-  
+
 Supporting APM Objects
 -----------------------
 
 AAA AD Server Object
 ^^^^^^^^^^^^^^^^^^^^^
-          
-|image007|                                                                                   
-                                                                          
+
+|image007|
+
 
 Webtop
 ^^^^^^^^^^^^^^^
 
 |image008|
 
-                                          
+
 Connectivity Profile
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -102,25 +103,25 @@ User's Perspective
 ---------------------
 
 
-#. A user connects to https://solution12.acme.com and redirected to a logon page.
-     
-   - username: user1
-   - Password: user1
-    
+1. A user connects to https://solution12.acme.com and redirected to a logon page.
 
-   |image013|
+:username: user1
+:Password: user1
 
-#. After successful logon the user is presented a webtop with RDP resources
 
-   |image014|
+|image013|
 
-#. The user clicks the RDP resource icon on the webtop, downloads the .rdp file, and clicks the .rdp file.
+2. After successful logon the user is presented a webtop with RDP resources
 
-   |image015| 
+|image014|
 
-#. The desktop for the RDP resource opens.
-    
-   |image016|
+3. The user clicks the RDP resource icon on the webtop, downloads the .rdp file, and clicks the .rdp file.
+
+|image015|
+
+4. The desktop for the RDP resource opens.
+
+|image016|
 
 
 .. |image001| image:: media/001.png

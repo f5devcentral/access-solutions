@@ -65,7 +65,7 @@ this lab guide and other APM tasks.
    -  **RSA Integration:**
       https://support.f5.com/kb/en-us/products/big-ip_apm/manuals/product/apm-authentication-single-sign-on-12-1-0/6.html#conceptid
 
-   -  **DUO Security:**
+   -  **DUO Security: **
 
       -  https://duo.com/docs/f5bigip
 

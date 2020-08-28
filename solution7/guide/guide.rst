@@ -13,63 +13,64 @@ Send-Sideband Policy
 Policy Walk-Through
 -------------------------------------
 
-|image001|  
+|image001|
 
-1. A user is redirect to the external SAML IDP 
-  - Once authenticated at the IDP the user is redirected back to the BIG-IP.                                            
-2. If the SAML assertion is valid an AD Query is performed to match the email address in the assertion to an AD Account.
-  -  The attribute sAMAccountName is returned to be used in the send-sideband irule
-3. The session variable session.logon.last.user is set from the SAML Assertion NameIDAttribute session.saml.last.nameIDValue
-4. iRule Event send-sideband is triggered
-5. The user is granted access via the Allow Terminal
-6. If the LDAP Query is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
-7. If the SAML Auth is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+#.  A user is redirect to the external SAML IDP
 
-                                       
+    - Once authenticated at the IDP the user is redirected back to the BIG-IP.
 
-                                                                                  
+#.  If the SAML assertion is valid an AD Query is performed to match the email address in the assertion to an AD Account.
+
+    - The attribute sAMAccountName is returned to be used in the send-sideband irule
+
+#.  The session variable session.logon.last.user is set from the SAML Assertion NameIDAttribute session.saml.last.nameIDValue
+#.  iRule Event send-sideband is triggered
+#.  The user is granted access via the Allow Terminal
+#.  If the LDAP Query is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+#.  If the SAML Auth is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
 
 
 Policy Agent Configuration
 ----------------------------
 
-- The SAML Auth Agent selected the SP service to be used.  This selection indirectly selects the IDP to be used.                                                                   
+- The SAML Auth Agent selected the SP service to be used.  This selection indirectly selects the IDP to be used.
 
-   |image002|                                                                                   
+|image002|
 
 - The AD Query Agent validates the email address(username) specified in the SAML nameID attribute exists in Active Directory
 
-   |image003|     
+|image003|
 
 - The SAML nameID attribute is passed to the username attribute
 
-  |image004|
+|image004|
 
 - The irule event triggers the send-sideband request
 
-   |image005|                                                                            
+|image005|
 
-        
+
 Customized APM Profile Settings
 ----------------------------------
 
-- The APM Profiles SSO Configurtion section has the BIG-IP SAML IDP service selected.
+- The APM Profiles SSO Configuration section has the BIG-IP SAML IDP service selected.
 
-|image006| 
+|image006|
 
 
-                                                                               
+
 Send Side-band irule
 ---------------------------------
-::
+
+.. code-block:: irules
 
  when ACCESS_POLICY_AGENT_EVENT {
 	switch -glob [string tolower [ACCESS::policy agent_id]] {
 		"send-sideband" {
-			#established a TCP based sideband connetion to virtual server receive-sideband
+			#established a TCP based sideband connection to virtual server receive-sideband
 			set conn [connect -protocol TCP -timeout 100 -idle 30 -status conn_status /solution7/receive-sideband/receive-sideband]
 			#converts the APM session variable to a TCL variable
-			#sends a HTTP requrest over the sideband with the username in a query string
+			#sends a HTTP request over the sideband with the username in a query string
 			set username [ACCESS::session data get "session.ad.last.attr.sAMAccountName"]
 			set data "GET /?username=$username HTTP/1.1\r\nHost: sp.acme.com\r\nUser-Agent: Side-band\r\nclientless-mode: 1\r\n\r\n"
 			set send_info [send -timeout 3000 -status send_status $conn $data]
@@ -78,11 +79,7 @@ Send Side-band irule
 			close $conn
                  }
         }
-  }  
-
-
-
-
+  }
 
 
 Supporting APM Objects
@@ -95,21 +92,21 @@ SP Service
 
 SP Service sections not displayed contain default values
 
-- Entity ID: https://sp.acme.com
-- Host:      sp.acme.com                     
+:Entity ID: https://sp.acme.com
+:Host: sp.acme.com
 
-|image007|                                                                                   
+|image007|
 
 
 **Security Settings**
 
-- Want Signed Assertion is **checked**
+:Want Signed Assertion: **checked**
 
 |image008|
 
 
 
-                                                                               
+
 IDP Connector
 ^^^^^^^^^^^^^^^
 
@@ -130,8 +127,8 @@ IDP Connector
 
 - Okta's IDP Certificate selected
 
-                                          
-|image011|    
+
+|image011|
 
 
 IDP Service
@@ -139,15 +136,15 @@ IDP Service
 
 **General Settings**
 
-- IDP Entity ID: https://sp.acme.com/bigip
-- Host:    sp.acme.com
+:IDP Entity ID: https://sp.acme.com/bigip
+:Host: sp.acme.com
 
 |image012|
 
 **Assertion Settings**
 
-- Assertion Subject Type: Transient Identifier
-- Assertion Subject Value: %{session.logon.last.username}
+:Assertion Subject Type: Transient Identifier
+:Assertion Subject Value: %{session.logon.last.username}
 
 |image013|
 
@@ -174,13 +171,13 @@ SP Connector
 
 **SP Location Settings**
 
-This setting determines whether the client has direct access to the BIG-IP IDP.  
+This setting determines whether the client has direct access to the BIG-IP IDP.
 
-Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML Assertion to the application on behalf of the user. 
+Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML Assertion to the application on behalf of the user.
 
 The user will only have access to the external IDP Assertion and not any assertions from the BIG-IP IDP when internal is selected.
 
-Service Provider Location:  Internal
+:Service Provider Location:  Internal
 
 |image018|
 
@@ -195,14 +192,14 @@ Receive-Sideband Policy
 ===========================
 
 
-                                                                             
+
 Policy Walk-Through
 -------------------------------------
 
 |image020|
 
-1. The session variable session.logon.last.domain is set to the AD Domain f5lab.local
-2. The sideband request is granted access via the Allow Terminal
+#.  The session variable session.logon.last.domain is set to the AD Domain f5lab.local
+#.  The sideband request is granted access via the Allow Terminal
 
 
 Customized APM Profile Settings
@@ -215,21 +212,22 @@ Customized APM Profile Settings
 
 Send Side-band irule
 ---------------------------
-::
+
+.. code-block:: irules
 
  when CLIENT_ACCEPTED {
-  ACCESS::restrict_irule_events disable
+    ACCESS::restrict_irule_events disable
    }
  when HTTP_REQUEST {
-  #Parses query string and splits the first parameter name from the value.
-  #The value is stored as the username variable
-  set username [lindex [split [HTTP::query] =] 1]
+    #Parses query string and splits the first parameter name from the value.
+    #The value is stored as the username variable
+    set username [lindex [split [HTTP::query] =] 1]
   }
  when ACCESS_SESSION_STARTED {
-  #Stores the tcl username variable as a session variable
-  ACCESS::session data set session.logon.last.username $username
-  }  
-	
+    #Stores the tcl username variable as a session variable
+    ACCESS::session data set session.logon.last.username $username
+  }
+
 
 
 Supporting APM Objects
@@ -246,17 +244,17 @@ User's Perspective
 ---------------------
 
 
-#. A user connects to https://sp.acme.com and is redirect to the external IDP.
-     
-   - username: coyote@acme.com
-   - Password: user1
-    
+1. A user connects to https://sp.acme.com and is redirect to the external IDP.
 
-   |image023|
+:username: coyote@acme.com
+:Password: user1
 
-#. After successful logon the user is granted access to the application
 
-   |image024|
+|image023|
+
+2. After successful logon the user is granted access to the application
+
+|image024|
 
 
 .. |image001| image:: media/001.png
@@ -284,6 +282,3 @@ User's Perspective
 .. |image023| image:: media/023.png
 .. |image024| image:: media/024.png
 .. |image025| image:: media/025.png
-
-   
-
