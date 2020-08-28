@@ -8,11 +8,13 @@ Policy Walk-Through
 |image1|
 
 #.  A user enters their credentials in the logon page agent.
+
     - Those credentials are collected, then stored as the default system session variables of session.logon.last.username and session.logon.last.password.
     - The user proceeds down the logon page fallback branch to the AD Auth Agent
 
 #.  The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
 #.  If AD Authentication is successful, the user proceeds down the Successful Branch
+
     - The AD Query Agent connects to the AD Server to retrieve user attributes (Specifically memberOf)
 
 #.  If the query succeeds, the user is assigned resourced defined in the AD Group Resource Assign
@@ -66,6 +68,7 @@ The Properties page contains the Caption name **VPN**.  This is the name display
 
 Lease Pool
 ^^^^^^^^^^^^
+
 A single address of **10.1.20.254** is assigned inside the lease pool.
 
 |image9|
@@ -73,6 +76,7 @@ A single address of **10.1.20.254** is assigned inside the lease pool.
 
 Webtop
 ^^^^^^^^^^^
+
 - A Full Webtop was defined with modified default settings.
 - The Minimize to Tray box is **checked** to ensure the Webtop is not displayed when a user connects to the VPN.
 
@@ -80,6 +84,7 @@ Webtop
 
 Webtop Sections
 ^^^^^^^^^^^^^^^^
+
 A single section is configured to display a custom name.
 
 |image11|
