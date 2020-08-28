@@ -1,4 +1,4 @@
-Solution: VPN - AD Auth
+Solution: VPN (AD Auth)
 =======================
 
 This solution documents  all the necessary pieces required to setup a basic AD authenticated VPN.
