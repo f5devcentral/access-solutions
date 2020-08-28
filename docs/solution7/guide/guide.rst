@@ -213,7 +213,7 @@ Customized APM Profile Settings
 Send Side-band irule
 ---------------------------
 
-. code-block:: irules
+.. code-block:: irules
 
  when CLIENT_ACCEPTED {
     ACCESS::restrict_irule_events disable
@@ -244,17 +244,17 @@ User's Perspective
 ---------------------
 
 
-#. A user connects to https://sp.acme.com and is redirect to the external IDP.
+1. A user connects to https://sp.acme.com and is redirect to the external IDP.
 
 :username: coyote@acme.com
 :Password: user1
 
 
-   |image023|
+|image023|
 
-#. After successful logon the user is granted access to the application
+2. After successful logon the user is granted access to the application
 
-   |image024|
+|image024|
 
 
 .. |image001| image:: media/001.png
