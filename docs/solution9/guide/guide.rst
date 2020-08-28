@@ -5,22 +5,22 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|     
+|image001|
 
 1. When a user accesses a VIP protected by this policy JWT and scope validation is performed
-2. Upon successful Authorization, the user is granted access via the Allow Terminal 
+2. Upon successful Authorization, the user is granted access via the Allow Terminal
 3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                                   
-                                                                             
+
+
 
 Policy Agent Configuration
 ----------------------------
 
-The OAuth Scope Settings are defined as Internal.                                                                         
+The OAuth Scope Settings are defined as Internal.
 
-|image002|                                                                                   
+|image002|
 
-                                                                        
+
 
 
 Profile Settings
@@ -29,7 +29,7 @@ Profile Settings
 
 All profile settings are left the defaults
 
-                                                                         
+
 
 Supporting APM Objects
 -----------------------
@@ -40,19 +40,19 @@ Provider List
 The provider List defines a single provider
 
 |image003|
-                                                                              
-Provider 
+
+Provider
 ^^^^^^^^^
-                                                   
-The settings below define all the components of the Authorization Server's endpoints to retrieve and validate tokens.  
+
+The settings below define all the components of the Authorization Server's endpoints to retrieve and validate tokens.
 
 |image004|
 
-                                                                             
+
 JSON Web Token
 ^^^^^^^^^^^^^^^
 
-The JWT setting define the the signing algorithms used by a provider with a set of jwks
+The JWT setting define the signing algorithms used by a provider with a set of jwks
 
 |image005|
 
@@ -64,7 +64,7 @@ The key settings define a type of key and its properties
 |image006|
 
 
-                                                                 
+
 The Policy from a user's perspective
 -------------------------------------
 
@@ -77,8 +77,13 @@ This solution is designed to be integrated with other Authorization Server based
 
 Supported Solutions
 ^^^^^^^^^^^^^^^^^^^^
- - Solution8
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Content:
+   :glob:
+
+   solution8/guide/guide.rst
 
 |image010|
 
@@ -91,8 +96,3 @@ Supported Solutions
 .. |image005| image:: media/005.png
 .. |image006| image:: media/006.png
 .. |image007| image:: media/007.png
-
-
-
-   
-
