@@ -66,12 +66,14 @@ BIG-IP Components used:
 ------------------------
 
 - Virtual Server
-  + HTTP Profile
-  + Client-side SSL Profile
-  + Connectivity profile
-  + Access Profile
-    * AAA Active Directory Object
-    * Network Access Resource
-    * IPv4 Lease Pool
-    * Webtop
-    * Webtop Sections
+
+  * HTTP Profile
+  * Client-side SSL Profile
+  * Connectivity profile
+  * Access Profile
+
+    - AAA Active Directory Object
+    - Network Access Resource
+    - IPv4 Lease Pool
+    - Webtop
+    - Webtop Sections
