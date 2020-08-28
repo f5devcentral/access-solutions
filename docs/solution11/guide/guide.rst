@@ -5,22 +5,22 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|     
+|image001|
 
-1. When a user accesses a VIP protected by this policy the user is redirected to the provider selected for authentication.
-2. Upon successful Authentication, the user is granted access via the Allow Terminal 
-3. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                                   
-                                                                             
+#.  When a user accesses a VIP protected by this policy the user is redirected to the provider selected for authentication.
+#.  Upon successful Authentication, the user is granted access via the Allow Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+
+
 
 Policy Agent Configuration
 ----------------------------
 
-The OAuth Client Settings                                                                        
+The OAuth Client Settings
 
-|image002|                                                                                   
+|image002|
 
-                                                                        
+
 
 
 Profile Settings
@@ -29,27 +29,28 @@ Profile Settings
 
 All profile settings are left the defaults
 
-                                                                         
+
 
 Supporting APM Objects
 -----------------------
 
 Oauth Server
 ^^^^^^^^^^^^^
+
 The OAuth Server setting specify it will be a client only.
 
 |image003|
 
 
-                                                                              
-Provider 
+
+Provider
 ^^^^^^^^^
-                                                   
-The settings below define all the components of the Authorization Server's endpoints to retrieve and validate tokens.  
+
+The settings below define all the components of the Authorization Server's endpoints to retrieve and validate tokens.
 
 |image004|
 
-                                                                             
+
 JSON Web Token
 ^^^^^^^^^^^^^^^
 
@@ -80,11 +81,11 @@ The Forward Zones section forwards all request to a single DNS server.
 |image008|
 
 
-                                                                 
+
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://solution11.acme.com via a web browser they are redirected to the solution10 Authorization Server.  
+If the user attempts to access https://solution11.acme.com via a web browser they are redirected to the solution10 Authorization Server.
 
 |image009|
 
@@ -99,7 +100,13 @@ This solution is designed to be integrated with other Authorization Server based
 
 Supported Solutions
 ^^^^^^^^^^^^^^^^^^^^
- - Solution10
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Content:
+   :glob:
+
+   solution10/guide/guide.rst
 
 
 
@@ -115,9 +122,4 @@ Supported Solutions
 .. |image007| image:: media/007.png
 .. |image008| image:: media/008.png
 .. |image009| image:: media/009.png
-.. |image0010| image:: media/010.png
-
-
-
-   
-
+.. |image010| image:: media/010.png
