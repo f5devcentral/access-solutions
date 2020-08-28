@@ -16,6 +16,6 @@ If a given topic is not highlighted currently on this page or something is incor
    :caption: Contents:
    :glob:
    
-   labinfo*
-   Solution*
-   close*
+   environment/environment.rst
+   docs/solution*/solution*
+   docs/additional_info.rst
