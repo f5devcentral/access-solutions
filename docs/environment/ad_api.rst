@@ -3,10 +3,10 @@
 Active Directory API Endpoints
 =================================
 
-The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution and lab deployment 
+The IIS server currently hosts a REST service that can used for dynamic configuration of the Microsoft Environment for use in solution and lab deployment
 
 - HTTP Listener  10.1.20.6:81
-- HTTPS Listener 10.1.20.6:8443 
+- HTTPS Listener 10.1.20.6:8443
 
 ---------------
 user accounts
@@ -121,7 +121,7 @@ Example Response
 
 **METHOD - DELETE**
 
-Removed the user account from Active Directory.  
+Removed the user account from Active Directory.
 
 - useridentity(saMAccountName)
 
@@ -153,7 +153,7 @@ Example Response
 
 **METHOD - PATCH**
 
-Allows modification of a user account with a single request.  
+Allows modification of a user account with a single request.
 
 This request requires a **rtype** key to identity the type of request the API is receiving.
 
@@ -172,6 +172,7 @@ The **rtype** key supports the following values
 
 The attribute key supports the following attributes to be modified
 
+
 - employeeNumber
 
 
@@ -184,9 +185,9 @@ Example Request
 Request Body
 
 .. code-block:: json
-  
+
 	  {
-	    "rtype": "attribute", 
+	    "rtype": "attribute",
 	    "username": "POST_API",
 	    "employeeNumber": "123456789"
 
@@ -196,7 +197,7 @@ Request Body
 Example Response
 
 .. code-block:: json
- 
+
 	 {
 	    "sAMAccountName": "POST_API",
 	    "employeeNumber": "123456"
@@ -226,7 +227,7 @@ Request Body
 Example Response
 
 .. code-block:: json
- 
+
 	 {
 	    "sAMAccountName": "POST_API"
 	 }
@@ -242,9 +243,9 @@ Example Request
 Request Body
 
 .. code-block:: json
-  
+
 	 {
-	  "rtype": "unlock", 
+	  "rtype": "unlock",
 	  "username": "POST_API"
 	 }
 
@@ -253,7 +254,7 @@ Request Body
 Example Response
 
 .. code-block:: json
- 
+
 	{
 	    "sAMAccountName": "POST_API",
 	    "Enabled": true
@@ -288,28 +289,28 @@ IP Addresses
 ENDPOINT - /addr/scope-status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**METHOD - GET** 
+**METHOD - GET**
 
 The scope status endpoint returns all IP address assignment associated with scope specified in the request.
 
-The following scopes are supported 
+The following scopes are supported
 
 - 10.1.10.96 (BIGIP1_SCOPE)
 - 10.1.10.192 (BIGIP2_SCOPE)
 - 10.1.20.32 (IIS_SCOPE)
 
 
-Example Request 
+Example Request
 
 .. code-block:: json
 
  	http://10.1.20.6:81/addr/scope-status?scope=10.1.10.96
 
 
-ENDPOINT - /addr/available 
+ENDPOINT - /addr/available
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**METHOD - GET** 
+**METHOD - GET**
 
 The available endpoint returns the next available address for the scope specified in the request
 
@@ -415,7 +416,7 @@ Example Body
 Example Rsopnose
 
 .. code-block:: json
- 
+
 	{
 	   "status": "Success",
 	   "record_type": "A",
@@ -439,7 +440,7 @@ Example Body
 	{
 	 "record_type":"a",
 	 "fqdn":"{{DNS1_NAME}}",
-	 "computer_ip":"{{IIS_ADDRESS1}}" 
+	 "computer_ip":"{{IIS_ADDRESS1}}"
 	}
 
 Example Response
@@ -447,7 +448,7 @@ Example Response
 .. code-block:: json
 
 	{
-	   "status": "Success",	
+	   "status": "Success",
 	   "record_type": "A",
 	   "hostname": "testapp",
 	   "zone": "acme.com",
@@ -459,14 +460,14 @@ Example Response
 Websites
 ---------
 
-The websites API allows dynamic creation and deletion of websites. 
+The websites API allows dynamic creation and deletion of websites.
 
 ENDPOINT - /websites
 ^^^^^^^^^^^^^^^^^^^^
 
 **METHOD - POST**
 
-The POST method creates websites on the IIS server based on templates located in the access-infra repo.  To view examples of those site click the link below. The following authentication methods are supported 
+The POST method creates websites on the IIS server based on templates located in the access-infra repo.  To view examples of those site click the link below. The following authentication methods are supported
 
 - none
 - Basic
@@ -479,7 +480,7 @@ Template 2 supports the customization of background colors using a customization
 - green
 - blue
 - white
- 
+
 
 
 Example Request
@@ -501,7 +502,7 @@ Example Body
 	  "authentication": "none",
 	  "customization": {
 		"background": "green"
-	
+
 		}
 	}
 
@@ -519,7 +520,7 @@ Example Body
 .. code-block:: json
 
 	{
-	 "site_name":"site.acme.com" 
+	 "site_name":"site.acme.com"
 	}
 
 Example Resonse
@@ -539,7 +540,7 @@ Desktop
 ENDPOINT - /desktop
 ^^^^^^^^^^^^^^^^^^^^
 
-The Desktop API copied files from the student_files folder located in specified lab or solution folder to the users desktop 
+The Desktop API copied files from the student_files folder located in specified lab or solution folder to the users desktop
 
 **METHOD - POST**
 
@@ -629,7 +630,7 @@ Example Body
 
 	{
 	 "computer":"IIS",
-	 "spn":"HTTP/app.acme.com" 
+	 "spn":"HTTP/app.acme.com"
 	}
 
 Example Response
@@ -657,7 +658,7 @@ Example Body
 
 	{
 	 "computer":"IIS",
-	 "spn":"HTTP/app.acme.com" 
+	 "spn":"HTTP/app.acme.com"
 	}
 
 Example Response
@@ -669,4 +670,3 @@ Example Response
 	   "computer": "IIS",
 	   "spn": "HTTP/app.acme.com"
 	}
-
