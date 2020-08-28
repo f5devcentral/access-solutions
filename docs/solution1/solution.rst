@@ -43,11 +43,11 @@ Postman Collection(s)
 
 solution1-create.postman_collection.json_
 
-.. _solution1-create.portman_collection.json:: https://raw.githubusercontent.com/yzfvroom/access-solutions/dev/docs/solution1/postman/solution1-create.postman_collection.json
+.. _solution1-create.portman_collection.json: https://raw.githubusercontent.com/yzfvroom/access-solutions/dev/docs/solution1/postman/solution1-create.postman_collection.json
 
 solution1-delete.postman_collection.json_
 
-.. _solution1-delete.postmancollection.json:: https://raw.githubusercontent.com/yzfvroom/access-solutions/dev/docs/solution1/postman/solution1-delete.postman_collection.json
+.. _solution1-delete.postmancollection.json: https://raw.githubusercontent.com/yzfvroom/access-solutions/dev/docs/solution1/postman/solution1-delete.postman_collection.json
 
 
 APM Profile(s)
@@ -55,7 +55,7 @@ APM Profile(s)
 
 profile_Common_solution1-psp.conf.tar_
 
-.. _profile_Common_solution1-psp.conf.tar:: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/policies
+.. _profile_Common_solution1-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/policies
 
 BIG-IP Versions Tested
 ------------------------
