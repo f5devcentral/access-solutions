@@ -57,15 +57,17 @@ solution6-delete.postman_collection.json_
 BIG-IP Versions Tested
 ------------------------
 
-  - 15.1
+- 15.1
 
 BIG-IP Components used:
 --------------------------
 
-* Virtual Server
- - HTTP Profile
- - Client-side SSL Profile
- - Access Profile
-      + LDAP AAA Object
-      + OCSP Responder AAA Object
-      + Kerberos SSO
+- Virtual Server
+
+  * HTTP Profile
+  * Client-side SSL Profile
+  * Access Profile
+  
+    - LDAP AAA Object
+    - OCSP Responder AAA Object
+    - Kerberos SSO
