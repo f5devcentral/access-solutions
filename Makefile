@@ -6,7 +6,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = F5 Access Solutions
-SOURCEDIR     = docs
+SOURCEDIR     = access-solutions
 BUILDDIR      = docs/_build
 
 # Put it first so that "make" without argument is like "make help".
