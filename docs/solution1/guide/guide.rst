@@ -87,19 +87,19 @@ The Policy from a user's perspective
    - Username: user1
    - Password: user1
 
-    |image10|
+|image10|
 
 #. Once authenticated the user is presented a Webtop with a single VPN icon.
 
-    |image11|
+|image11|
 
 #. Assuming the VPN has already been installed the user is notified that the client is attempting to start
 
-    |image12|
+|image12|
 
 #. A popup opens displaying the status of the VPN connection.  The status will eventually become **Connected**
 
-    |image13|
+|image13|
 
 
 .. |image1| image:: media/001.png
