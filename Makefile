@@ -6,8 +6,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = F5 Access Solutions
-#SOURCEDIR     = /
-BUILDDIR      = /_build
+SOURCEDIR     = access-solutions
+BUILDDIR      = access-solutions/_build
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -18,7 +18,7 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	@$(SPHINXBUILD) -M $@ "/" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 # Custom commands for building and testing project documentation
 
@@ -33,19 +33,19 @@ preview:
 # run docs quality tests locally
 .PHONY: test
 test:
-	rm -rf /_build
+	rm -rf access-solutions/_build
 	./scripts/test-docs.sh
 
 # one-time html build using a docker container
 .PHONY: docker-html
 docker-html:
-	rm -rf /_build
+	rm -rf access-solutions/_build
 	./scripts/docker-docs.sh make html
 
 # Build live preview of docs in a docker container
 .PHONY: docker-preview
 docker-preview:
-	rm -rf /_build
+	rm -rf access-solutions/_build
 	DOCKER_RUN_ARGS="-p 127.0.0.1:8000:8000" \
 		./scripts/docker-docs.sh \
 		sphinx-autobuild --host 0.0.0.0 -b html $(SOURCEDIR) $(BUILDDIR)/html
@@ -53,5 +53,5 @@ docker-preview:
 # run docs quality tests in a docker container
 .PHONY: docker-test
 docker-test:
-	rm -rf /_build
+	rm -rf access-solutions/_build
 	./scripts/docker-docs.sh ./scripts/test-docs.sh
