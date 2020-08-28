@@ -13,55 +13,55 @@ Send-Sideband Policy
 Policy Walk-Through
 -------------------------------------
 
-|image001|  
+|image001|
 
-1. A user is redirect to the external SAML IDP 
-  - Once authenticated at the IDP the user is redirected back to the BIG-IP.                                            
-2. If the SAML assertion is valid an AD Query is performed to match the email address in the assertion to an AD Account.
-  -  The attribute sAMAccountName is returned to be used in the send-sideband irule
-3. The session variable session.logon.last.user is set from the SAML Assertion NameIDAttribute session.saml.last.nameIDValue
-4. iRule Event send-sideband is triggered
-5. The user is granted access via the Allow Terminal
-6. If the LDAP Query is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
-7. If the SAML Auth is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+#.  A user is redirect to the external SAML IDP
 
-                                       
+    - Once authenticated at the IDP the user is redirected back to the BIG-IP.
 
-                                                                                  
+#.  If the SAML assertion is valid an AD Query is performed to match the email address in the assertion to an AD Account.
+
+    - The attribute sAMAccountName is returned to be used in the send-sideband irule
+
+#.  The session variable session.logon.last.user is set from the SAML Assertion NameIDAttribute session.saml.last.nameIDValue
+#.  iRule Event send-sideband is triggered
+#.  The user is granted access via the Allow Terminal
+#.  If the LDAP Query is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
+#.  If the SAML Auth is unsuccessful, the user proceeds down the fallback branch to the Deny Terminal
 
 
 Policy Agent Configuration
 ----------------------------
 
-- The SAML Auth Agent selected the SP service to be used.  This selection indirectly selects the IDP to be used.                                                                   
+- The SAML Auth Agent selected the SP service to be used.  This selection indirectly selects the IDP to be used.
 
-   |image002|                                                                                   
+|image002|
 
 - The AD Query Agent validates the email address(username) specified in the SAML nameID attribute exists in Active Directory
 
-   |image003|     
+|image003|
 
 - The SAML nameID attribute is passed to the username attribute
 
-  |image004|
+|image004|
 
 - The irule event triggers the send-sideband request
 
-   |image005|                                                                            
+|image005|
 
-        
+
 Customized APM Profile Settings
 ----------------------------------
 
 - The APM Profiles SSO Configurtion section has the BIG-IP SAML IDP service selected.
 
-|image006| 
+|image006|
 
 
-                                                                               
+
 Send Side-band irule
 ---------------------------------
-::
+.. code-block:: irules
 
  when ACCESS_POLICY_AGENT_EVENT {
 	switch -glob [string tolower [ACCESS::policy agent_id]] {
@@ -78,7 +78,7 @@ Send Side-band irule
 			close $conn
                  }
         }
-  }  
+  }
 
 
 
@@ -96,9 +96,9 @@ SP Service
 SP Service sections not displayed contain default values
 
 - Entity ID: https://sp.acme.com
-- Host:      sp.acme.com                     
+- Host:      sp.acme.com
 
-|image007|                                                                                   
+|image007|
 
 
 **Security Settings**
@@ -109,7 +109,7 @@ SP Service sections not displayed contain default values
 
 
 
-                                                                               
+
 IDP Connector
 ^^^^^^^^^^^^^^^
 
@@ -130,8 +130,8 @@ IDP Connector
 
 - Okta's IDP Certificate selected
 
-                                          
-|image011|    
+
+|image011|
 
 
 IDP Service
@@ -174,9 +174,9 @@ SP Connector
 
 **SP Location Settings**
 
-This setting determines whether the client has direct access to the BIG-IP IDP.  
+This setting determines whether the client has direct access to the BIG-IP IDP.
 
-Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML Assertion to the application on behalf of the user. 
+Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML Assertion to the application on behalf of the user.
 
 The user will only have access to the external IDP Assertion and not any assertions from the BIG-IP IDP when internal is selected.
 
@@ -195,7 +195,7 @@ Receive-Sideband Policy
 ===========================
 
 
-                                                                             
+
 Policy Walk-Through
 -------------------------------------
 
@@ -228,8 +228,8 @@ Send Side-band irule
  when ACCESS_SESSION_STARTED {
   #Stores the tcl username variable as a session variable
   ACCESS::session data set session.logon.last.username $username
-  }  
-	
+  }
+
 
 
 Supporting APM Objects
@@ -247,10 +247,10 @@ User's Perspective
 
 
 #. A user connects to https://sp.acme.com and is redirect to the external IDP.
-     
+
    - username: coyote@acme.com
    - Password: user1
-    
+
 
    |image023|
 
@@ -284,6 +284,3 @@ User's Perspective
 .. |image023| image:: media/023.png
 .. |image024| image:: media/024.png
 .. |image025| image:: media/025.png
-
-   
-
