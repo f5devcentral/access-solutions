@@ -82,7 +82,7 @@ Webtop
 The Policy from a user's perspective
 -------------------------------------
 
-#.  The connects to https://solution1.acme.com with the following credentials
+#. The connects to https://solution1.acme.com with the following credentials
 
    - Username: user1
    - Password: user1
@@ -97,7 +97,7 @@ The Policy from a user's perspective
 
     |image12|
 
-#.  A popup opens displaying the status of the VPN connection.  The status will eventually become **Connected**
+#. A popup opens displaying the status of the VPN connection.  The status will eventually become **Connected**
 
     |image13|
 
