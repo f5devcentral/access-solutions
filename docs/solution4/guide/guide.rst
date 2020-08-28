@@ -5,27 +5,28 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image1|     
+|image1|
 
-1. A user enters their credentials in the logon page agent.  
-    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                
-          
-2. The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
-3. The user is granted access via the Allow Terminal
-4. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                                       
-                                                                             
+#.  A user enters their credentials in the logon page agent.
+
+    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.
+
+#.  The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
+#.  The user is granted access via the Allow Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+
+
 
 Policy Agent Configuration
 ----------------------------
 
-The Logon Page contains only the default setting                                                                          
+The Logon Page contains only the default setting
 
-|image2|                                                                                   
+|image2|
 
 The AD Auth agent defines the AAA AD Servers that a user will be authenticated against.  All Setting are the default.
 
-|image3|                                                                                   
+|image3|
 
 
 Profile Settings
@@ -35,7 +36,7 @@ The SSO/Auth Domains setting was modified from its default to include the idp.ac
 
 |image4|
 
-                                                                           
+
 
 
 Supporting APM Objects
@@ -43,16 +44,17 @@ Supporting APM Objects
 
 AAA AD Servers
 ^^^^^^^^^^^^^^^^^
-A single domain controller was configured for Active directory AAA authentication                         
+
+A single domain controller was configured for Active directory AAA authentication
 
 
-|image5|                                                                                   
+|image5|
 
 
 
 IDP Service
 ^^^^^^^^^^^^
-                                                   
+
 The settings below define all the components of the IDP Service
 
 **General Settings**
@@ -80,7 +82,7 @@ The settings below define all the components of the IDP Service
 |image11|
 
 
-                                                                             
+
 
 SP Connector
 ^^^^^^^^^^^^^^^^
@@ -92,8 +94,8 @@ The settings below define all the components of the SP Service
 |image12|
 
 **Endpoint Settings**
-                                                             
-|image13| 
+
+|image13|
 
 **Security Settings**
 
@@ -105,7 +107,7 @@ The settings below define all the components of the SP Service
 
 **SP Location Settings**
 
-|image16|                                                                                  
+|image16|
 
 
 
@@ -114,7 +116,7 @@ The Policy from a user's perspective
 
 If the user attempts to access https://idp.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with the solutions in the UDF deployment that require an IDP.
 
- - Solution5
+- Solution5
 
 
 
@@ -139,7 +141,3 @@ If the user attempts to access https://idp.acme.com they will be redirected to a
 .. |image15| image:: media/015.png
 .. |image16| image:: media/016.png
 .. |image17| image:: media/017.png
-
-
-   
-
