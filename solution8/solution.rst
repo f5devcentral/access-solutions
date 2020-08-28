@@ -1,18 +1,16 @@
-Solution:  JWT AS (preshared keys) - AD Auth 
+Solution:  JWT AS using preshared keys (AD Auth) 
 ==================================================================
 
 This solution documents all the necessary pieces required to create a basic JWT Authorization Server
-
 
 Keywords: JWT, OAUTH, OIDC
 
 DC: single, multi
 
-
 URL
 ----
 
-https://as.acme.com
+https://solution8.acme.com
 
 Objective:
 ----------

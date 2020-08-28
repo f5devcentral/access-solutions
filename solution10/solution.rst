@@ -1,7 +1,7 @@
-Solution:  OIDC IDP - AD Auth
+Solution:  OIDC IDP/AS  (AD Auth)
 ===============================================================
 
-This solution documents all the necessary pieces required to create a basic OIDC IDP 
+This solution documents all the necessary pieces required to create a basic OIDC IDP/AS 
 
 Keywords: JWT, OAUTH, OIDC, RSA, IDP
 
