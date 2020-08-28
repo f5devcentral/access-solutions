@@ -5,32 +5,34 @@ The Policy
 Policy Walk-Through
 ----------------------
 
-|image001|     
+|image001|
 
 
-1. In this policy a user enters their credentials in the logon page agent.  
-    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.                                          
-2. The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
-3. If AD Auth is successful, an AD Query is performed to retrieve additional AD Attributes
-4. If AD Query is successful, an OAuth Authorization is performed granting the user access to a token.
-5. The user is granted access via the Allow Terminal
-6. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-7. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-8. If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
-                             
-                                   
-                                                                             
+#.  In this policy a user enters their credentials in the logon page agent.
+
+    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.
+
+#.  The AD Auth Agent validates the username and password session variables against the configured AD Domain Controller.
+#.  If AD Auth is successful, an AD Query is performed to retrieve additional AD Attributes
+#.  If AD Query is successful, an OAuth Authorization is performed granting the user access to a token.
+#.  The user is granted access via the Allow Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
+
+
+
 
 Policy Agent Configuration
 ----------------------------
 
-The Logon Page contains only the default setting                                                                          
+The Logon Page contains only the default setting
 
-|image002|                                                                                   
+|image002|
 
 The AD Auth Agent uses a defined the  AD AAA Servers that user will be authenticated against.  All Setting are the default.
 
-|image003|                                                                                  
+|image003|
 
 The AD Query Agent uses a defined the  AD Servers that user will be for queries against.  Additional Attributes we added.
 
@@ -38,21 +40,21 @@ The AD Query Agent uses a defined the  AD Servers that user will be for queries 
 
 The OAuth Authorization Agent is used to define the Audience and Scope.  All Setting are the default.
 
-|image005| 
-                                                                                         
+|image005|
 
-                                                                        
+
+
 
 
 Profile Settings
 -------------------
 
 
-The Oauth Profile used for issuing the JWT token is assigned under the Configuration section.
+The OAuth Profile used for issuing the JWT token is assigned under the Configuration section.
 
 |image006|
 
-                                                                         
+
 
 Supporting APM Objects
 -----------------------
@@ -61,7 +63,7 @@ The settings below define all the components of the OAuth Profile
 
 |image007|
 
-                                                                             
+
 
 JWT Key
 ^^^^^^^^^^^^^^^^
@@ -70,12 +72,12 @@ JWT Key
 
 
 AAA AD Servers
-^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
 
-|image009|  
+|image009|
 
 
-                                                                 
+
 The Policy from a user's perspective
 -------------------------------------
 
@@ -85,7 +87,13 @@ If the user attempts to access https://solution10.acme.com they will be redirect
 
 Supported Solutions
 ^^^^^^^^^^^^^^^^^^^^
- - Solution11
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Content:
+   :glob:
+
+   solution11/guide/guide.rst
 
 
 
@@ -104,5 +112,3 @@ Supported Solutions
 .. |image008| image:: media/008.png
 .. |image009| image:: media/009.png
 .. |image010| image:: media/010.png
-
-
