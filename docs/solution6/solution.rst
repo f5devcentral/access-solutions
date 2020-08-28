@@ -52,7 +52,12 @@ solution6-delete.postman_collection.json_
 
 .. _solution6-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution6/postman/solution6-delete.postman_collection.json
 
+APM Profile(s)
+----------------
 
+profile_Common_solution6-psp.conf.tar_
+
+.. _profile_Common_solution6-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution6/policies/
 
 BIG-IP Versions Tested
 ------------------------
@@ -67,7 +72,7 @@ BIG-IP Components used:
   * HTTP Profile
   * Client-side SSL Profile
   * Access Profile
-  
+
     - LDAP AAA Object
     - OCSP Responder AAA Object
     - Kerberos SSO
