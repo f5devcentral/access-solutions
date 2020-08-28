@@ -53,7 +53,7 @@ Policy Agent Configuration
 Customized APM Profile Settings
 ----------------------------------
 
-- The APM Profiles SSO Configurtion section has the BIG-IP SAML IDP service selected.
+- The APM Profiles SSO Configuration section has the BIG-IP SAML IDP service selected.
 
 |image006|
 
@@ -61,15 +61,16 @@ Customized APM Profile Settings
 
 Send Side-band irule
 ---------------------------------
+
 .. code-block:: irules
 
  when ACCESS_POLICY_AGENT_EVENT {
 	switch -glob [string tolower [ACCESS::policy agent_id]] {
 		"send-sideband" {
-			#established a TCP based sideband connetion to virtual server receive-sideband
+			#established a TCP based sideband connection to virtual server receive-sideband
 			set conn [connect -protocol TCP -timeout 100 -idle 30 -status conn_status /solution7/receive-sideband/receive-sideband]
 			#converts the APM session variable to a TCL variable
-			#sends a HTTP requrest over the sideband with the username in a query string
+			#sends a HTTP request over the sideband with the username in a query string
 			set username [ACCESS::session data get "session.ad.last.attr.sAMAccountName"]
 			set data "GET /?username=$username HTTP/1.1\r\nHost: sp.acme.com\r\nUser-Agent: Side-band\r\nclientless-mode: 1\r\n\r\n"
 			set send_info [send -timeout 3000 -status send_status $conn $data]
@@ -79,10 +80,6 @@ Send Side-band irule
                  }
         }
   }
-
-
-
-
 
 
 Supporting APM Objects
@@ -95,15 +92,15 @@ SP Service
 
 SP Service sections not displayed contain default values
 
-- Entity ID: https://sp.acme.com
-- Host:      sp.acme.com
+:Entity ID: https://sp.acme.com
+:Host: sp.acme.com
 
 |image007|
 
 
 **Security Settings**
 
-- Want Signed Assertion is **checked**
+:Want Signed Assertion: **checked**
 
 |image008|
 
@@ -139,15 +136,15 @@ IDP Service
 
 **General Settings**
 
-- IDP Entity ID: https://sp.acme.com/bigip
-- Host:    sp.acme.com
+:IDP Entity ID: https://sp.acme.com/bigip
+:Host: sp.acme.com
 
 |image012|
 
 **Assertion Settings**
 
-- Assertion Subject Type: Transient Identifier
-- Assertion Subject Value: %{session.logon.last.username}
+:Assertion Subject Type: Transient Identifier
+:Assertion Subject Value: %{session.logon.last.username}
 
 |image013|
 
@@ -180,7 +177,7 @@ Selecting Internal causes the BIG-IP to trigger an SSO action and POST a SAML As
 
 The user will only have access to the external IDP Assertion and not any assertions from the BIG-IP IDP when internal is selected.
 
-Service Provider Location:  Internal
+:Service Provider Location:  Internal
 
 |image018|
 
@@ -201,8 +198,8 @@ Policy Walk-Through
 
 |image020|
 
-1. The session variable session.logon.last.domain is set to the AD Domain f5lab.local
-2. The sideband request is granted access via the Allow Terminal
+#.  The session variable session.logon.last.domain is set to the AD Domain f5lab.local
+#.  The sideband request is granted access via the Allow Terminal
 
 
 Customized APM Profile Settings
@@ -215,19 +212,20 @@ Customized APM Profile Settings
 
 Send Side-band irule
 ---------------------------
-::
+
+. code-block:: irules
 
  when CLIENT_ACCEPTED {
-  ACCESS::restrict_irule_events disable
+    ACCESS::restrict_irule_events disable
    }
  when HTTP_REQUEST {
-  #Parses query string and splits the first parameter name from the value.
-  #The value is stored as the username variable
-  set username [lindex [split [HTTP::query] =] 1]
+    #Parses query string and splits the first parameter name from the value.
+    #The value is stored as the username variable
+    set username [lindex [split [HTTP::query] =] 1]
   }
  when ACCESS_SESSION_STARTED {
-  #Stores the tcl username variable as a session variable
-  ACCESS::session data set session.logon.last.username $username
+    #Stores the tcl username variable as a session variable
+    ACCESS::session data set session.logon.last.username $username
   }
 
 
@@ -248,8 +246,8 @@ User's Perspective
 
 #. A user connects to https://sp.acme.com and is redirect to the external IDP.
 
-   - username: coyote@acme.com
-   - Password: user1
+:username: coyote@acme.com
+:Password: user1
 
 
    |image023|
