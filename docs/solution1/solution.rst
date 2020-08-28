@@ -43,11 +43,11 @@ Postman Collection(s)
 
 solution1-create.postman_collection.json_
 
-.. _solution1-create.postman_collection.json: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/postman/
+.. _solution1-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution1/postman/solution1-create.postman_collection.json
 
 solution1-delete.postman_collection.json_
 
-.. _solution1-delete.postman_collection.json: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/postman/
+.. _solution1-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution1/postman/solution1-delete.postman_collection.json
 
 
 APM Profile(s)
