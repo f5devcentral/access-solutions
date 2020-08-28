@@ -97,9 +97,9 @@ Portal Access Resources
 |image12|
 
 
-- Destination field contains the hostname of the application
-- Path is set to /* for all paths
-- The port is set to 443
+:Destination: Contains the hostname of the application
+:Path: Is set to /* for all paths
+:Port: Is set to 443
 
 |image13|
 
@@ -110,22 +110,22 @@ The Policy from a user's perspective
 User1
 ^^^^^^
 
-#.  User1 is presented a logon page to collect AD credentials
+1.  User1 is presented a logon page to collect AD credentials
 
 |image14|
 
-#.  User1 is presented resources based on their **Sales Engineering** group membership
+2.  User1 is presented resources based on their **Sales Engineering** group membership
 
 |image15|
 
 User2
 ^^^^^^
 
-#.  User2 is presented a logon page to collect AD Credentials
+3.  User2 is presented a logon page to collect AD Credentials
 
 |image16|
 
-#.  User2 is presented resources based on the **Product Management** group membership
+4.  User2 is presented resources based on the **Product Management** group membership
 
 |image17|
 
