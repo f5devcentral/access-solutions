@@ -15,7 +15,6 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 :Password: **user1**
 
 
-
 2. On logon the Chrome browser should auto launch and open the site https://portal.f5lab.local
 
 
@@ -52,7 +51,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |image20|
 
 
-.. note: All work for this lab will be performed exclusively from the provided lab environment. 
+.. note: All work for this lab will be performed exclusively from the provided lab environment.
       No installation or interaction with your local system is required.
 
 
