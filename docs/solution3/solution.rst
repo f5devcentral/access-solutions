@@ -42,11 +42,11 @@ Postman Collection(s)
 
 solution3-create.postman_collection.json_
 
-.. _solution3-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution3/postman/solution1-create.postman_collection.json
+.. _solution3-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution3/postman/solution3-create.postman_collection.json
 
 solution3-delete.postman_collection.json_
 
-.. _solution3-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution3/postman/solution1-delete.postman_collection.json
+.. _solution3-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution3/postman/solution3-delete.postman_collection.json
 
 
 
@@ -63,6 +63,6 @@ BIG-IP Components used:
   * HTTP Profile
   * Client-side SSL Profile
   * Access Profile(s)
-  
+
     - SP Service
     - IDP Connector
