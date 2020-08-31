@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8a68f780-a428-49ae-bc0c-bf85db60984c",
+		"_postman_id": "d8cbbb83-7803-4616-a7ee-2f60633a98ad",
 		"name": "solution10-create",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a888df70-91b8-43be-9427-955d1669b992",
+						"id": "e896e709-81f8-4f90-9cb4-2896a6fd2413",
 						"exec": [
 							"",
 							"if (responseCode.code === 200) {",
@@ -32,7 +32,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "cc7290a9-eff2-49c6-bed1-9481e9edd154",
+						"id": "ff304b93-dc55-45ae-a2c2-3e9eec4be50f",
 						"exec": [
 							"pm.collectionVariables.set(\"DNS1_NAME\", \"solution10.acme.com\");\r",
 							"pm.collectionVariables.set(\"VS1_NAME\", \"solution10\");\r",
@@ -105,7 +105,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bfd9e96c-5209-400c-94e1-d326c9702c40",
+						"id": "a49111d1-50d3-47a3-a22d-4510ca349d35",
 						"exec": [
 							"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
 							"\r",
@@ -179,7 +179,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f0f0244d-826b-40a5-8513-df33bc456a0c",
+						"id": "4348f767-5fd6-4654-bd09-e5755331cda1",
 						"exec": [
 							"\r",
 							"var jsonData = JSON.parse(responseBody);\r",
@@ -241,7 +241,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "40f02b76-6714-4626-8c80-17f089278d2c",
+						"id": "7bdfa062-4c75-4fad-999b-02c0af154430",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Address Checked Out\", function () {",
@@ -290,7 +290,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ac01df1f-fa07-49a8-acd5-74b404a3b4b4",
+						"id": "cc880f93-7a99-4998-a3c4-45e20c8a5cec",
 						"exec": [
 							"",
 							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
@@ -305,10 +305,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a33f19d4-1c6f-4b3f-be23-96acf9825ca0",
+						"id": "acf76c85-26ad-4e85-a401-54cf4064b983",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"Node Created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -371,26 +371,14 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "cd9b45df-62b8-4e53-aff9-9183f3494cbf",
+						"id": "0c698532-3b38-4d36-9b73-310a89b132b9",
 						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"}",
 							"",
 							"pm.test(\"Application created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"",
-							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");",
-							"",
-							"if (COUNTER === '2') {",
-							"postman.setNextRequest(\"bigip5-Determine if bigip2 exists\");",
-							"",
-							"} else {",
-							"",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -398,13 +386,9 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "7a6ce7e2-5fcf-42d2-b1c6-380ba88290f9",
+						"id": "9763ec30-f618-441f-85fe-b046c2363db2",
 						"exec": [
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -460,13 +444,24 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "70f2f1ff-b9a6-4523-8a11-80d5c0b66f0b",
+						"id": "37dc1291-75b0-48d3-8184-e96e4a982bcb",
 						"exec": [
 							"\r",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );\r",
+							"\r",
 							"pm.test(\"Apply Policy Successful\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"\r",
+							"\r",
+							"var COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+							"\r",
+							"if (COUNTER === '2') {\r",
+							"postman.setNextRequest(\"bigip5-Determine if bigip2 exists\");\r",
+							"\r",
+							"} else {\r",
+							"\r",
+							"\r",
+							"}"
 						],
 						"type": "text/javascript"
 					}
@@ -530,7 +525,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2d3f6cb6-c7b9-4b03-93d8-d1c9d727e6a3",
+						"id": "142c71ce-7926-4062-aabc-8cbb08c2798f",
 						"exec": [
 							"   var jsonData = pm.response.json();",
 							"\tif (jsonData.length) {",
@@ -584,7 +579,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "69da2b0f-ce8d-40d7-a338-ccbc2a99c65b",
+						"id": "fd8fdd6a-9a41-4c2c-93e6-77aaddd04b0b",
 						"exec": [
 							"   var jsonData = pm.response.json();",
 							"\tif (jsonData.length) {",
@@ -634,11 +629,8 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "198ba102-5d54-488e-a8ac-5fea7dff4bd2",
+						"id": "68b1a5ee-9743-4b78-891d-0cd3db69f6e2",
 						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"}",
 							"",
 							"pm.test(\"AS3 is running\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -650,14 +642,9 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "793834e9-bbaf-4a17-b8ce-a4ef4f280f46",
+						"id": "baed4a39-c320-4a2c-a9b9-8e55e07adfac",
 						"exec": [
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -706,10 +693,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "04163344-947f-42ca-b0df-0d21f0c7967d",
+						"id": "cb5233b7-089b-4302-a00d-6d565a54ef8e",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"DC1 Created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -725,7 +712,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f396225a-8143-4e2f-b031-7b88e8724cf8",
+						"id": "1ad27c46-4ca1-4191-881e-4f92d3ed0409",
 						"exec": [
 							""
 						],
@@ -786,10 +773,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d43fda06-f98d-4fad-ae1d-ded5969b3b5b",
+						"id": "f69848ac-809a-4328-b5cd-1c4d32455ca3",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"bigip1 server Created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -805,7 +792,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "df021a9a-9dbc-4295-a001-8975d79ede87",
+						"id": "7edfec13-118a-4f8d-b79e-06c378ad7545",
 						"exec": [
 							""
 						],
@@ -866,10 +853,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a8e5971c-2304-4bbd-9235-24ed18e19540",
+						"id": "8c19c92c-aa83-4b77-9068-2f038d05a8bd",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"bigip5 server Created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -885,7 +872,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c6e43c04-b94d-43d2-bb4f-e24dcaa8cc81",
+						"id": "b91090d7-20d0-4ef1-be07-b383c71e5ca2",
 						"exec": [
 							""
 						],
@@ -946,10 +933,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5a6732a0-f447-4a63-a876-998fc2b4f15c",
+						"id": "addf71a8-2d50-4e2c-a2a8-4544c6119d90",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"Virtual Server added to Server\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -964,15 +951,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9ab1c2fe-dd63-4170-a732-55ceb42cca05",
+						"id": "70a59db5-9e07-4127-a683-cf73314566c5",
 						"exec": [
 							"setTimeout(function(){}, 2000);",
 							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1034,11 +1017,8 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4d96c95b-e029-4ad3-b531-3efed64520a6",
+						"id": "50ea6ad7-d1bb-443f-9a66-b36dee8f1e10",
 						"exec": [
-							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
-							"}",
 							"",
 							"pm.test(\"Wide IP Created\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -1066,7 +1046,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "15731305-c872-4f9e-9ffa-935c4c41361b",
+						"id": "0350cacf-81aa-453f-aa23-feb4a0063e8d",
 						"exec": [
 							"setTimeout(function(){}, 5000);",
 							"",
@@ -1127,7 +1107,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6d32fade-03ee-410c-98bc-c8fce2a7727b",
+						"id": "9ac12743-7f3a-4c30-9aec-da7ac3c33df0",
 						"exec": [
 							"\r",
 							"var jsonData = pm.response.json();\r",
@@ -1209,7 +1189,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f73b43e3-4d5f-4bce-a4b8-c6368853709f",
+						"id": "71e63fe2-b762-442a-aad4-268481faf3be",
 						"exec": [
 							"\r",
 							"\t\tpm.test(\"bigip_add command successfully run\", function () {\r",
@@ -1273,7 +1253,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ad0eb492-c0e4-4522-8fca-a0c3bdd5497b",
+						"id": "b63b0297-66d5-488d-bef8-d78832802a15",
 						"exec": [
 							"\r",
 							"\t\tpm.test(\"big3d_install command successfully run\", function () {\r",
@@ -1337,7 +1317,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "632aeeac-a00d-486b-87cd-4274b76a5a84",
+						"id": "c6631e22-d4f7-4432-905b-e529325c6034",
 						"exec": [
 							"if (responseCode.code === 200) {",
 							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
@@ -1356,7 +1336,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "364c1b56-0b22-4931-82c3-f7e93049629c",
+						"id": "4afb3dc5-9536-47af-aa8c-a80dc293bf85",
 						"exec": [
 							""
 						],
@@ -1417,10 +1397,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "67d54c7c-6457-4e2d-b18b-033455c54413",
+						"id": "72e56d63-ac3f-4073-b284-865753c4dc54",
 						"exec": [
 							"if (responseCode.code === 200) {\r",
-							"    pm.collectionVariables.set('PRIOR_RESPONSE', 'OK');\r",
+							" \r",
 							"    pm.test(\"BIG-IP2 added\", function () {\r",
 							"        pm.response.to.have.status(200);\r",
 							"    });\r",
@@ -1486,10 +1466,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b2f50cbe-acaf-4601-8deb-d582b5ac54e9",
+						"id": "22a61ade-6d95-4c8b-b847-24c191c5fd4d",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"Virtual Server Created\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -1504,15 +1484,11 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "03382c26-318e-49e5-8dd6-1a95471b4d75",
+						"id": "0c3bdb47-628e-4198-8377-2f1fa455f293",
 						"exec": [
 							"setTimeout(function(){}, 2000);",
 							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1574,15 +1550,10 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5a4f82d2-d7d0-42bd-becc-2e040c92675f",
+						"id": "a6a33599-4071-4521-9ebb-5f16616758ea",
 						"exec": [
 							"setTimeout(function(){},5000);",
-							"",
-							"var PRIOR_RESPONSE = pm.collectionVariables.get(\"PRIOR_RESPONSE\");",
-							"",
-							"if (PRIOR_RESPONSE === 'OK') {",
-							"",
-							"}"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1590,10 +1561,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3d215e7b-f43f-4d1f-b5f0-97a86def0439",
+						"id": "61131f78-0106-4ac4-8c9a-576f75db0c5a",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+							"",
 							"pm.test(\"Virtual Server Added\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
@@ -1663,7 +1634,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "d093751d-a0c4-4d2c-a35e-af386cce7877",
+				"id": "4e4e718f-6596-40af-b415-e2a4b3a0bb34",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1673,7 +1644,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "7969097f-ef45-4092-add8-8cffdf839ee6",
+				"id": "755386c3-fc64-4645-8332-c615aa195769",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1683,97 +1654,97 @@
 	],
 	"variable": [
 		{
-			"id": "3913984f-0622-4e93-ad03-ea55c961b463",
+			"id": "4d102781-45a1-42c5-8290-3d5c9b93a325",
 			"key": "APP_NAME",
 			"value": "portal.acme.com"
 		},
 		{
-			"id": "0a68b797-749a-467d-9249-0afd5ef3df45",
+			"id": "9e183ee8-f189-4767-ab5a-79703c362715",
 			"key": "PARTITION_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "3ffa812c-57f5-4cb0-a663-e11e86ebbbd3",
+			"id": "1c4fc61a-4f0f-4c3c-b2c4-a6af81115e66",
 			"key": "PATH_NAME",
 			"value": "portal"
 		},
 		{
-			"id": "7aa6da47-9881-4d48-b966-7e412df0220e",
+			"id": "cc435f8e-47d3-4123-ba02-2f7fcd525cf2",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "9ea17a4b-b105-400d-8d3b-a1034d62b0b3",
+			"id": "cfdc6ff2-089f-4aeb-a2c5-36a90ec3af7d",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "7e16fdcc-6600-44dc-853c-6901c3e8281e",
+			"id": "4804b484-0346-4ea7-afe3-b86cf6bdf861",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "c6b0b032-4006-4029-a435-62bd281a2cc2",
+			"id": "2882e79d-8372-42c5-beb6-7fa721ee70fb",
 			"key": "BIGIP1_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "cc943ec3-dbd3-4132-8c4e-cf80cea52bff",
+			"id": "ac553928-67af-479e-9a40-8129d3b29a32",
 			"key": "BIGIP2_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "ee1934cc-f6d3-4d0c-a196-6bd4bff7e94b",
+			"id": "31e63dd6-907b-4838-b5be-7fababb12038",
 			"key": "BIGIP1_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "e9163559-d473-4c51-aa9a-d172b27f9daf",
+			"id": "383d33d2-961c-42a3-a24a-97c7f5fd150e",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "1fc2d215-7127-4ec5-af6b-9a2234d1a967",
+			"id": "16edd8eb-b4c0-400f-b420-71d0df411770",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "5d7bc067-9e78-4fa4-88f4-7cd934b1caad",
+			"id": "577fd114-6414-43e9-9681-99181cdd7ef4",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "32a0a294-b66c-40fc-9e99-b22d643ddaeb",
+			"id": "18c27f3c-2382-4b1f-b21c-f639d49426cf",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "69e9876f-8a6f-4139-b270-58be79ddc86b",
+			"id": "b7ac5bef-4a17-4757-95e4-bf668bb576b8",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "26f80ff9-326a-44c5-954c-46619b784381",
+			"id": "ab458c90-725d-41a0-b759-4f4bbddb2c2d",
 			"key": "BIGIP",
 			"value": ""
 		},
 		{
-			"id": "be7a69d3-5e48-492d-80c1-5cbc95d4e51e",
+			"id": "6f98e4e2-c768-4870-9220-71b6b79af419",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "0bb294f8-77b3-4faf-acb6-95bc4f4c3ff0",
+			"id": "15cfb8d9-e2ed-4c8d-990a-37decf8577d4",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "de9f92b5-92d7-4272-9dc7-f99818d1a401",
+			"id": "e25e45ab-fdd3-4be3-b377-f8c9bae6d38e",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "9b3c1fc4-b2ca-4da2-b944-480ed53db9fe",
+			"id": "f6e3d985-cffd-421c-9a55-86a68fb176d9",
 			"key": "COUNTER",
 			"value": ""
 		}
