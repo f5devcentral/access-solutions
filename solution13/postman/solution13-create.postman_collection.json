@@ -1194,7 +1194,7 @@
 										"id": "c8e417ca-218d-441c-a3c9-c89fbe4bace6",
 										"exec": [
 											"if (responseCode.code === 200) {",
-											"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+											"",
 											"pm.test(\"Discovery Task Stopped\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
@@ -1277,7 +1277,7 @@
 										"id": "21b42ddc-9a36-427b-8373-196dd375504c",
 										"exec": [
 											"if (responseCode.code === 200) {",
-											"pm.collectionVariables.set('PRIOR_RESPONSE', 'OK' );",
+											"",
 											"pm.test(\"Discovery Task Deleted Created\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
@@ -1344,6 +1344,93 @@
 										"oidc",
 										"discover",
 										"{{DISCOVER_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-retrieve-provider endpoints",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e82b7fab-9f9e-4d70-aebf-5c8b9c9a265a",
+										"exec": [
+											"if (responseCode.code === 200) {",
+											"pm.test(\"Endpoints Retrieved\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = JSON.parse(responseBody);",
+											"pm.collectionVariables.set(\"AUTH_URI\",jsonData.authenticationUri);",
+											"pm.collectionVariables.set(\"TOKEN_URI\",jsonData.tokenUri);",
+											"} "
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "31523832-8224-46d7-86ac-ce2165b9a935",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-F5-REST-Coordination-Id",
+										"type": "text",
+										"value": "{{TRANSID}}",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/oauth-provider/~Common~{{VS1_NAME}}-provider",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"aaa",
+										"oauth-provider",
+										"~Common~{{VS1_NAME}}-provider"
 									]
 								}
 							},
@@ -1563,7 +1650,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n         \r\n            \"name\": \"{{VS1_NAME}}\",\r\n            \"partition\": \"solution10\",\r\n            \"accessTokenLifetime\": 5,\r\n            \"appName\": \"{{VS1_NAME}}\",\r\n            \"authCodeLifetime\": 5,\r\n            \"authType\": \"secret\",\r\n            \"customizationGroup\": \"/solution10/{{VS1_NAME}}_oauth_authz_client_app_customization\",\r\n            \"generateJwtRefreshToken\": \"true\",\r\n            \"generateRefreshToken\": \"true\",\r\n            \"grantCode\": \"enabled\",\r\n            \"grantPassword\": \"disabled\",\r\n            \"grantToken\": \"disabled\",\r\n            \"idTokenLifetime\": 5,\r\n            \"jwtAccessTokenLifetime\": 5,\r\n            \"jwtRefreshTokenLifetime\": 60,\r\n            \"openidConnect\": \"enabled\",\r\n            \"redirectUris\": [\r\n                \"https://{{DNS1_NAME}}/oauth/client/redirect\"\r\n            ],\r\n            \"refreshTokenLifetime\": 480,\r\n            \"refreshTokenUsageLimit\": 64,\r\n            \"reuseAccessToken\": \"false\",\r\n            \"reuseRefreshToken\": \"false\",\r\n            \"useProfileTokenMgmtSettings\": \"true\"\r\n}"
+									"raw": "{\r\n         \r\n            \"name\": \"{{VS1_NAME}}\",\r\n            \"partition\": \"solution10\",\r\n            \"accessTokenLifetime\": 5,\r\n            \"appName\": \"{{VS1_NAME}}\",\r\n            \"authCodeLifetime\": 5,\r\n            \"authType\": \"secret\",\r\n            \"customizationGroup\": \"/solution10/{{VS1_NAME}}_oauth_authz_client_app_customization\",\r\n            \"generateJwtRefreshToken\": \"true\",\r\n            \"generateRefreshToken\": \"true\",\r\n            \"grantCode\": \"enabled\",\r\n            \"grantPassword\": \"disabled\",\r\n            \"grantToken\": \"disabled\",\r\n            \"idTokenLifetime\": 5,\r\n            \"jwtAccessTokenLifetime\": 5,\r\n            \"jwtRefreshTokenLifetime\": 60,\r\n            \"openidConnect\": \"enabled\",\r\n            \"redirectUris\": [\r\n                \"https://www.getpostman.com/oauth2/callback\"\r\n            ],\r\n            \"refreshTokenLifetime\": 480,\r\n            \"refreshTokenUsageLimit\": 64,\r\n            \"reuseAccessToken\": \"false\",\r\n            \"reuseRefreshToken\": \"false\",\r\n            \"useProfileTokenMgmtSettings\": \"true\"\r\n}"
 								},
 								"url": {
 									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/oauth-client-app",
@@ -5013,7 +5100,7 @@
 							"pm.collectionVariables.set('COUNTER', '2' );",
 							"",
 							"} else {",
-							"postman.setNextRequest(\"Display ClientID and Secret\");",
+							"postman.setNextRequest(\"display client settings\");",
 							"pm.test(\"Environment Variable set to Single Data Center APM \", function () {",
 							"    pm.expect(pm.environment.get(\"DC2_APM\")).to.equal(\"false\");",
 							"});",
@@ -5607,7 +5694,7 @@
 			"response": []
 		},
 		{
-			"name": "Display ClientID and Secret",
+			"name": "display client settings",
 			"event": [
 				{
 					"listen": "test",
@@ -5616,7 +5703,18 @@
 						"exec": [
 							"var id = pm.collectionVariables.get(\"CLIENT_ID\");",
 							"var secret = pm.collectionVariables.get(\"CLIENT_SECRET\");",
-							"pm.test(\"CLIENT ID: \" +secret, function () {",
+							"var auth_uri = pm.collectionVariables.get(\"AUTH_URI\");",
+							"var token_uri = pm.collectionVariables.get(\"TOKEN_URI\");",
+							"",
+							"pm.test(\"AUTH URL: \" +auth_uri, function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"ACCESS TOKEN URL: \" +token_uri, function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"CLIENT ID: \" +id, function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
