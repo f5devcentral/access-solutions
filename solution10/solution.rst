@@ -13,14 +13,22 @@ URL
 
 https://solution10.acme.com
 
-Objective:
-----------
 
--  Gain an basic understanding of BIG-IP as OIDC IDP
+Supported Solutions
+--------------------
 
 .. toctree::
    :maxdepth: 1
    :caption: Content:
+   :glob:
+
+   ../solution11/guide/guide.rst
+
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: **Content:**
    :glob:
 
    guide/guide.rst
