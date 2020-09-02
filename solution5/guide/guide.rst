@@ -104,14 +104,6 @@ The Policy from a user's perspective
 
 If the user attempts to access https://sp.acme.com they will be redirected to https://idp.acme.com  This solution is designed to be integrated with IDP solutions deployed in the UDF Deployment
 
-**Supported IDP Solutions**
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   solution4/guide/guide.rst
 
 
 
