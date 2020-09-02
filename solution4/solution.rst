@@ -1,4 +1,5 @@
 
+
 Solution4:  SAML IDP (AD Auth)
 =====================================
 
@@ -8,6 +9,7 @@ Keywords: SAML, IDP, AD
 
 DC: single, multi
 
+:ref:`SAML IDP(AD AUTH) solution4`
 
 URL
 ----
@@ -19,12 +21,8 @@ https://idp.acme.com
 
 Integrated Solutions
 ----------------------
-.. toctree::
-   :maxdepth: 1
-   :glob:
 
-   ../solution5/solution.rst
-
+.. solution4:
 
 Policies
 ----------

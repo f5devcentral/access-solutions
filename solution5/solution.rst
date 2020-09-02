@@ -1,4 +1,6 @@
 
+
+
 Solution5:  SAML SP (BIG-IP IDP)
 ==================================
 
@@ -7,6 +9,8 @@ This solution documents all the necessary pieces required to create a SAML SP
 Keywords: SAML, SP, AD
 
 DC: single, multi
+
+:ref:`SAML SP solution5`
 
 URL
 ----
@@ -20,11 +24,7 @@ https://sp.acme.com
 UDF Integrated solutions
 -------------------------
 
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   ../solution4/solution.rst
+.. solution4:
 
 
  
