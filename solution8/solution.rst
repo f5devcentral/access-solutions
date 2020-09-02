@@ -48,18 +48,18 @@ Postman Collection(s)
 
 solution8-create.postman_collection.json_
 
-.. _solution8-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution8/postman/solution8-create.postman_collection.json
+.. _solution8-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution8/postman/solution8-create.postman_collection.json
 
 solution8-delete.postman_collection.json_
 
-.. _solution8-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution8/postman/solution8-delete.postman_collection.json
+.. _solution8-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution8/postman/solution8-delete.postman_collection.json
 
 Access Policies
 -----------------
 
 profile_Common_solution8-psp.conf.tar_
 
-.. _profile_Common_solution8-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution8/policies/
+.. _profile_Common_solution8-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution8/policies/
 
 UDF Deployment Models
 -----------------------
