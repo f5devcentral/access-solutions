@@ -38,6 +38,6 @@ Solutions
    solution10/solution.rst
    solution11/solution.rst
    solution12/solution.rst
-   additional_info.rst
+
 
    
