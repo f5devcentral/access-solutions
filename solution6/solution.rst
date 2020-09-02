@@ -17,13 +17,6 @@ URL
 https://solution6.acme.com
 
 
-Integrated Solutions
-----------------------
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   ../solution4/solution.rst
 
 Policies
 ----------
