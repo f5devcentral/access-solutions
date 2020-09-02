@@ -16,10 +16,14 @@ If you would like to contribute, templates are also available for download from 
 
 
 
+
+
+Solutions
+------------
+
 .. toctree::
    :maxdepth: 1
-   :caption: **Solutions:**
-   :glob:
+    :glob:
    
   
    environment/environment.rst
@@ -35,6 +39,6 @@ If you would like to contribute, templates are also available for download from 
    solution10/solution.rst
    solution11/solution.rst
    solution12/solution.rst
-      additional_info.rst
+   additional_info.rst
 
    
