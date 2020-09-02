@@ -21,11 +21,6 @@ Integrated UDF solutions
 -------------------------
 
 
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
-   ../solution4/solution.rst
 
 Policies:
 ----------
