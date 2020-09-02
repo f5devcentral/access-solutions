@@ -10,7 +10,7 @@ DC: single, multi
 URL
 ----
 
-'https://solution1.acme.com <https://solution1.acme.com>'__
+https://solution1.acme.com>
 
 
 Objective:
