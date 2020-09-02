@@ -11,17 +11,25 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://idp.acme.com
 
+Integrated UDF solutions
+-------------------------
+.. toctree::
+   :maxdepth: 1
+   :glob:
 
-Objective:
+   solution5/solution.rst
+
+
+Policies
 ----------
-
--  Gain an basic understanding of BIG-IP as a SAML IDP
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -33,26 +41,26 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
-
-**4**
 
 Postman Collection(s)
 -----------------------
 
 solution4-create.postman_collection.json_
 
-.. _solution4-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution4/postman/solution4-create.postman_collection.json
+.. _solution4-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution4/postman/solution4-create.postman_collection.json
 
 solution4-delete.postman_collection.json_
 
-.. _solution4-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution4/postman/solution4-delete.postman_collection.json
+.. _solution4-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution4/postman/solution4-delete.postman_collection.json
 
+UDF Deployment Models
+-----------------------
 
-BIG-IP Versions Tested
--------------------------
-- 15.1
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
 BIG-IP Components used:
 -----------------
