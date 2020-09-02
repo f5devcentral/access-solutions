@@ -23,9 +23,8 @@ Solutions
 
 .. toctree::
    :maxdepth: 1
-    :glob:
+   :glob:
    
-  
    environment/environment.rst
    solution1/solution.rst
    solution2/solution.rst
