@@ -10,19 +10,14 @@ DC: single, multi
 URL
 ----
 
-https://solution1.acme.com>
+https://solution1.acme.com
 
 
-Objective:
+Policies
 ----------
-
--  Gain an understanding of a basic VPN configuration
-
--  Gain an initial understanding of AAA Active Directory Objects
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -62,8 +57,8 @@ BIG-IP Versions Tested
 
 - 15.1
 
-BIG-IP Components used:
-------------------------
+BIG-IP Components
+------------------
 
 - Virtual Server
 
