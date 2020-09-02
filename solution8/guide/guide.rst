@@ -1,4 +1,4 @@
-The Policy
+Solution8 Policy
 ======================================================
 
 
@@ -82,16 +82,6 @@ The Policy from a user's perspective
 
 If the user attempts to access https://as.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with other solutions in the UDF deployment that require an Authorization Server.
 
-
-Supported Solutions
-^^^^^^^^^^^^^^^^^^^^
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   solution9/guide/guide.rst
 
 
 
