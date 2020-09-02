@@ -23,8 +23,9 @@ Integrated UDF solutions
 .. toctree::
    :maxdepth: 1
    :glob:
-
-   ../solution5/solution.rst
+  
+  ../solution4/solution.rst
+ 
 
 
 Policies:
@@ -32,7 +33,6 @@ Policies:
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
