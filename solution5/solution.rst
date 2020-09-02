@@ -22,7 +22,7 @@ https://sp.acme.com
 UDF Integrated solutions
 -------------------------
 
-:ref:`SAML IDP(AD AUTH) <solution4>`
+:ref:`Solution4: SAML IDP(AD AUTH) <solution4>`
  
 
 
