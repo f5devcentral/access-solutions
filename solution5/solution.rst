@@ -10,7 +10,7 @@ Keywords: SAML, SP, AD
 
 DC: single, multi
 
-:ref:`SAML SP solution5`
+
 
 URL
 ----
@@ -23,10 +23,10 @@ https://sp.acme.com
 
 UDF Integrated solutions
 -------------------------
+.. solution5:
 
-.. solution4:
 
-
+:ref:`SAML IDP(AD AUTH) <solution4>`
  
 
 
