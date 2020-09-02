@@ -12,20 +12,29 @@ DC: single, multi
 URL
 ----
 
-https://as.acme.com
+.. note:: 
+   The link below only works from the UDF blueprint
 
-Objective:
-----------
+https://solution8.acme.com
 
--  Gain an basic understanding of BIG-IP as JWT Authorization Server
+
+UDF Integrated solutions
+-------------------------
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
+   :glob:
+
+   ../solution9/solution.rst
+
+Policies
+----------
+
+.. toctree::
+   :maxdepth: 1
    :glob:
 
    guide/guide.rst
- -
 
 
 Configuration Comments
@@ -33,10 +42,7 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
 
-**4**
 
 Postman Collection(s)
 ----------------------
@@ -56,14 +62,17 @@ profile_Common_solution8-psp.conf.tar_
 
 .. _profile_Common_solution8-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution8/policies/
 
+UDF Deployment Models
+-----------------------
 
-BIG-IP Versions Tested
-^^^^^^^^^^^^^^^^^^^^^^
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
-- 15.1
-
-BIG-IP Components used:
------------------
+BIG-IP Components used
+-------------------------
 
 - Virtual Server
 
