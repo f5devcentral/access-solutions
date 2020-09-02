@@ -1,5 +1,5 @@
 
-Solution:  SAML SP (BIG-IP IDP)
+Solution5:  SAML SP (BIG-IP IDP)
 ======================================================================================
 
 This solution documents all the necessary pieces required to create a SAML SP
@@ -11,12 +11,24 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://sp.acme.com
 
-Objective:
-----------
 
--  Gain an basic understanding of BIG-IP as a SAML SP
+Integrated UDF solutions
+-------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   ../solution4/solution.rst
+
+Policies:
+----------
 
 .. toctree::
    :maxdepth: 1
@@ -30,32 +42,32 @@ Objective:
 
 Configuration Comments
 ------------------------
-|
-|
+This solution cannot be deployed at the same time as solution 3 or solution 7
 
-Access Blueprint Revision
----------------------------
 
-**4**
 
 Postman Collection(s)
 -----------------------
 
 solution5-create.postman_collection.json_
 
-.. _solution5-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution5/postman/solution5-create.postman_collection.json
+.. _solution5-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution5/postman/solution5-create.postman_collection.json
 
 solution5-delete.postman_collection.json_
 
-.. _solution5-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution5/postman/solution5-delete.postman_collection.json
+.. _solution5-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution5/postman/solution5-delete.postman_collection.json
 
 
+UDF Deployment Models
+-----------------------
+
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
 
-BIG-IP Versions Tested
---------------------------
-
-- 15.1
 
 BIG-IP Components used:
 ---------------------------
