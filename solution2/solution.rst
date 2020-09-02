@@ -15,6 +15,8 @@ URL
 
 https://solution2.acme.com
 
+Policies
+----------
 
 .. toctree::
    :maxdepth: 1
