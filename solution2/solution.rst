@@ -37,11 +37,11 @@ Postman Collection(s)
 
 solution2-create.postman_collection.json_
 
-.. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-create.postman_collection.json
+.. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution2/postman/solution2-create.postman_collection.json
 
 solution2-delete.postman_collection.json_
 
-.. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-delete.postman_collection.json
+.. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution2/postman/solution2-delete.postman_collection.json
 
 
 APM Profile(s)
@@ -49,7 +49,7 @@ APM Profile(s)
 
 profile_Common_solution2-psp.conf.tar_
 
-.. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution2/policies/
+.. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution2/policies/
 
 
 UDF Deployment Models
