@@ -21,7 +21,7 @@ https://idp.acme.com
 
 Integrated Solutions
 ----------------------
-.. solution4:
+.. _solution4:
 
 :ref:`Solution 5: SAML SP <solution5>`
 
