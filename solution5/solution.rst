@@ -1,6 +1,4 @@
 
-
-
 Solution5:  SAML SP (BIG-IP IDP)
 ==================================
 
@@ -10,7 +8,7 @@ Keywords: SAML, SP, AD
 
 DC: single, multi
 
-
+.. _solution5:
 
 URL
 ----
@@ -23,8 +21,6 @@ https://sp.acme.com
 
 UDF Integrated solutions
 -------------------------
-.. _solution5:
-
 
 :ref:`SAML IDP(AD AUTH) <solution4>`
  

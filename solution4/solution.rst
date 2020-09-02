@@ -9,7 +9,7 @@ Keywords: SAML, IDP, AD
 
 DC: single, multi
 
-.
+.. _solution4:
 
 URL
 ----
@@ -21,7 +21,7 @@ https://idp.acme.com
 
 Integrated Solutions
 ----------------------
-.. _solution4:
+
 
 :ref:`Solution 5: SAML SP <solution5>`
 
