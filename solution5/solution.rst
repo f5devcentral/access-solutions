@@ -17,8 +17,14 @@ URL
 https://sp.acme.com
 
 
-Integrated UDF solutions
+UDF Integrated solutions
 -------------------------
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   ../solution4/solution.rst
 
 
  
