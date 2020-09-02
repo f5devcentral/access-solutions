@@ -1,6 +1,6 @@
 Solution11:  OIDC RP/RS (BIG-IP IDP)
 ===============================================================
-
+.. _solution11:
 This solution documents all the necessary pieces required to create a basic OIDC RP
 
 Keywords: JWT, OAUTH, OIDC, RSA, RS
@@ -16,7 +16,10 @@ URL
 
 https://solution11.acme.com
 
+UDF Integrated Solutions
+-------------------------
 
+:ref:`Solution 10: OIDC AS/IDP (IDP AUTH) <solution10>`
 
 policies
 ----------

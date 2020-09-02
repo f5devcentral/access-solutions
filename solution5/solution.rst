@@ -25,8 +25,6 @@ UDF Integrated solutions
 
 :ref:`Solution4: SAML IDP(AD AUTH) <solution4>`
  
-
-
 Policies:
 ----------
 

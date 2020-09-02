@@ -1,6 +1,6 @@
 Solution3:  SAML SP (Okta IDP)
 =================================
-
+.. _solution3:
 This solution documents all the necessary pieces required to create a basic SAML SP integrated with Okta
 
 Keywords: saml, sp, okta

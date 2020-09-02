@@ -1,6 +1,6 @@
 Solution8:  JWT AS using preshared keys  (AD Auth)
 ==================================================================
-
+.. _solution8:
 This solution documents all the necessary pieces required to create a basic JWT Authorization Server
 
 Keywords: JWT, OAUTH, OIDC
@@ -20,7 +20,7 @@ https://solution8.acme.com
 UDF Integrated solutions
 -------------------------
 
-
+:ref:`Solution 9: JWT RS using Preshared Keys  <solution9>`
 
 Policies
 ----------

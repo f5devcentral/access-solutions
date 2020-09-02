@@ -1,6 +1,6 @@
 Solution12: RDP Gateway (AD Auth)
 ======================================================================================
-
+.. _solution12:
 This solution documents all the necessary pieces required to create an APM policy for RDP Gateway functional using AD Authentication
 
 Keywords: rdp, ad, password

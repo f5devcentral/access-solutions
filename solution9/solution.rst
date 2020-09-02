@@ -1,6 +1,6 @@
 Solution9:  JWT RS using preshared key (BIG-IP AS)
 ===============================================================
-
+.. _solution9:
 This solution documents all the necessary pieces required to create a basic JWT Resource Server
 
 Keywords: JWT, OAUTH, OIDC
@@ -19,7 +19,7 @@ https://solution9.acme.com
 
 UDF Integrated solutions
 -------------------------
-
+:ref:`Solution 8: JWT AS(AD AUTH) <solution8>`
 
 
 Policies

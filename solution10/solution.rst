@@ -1,6 +1,6 @@
 Solution10:  OIDC IDP/AS  (AD Auth)
 ===============================================================
-
+.. _solution10:
 This solution documents all the necessary pieces required to create a basic OIDC IDP
 
 Keywords: JWT, OAUTH, OIDC, RSA, IDP
@@ -21,7 +21,7 @@ https://solution10.acme.com
 UDF Integrated Solutions
 -------------------------
 
-
+:ref:`Solution 11: OIDC RP/RS( BIG-IP IDP/AS) <solution11>`
 
 
 policies
