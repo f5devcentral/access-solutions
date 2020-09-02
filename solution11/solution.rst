@@ -17,17 +17,6 @@ URL
 https://solution11.acme.com
 
 
-Supported Solutions
---------------------
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   ../solution10/solution.rst
-
-
 
 policies
 ----------

@@ -17,15 +17,11 @@ URL
 https://solution10.acme.com
 
 
-Supported Solutions
---------------------
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
+UDF Integrated Solutions
+-------------------------
 
-   ../solution11/solution.rst
+
 
 
 policies

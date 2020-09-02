@@ -20,11 +20,7 @@ https://solution9.acme.com
 UDF Integrated solutions
 -------------------------
 
-.. toctree::
-   :maxdepth: 1
-   :glob:
 
-   ../solution8/solution.rst
 
 Policies
 ----------
