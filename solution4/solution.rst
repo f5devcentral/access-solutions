@@ -17,6 +17,14 @@ URL
 
 https://idp.acme.com
 
+Integrated Solutions
+----------------------
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   ../solution5/solution.rst
+
 
 Policies
 ----------
