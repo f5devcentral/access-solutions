@@ -20,11 +20,6 @@ https://idp.acme.com
 Integrated UDF solutions
 -------------------------
 
-.. toctree::
-   :maxdepth: 1
-   :glob:
-  
-  ../solution5/solution.rst
 
 Policies
 ----------
@@ -63,8 +58,8 @@ UDF Deployment Models
 |  15.1          |   5               | 
 +----------------+-------------------+
 
-BIG-IP Components used:
------------------
+BIG-IP Components used
+--------------------------
 
 - Virtual Server
 

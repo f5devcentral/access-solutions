@@ -116,12 +116,7 @@ The Policy from a user's perspective
 
 If the user attempts to access https://idp.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with the solutions in the UDF deployment that require an IDP.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
 
-   solution5/guide/guide.rst
 
 
 

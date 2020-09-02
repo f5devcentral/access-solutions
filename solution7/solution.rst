@@ -1,4 +1,4 @@
-Solution:  Inline SAML with Kerberos sideband
+Solution7:  Inline SAML with Kerberos sideband
 ======================================================================================
 
 This solution documents all the necessary pieces required to create a set of APM policies that updates the AD lastlogontimestamp when only using SAML.
@@ -10,20 +10,17 @@ DC: single, multi
 
 URL
 ----
+
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://sp.acme.com
 
-Objective:
+Policies:
 ----------
-
--  Gain an basic understanding of BIG-IP as a SAML IDP and SAML SP
-
--  Gain an understanding of sideband request
-
--  Gain an initial understanding of kerberos SSO
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -35,21 +32,18 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
-----------------------------
 
-**4**
 
 Postman Collection(s)
 -----------------------
 
 solution7-create.postman_collection.json_
 
-.. _solution7-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution7/postman/solution7-create.postman_collection.json
+.. _solution7-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution7/postman/solution7-create.postman_collection.json
 
 solution7-delete.postman_collection.json_
 
-.. _solution7-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution7/postman/solution7-delete.postman_collection.json
+.. _solution7-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution7/postman/solution7-delete.postman_collection.json
 
 
 APM Profile(s)
@@ -57,46 +51,52 @@ APM Profile(s)
 
 profile_Common_receive-sideband-psp.conf.tar_
 
-.. _profile_Common_receive-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/policies/
+.. _profile_Common_receive-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution7/policies/
 
 profile_Common_send-sideband-psp.conf.tar_
 
-.. _profile_Common_send-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/policies/
+.. _profile_Common_send-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution7/policies/
 
 Metadata
 ----------
 
 bigip-idp.xml_
 
-.. _bigip-idp.xml: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/metadata
+.. _bigip-idp.xml: https://github.com/f5devcentral/access-solutions/tree/master/solution7/metadata
 
 bigip-sp.xml_
 
-.. _bigip-sp.xml: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/metadata
+.. _bigip-sp.xml: https://github.com/f5devcentral/access-solutions/tree/master/solution7/metadata
 
 okta-idp.xml_
 
-.. _okta-idp.xml: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/metadata
+.. _okta-idp.xml: https://github.com/f5devcentral/access-solutions/tree/master/solution7/metadata
 
 simplesaml-sp.xml_
 
-.. _simplesaml-sp.xml: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/metadata
+.. _simplesaml-sp.xml: https://github.com/f5devcentral/access-solutions/tree/master/solution7/metadata
 
 iRules
 -------
 
 receive-sideband.irule_
 
-.. _receive-sideband.irule: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/irules
+.. _receive-sideband.irule: https://github.com/f5devcentral/access-solutions/tree/master/solution7/irules
 
 send-sideband.irule_
 
-.. _send-sideband.irule: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution7/irules
+.. _send-sideband.irule: https://github.com/f5devcentral/access-solutions/tree/master/solution7/irules
+
+UDF Deployment Models
+-----------------------
+
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
 
-BIG-IP Versions Tested
-------------------------
-- 15.1
 
 BIG-IP Components used:
 --------------------------

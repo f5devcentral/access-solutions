@@ -65,7 +65,7 @@ UDF Deployment Models
 
 
 
-BIG-IP Components used:
+BIG-IP Components used
 ---------------------------
 
 - Virtual Server
