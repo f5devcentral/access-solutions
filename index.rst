@@ -18,12 +18,23 @@ If you would like to contribute, templates are also available for download from 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: **Solutions:**
    :glob:
    
   
    environment/environment.rst
-   solution*/solution*
-   additional_info.rst
+   solution1/solution.rst
+   solution2/solution.rst
+   solution3/solution.rst
+   solution4/solution.rst
+   solution5/solution.rst
+   solution6/solution.rst
+   solution7/solution.rst
+   solution8/solution.rst
+   solution9/solution.rst
+   solution10/solution.rst
+   solution11/solution.rst
+   solution12/solution.rst
+      additional_info.rst
 
    
