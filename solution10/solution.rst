@@ -21,7 +21,7 @@ https://solution10.acme.com
 UDF Integrated Solutions
 -------------------------
 
-:ref:`Solution 11: OIDC RP/RS( BIG-IP IDP/AS) <solution11>`
+:ref:`Solution 11: OIDC RP/RS using RSA Keys (BIG-IP IDP/AS) <solution11>`
 
 
 policies

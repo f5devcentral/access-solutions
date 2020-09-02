@@ -19,7 +19,7 @@ https://solution11.acme.com
 UDF Integrated Solutions
 -------------------------
 
-:ref:`Solution 10: OIDC AS/IDP (IDP AUTH) <solution10>`
+:ref:`Solution 10: OIDC AS/IDP using RSA keys (IDP AUTH) <solution10>`
 
 policies
 ----------
