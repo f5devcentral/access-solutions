@@ -98,21 +98,6 @@ This solution is designed to be integrated with other Authorization Server based
 
 
 
-Supported Solutions
-^^^^^^^^^^^^^^^^^^^^
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   solution10/guide/guide.rst
-
-
-
-
-
-
 .. |image001| image:: media/001.png
 .. |image002| image:: media/002.png
 .. |image003| image:: media/003.png
