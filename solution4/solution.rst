@@ -22,6 +22,12 @@ Integrated UDF solutions
 :ref:`Solution5 <solution5>`
 
 
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   solution5/solution.rst
+
 Policies
 ----------
 
