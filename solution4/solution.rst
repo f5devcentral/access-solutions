@@ -9,7 +9,7 @@ Keywords: SAML, IDP, AD
 
 DC: single, multi
 
-:ref:`SAML IDP(AD AUTH) solution4`
+:ref:`SAML IDP(AD AUTH) <solution4>`
 
 URL
 ----
