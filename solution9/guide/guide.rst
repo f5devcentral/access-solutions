@@ -21,8 +21,6 @@ The OAuth Scope Settings are defined as Internal.
 |image002|
 
 
-
-
 Profile Settings
 -------------------
 
