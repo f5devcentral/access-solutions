@@ -26,7 +26,7 @@ Integrated UDF solutions
    :maxdepth: 1
    :glob:
 
-   solution5/solution.rst
+   ../solution5/solution.rst
 
 Policies
 ----------
