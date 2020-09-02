@@ -28,10 +28,7 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
-----------------------------
 
-**4**
 
 Postman Collection(s)
 -----------------------
@@ -52,10 +49,16 @@ profile_Common_solution1-psp.conf.tar_
 
 .. _profile_Common_solution1-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/policies/
 
-BIG-IP Versions Tested
-------------------------
 
-- 15.1
+UDF Deployment Models
+-----------------------
+
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
+
 
 BIG-IP Components
 ------------------
