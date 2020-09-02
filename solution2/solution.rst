@@ -10,22 +10,14 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://solution2.acme.com
 
-Objective:
-----------
-
--  Gain an understanding of a basic Portal configuration
-
--  Gain an understanding of a basic VPN configuration
-
--  Gain an initial understanding of AAA Active Directory Objects
-
--  Gain an initial understanding of AD Queries
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -37,9 +29,6 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
-**4**
 
 Postman Collection(s)
 ----------------------------
@@ -61,10 +50,15 @@ profile_Common_solution2-psp.conf.tar_
 .. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution2/policies/
 
 
-BIG-IP Versions Tested
---------------------------
+UDF Deployment Models
+-----------------------
 
-- 15.1
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
+
 
 BIG-IP Components used:
 -----------------------------
