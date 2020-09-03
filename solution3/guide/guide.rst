@@ -1,6 +1,6 @@
 
-The Policy
-=============
+Solution3 Policy
+==================
 
 
 Policy Walk-Through

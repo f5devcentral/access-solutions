@@ -1,6 +1,6 @@
-Solution:  JWT RS using preshared key (BIG-IP AS)
+Solution9:  JWT RS using preshared key (BIG-IP AS)
 ===============================================================
-
+.. _solution9:
 This solution documents all the necessary pieces required to create a basic JWT Resource Server
 
 Keywords: JWT, OAUTH, OIDC
@@ -11,12 +11,20 @@ DC: single, multi
 URL
 ----
 
-https://api.acme.com
+.. note:: 
+   The link below only works from the UDF blueprint
 
-Objective:
+https://solution9.acme.com
+
+
+UDF Integrated solutions
+-------------------------
+
+:ref:`Solution 8: JWT AS(AD AUTH) <solution8>`
+
+
+Policies
 ----------
-
--  Gain an basic understanding of BIG-IP as JWT Resource Server
 
 .. toctree::
    :maxdepth: 1
@@ -32,28 +40,27 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
-----------------------------
-
-**4**
 
 Postman Collection(s)
 -------------------------
 
 solution9-create.postman_collection.json_
 
-.. _solution9-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution9/postman/solution9-create.postman_collection.json
+.. _solution9-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution9/postman/solution9-create.postman_collection.json
 
 solution9-delete.postman_collection.json_
 
-.. _solution9-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution9/postman/solution9-delete.postman_collection.json
+.. _solution9-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution9/postman/solution9-delete.postman_collection.json
 
 
+UDF Deployment Models
+-----------------------
 
-BIG-IP Versions Tested
---------------------------
-
-- 15.1
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
 BIG-IP Components used:
 --------------------------

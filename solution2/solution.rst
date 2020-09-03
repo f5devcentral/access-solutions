@@ -1,6 +1,6 @@
-Solution: Portal Rewrite & VPN (AD Auth)
+Solution2: Portal Rewrite & VPN (AD Auth)
 =============================================================
-
+.. _solution2:
 This solution documents all the necessary pieces required to setup a AD authenticated Portal and VPN
 
 Keywords: portal, vpn, ad, active, directory, rewrite
@@ -10,22 +10,16 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://solution2.acme.com
 
-Objective:
+Policies
 ----------
-
--  Gain an understanding of a basic Portal configuration
-
--  Gain an understanding of a basic VPN configuration
-
--  Gain an initial understanding of AAA Active Directory Objects
-
--  Gain an initial understanding of AD Queries
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -37,20 +31,17 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
-**4**
 
 Postman Collection(s)
 ----------------------------
 
 solution2-create.postman_collection.json_
 
-.. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-create.postman_collection.json
+.. _solution2-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution2/postman/solution2-create.postman_collection.json
 
 solution2-delete.postman_collection.json_
 
-.. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution2/postman/solution2-delete.postman_collection.json
+.. _solution2-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution2/postman/solution2-delete.postman_collection.json
 
 
 APM Profile(s)
@@ -58,15 +49,20 @@ APM Profile(s)
 
 profile_Common_solution2-psp.conf.tar_
 
-.. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution2/policies/
+.. _profile_Common_solution2-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution2/policies/
 
 
-BIG-IP Versions Tested
---------------------------
+UDF Deployment Models
+-----------------------
 
-- 15.1
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
-BIG-IP Components used:
+
+BIG-IP Components used
 -----------------------------
 
 - Virtual Server

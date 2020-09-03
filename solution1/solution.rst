@@ -1,28 +1,23 @@
-Solution: VPN (AD Auth)
-=======================
-
+Solution1: VPN (AD Auth)
+=============================
+.. _solution1:
 This solution documents  all the necessary pieces required to setup a basic AD authenticated VPN.
 
-Keywords: vpn, ad, active, directory
-
-DC: single, multi
 
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://solution1.acme.com
 
 
-Objective:
+Policies
 ----------
-
--  Gain an understanding of a basic VPN configuration
-
--  Gain an initial understanding of AAA Active Directory Objects
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -33,21 +28,18 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
-----------------------------
 
-**4**
 
 Postman Collection(s)
 -----------------------
 
 solution1-create.postman_collection.json_
 
-.. _solution1-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution1/postman/solution1-create.postman_collection.json
+.. _solution1-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution1/postman/solution1-create.postman_collection.json
 
 solution1-delete.postman_collection.json_
 
-.. _solution1-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution1/postman/solution1-delete.postman_collection.json
+.. _solution1-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution1/postman/solution1-delete.postman_collection.json
 
 
 APM Profile(s)
@@ -55,15 +47,21 @@ APM Profile(s)
 
 profile_Common_solution1-psp.conf.tar_
 
-.. _profile_Common_solution1-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution1/policies/
+.. _profile_Common_solution1-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution1/policies/
 
-BIG-IP Versions Tested
-------------------------
 
-- 15.1
+UDF Deployment Models
+-----------------------
 
-BIG-IP Components used:
-------------------------
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
+
+
+BIG-IP Components
+------------------
 
 - Virtual Server
 
@@ -77,3 +75,8 @@ BIG-IP Components used:
     - IPv4 Lease Pool
     - Webtop
     - Webtop Sections
+
+
+Keywords: vpn, ad, active, directory
+
+DC: single, multi

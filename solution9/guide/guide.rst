@@ -1,4 +1,4 @@
-The Policy
+Solution9 Policy
 ======================================================
 
 
@@ -19,8 +19,6 @@ Policy Agent Configuration
 The OAuth Scope Settings are defined as Internal.
 
 |image002|
-
-
 
 
 Profile Settings
@@ -68,24 +66,13 @@ The key settings define a type of key and its properties
 The Policy from a user's perspective
 -------------------------------------
 
-If the user attempts to access https://api.acme.com via postman located on the jumpbox they set to the Authorization server first for authentication(https://as.acme.com). Once authenticate the Post passes the JWT to https://api.acme.com  and JSON payload is presented.
+If the user attempts to access https://solution9.acme.com via postman located on the jumpbox they set to the Authorization server first for authentication(https://solution8.acme.com). Once authenticate the Post passes the JWT to https://api.acme.com  and JSON payload is presented.
 
 This solution is designed to be integrated with other Authorization Server based solutions.
 
 |image007|
 
 
-Supported Solutions
-^^^^^^^^^^^^^^^^^^^^
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   solution8/guide/guide.rst
-
-|image010|
 
 
 

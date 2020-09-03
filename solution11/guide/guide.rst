@@ -1,4 +1,4 @@
-The Policy
+Solution11 Policy
 ======================================================
 
 
@@ -94,21 +94,6 @@ Once authenticated the user is redirected back to  the solution11 website.
 |image010|
 
 This solution is designed to be integrated with other Authorization Server based solutions.
-
-
-
-
-Supported Solutions
-^^^^^^^^^^^^^^^^^^^^
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Content:
-   :glob:
-
-   solution10/guide/guide.rst
-
-
 
 
 

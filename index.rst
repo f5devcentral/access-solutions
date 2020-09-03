@@ -2,8 +2,6 @@ Access Policy Manager(APM) Solution Guides
 =============================================
 
 
-Reading from root folder 3
-
 The solutions documented on this site are designed to provide example configurations to address a given scenario.
 
 Each solution has an accompanying guide that provides a detailed overview of the components used in the configuration and the workflow used in Visual Policy Editor.
@@ -18,14 +16,28 @@ If you would like to contribute, templates are also available for download from 
 
 
 
+
+
+Solutions
+------------
+
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
    :glob:
    
-  
    environment/environment.rst
-   solution*/solution*
-   additional_info.rst
+   solution1/solution.rst
+   solution2/solution.rst
+   solution3/solution.rst
+   solution4/solution.rst
+   solution5/solution.rst
+   solution6/solution.rst
+   solution7/solution.rst
+   solution8/solution.rst
+   solution9/solution.rst
+   solution10/solution.rst
+   solution11/solution.rst
+   solution12/solution.rst
+
 
    
