@@ -16,7 +16,7 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 :Password: **user1**
 
 
-2. On logon the Chrome browser should auto launch and open the site https://portal.f5lab.local
+2. After successful logon the Chrome browser auto launch and open the site https://portal.f5lab.local.  This process usually takes 30 seconds.
 
 
 |image17|
@@ -28,10 +28,10 @@ Host, where you will be able to access the BIG-IP management interfaces (HTTPS, 
 |image18|
 
 
-.. Note:: While multiple solutions can normally be deployed, solutions involving a IDaaS must be restricted to a single deployment at a time.  That is eliminates the configuration changes required on the IDaaS by having  SAML applications resolve to sp.acme.com and OAuth applications resolve to rs.acme.com.
+.. Note:: While multiple solutions can normally be deployed, solutions involving an IDaaS must be restricted to a single deployment at a time.  That is eliminates the configuration changes required on the IDaaS by having  SAML applications resolve to sp.acme.com and OAuth applications resolve to rs.acme.com.
 
 
- 4. Click the **play** button under the deployment option you wish the automation to configure.  Scroll to the bottom of the automation workflow to ensure all requests succeeded.  If you you experience errors try running the automation a second time or open an issue on the **access-solutions** repo.
+4 . Click the **play** button under the deployment option you wish the automation to configure.  Scroll to the bottom of the automation workflow to ensure all requests succeeded.  If you you experience errors try running the automation a second time or open an issue on the **access-solutions** repo.
 
 .. Note::  Wait 15 seconds and the screen should refresh with the automation status
 
