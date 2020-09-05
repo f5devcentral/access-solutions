@@ -42,14 +42,6 @@ solution1-delete.postman_collection.json_
 .. _solution1-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution1/postman/solution1-delete.postman_collection.json
 
 
-APM Profile(s)
-----------------
-
-profile_Common_solution1-psp.conf.tar_
-
-.. _profile_Common_solution1-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution1/policies/
-
-
 UDF Deployment Models
 -----------------------
 
@@ -70,7 +62,7 @@ BIG-IP Components
   * Connectivity profile
   * Access Profile
 
-    - AAA Active Directory Object
+    - AAA Active Directory Servers
     - Network Access Resource
     - IPv4 Lease Pool
     - Webtop
