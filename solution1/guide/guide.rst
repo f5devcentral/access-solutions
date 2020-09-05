@@ -45,7 +45,7 @@ Network Access Resource
 
 The Properties page contains the Caption name **VPN**.  This is the name displayed to a user.
 
-|image4|
+|image5|
 
 
 - The Network Settings tab assigns the **lease pool** of ip addresses that will be used for the VPN.
