@@ -59,6 +59,7 @@ BIG-IP Components
 
   * HTTP Profile
   * Client-side SSL Profile
+  * Server-side SSL Profile
   * Connectivity profile
   * Access Profile
 
