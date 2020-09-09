@@ -237,6 +237,8 @@
 									"if (!VS_COUNTER) {\r",
 									"pm.collectionVariables.set(\"VS_COUNTER\", 1);\r",
 									"pm.collectionVariables.set(\"DNS_COUNTER\", 1);\r",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
 									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
 									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
 									" } else { \r",
@@ -329,7 +331,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");\r",
 											"\r",
 											"\r",
@@ -771,7 +773,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -1422,6 +1424,27 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "8b666c5d-a751-4e12-88b4-7f750d65c4e8",
+										"exec": [
+											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");\r",
+											"\r",
+											"if (responseCode.code === 200) {\r",
+											"pm.test(\"SAML SP connector \"+DNS_NAME+\" created\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"} else \r",
+											"pm.test(\"SAML SP connector \"+DNS_NAME+\" exists\", function () {\r",
+											"    pm.response.to.have.status(409);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -1472,6 +1495,33 @@
 						},
 						{
 							"name": "bigip-create-idp  service-bigip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ae28e1bc-d270-4b6e-9e84-ec6cd0a184d3",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"IDP Service \"+VS_NAME+\"-sso created\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else if (responseCode.code === 400) {\r",
+											"    pm.test(\"IDP Service \"+VS_NAME+\"-sso exists\", function () {\r",
+											"        pm.expect(pm.response.text()).to.include(\"is already assigned to another sso\");\r",
+											"    });\r",
+											"} else {\r",
+											"    pm.test(\"IDP Service \"+VS_NAME+\"-sso exists\", function () {\r",
+											"        pm.response.to.have.status(409);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "basic",
@@ -1652,7 +1702,7 @@
 											"var VS = 2;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -1921,7 +1971,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -3579,7 +3629,7 @@
 											"script": {
 												"id": "94d7a9ba-8fea-4894-8e3a-699a63346c2a",
 												"exec": [
-													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
+													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
 													"if (responseCode.code === 409) {\r",
 													"pm.test(\"Profile \"+VS_NAME+\" Exists\", function () {\r",
@@ -3861,7 +3911,7 @@
 											"var VS = 2;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -5084,7 +5134,7 @@
 											"script": {
 												"id": "39afb243-eb29-4585-a3ca-04ccfebb8792",
 												"exec": [
-													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
+													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
 													"if (responseCode.code === 409) {\r",
 													"pm.test(\"Profile \"+VS_NAME+\" Exists\", function () {\r",
@@ -5369,6 +5419,7 @@
 									"if(!jsonData.length) {\r",
 									"    if ( jsonData.Description  === VS_NAME ) {\r",
 									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
 									"        var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
 									"        postman.setNextRequest(\"end-address\");\r",
 									"        var EXIST = 1;\r",
@@ -5384,6 +5435,7 @@
 									"\r",
 									"        if ( jsonData[i].Description  === VS_NAME ) {   \r",
 									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
 									"            var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
 									"            postman.setNextRequest(\"end-address\");\r",
 									"            var EXIST =1;\r",
@@ -5727,6 +5779,23 @@
 					"item": [
 						{
 							"name": "bigip-create-application",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "eaa8f2ef-e82e-43b3-bf01-697db900fa63",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"pm.test(\"Application \"+VS_NAME+\" created\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "basic",
@@ -7168,118 +7237,113 @@
 	],
 	"variable": [
 		{
-			"id": "ad3e0b6e-0a77-40bb-b5c2-efca33b67b09",
+			"id": "5d13c600-428c-4ed4-9a42-dbfc383e9e77",
 			"key": "DNS_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "f47c59e7-dfeb-4f6d-9673-4bc9a675b2a6",
+			"id": "99c48dc6-c0fb-4dfa-adf2-24f6e6f543c6",
 			"key": "IIS_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "672a8d2a-b1db-4427-8f5b-da05a2ac8095",
-			"key": "IIS_ADDRESSundefined",
-			"value": ""
-		},
-		{
-			"id": "160c9846-453e-40aa-aaf2-839da504cd00",
+			"id": "d8ef0cd8-fb75-49bf-b1b0-e164ee75cb28",
 			"key": "IIS_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "e60d8cc5-7324-48aa-b16e-bedc4d14df60",
+			"id": "7073ab38-0270-416f-9f0a-50cdb45b670d",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "2b760607-0ef2-4dee-8d89-976804cd6f9a",
+			"id": "a9f86f57-c0a9-4ef0-8dc9-8e7d4516058e",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "05cb0c03-ccf6-49cf-ac6d-637518947d88",
+			"id": "62322226-d9ae-4388-a594-db0a2e83cd44",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "5970eb48-0910-44ad-9ef5-0445a498dbeb",
+			"id": "9ff048bd-fe1b-4a80-ab52-c0dcbf775a42",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "3809788b-156a-4a8b-a652-4d7706b9432a",
+			"id": "eb124c29-6d2f-4f30-98ce-38697402ada6",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "6403c24f-d144-4d9b-8ff5-87db4c01803c",
+			"id": "b04ac61b-b6ba-4fb3-bef7-f9ccfbfe7a33",
 			"key": "VIPS",
 			"value": ""
 		},
 		{
-			"id": "57033362-860b-4234-9311-31e5d1d579a8",
+			"id": "469df8db-4698-451a-a842-03ca5e0c9d44",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "f667350d-f9c6-4d27-a942-4db6df17e6ac",
+			"id": "0faca565-6a9a-44ea-86a5-7177278d4063",
 			"key": "VS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "640c7b0b-6759-431c-afe4-1b510c7dca9d",
+			"id": "2430bd1d-099e-4522-a346-274824e03ffa",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "4ae4bb92-3245-433d-ba99-29a36151efae",
+			"id": "1d18dded-6fa8-4559-80ee-1f5e0492c70c",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "2178d09f-322c-46d0-95f7-ede28d6fe860",
-			"key": "COUNTER",
-			"value": ""
-		},
-		{
-			"id": "c4c1b329-c8d0-4ea0-b27e-7579db558f59",
+			"id": "8d037411-8152-49a5-8a55-ebaa4e0ecc65",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "b57f8b6b-e27b-4946-af94-785ce70da234",
+			"id": "f688c30c-4852-437b-a874-b03e37796581",
 			"key": "VS_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "f43c1784-880b-47a6-b801-9ca4ac072036",
+			"id": "b891c0e2-0763-4384-a543-b26e4c36cd51",
 			"key": "VS_NAME",
 			"value": ""
 		},
 		{
-			"id": "b1dbd1f1-b3d9-4751-97d3-64cd3c63e8be",
+			"id": "f8e2368c-3ef0-4253-ab2a-249e4603b2e3",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "66ccf7b6-653c-4166-925c-0813def57c9a",
+			"id": "495baf0e-217d-45fb-94b4-1d0ee1e7c18a",
 			"key": "BIGIP_ADDRESS",
 			"value": ""
 		},
 		{
-			"id": "1e96e7e4-7bf5-4535-8586-5edf14d47be7",
+			"id": "256e9880-4f53-404e-aa64-27434146d124",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "406a6ad3-9106-4491-a6c7-0378457e8893",
+			"id": "bbe0ecdb-8812-4a86-bdde-9de4aca8821b",
 			"key": "BIGIP_ADDRESS2",
 			"value": ""
 		},
 		{
-			"id": "31420b29-6aeb-490b-8700-356b3c9593b2",
+			"id": "c122a684-7dd8-4b94-b1df-81bcc641f2ad",
 			"key": "DC_COUNTER",
+			"value": ""
+		},
+		{
+			"id": "8d51d78e-dc39-4895-8393-adfe5e129484",
+			"key": "COUNTER",
 			"value": ""
 		}
 	],
