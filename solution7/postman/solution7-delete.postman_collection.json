@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "39b7abb1-7936-4fc7-b9ce-c8d6b387c1fd",
 		"name": "solution7-delete",
+		"description": "Based on template 1.3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -426,7 +427,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
+							"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{DC_COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
 							"protocol": "https",
 							"host": [
 								"10",
@@ -439,7 +440,7 @@
 								"tm",
 								"gtm",
 								"server",
-								"~Common~bigip{{COUNTER}}.f5lab.local",
+								"~Common~bigip{{DC_COUNTER}}.f5lab.local",
 								"virtual-servers",
 								"~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}"
 							]
@@ -620,9 +621,9 @@
 									"script": {
 										"id": "8e95d5d8-39c0-4379-bb0b-983270d31e7d",
 										"exec": [
-											"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+											"var PARTITION_NAME = pm.collectionVariables.get(\"PARTITION_NAME\");",
 											"",
-											"pm.test(\"Tenant \"+VS_NAME+\" deleted\", function () {",
+											"pm.test(\"Tenant \"+PARTITION_NAME+\" deleted\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
@@ -696,6 +697,8 @@
 									"if (!VS_COUNTER) {\r",
 									"pm.collectionVariables.set(\"VS_COUNTER\", 1);\r",
 									"pm.collectionVariables.set(\"DNS_COUNTER\", 1);\r",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
 									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
 									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
 									" } else { \r",
@@ -2000,7 +2003,7 @@
 									"script": {
 										"id": "906c1c74-e979-41e5-904d-fc6dcec1f9a0",
 										"exec": [
-											"var DNS_NAME = pm.collectionVariables.get(\"DNS2_NAME\");\r",
+											"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
 											"\r",
 											"if (responseCode.code === 200) {\r",
 											"\r",
@@ -3212,103 +3215,83 @@
 	],
 	"variable": [
 		{
-			"id": "fa2b5cf3-e126-483c-8113-2bd435c1ef2b",
-			"key": "BIGIP_MGMT",
-			"value": ""
-		},
-		{
-			"id": "b2f6b999-42c9-45b9-a23e-4ae2126b912a",
-			"key": "BIGIP_NUMBER",
-			"value": ""
-		},
-		{
-			"id": "ce17d753-387e-45ef-a21d-674d9c488325",
-			"key": "BIGIP_SCOPE",
-			"value": ""
-		},
-		{
-			"id": "42a88635-bf92-4c85-9852-543d557265df",
-			"key": "COUNTER",
-			"value": ""
-		},
-		{
-			"id": "465c956c-9d98-4d1e-ba0c-c236c37ad9c8",
-			"key": "CUSTOM_TYPE",
-			"value": ""
-		},
-		{
-			"id": "346cfe19-a2ae-497f-bcb3-ad5a5ce9496b",
+			"id": "84762b7d-ac31-4ce7-a511-deae53635fc5",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "0ac6af64-7d54-4432-a4d1-35297b46687c",
+			"id": "9eb501a6-3ba3-45a0-ba86-c1ab9cca60b4",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "82601e77-dc6f-48be-8bae-6eca7b94a44d",
+			"id": "96db039e-d3a6-444d-b762-1d11d5b52a46",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "fde48405-aef5-4353-b5d0-add695d2787b",
+			"id": "3e84c511-8741-40f8-8c50-d82ff39895b0",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "7b42fd81-e432-43a6-87e5-58e585805e24",
-			"key": "VS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "2b0fed76-b640-47cf-bbec-0e251bace756",
-			"key": "PRIOR_RESPONSE",
-			"value": ""
-		},
-		{
-			"id": "93ff7df9-1b18-4097-a046-a5a49cd2b388",
-			"key": "BIGIP_ADDRESS1",
-			"value": ""
-		},
-		{
-			"id": "6da21dab-e09f-4001-812d-01e4dacac73f",
-			"key": "DNS_DEST",
-			"value": ""
-		},
-		{
-			"id": "6a86149a-40f5-4161-b7f1-7a5d4b733cb5",
+			"id": "a4f5fee5-5105-46fd-851d-6834cd47d4b0",
 			"key": "VIPS",
 			"value": ""
 		},
 		{
-			"id": "9c7061a1-21e3-4c09-8360-2c3790221e35",
+			"id": "2860ca6b-1c42-4927-9840-b7418a420d07",
+			"key": "VS1_NAME",
+			"value": ""
+		},
+		{
+			"id": "2b8e59f4-710c-4cf3-9517-438876ab6e66",
 			"key": "VS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "b2069d30-e992-48e9-a39b-0bfd26ec679c",
+			"id": "2e5c1547-5340-4954-a35b-b500a1bde01e",
+			"key": "BIGIP_MGMT",
+			"value": ""
+		},
+		{
+			"id": "bcdcd19c-2a7e-4b6b-a183-f88562ee60f5",
+			"key": "BIGIP_SCOPE",
+			"value": ""
+		},
+		{
+			"id": "4f4c2f96-84e6-46cc-8f8e-b8604c5b8073",
 			"key": "DC_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "dfc10682-5137-4967-80f2-1727824b324e",
+			"id": "1dc0635b-2fcd-4fe3-9eb5-09311e73114a",
 			"key": "DNS_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "1ec3dd70-c5ca-40ca-b8d0-c1c6f1434831",
+			"id": "62d62acf-cb83-48a6-ab9c-290f2f3e3ed6",
 			"key": "DNS_NAME",
 			"value": ""
 		},
 		{
-			"id": "1e00dd47-9ec0-4326-903f-76b240b57218",
+			"id": "d672f5f7-4e87-4a23-b367-7210e9a669db",
 			"key": "VS_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "bc5f04d4-5d99-44d7-87d7-dc9b76d85a44",
+			"id": "22d9e558-caad-41c0-b30e-fe8e0c0a4c33",
 			"key": "VS_NAME",
+			"value": ""
+		},
+		{
+			"id": "12fc86a4-7d50-4078-8d66-e40f53ca1eba",
+			"key": "BIGIP_ADDRESS1",
+			"value": ""
+		},
+		{
+			"id": "d25ade83-1b92-4f7c-b7d7-99e28f3416a0",
+			"key": "DNS_DEST",
 			"value": ""
 		}
 	],
