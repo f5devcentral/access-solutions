@@ -46,16 +46,6 @@ solution7-delete.postman_collection.json_
 .. _solution7-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution7/postman/solution7-delete.postman_collection.json
 
 
-APM Profile(s)
-----------------
-
-profile_Common_receive-sideband-psp.conf.tar_
-
-.. _profile_Common_receive-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution7/policies/
-
-profile_Common_send-sideband-psp.conf.tar_
-
-.. _profile_Common_send-sideband-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution7/policies/
 
 Metadata
 ----------
