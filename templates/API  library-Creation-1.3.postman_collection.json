@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "850913d1-dff0-4c76-81ba-40926b0b5d19",
-		"name": "API  library-Creation-1.2",
+		"name": "API  library-Creation-1.3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -1629,13 +1629,18 @@
 									"if (!VS_COUNTER) {\r",
 									"pm.collectionVariables.set(\"VS_COUNTER\", 1);\r",
 									"pm.collectionVariables.set(\"DNS_COUNTER\", 1);\r",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
 									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
 									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
 									" } else { \r",
 									"\r",
 									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
 									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
-									"}"
+									"}\r",
+									"\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1728,7 +1733,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");\r",
 											"\r",
 											"\r",
@@ -2910,7 +2915,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"pm.test(\"Creating LTM objects for Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
@@ -3653,7 +3658,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -6953,6 +6958,26 @@
 												],
 												"type": "text/javascript"
 											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "d9567dcd-e4d5-4e73-9d4e-ba2dd2bb90ef",
+												"exec": [
+													"var DNS_NAME = pm.collectionVariables.get(\"DNS2_NAME\");\r",
+													"\r",
+													"if (responseCode.code === 200) {\r",
+													"pm.test(\"SAML SP connector \"+DNS_NAME+\" created\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"} else \r",
+													"pm.test(\"SAML SP connector \"+DNS_NAME+\" exists\", function () {\r",
+													"    pm.response.to.have.status(409);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
 									],
 									"request": {
@@ -7057,13 +7082,33 @@
 							"name": "simpleSAML SP",
 							"item": [
 								{
-									"name": "bigip-create-sp  connector-simplaSAML",
+									"name": "bigip-create-sp  connector-simpleSAML",
 									"event": [
 										{
 											"listen": "prerequest",
 											"script": {
 												"id": "e782b1c2-c22c-4d4c-86cb-a13e933dd91d",
 												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "8cddce2c-ee6a-4508-834b-4c25d8781375",
+												"exec": [
+													"var DNS_NAME = pm.collectionVariables.get(\"DNS2_NAME\");\r",
+													"\r",
+													"if (responseCode.code === 200) {\r",
+													"pm.test(\"SAML SP connector \"+DNS_NAME+\" created\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"} else \r",
+													"pm.test(\"SAML SP connector \"+DNS_NAME+\" exists\", function () {\r",
+													"    pm.response.to.have.status(409);\r",
+													"});\r",
 													""
 												],
 												"type": "text/javascript"
@@ -7118,6 +7163,33 @@
 								},
 								{
 									"name": "bigip-create-idp  service-bigip",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e2abeae0-5e99-41bb-bbd8-452150655838",
+												"exec": [
+													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+													"\r",
+													"if (responseCode.code === 200) {\r",
+													"    pm.test(\"IDP Service \"+VS_NAME+\"-sso created\", function () {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"} else if (responseCode.code === 400) {\r",
+													"    pm.test(\"IDP Service \"+VS_NAME+\"-sso exists\", function () {\r",
+													"        pm.expect(pm.response.text()).to.include(\"is already assigned to another sso\");\r",
+													"    });\r",
+													"} else {\r",
+													"    pm.test(\"IDP Service \"+VS_NAME+\"-sso exists\", function () {\r",
+													"        pm.response.to.have.status(409);\r",
+													"    });\r",
+													"}\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"auth": {
 											"type": "basic",
@@ -7280,7 +7352,7 @@
 											"var VS = 1;\r",
 											"\r",
 											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-											"var DC_COUNTER = pm.collectionVariables.get(\"COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
 											"\r",
@@ -8430,7 +8502,7 @@
 											"script": {
 												"id": "4da010d0-cedc-4f41-8e4e-6f35c67d9a8f",
 												"exec": [
-													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
+													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
 													"if (responseCode.code === 409) {\r",
 													"pm.test(\"Profile \"+VS_NAME+\" Exists\", function () {\r",
@@ -10599,6 +10671,7 @@
 									"if(!jsonData.length) {\r",
 									"    if ( jsonData.Description  === VS_NAME ) {\r",
 									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
 									"        var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
 									"        postman.setNextRequest(\"end-address\");\r",
 									"        var EXIST = 1;\r",
@@ -10614,6 +10687,7 @@
 									"\r",
 									"        if ( jsonData[i].Description  === VS_NAME ) {   \r",
 									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
 									"            var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
 									"            postman.setNextRequest(\"end-address\");\r",
 									"            var EXIST =1;\r",
@@ -11241,6 +11315,23 @@
 					"item": [
 						{
 							"name": "bigip-create-application",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dd87742d-0b21-4e9c-84d3-648cfe469a2c",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"pm.test(\"Application \"+VS_NAME+\" created\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [
@@ -12663,98 +12754,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"id": "1e0035c4-c282-454f-9aff-773fd83cb2ae",
-			"key": "DNS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "3ffaa13b-b70a-466f-a183-61497fab5229",
-			"key": "IIS_ADDRESS",
-			"value": ""
-		},
-		{
-			"id": "df3949f0-a18b-459d-a046-19cf7d772346",
-			"key": "IIS_ADDRESSundefined",
-			"value": ""
-		},
-		{
-			"id": "72b6f1f7-3b50-47ce-a9c1-d57e177a13e8",
-			"key": "IIS_ADDRESS1",
-			"value": ""
-		},
-		{
-			"id": "3c6eb35f-dab5-46ef-90c7-4d703b358c8c",
-			"key": "CUSTOM_TYPE",
-			"value": ""
-		},
-		{
-			"id": "557a5741-963d-47d0-beb9-37e1694aba1b",
-			"key": "DNS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "24649d49-bc25-4f6a-bf03-01b80c0475e9",
-			"key": "DNS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "668e28e8-f0a2-4236-9f12-88d4dad970e7",
-			"key": "PARTITION_NAME",
-			"value": ""
-		},
-		{
-			"id": "71bb7ea9-e0fc-47eb-97f6-96b2f3c2b240",
-			"key": "PATH_NAME",
-			"value": ""
-		},
-		{
-			"id": "2aa05bbd-3b9f-498d-888b-636fe849b0ec",
-			"key": "VIPS",
-			"value": ""
-		},
-		{
-			"id": "4fc3faa7-e6c8-4a4f-bc14-ec2742884e80",
-			"key": "VS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "6338d456-b757-45d0-bb75-304f80494f71",
-			"key": "VS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "0725fadf-342d-466d-9874-d4737226a814",
-			"key": "BIGIP_MGMT",
-			"value": ""
-		},
-		{
-			"id": "19b890b6-b4b7-4624-a4a8-eed0fcbc5d3d",
-			"key": "BIGIP_SCOPE",
-			"value": ""
-		},
-		{
-			"id": "0e941023-b78f-4774-b79e-390b7f2cea88",
-			"key": "COUNTER",
-			"value": ""
-		},
-		{
-			"id": "f9a55f52-873d-43a1-9427-e02691928be6",
-			"key": "DNS_NAME",
-			"value": ""
-		},
-		{
-			"id": "76098775-f681-4854-90fb-1383eba15a13",
-			"key": "VS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "ba75b375-3634-465c-9cf8-71916bb0cd42",
-			"key": "VS_NAME",
-			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}
