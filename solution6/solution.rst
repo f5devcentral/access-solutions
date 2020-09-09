@@ -48,13 +48,6 @@ solution6-delete.postman_collection.json_
 
 .. _solution6-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution6/postman/solution6-delete.postman_collection.json
 
-APM Profile(s)
-----------------
-
-profile_Common_solution6-psp.conf.tar_
-
-.. _profile_Common_solution6-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution6/policies/
-
 
 UDF Deployment Models
 -----------------------
