@@ -34,7 +34,7 @@ Policy Agent Configuration
 
 |image3|
 
-- The othername field is extracted from the certificate and saved as session variable session.logon.upn
+- The othername field is extracted from the certificate and saved as session variable session.custom.upn
 
 |image4|
 
@@ -64,7 +64,7 @@ Policy Agent Configuration
 
 - Two session variables are set
 
-  * session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
+  * session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP query
   * session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
 
 |image7|
