@@ -62,14 +62,14 @@ Policy Agent Configuration
 Customized LTM Profile settings
 ---------------------------------
 
-- The Client-side SSL profile Client Authentication section has been modificed to support certiciate authentication
+- The Client-side SSL profile Client Authentication section has been modified to support certificate authentication
 
-  * Trusted Certificate Authorities has been set to ca.f5lab.local.crt
+  * Trusted Certificate Authorities has been set to ca.f5lab.local
 
     - The bundle validates client certificates by these issuers
     - The bundle must include all CAs in the chain
 
-  * Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
+  * Advertised Certificate Authorities has ben set to ca.f5lab.local
 
     - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate 
 
@@ -112,7 +112,7 @@ Kerberos SSO Object
 - The Username Source field has been modified from the default to reference the sAMAccountName stored in session.logon.last.username
 - Kerberos Realm has been set to the Active Directory domain (realms should always be in uppercase)
 - The service account used for Kerberos Constrained Delegation (Service Account Names should be in SPN format)
-- SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)
+- SPN Pattern has been hardcoded to HTTP/solution6.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)
 
 |image14|
 
