@@ -68,6 +68,6 @@ BIG-IP Components used
   * Client-side SSL Profile
   * Access Profile
 
-    - LDAP AAA Object
-    - OCSP Responder AAA Object
+    - AAA LDAP AAA Servers
+    - AAA OCSP Responder Servers
     - Kerberos SSO
