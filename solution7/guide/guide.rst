@@ -159,6 +159,13 @@ SP Connector
 
 |image015|
 
+**Endpoint Settings**
+
+ACS Location: https://sp.acme.com/module.php/saml/sp/saml2-acs.php/default-sp
+
+|image026|
+
+
 **Security Settings**
 
 |image016|
