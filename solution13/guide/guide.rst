@@ -8,129 +8,120 @@ Properties
 
 |image001|
 
-#.  In this policy a user enters their credentials in the logon page agent.
-
-    - Those credentials are collected, stored as the default system session variables of session.logon.last.username and session.logon.last.password.
-
-#.  The AD Auth Agent validates the the username and password session variables against the configured AD Domain Controller.
-#.  The RDG policy is evaluated for access control
-#.  Domain variables are assigned
-#.  The user is assigned resourced defined in the Advanced Resource Assign Agent
-#.  The user is granted access via the Allow Terminal
-#.  If unsuccessful, the user proceeds down the fallback branch and denied access via the Deny Terminal
 
 
 Paths
 -----------
+|image002|
 
 Responses
 --------------
+|image003|
+
+Rate Limiting
+---------------
+|image004|
+
 
 Access Control (The Policy)
 ------------------------------
 
-Policy Agent Configuration
-----------------------------
-
-The Logon Page contains only the default setting
-
-|image002|
-
-The AD Auth Agent uses a defined the  AD AAA Server object that user will be authenticated against.  All Setting are the default.
-
-|image003|
-
-
-The RDG Policy assignment agent inherits the settings defined in a separate RDG Policy.
-
-|image004|
-
-
-The Variable Assign objects defined the AD domain name to support SSO to the VDI resource.
-
 |image005|
 
-
-The Advanced resource Assign Agent grants a user access to the assigned RDP resource and webtop.
-
+Per-Request Policy
+^^^^^^^^^^^^^^^^^^^^^
 |image006|
 
 
-Customized APM Profile Settings
-----------------------------------
+Subroutine - OAuth Scope Check AuthZ
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- The APM Profiles settings are the default.
+|image007|
+
+Policy Agent Configuration
+----------------------------
+
+API Authentication
+
+
+|image008|
+
+OAuth Scope
+
+|image009|
+
+
+Classify API Request (RCA)
+
+|image010|
+
+
 
 
 Supporting APM Objects
 -----------------------
 
-AAA AD Server Object
-^^^^^^^^^^^^^^^^^^^^^
-
-|image007|
-
-
-Webtop
-^^^^^^^^^^^^^^^
-
-|image008|
-
-
-Connectivity Profile
-^^^^^^^^^^^^^^^^^^^^^^
-
-This profile uses the default settings
-
-|image009|
-
-
-VDI Profile
-^^^^^^^^^^^^^
-
-This profile uses its default settings
-
-|image010|
-
-
-RDP Resource
-^^^^^^^^^^^^^^
+JSON Webtoken Provider List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image011|
 
 
-RDG policy
-^^^^^^^^^^^^^^
-
-The RDG profile is used for controlling access to RDP resources.  The profile permits access to any resource.
+OAuth Provider
+^^^^^^^^^^^^^^^
 
 |image012|
 
+
+JSON Token Configuration
+^^^^^^^^^^^^^^^^^^^^^^
+
+|image013|
+
+JSON Key Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+|image014|
 
 
 User's Perspective
 ---------------------
 
+.. note:: 
+    The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment.  
 
-1. A user connects to https://solution12.acme.com and redirected to a logon page.
+|image015|
+
+1. Specify the settings required for the authorization server and the client settings
+
+|image016|
+
+
+
+1. The Authorization Server logon form opens
 
 :username: user1
 :Password: user1
 
 
-|image013|
+|image017|
 
-2. After successful logon the user is presented a webtop with RDP resources
+2. Select **User Token**
 
-|image014|
+|image018|
 
-3. The user clicks the RDP resource icon on the webtop, downloads the .rdp file, and clicks the .rdp file.
+3. Click Send.
 
-|image015|
+|image019|
 
-4. The desktop for the RDP resource opens.
+4. The body contains user's attributes.
 
-|image016|
+|image020|
+
+5. If the user attempts to access the API without a token they receive a 403
+
+|image21|
+
 
 
 .. |image001| image:: media/001.png
@@ -149,3 +140,9 @@ User's Perspective
 .. |image014| image:: media/014.png
 .. |image015| image:: media/015.png
 .. |image016| image:: media/016.png
+.. |image017| image:: media/017.png
+.. |image018| image:: media/018.png
+.. |image019| image:: media/019.png
+.. |image020| image:: media/020.png
+.. |image021| image:: media/021.png
+
