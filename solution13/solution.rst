@@ -61,7 +61,7 @@ UDF Deployment Models
 
 
 
-BIG-IP Components used:
+BIG-IP Components Used:
 -------------------------
 
 Read more about the individual components by clicking on the below links
@@ -76,6 +76,9 @@ Read more about the individual components by clicking on the below links
     - OAuth Provider
 	
 	
+Solution Tagging
+--------------------------
+
 Keywords: api, oauth, prp
 
 DC: single, multi
