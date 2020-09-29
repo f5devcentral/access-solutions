@@ -143,15 +143,15 @@ User's Perspective
 
    |image018|
 
-3. The user clicks **Send*.
+#. The user clicks **Send*.
 
    |image019|
 
-4. The resoponse body contains user1's attributes.
+#. The resoponse body contains user1's attributes.
 
    |image020|
 
-5. If the user attempts to access the API without a token they receive a 403
+#. If the user attempts to access the API without a token they receive a 403
 
    |image021|
 
