@@ -5,10 +5,9 @@ The API Protection Profile
 
 Properties
 -------------------------------------
-The properties section displayes the current version of the swagger file
+The properties section displays the current version of the swagger file.
 
 |image001|
-
 
 
 Paths
@@ -16,9 +15,9 @@ Paths
 
 The path section displays each path and method combination along with it's associated Path ID.  Path IDs are used in the Access Policy.
 
-The Servers section contains the locations that API requests can be routed to for processing.
+The Servers section contains the destinations for API routing.
 
-In the properties section the default server is **solution13_server1**.  In the case of this example no endponts have an alternive server destiantion so everything will use the default server Selected.
+In the properties section the default server is **solution13_server1**.  In the case of this example, no endponts have an alternative server destination so all endpoints will use the default server selected.
 |image002|
 
 Responses
@@ -26,7 +25,7 @@ Responses
 
 The first threee responses are the defaults that would be created if the API protection were created manually.
 
-The last two responses are parsed and added from the OpenAPI spec file.
+The last two responses are parsed from the OpenAPI spec file.
 
 |image003|
 
@@ -34,6 +33,7 @@ Rate Limiting
 ---------------
 
 No rate limiting option were defined
+
 |image004|
 
 
@@ -69,6 +69,7 @@ Policy Agent Configuration
 
 API Authentication
 ^^^^^^^^^^^^^^^^^^^
+
 This agent supports two authentication methods by default.
 
 |image008|
@@ -130,7 +131,7 @@ User's Perspective
 
 
 
-#. The Authorization Server logon form opens
+#. The Authorization Server logon form opens and credentials entered
 
    :username: user1
    :Password: user1
@@ -138,11 +139,11 @@ User's Perspective
 
    |image017|
 
-#. Select **User Token**
+#. The user selects **Use Token**
 
    |image018|
 
-3. Click Send.
+3. The user clicks **Send*.
 
    |image019|
 
