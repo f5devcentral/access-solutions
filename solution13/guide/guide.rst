@@ -1,10 +1,11 @@
 
-The Profile
-==============
+The API Protection Profile
+===========================
 
 
 Properties
 -------------------------------------
+The properties section displayes the current version of the swagger file
 
 |image001|
 
@@ -12,14 +13,27 @@ Properties
 
 Paths
 -----------
+
+The path section displays each path and method combination along with it's associated Path ID.  Path IDs are used in the Access Policy.
+
+The Servers section contains the locations that API requests can be routed to for processing.
+
+In the properties section the default server is **solution13_server1**.  In the case of this example no endponts have an alternive server destiantion so everything will use the default server Selected.
 |image002|
 
 Responses
 --------------
+
+The first threee responses are the defaults that would be created if the API protection were created manually.
+
+The last two responses are parsed and added from the OpenAPI spec file.
+
 |image003|
 
 Rate Limiting
 ---------------
+
+No rate limiting option were defined
 |image004|
 
 
@@ -32,26 +46,44 @@ Per-Request Policy
 ^^^^^^^^^^^^^^^^^^^^^
 |image006|
 
+1. When a user accesses a VIP protected by this policy they enter the **OAuth Scope Check AuthZ** Subroutine.
+2. Upon successful completion of the **OAuth Scope Check AuthZ** Subroutine the API endpoint is identified.
+3. If the endpoint exists in the policy, the user is granted access via the Allow Terminal.
+4. If endpoint does not exist, the user proceeds down the fallback branch and denied access via the Reject Terminal.
+5. If the **OAuth Scope Check AuthZ** subroutine is unsuccessful, the user proceeds down the fallback branch and denied access via the Reject Terminal.
 
 Subroutine - OAuth Scope Check AuthZ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image007|
 
+6. When a user accesses a VIP protected by this policy they enter the **OAuth Scope Check AuthZ** Subroutine.
+7. If http basic is used for authentication , the user proceeds down the fallback branch and denied access via the Reject Terminal.
+8. If a bearer token is used for authentication, the JWT scopes are validated.
+9. If the JWT token is valid , the user is sent to the Out Terminal.
+10. If the JWT token is invalid, the user is sent to the Reject Terminal.
+11. If no authentication method is specified, the user is sent to the Reject Terminal.
+
 Policy Agent Configuration
 ----------------------------
 
 API Authentication
-
+^^^^^^^^^^^^^^^^^^^
+This agent supports two authentication methods by default.
 
 |image008|
 
+
 OAuth Scope
+^^^^^^^^^^^^^
+
 
 |image009|
 
 
 Classify API Request (RCA)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This agent specifies path IDs used for each branch rule.  The Path IDs were defined in the Path section of the API protection profile.
 
 |image010|
 
@@ -92,35 +124,35 @@ User's Perspective
 
 |image015|
 
-1. Specify the settings required for the authorization server and the client settings
+#. Specify the settings required for the authorization server and the client settings. The client Secret and Client ID will be different.
 
-|image016|
-
-
-
-1. The Authorization Server logon form opens
-
-:username: user1
-:Password: user1
+   |image016|
 
 
-|image017|
 
-2. Select **User Token**
+#. The Authorization Server logon form opens
 
-|image018|
+   :username: user1
+   :Password: user1
+
+
+   |image017|
+
+#. Select **User Token**
+
+   |image018|
 
 3. Click Send.
 
-|image019|
+   |image019|
 
-4. The body contains user's attributes.
+4. The resoponse body contains user1's attributes.
 
-|image020|
+   |image020|
 
 5. If the user attempts to access the API without a token they receive a 403
 
-|image21|
+   |image021|
 
 
 
