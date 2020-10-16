@@ -117,7 +117,13 @@
 										"id": "e609e2f0-548b-457a-b6fd-518f1af5b8cc",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)\r",
-											"pm.collectionVariables.set(\"SWAGGER_UNFORMATTED\",JSON.stringify(jsonData));"
+											"pm.collectionVariables.set(\"SWAGGER_UNFORMATTED\",JSON.stringify(jsonData));\r",
+											"\r",
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Swagger File Retrieved\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} "
 										],
 										"type": "text/javascript"
 									}
@@ -170,6 +176,20 @@
 										"id": "40b1379c-fcee-47c4-b95b-a3162d5ebb32",
 										"exec": [
 											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "7ebf46b7-e899-4d0f-b500-d408e3074a12",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Swagger File Uploaded\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} "
 										],
 										"type": "text/javascript"
 									}
@@ -247,6 +267,15 @@
 											"pm.collectionVariables.set(\"SWAGGER_VERSION\",jsonData.version);\r",
 											"pm.collectionVariables.set(\"SWAGGER_BASEPATH\",jsonData.basePath);\r",
 											"pm.collectionVariables.set(\"SWAGGER_RAW\",JSON.stringify(jsonData));\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody)\r",
+											"pm.collectionVariables.set(\"SWAGGER_UNFORMATTED\",JSON.stringify(jsonData));\r",
+											"\r",
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Swagger File Parsed\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} \r",
 											""
 										],
 										"type": "text/javascript"
@@ -543,6 +572,23 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "969dad54-de32-45e2-9c92-6d3726c6de93",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Standard Response Created \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(\"Standard Response Exists\", function () {\r",
+											"        pm.response.to.have.status(409);\r",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -608,6 +654,23 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "9f17c190-f8d5-4ab4-804e-91b32fcc1c9e",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Standard Response Created \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(\"Standard Response Exists\", function () {\r",
+											"        pm.response.to.have.status(409);\r",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -670,6 +733,23 @@
 										"id": "b1b65fd6-c2e2-49e3-8222-339526582bb6",
 										"exec": [
 											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "84fed10c-21fe-4d67-b6a0-97955ce506a4",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Standard Response Created \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(\"Standard Response Exists\", function () {\r",
+											"        pm.response.to.have.status(409);\r",
+											"    });"
 										],
 										"type": "text/javascript"
 									}
@@ -4725,13 +4805,13 @@
 						"id": "cad30fac-f524-48d1-aa7a-4c0c4534f674",
 						"exec": [
 							"if (responseCode.code === 200) {",
-							"pm.test(\"Node Created\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
+							"    pm.test(\"API Protection Profile Attached \", function () {",
+							"        pm.response.to.have.status(200);",
+							"    });",
 							"} else ",
-							"pm.test(\"Node Exists\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});"
+							"    pm.test(\"API Protection Profile Exists\", function () {",
+							"        pm.response.to.have.status(409);",
+							"    });"
 						],
 						"type": "text/javascript"
 					}
@@ -5904,138 +5984,143 @@
 	],
 	"variable": [
 		{
-			"id": "540c1719-70fb-4899-b620-00f28111ca28",
+			"id": "272c734c-13fe-4d88-a024-dbb84bfe7048",
 			"key": "BIGIP_MGMT",
 			"value": ""
 		},
 		{
-			"id": "26c4e46a-c374-4e89-b52b-18d32daab690",
+			"id": "3656f929-c448-419d-b13a-2008cfe1c513",
 			"key": "BIGIP_SCOPE",
 			"value": ""
 		},
 		{
-			"id": "3d466b57-aa07-4cf2-b57e-dd55e4dfe02b",
+			"id": "12e2ff5f-48e4-4449-899b-73d0e0675956",
 			"key": "CUSTOM_TYPE",
 			"value": ""
 		},
 		{
-			"id": "fcc711ad-a193-4dd4-b944-0b2f7f7e52cd",
+			"id": "7ee479b0-bde0-454f-b425-60ede6b9d47b",
 			"key": "DNS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "cda4c956-2ba2-404d-a102-02d97edeff96",
+			"id": "e4b4ad78-753e-43d5-ae03-4420bbc20d91",
 			"key": "DNS2_NAME",
 			"value": ""
 		},
 		{
-			"id": "39d25485-cddf-4c86-b62e-39566d4119d1",
+			"id": "97e7c77d-e7b4-494a-a4be-be0975f67d0a",
 			"key": "PARTITION_NAME",
 			"value": ""
 		},
 		{
-			"id": "c15a514c-70be-4db5-8af0-89766bafae82",
+			"id": "a8dc4ef9-822f-4cff-80fe-299331b4feff",
 			"key": "PATH_NAME",
 			"value": ""
 		},
 		{
-			"id": "ce322dbf-2bfa-4e60-81a3-9f604c126551",
+			"id": "145203af-3e03-4576-87fe-bc614b821e7c",
 			"key": "SWAGGER_COUNTER",
 			"value": ""
 		},
 		{
-			"id": "61611d9f-21a1-4f12-91f5-ece7252084a9",
+			"id": "f8181b10-0573-473d-957a-42bf3d79ebb8",
 			"key": "VS1_NAME",
 			"value": ""
 		},
 		{
-			"id": "0eb70c53-0b2d-4a19-816e-2a14f10f9d81",
+			"id": "1d965a48-2b8f-470f-b0bd-3469d6b33bf2",
 			"key": "SWAGGER_BASEPATH",
 			"value": ""
 		},
 		{
-			"id": "a7ddbfcd-3d8b-4adb-a01f-5eb75daf0269",
+			"id": "63f21f8c-c343-47a8-abf6-a5c1dcca7f7c",
 			"key": "SWAGGER_RAW",
 			"value": ""
 		},
 		{
-			"id": "17082086-4838-4715-b2c3-b57b38db3cc9",
+			"id": "6ac992c2-0bfe-4fa3-a3a6-9090cb69498e",
 			"key": "SWAGGER_VERSION",
 			"value": ""
 		},
 		{
-			"id": "c2492111-e03a-481e-874c-486582381fb7",
+			"id": "4cddac8d-868e-4486-aba8-703e576e5f1a",
 			"key": "SWAGGER_SERVERS",
 			"value": ""
 		},
 		{
-			"id": "ccc2c256-e77f-410d-88c4-5adaa9af3155",
+			"id": "e932b838-3bb9-4e7d-bf8a-51e45a5e8e51",
 			"key": "SWAGGER_RESPONSES_STATUSCODE",
 			"value": ""
 		},
 		{
-			"id": "43c40929-a205-42b9-a492-a8c269066699",
+			"id": "84ee4b80-c4ee-457b-bef9-7eb713f4cd30",
 			"key": "SWAGGER_RESPONSES_STATUSSTRING",
 			"value": ""
 		},
 		{
-			"id": "81ff6b64-2355-41bc-9e66-047a40679d0b",
+			"id": "ca0176c4-daa3-4259-9d36-1177bce2ec4e",
 			"key": "DISCOVER_ID",
 			"value": ""
 		},
 		{
-			"id": "8b2e8bc6-117f-42d1-a5f1-ac6d98c6e2f7",
+			"id": "85c8856d-01df-4a9a-b5e4-9de5c764059b",
 			"key": "PRIOR_RESPONSE",
 			"value": ""
 		},
 		{
-			"id": "4f156dcf-239d-434c-afb6-1fe991f30800",
+			"id": "c702416d-c7f6-401a-bbdb-84f52e5f8f48",
 			"key": "AUTH_URI",
 			"value": ""
 		},
 		{
-			"id": "72e213ad-6718-49b2-a4b0-42411734e0d6",
+			"id": "e2d9499b-c4ab-4b1a-872c-d59977635c87",
 			"key": "TOKEN_URI",
 			"value": ""
 		},
 		{
-			"id": "e04bcefb-a7a0-4ac8-be03-8a2b497ee985",
+			"id": "e1f20b22-928e-4dbc-aa4e-3cee9247a022",
 			"key": "CLIENT_ID",
 			"value": ""
 		},
 		{
-			"id": "bc33c2be-14d2-4ed3-b87f-58417630698b",
+			"id": "7fe8f751-6ec1-4184-a754-e92097dca852",
 			"key": "CLIENT_SECRET",
 			"value": ""
 		},
 		{
-			"id": "8a234bd7-febd-4e20-babd-e7be806dacd0",
+			"id": "b5630bb7-d613-4291-8fd1-90d875e4e71b",
 			"key": "TRANSID",
 			"value": ""
 		},
 		{
-			"id": "99d8d351-3bdd-4b5d-92c8-e26267b20f31",
+			"id": "34fb9ad6-2268-4752-8a5e-7194b2801dc2",
 			"key": "CLASSIFICATION_BODY",
 			"value": ""
 		},
 		{
-			"id": "1c752a03-e6d2-4b01-b457-cf29c1fcc36e",
+			"id": "4b81c71e-fa8d-4368-a84c-39af3e8141a0",
 			"key": "SWAGGER_PATH_METHOD",
 			"value": ""
 		},
 		{
-			"id": "cba0ed2e-67c9-4b7d-815d-cec99d4731ce",
+			"id": "cf1504d0-9a1b-41e4-b137-139d1be068ad",
 			"key": "SWAGGER_PATH_URI",
 			"value": ""
 		},
 		{
-			"id": "5d72a106-6ea1-4334-81dc-953f0fe792b1",
+			"id": "9feb36c3-4223-469d-a78a-97294c23dfa4",
 			"key": "BIGIP_ADDRESS1",
 			"value": ""
 		},
 		{
-			"id": "f52acede-a7d2-4fc3-afa4-4038e02cc4e9",
+			"id": "28eb467e-2bcc-46b1-836b-3e85a295c869",
 			"key": "SWAGGER_UNFORMATTED",
+			"value": ""
+		},
+		{
+			"id": "fb52be72-4a4e-4b43-8b21-5eb862643394",
+			"key": "COUNTER",
 			"value": ""
 		}
 	],
