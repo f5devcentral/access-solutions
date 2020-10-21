@@ -4903,6 +4903,128 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Internal DNS",
+			"item": [
+				{
+					"name": "create-dns-a-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1404eb1d-0133-4bfd-8358-d8ae408e4064",
+								"exec": [
+									"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");   ",
+									"var jsonData = pm.response.json();",
+									"",
+									"\tif (jsonData.length) {",
+									"",
+									"        if (jsonData[1].status === \"exists\") {",
+									"            pm.test(\"A Record \"+DNS_NAME+\" Exists\", function () {",
+									"                pm.expect(jsonData[1].status).to.eql(\"exists\");",
+									"            });",
+									"        }",
+									"    } else ",
+									"        pm.test(\"A Record \"+DNS_NAME+\" created\", function () {",
+									"            pm.expect(jsonData.status).to.eql(\"Success\");",
+									"        });",
+									"",
+									"       ",
+									"    ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/dns",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"dns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-dns-ptr-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5167cdd-5e1a-4a77-b7f5-007eb00cf4c6",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"\tif (jsonData.length) {",
+									"        if (jsonData[1].status === \"exists\") {",
+									"            pm.test(\"PTR Record Exists\", function () {",
+									"                pm.expect(jsonData[1].status).to.eql(\"exists\");",
+									"            });",
+									"        }",
+									"    } else {",
+									"        pm.test(\"PTR Record created\", function () {",
+									"            pm.expect(jsonData.status).to.eql(\"Success\");",
+									"        });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"record_type\":\"ptr\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/dns",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"dns"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "End loop Datacenters",
 			"item": [
 				{
