@@ -619,6 +619,68 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Internal DNS",
+			"item": [
+				{
+					"name": "delete-dns-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c249a00-07b7-4546-b5c1-d1028c7946f3",
+								"exec": [
+									"   var jsonData = pm.response.json();",
+									"\t",
+									"    if (jsonData.status === \"nonexistent\") {",
+									"        pm.test(\"nonexistent\", function () {",
+									"        pm.expect(jsonData.status).to.eql(\"nonexistent\");",
+									"        });",
+									"    } else {",
+									"",
+									"        ",
+									"        pm.test(\"Success\", function () {",
+									"        pm.expect(jsonData[1].status).to.eql(\"Success\");",
+									"        });",
+									"    }"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS1}}\" \n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/dns",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"dns"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Applications",
 			"item": [
 				{
@@ -2003,78 +2065,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"id": "2d5fc3ea-649c-4fad-8d20-522646aa7844",
-			"key": "DNS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "01e15b1d-365c-489f-ad96-406b8a7d83ba",
-			"key": "DNS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "e806499f-71d1-4842-82ad-18ce5f3c70ec",
-			"key": "PARTITION_NAME",
-			"value": ""
-		},
-		{
-			"id": "b24a6c28-6fdf-4a5b-b66c-3c444c5e6992",
-			"key": "PATH_NAME",
-			"value": ""
-		},
-		{
-			"id": "0c86eb00-b952-43b8-b306-851b63e28602",
-			"key": "VIPS",
-			"value": ""
-		},
-		{
-			"id": "cfb4580e-5a82-4724-a22b-304c3c40c43e",
-			"key": "VS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "2c701824-a4ac-40f0-b85a-22e71062bb1e",
-			"key": "VS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "595c23ef-a2e1-4311-9c8c-247343fb12b6",
-			"key": "BIGIP_MGMT",
-			"value": ""
-		},
-		{
-			"id": "e1ee5f0e-492e-4b85-bed0-b6ed27983a66",
-			"key": "BIGIP_SCOPE",
-			"value": ""
-		},
-		{
-			"id": "d8a32d60-2a49-4a1e-aa8d-1053913315d6",
-			"key": "DC_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "b276ded8-55df-422e-b3da-c8ca3c186d18",
-			"key": "DNS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "ab706f73-eb1f-4b81-a96f-7236d4cf844e",
-			"key": "DNS_NAME",
-			"value": ""
-		},
-		{
-			"id": "5e4f8cc6-6ebf-4aab-924c-72d91992e213",
-			"key": "VS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "a2588274-9eda-49fe-8aa3-b08d4b711e8a",
-			"key": "VS_NAME",
-			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}
