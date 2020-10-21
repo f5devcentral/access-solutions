@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "4d095677-38d1-4fa3-9b96-9b7a68c1caf6",
 		"name": "solution9-delete",
+		"description": "Based on Template 1.7",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -1284,34 +1285,22 @@
 					"name": "OAuth Client",
 					"item": [
 						{
-							"name": "bigip-delete-oauth-client",
+							"name": "bigip1-modify-OAuth Clients list",
 							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "2aaa4a26-69fa-4a09-a4ba-a1d08de17d93",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
 								{
 									"listen": "test",
 									"script": {
-										"id": "0ae57fd0-c583-4072-b16e-6c637743b21c",
+										"id": "06ed2158-32a0-4ebb-8540-666ae9b6306d",
 										"exec": [
-											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
-											"",
-											"if (responseCode.code === 200) {",
-											"    pm.test(\"OAuth Provider \"+VS_NAME+\"-provider deleted\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else  { ",
-											"    pm.test(\"OAuth Provider \"+VS_NAME+\"-provider does not exist\", function () {",
-											"        pm.response.to.have.status(404);",
-											"    });",
-											"} ",
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Client Removed from Auth Server\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(\"Client not Attached\", function () {\r",
+											"        pm.response.to.have.status(404);\r",
+											"    });\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript"
@@ -1338,8 +1327,8 @@
 								"header": [
 									{
 										"key": "Content-Type",
-										"type": "text",
-										"value": "application/json"
+										"value": "application/json",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -1347,7 +1336,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/oauth-provider/~Common~{{VS_NAME}}-provider",
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/oauth/~Common-{{VS2_NAME}}-oauth/client-apps/~Common~{{VS_NAME}}",
 									"protocol": "https",
 									"host": [
 										"{{BIGIP_MGMT}}"
@@ -1356,9 +1345,154 @@
 										"mgmt",
 										"tm",
 										"apm",
-										"aaa",
-										"oauth-provider",
-										"~Common~{{VS_NAME}}-provider"
+										"profile",
+										"oauth",
+										"~Common-{{VS2_NAME}}-oauth",
+										"client-apps",
+										"~Common~{{VS_NAME}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-Apply Policy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "be87fbe3-9d06-4feb-bb8c-ad9b2f96a1f6",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\" Apply Policy Action Successful\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(Policy Does Not Exist\", function () {\r",
+											"        pm.response.to.have.status(404);\r",
+											"    });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-F5-REST-Coordination-Id",
+										"type": "text",
+										"value": "{{TRANSID}}",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~Common~{{VS2_NAME}}-psp",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"profile",
+										"access",
+										"~Common~{{VS2_NAME}}-psp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip1-delete-OAuth Client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67125250-7cf5-49a8-9115-22c7bc55b82e",
+										"exec": [
+											"if (responseCode.code === 200) {\r",
+											"    pm.test(\"Client Deleted\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else \r",
+											"    pm.test(\"Client Does Not exist\", function () {\r",
+											"        pm.response.to.have.status(404);\r",
+											"    });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/oauth-client-app/~Common~{{VS_NAME}}",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"oauth",
+										"oauth-client-app",
+										"~Common~{{VS_NAME}}"
 									]
 								}
 							},
@@ -1548,17 +1682,19 @@
 									"script": {
 										"id": "593f20e8-e725-4c77-acbe-339589acc3bc",
 										"exec": [
-											"\r",
-											"\r",
-											"if (responseCode.code === 200) {\r",
-											"    pm.test(\"Certificate ca.acme.com deleted\", function () {\r",
-											"        pm.response.to.have.status(200);\r",
+											"if (responseCode.code === 400) {\r",
+											"    pm.test(\"Unable to certificate ca.acme.com. Still in use\", function () {\r",
+											"        pm.expect(pm.response.text()).to.include(\"because it is in use\");\r",
 											"    });\r",
-											"} else  { \r",
+											"} else if (responseCode.code === 404) { \r",
 											"    pm.test(\"Certificate ca.acme.com does not exist\", function () {\r",
 											"        pm.response.to.have.status(404);\r",
 											"    });\r",
-											"} \r",
+											"} else  {\r",
+											"    pm.test(\"Certificate ca.acme.com deleted\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"}\r",
 											""
 										],
 										"type": "text/javascript"
@@ -1959,10 +2095,8 @@
 									"script": {
 										"id": "b2a14d94-1f1f-4ccf-9658-8b2a8825e55b",
 										"exec": [
-											"",
-											"",
 											"if (responseCode.code === 200) {",
-											"    pm.test(\"Node 10.1.20.6deleted\", function () {",
+											"    pm.test(\"Node 10.1.20.6 deleted\", function () {",
 											"        pm.response.to.have.status(200);",
 											"    });",
 											"} else if (responseCode.code === 404) { ",
