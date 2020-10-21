@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "d264bad4-3fdd-4be4-afdf-a222b4ca02d9",
 		"name": "solution9-create",
+		"description": "Based on Template 1.7",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -2051,14 +2052,20 @@
 									"script": {
 										"id": "d40454b1-6162-4ea6-b271-ae00de7b2ed7",
 										"exec": [
-											"if (responseCode.code === 200) {\r",
+											" if (responseCode.code === 409)\r",
+											"    pm.test(\"OAuth Client Exists on Auth Server\", function () {\r",
+											"        pm.response.to.have.status(409);\r",
+											"    });\r",
+											"else  if (responseCode.code === 200) {\r",
 											"    pm.test(\"OAuth Client added to Auth Server\", function () {\r",
 											"        pm.response.to.have.status(200);\r",
 											"    });\r",
-											"} else \r",
-											"    pm.test(\"OAuth Client Exists on Auth Server\", function () {\r",
-											"        pm.response.to.have.status(409);\r",
-											"    });"
+											"} else {\r",
+											"      pm.test(\"OAuth Client unable to be added to Authorization Server.   Ensure you deploy Integrated Authorization Server solution first and then redploy this solution.  Stopping automation\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"null\");\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
