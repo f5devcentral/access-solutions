@@ -82,7 +82,7 @@ The Policy from a user's perspective
 -------------------------------------
 
 
-If the user attempts to access https://solution10.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with other solutions in the UDF deployment that require an Authorization Server.
+If the user attempts to access https://as.acme.com they will be redirected to a logon page.  This solution is designed to be integrated with other solutions in the UDF deployment that require an Authorization Server.
 
 
 
