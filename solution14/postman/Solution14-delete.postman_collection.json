@@ -2447,6 +2447,92 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "bigip-delete-node",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "cc52a50f-ab11-4c6c-9329-87f08c14692c",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ba4feb4c-4fc0-4a60-b50e-da58b710a206",
+										"exec": [
+											" var DNS_COUNTER = 1",
+											" var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+DNS_COUNTER)",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"Node \"+ADDR+ \" deleted\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else if (responseCode.code === 404) { ",
+											"    pm.test(\"Node \"+ADDR+\" does not exist\", function () {",
+											"        pm.response.to.have.status(404);",
+											"    });",
+											"} else if (responseCode.code === 400) {",
+											"    pm.test(\"Unable to delete node \"+ADDR+\". Still in use\", function () {",
+											"        pm.expect(pm.response.text()).to.include(\"member of pool\");",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node/{{IIS_ADDRESS1}}",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"ltm",
+										"node",
+										"{{IIS_ADDRESS1}}"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -2605,6 +2691,92 @@
 										"pool",
 										"~Common~{{PARTITION_NAME}}-{{VS3_NAME}}-pool",
 										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-delete-node",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "29aa9e0f-f5fb-4cc1-a684-bf7eca967b34",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "4179a387-f029-4c4d-a46d-db64a40aabab",
+										"exec": [
+											" var DNS_COUNTER = 2",
+											" var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+DNS_COUNTER)",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"Node \"+ADDR+ \" deleted\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else if (responseCode.code === 404) { ",
+											"    pm.test(\"Node \"+ADDR+\" does not exist\", function () {",
+											"        pm.response.to.have.status(404);",
+											"    });",
+											"} else if (responseCode.code === 400) {",
+											"    pm.test(\"Unable to delete node \"+ADDR+\". Still in use\", function () {",
+											"        pm.expect(pm.response.text()).to.include(\"member of pool\");",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node/{{IIS_ADDRESS2}}",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"ltm",
+										"node",
+										"{{IIS_ADDRESS2}}"
 									]
 								}
 							},
@@ -2800,6 +2972,100 @@
 					"name": "Website-sp.acme.com",
 					"item": [
 						{
+							"name": "iis-get website address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e02fadba-865f-476b-bc59-a9ac8fc827cf",
+										"exec": [
+											"var DNS_NAME = pm.collectionVariables.get(\"DNS3_NAME\");\r",
+											"var VS_COUNTER = 1\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"var EXIST = 0\r",
+											"\r",
+											"\r",
+											"\r",
+											"if(!jsonData.length) {\r",
+											"    if ( jsonData.Description  === DNS_NAME ) {\r",
+											"        pm.collectionVariables.set(\"IIS_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+											"        pm.collectionVariables.set(\"IIS_ADDRESS\", pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER));\r",
+											"        var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER);\r",
+											"     \r",
+											"        var EXIST = 1;\r",
+											"        if (responseCode.code === 200) {\r",
+											"            pm.test(ADDR+\" assigned to \"+DNS_NAME, function () {\r",
+											"                pm.response.to.have.status(200);\r",
+											"            });\r",
+											"        }\r",
+											"    }\r",
+											"} else {\r",
+											"\r",
+											"  for (var i = 0; i < jsonData.length; i++) {\r",
+											"\r",
+											"        if ( jsonData[i].Description  === DNS_NAME ) {   \r",
+											"            pm.collectionVariables.set(\"IIS_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+											"            pm.collectionVariables.set(\"IIS_ADDRESS\", pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER));\r",
+											"            var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER);\r",
+											"            var EXIST =1;\r",
+											"\r",
+											"            if (responseCode.code === 200) {\r",
+											"                pm.test(ADDR+\" assigned to \"+DNS_NAME, function () {\r",
+											"                    pm.response.to.have.status(200);\r",
+											"                });\r",
+											"            }\r",
+											"        } \r",
+											"    }\r",
+											"} \r",
+											"\r",
+											"if (EXIST === 0) {\r",
+											"    if (responseCode.code === 200) {\r",
+											"        pm.test(\"No Address assigned to \"+DNS_NAME , function () {\r",
+											"            pm.response.to.have.status(200);\r",
+											"        }); \r",
+											"    }\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/scope-status?scope={{IIS_SCOPE}}",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"scope-status"
+									],
+									"query": [
+										{
+											"key": "scope",
+											"value": "{{IIS_SCOPE}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "iis-delete-website",
 							"event": [
 								{
@@ -2847,92 +3113,6 @@
 									"port": "81",
 									"path": [
 										"website"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "bigip-delete-node",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "cc52a50f-ab11-4c6c-9329-87f08c14692c",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "test",
-									"script": {
-										"id": "ba4feb4c-4fc0-4a60-b50e-da58b710a206",
-										"exec": [
-											" var DNS_COUNTER = 1",
-											" var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+DNS_COUNTER)",
-											"",
-											"if (responseCode.code === 200) {",
-											"    pm.test(\"Node \"+ADDR+ \" deleted\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else if (responseCode.code === 404) { ",
-											"    pm.test(\"Node \"+ADDR+\" does not exist\", function () {",
-											"        pm.response.to.have.status(404);",
-											"    });",
-											"} else if (responseCode.code === 400) {",
-											"    pm.test(\"Unable to delete node \"+ADDR+\". Still in use\", function () {",
-											"        pm.expect(pm.response.text()).to.include(\"member of pool\");",
-											"    });",
-											"}",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "password",
-											"value": "admin",
-											"type": "string"
-										},
-										{
-											"key": "username",
-											"value": "admin",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node/{{IIS_ADDRESS1}}",
-									"protocol": "https",
-									"host": [
-										"{{BIGIP_MGMT}}"
-									],
-									"path": [
-										"mgmt",
-										"tm",
-										"ltm",
-										"node",
-										"{{IIS_ADDRESS1}}"
 									]
 								}
 							},
@@ -3063,6 +3243,100 @@
 					"name": "Website-sp1.acme.com",
 					"item": [
 						{
+							"name": "iis-get website address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c463bd6c-f2aa-493b-8f28-21d1a3ab74b0",
+										"exec": [
+											"var DNS_NAME = pm.collectionVariables.get(\"DNS4_NAME\");\r",
+											"var VS_COUNTER = 2\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"var EXIST = 0\r",
+											"\r",
+											"\r",
+											"\r",
+											"if(!jsonData.length) {\r",
+											"    if ( jsonData.Description  === DNS_NAME ) {\r",
+											"        pm.collectionVariables.set(\"IIS_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+											"        pm.collectionVariables.set(\"IIS_ADDRESS\", pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER));\r",
+											"        var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER);\r",
+											"     \r",
+											"        var EXIST = 1;\r",
+											"        if (responseCode.code === 200) {\r",
+											"            pm.test(ADDR+\" assigned to \"+DNS_NAME, function () {\r",
+											"                pm.response.to.have.status(200);\r",
+											"            });\r",
+											"        }\r",
+											"    }\r",
+											"} else {\r",
+											"\r",
+											"  for (var i = 0; i < jsonData.length; i++) {\r",
+											"\r",
+											"        if ( jsonData[i].Description  === DNS_NAME ) {   \r",
+											"            pm.collectionVariables.set(\"IIS_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+											"            pm.collectionVariables.set(\"IIS_ADDRESS\", pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER));\r",
+											"            var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+VS_COUNTER);\r",
+											"            var EXIST =1;\r",
+											"\r",
+											"            if (responseCode.code === 200) {\r",
+											"                pm.test(ADDR+\" assigned to \"+DNS_NAME, function () {\r",
+											"                    pm.response.to.have.status(200);\r",
+											"                });\r",
+											"            }\r",
+											"        } \r",
+											"    }\r",
+											"} \r",
+											"\r",
+											"if (EXIST === 0) {\r",
+											"    if (responseCode.code === 200) {\r",
+											"        pm.test(\"No Address assigned to \"+DNS_NAME , function () {\r",
+											"            pm.response.to.have.status(200);\r",
+											"        }); \r",
+											"    }\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/scope-status?scope={{IIS_SCOPE}}",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"scope-status"
+									],
+									"query": [
+										{
+											"key": "scope",
+											"value": "{{IIS_SCOPE}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "iis-delete-website",
 							"event": [
 								{
@@ -3110,92 +3384,6 @@
 									"port": "81",
 									"path": [
 										"website"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "bigip-delete-node",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "29aa9e0f-f5fb-4cc1-a684-bf7eca967b34",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "test",
-									"script": {
-										"id": "4179a387-f029-4c4d-a46d-db64a40aabab",
-										"exec": [
-											" var DNS_COUNTER = 2",
-											" var ADDR = pm.collectionVariables.get(\"IIS_ADDRESS\"+DNS_COUNTER)",
-											"",
-											"if (responseCode.code === 200) {",
-											"    pm.test(\"Node \"+ADDR+ \" deleted\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else if (responseCode.code === 404) { ",
-											"    pm.test(\"Node \"+ADDR+\" does not exist\", function () {",
-											"        pm.response.to.have.status(404);",
-											"    });",
-											"} else if (responseCode.code === 400) {",
-											"    pm.test(\"Unable to delete node \"+ADDR+\". Still in use\", function () {",
-											"        pm.expect(pm.response.text()).to.include(\"member of pool\");",
-											"    });",
-											"}",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "password",
-											"value": "admin",
-											"type": "string"
-										},
-										{
-											"key": "username",
-											"value": "admin",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node/{{IIS_ADDRESS2}}",
-									"protocol": "https",
-									"host": [
-										"{{BIGIP_MGMT}}"
-									],
-									"path": [
-										"mgmt",
-										"tm",
-										"ltm",
-										"node",
-										"{{IIS_ADDRESS2}}"
 									]
 								}
 							},
