@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "57fcb9cf-e162-4a9c-b898-e4aa160485f5",
+		"_postman_id": "83c3bd64-b00b-4077-83ae-a7fa11dbdf09",
 		"name": "solution7-create",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2bc52d3e-f629-469c-922d-b530919c1d79",
+								"id": "a3c5fbf9-65c4-44f3-9c4e-afa710d423c4",
 								"exec": [
 									"pm.test(\"Setting Parameters\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -29,7 +29,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f34c2432-71fb-4460-a458-d15d549c271d",
+								"id": "67b58bce-fc8a-411e-b42a-245b884edf9c",
 								"exec": [
 									"//Define the number of virtual servers in this solution\r",
 									"pm.collectionVariables.set(\"VIPS\", \"2\");\r",
@@ -99,6 +99,101 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Test For Solution Conflicts",
+			"item": [
+				{
+					"name": "Detect Wide-IP Conflict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "88567b3f-78e3-4eea-85a3-67b2ffe27328",
+								"exec": [
+									"var PARTITION_NAME = pm.collectionVariables.get(\"PARTITION_NAME\");",
+									"var jsonData = pm.response.json();",
+									"var EXIST = 0",
+									"",
+									"for (var i = 0; i < jsonData.items.length; i++) {",
+									"    for (var x = 1; x < 10; x++) {",
+									"        var DNS_NAME = pm.collectionVariables.get(\"DNS\"+x+\"_NAME\");",
+									"        if ( jsonData.items[i].name  === DNS_NAME ) {  ",
+									"                if ( jsonData.items[i].partition  !== PARTITION_NAME+\"-gslb\" ) { ",
+									"                    var EXIST = 1",
+									"                    pm.test( jsonData.items[i].subPath+\" must be deleted before \"+PARTITION_NAME+\" can be deployed\", function () { ",
+									"                        pm.expect(EXIST).to.be.a(\"0\");     ",
+									"                    });",
+									"                    postman.setNextRequest(\"null\");",
+									"                ",
+									"                }",
+									"        }",
+									"    }          ",
+									"}",
+									" ",
+									"if (EXIST === 0) {",
+									"    if (responseCode.code === 200) {",
+									"        pm.test(\"No Existing Conficts Detected\" , function () {",
+									"            pm.response.to.have.status(200);",
+									"        }); ",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3bfc62cc-5ff0-4ef0-942f-5f87249ae849",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://10.1.1.11/mgmt/tm/gtm/wideip/a",
+							"protocol": "https",
+							"host": [
+								"10",
+								"1",
+								"1",
+								"11"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"gtm",
+								"wideip",
+								"a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Start-loop-Datacenters",
 			"item": [
 				{
@@ -107,7 +202,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "702a3ae4-1ea2-4fda-bf7f-9e26c60012f3",
+								"id": "61734b17-a89a-4e32-be6b-76b835ca6d2d",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"\r",
@@ -122,7 +217,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "efc8ddf0-d670-4512-9ef7-a8ebf09f7bcb",
+								"id": "c2b8e15b-e2a7-4320-a154-47683115628d",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");\r",
@@ -184,7 +279,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "fb5b71f9-a3a4-44d7-9c04-4d04f3ab7191",
+						"id": "60ee4b7d-f956-4813-abb6-1b6ddc4c9324",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -194,7 +289,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8a391d8d-8459-454a-801f-de8bbe2691a6",
+						"id": "39672415-165a-48cf-a5df-c82e664e679e",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -213,7 +308,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "96f4822f-699f-4365-9b69-ca202020cab7",
+								"id": "1c9f6f26-f858-4c9e-9308-65a1f32d1da2",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
@@ -229,7 +324,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d91e91a3-1ce4-435e-a613-8fbb0c37c548",
+								"id": "5186fc40-d649-4e78-bc47-e9c4a24e0bb2",
 								"exec": [
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
 									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
@@ -293,7 +388,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "63602d2c-0780-452a-be19-b76bd0df0233",
+						"id": "5b102b83-1305-46b4-bbec-ca09f13663fb",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -303,7 +398,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f6f9e3c5-6aa8-4a11-9b62-eaa7cc3f441a",
+						"id": "c77ec277-d79b-4e09-ad93-a65ed5fdf8b1",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -325,7 +420,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5748d684-2b5d-4fed-bdb2-46e0f2116b35",
+										"id": "7ff20f03-1cdf-4d35-b60c-289c0572f6fb",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -357,7 +452,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "28cbd96f-7cab-444d-bb4f-0af6a633c66d",
+										"id": "862e5bec-1672-4f33-9c34-7db87f48bf50",
 										"exec": [
 											""
 										],
@@ -404,7 +499,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5ab7dac3-acf7-4c74-8666-14737f67efd9",
+								"id": "023eda9f-fa8e-4521-bd87-d6e086ad7a45",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -414,7 +509,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "714e4a65-d65e-4afa-af16-26cdc269ae38",
+								"id": "32f6190a-2654-4fc5-9011-79c5e26b1684",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -434,7 +529,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c285efbd-f3f8-4011-9ad6-769bb2ca334d",
+										"id": "5bb14fa9-15f7-4114-ad04-29b40f209643",
 										"exec": [
 											""
 										],
@@ -444,7 +539,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "cf8af4cb-6026-4c38-bd5f-7818e57e71c6",
+										"id": "b5737add-6e26-4747-ac90-bf28eefa8c0b",
 										"exec": [
 											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
 											"var DC2_APM = pm.environment.get(\"DC2_APM\");",
@@ -530,7 +625,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5e8788a8-b394-4394-be50-402759c87239",
+										"id": "e8cb0f8d-35e2-4820-becf-4f84bc76cfae",
 										"exec": [
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");",
 											"var jsonData = pm.response.json();",
@@ -587,7 +682,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2f716491-5496-4701-a141-bfd4d6b09597",
+										"id": "fafb395c-36b4-4ad7-90c1-2f290ec99154",
 										"exec": [
 											""
 										],
@@ -597,7 +692,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "209d6a3a-606a-4701-860e-182d24388c0d",
+										"id": "f302a6fa-89dd-45d6-b0df-612a20ea6a23",
 										"exec": [
 											""
 										],
@@ -644,7 +739,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "adcf5d7b-0fb9-4dd2-a981-c18d9c2c1b8b",
+								"id": "ac6eccf3-be2f-45dd-8f82-170e589d2788",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -654,7 +749,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8c35b757-6f3e-4456-8554-d67b54d44f37",
+								"id": "afc97d44-d748-4493-aba1-303d618189f3",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -674,7 +769,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5fe614e8-4497-4717-96e3-bbd77b684bef",
+										"id": "b44839b7-2c21-4977-9664-308dd39337db",
 										"exec": [
 											""
 										],
@@ -684,7 +779,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4fa900d5-468e-4ea2-869d-9d4de81c317d",
+										"id": "70ae0b0c-6f0b-4b2f-9f7e-2e827a6388f2",
 										"exec": [
 											""
 										],
@@ -731,7 +826,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a5538293-505d-4dd7-98f8-aadad1ed03da",
+								"id": "f3e6fa6e-5319-4189-8a20-3b9e47425228",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -741,7 +836,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ffaf7225-35ba-40e4-9898-a6ba2524f961",
+								"id": "2ea65ae2-4baf-4cc8-bfcc-08d4aff3b78a",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -767,7 +862,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "17ae10a0-a755-4921-ac08-6d72be5ec471",
+										"id": "6e41d31e-7b37-4c92-88a4-1d1ef9c65f70",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -801,7 +896,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "f5b5acc1-0b4c-4ede-88a2-c5db61942739",
+										"id": "457337f0-1a55-45ab-afb2-e4f799ba6472",
 										"exec": [
 											""
 										],
@@ -856,7 +951,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "2e577904-4142-46db-849f-cc41c628c575",
+										"id": "d9193cb9-90c3-4beb-8995-7f6689fdd363",
 										"exec": [
 											""
 										],
@@ -866,7 +961,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c308384c-2a56-4842-b0f6-801d42c6d9f9",
+										"id": "ad3f3520-d825-4d6a-80dd-d2812c8c1160",
 										"exec": [
 											"if (responseCode.code === 200) {",
 											"    pm.test(\"Node 10.1.20.7 created\", function () {",
@@ -931,7 +1026,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "afb97d7c-eed7-4f29-9792-086ece20c3e3",
+										"id": "820d53d9-3ee4-48d0-b302-1421953db0f1",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -1002,7 +1097,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "e28bf6b5-e5f9-4cff-a778-411302ec849a",
+										"id": "0f502768-bd48-4d62-b92f-9c27440dfac3",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -1021,7 +1116,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e2dccc3-e137-4ac4-801d-a85fa54fb7a5",
+										"id": "82aef8f2-4cc3-4d43-b401-cbe4cd3212a2",
 										"exec": [
 											""
 										],
@@ -1090,7 +1185,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "7ebec70f-a298-4eaf-9852-328601adb86d",
+												"id": "eff465c8-5a84-4a1d-9359-eca659de3816",
 												"exec": [
 													"pm.test(\"Okta IDP Certificate imported\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
@@ -1102,7 +1197,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "37211f00-42f1-4738-8b39-1a99abd3caae",
+												"id": "9d21f6f6-288b-4fda-914c-88d4cb014c8b",
 												"exec": [
 													""
 												],
@@ -1182,7 +1277,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "0766b1e8-95ec-4386-b639-72c70b5570f1",
+												"id": "aae50f14-a4bf-4752-90c3-b98dc52526e1",
 												"exec": [
 													"pm.test(\"Okta IDP Certificate installed\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
@@ -1255,7 +1350,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ab6ab2ca-2104-4044-8a78-e0a3a0f9f26a",
+												"id": "0d64a92c-4433-428b-98de-3f3216211676",
 												"exec": [
 													"if (responseCode.code === 200) {\r",
 													"pm.test(\"SAML IDP Okta created\", function () {\r",
@@ -1330,7 +1425,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d529d13c-4cd6-4f1e-8180-1252a1a98fc4",
+												"id": "303a82f0-fd0b-4c2c-bd5f-7ab2c63cf528",
 												"exec": [
 													"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
 													"\r",
@@ -1418,7 +1513,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "de888079-c868-48ae-b553-f800b7548a5a",
+										"id": "4aa760d1-71b6-4933-8532-b5e75110ff9f",
 										"exec": [
 											""
 										],
@@ -1428,7 +1523,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8b666c5d-a751-4e12-88b4-7f750d65c4e8",
+										"id": "43c55a94-55c9-4496-8090-bf95e1dda35e",
 										"exec": [
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");\r",
 											"\r",
@@ -1499,7 +1594,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ae28e1bc-d270-4b6e-9e84-ec6cd0a184d3",
+										"id": "232dbdd7-af93-4480-8775-7a47d492df84",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1581,7 +1676,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "63319056-d8cb-4137-977f-1c7df4023ce7",
+										"id": "cfce153e-6acf-47b3-8efd-3c922d260e58",
 										"exec": [
 											""
 										],
@@ -1591,7 +1686,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "1783ed25-fda7-48fd-b433-268b1bee8ad7",
+										"id": "71d6fc27-2738-430b-b5f7-28722fcd9c6b",
 										"exec": [
 											""
 										],
@@ -1638,7 +1733,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "539bdc64-1ec4-4772-83bc-b4d4e4d77649",
+								"id": "e2dfcba7-d5ab-4c3e-a320-6ab56b993ea1",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1648,7 +1743,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "844cc054-2b42-42d3-b5cb-90eb45e5256e",
+								"id": "361731e8-cad3-4eb0-8d7c-ed2cbf25760b",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1664,7 +1759,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "3a9b7428-1e2d-4ce9-a8f7-2cd317b13110",
+						"id": "23593db3-52b4-4d25-be7e-9cc8009dc44a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1674,7 +1769,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5bf39b28-9819-4a84-87a1-29dbd587fb58",
+						"id": "91d1a284-6fa1-402b-b572-ceae1854c608",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -1696,7 +1791,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "9c5b1656-c64f-4487-9e51-d57cb239dc4a",
+										"id": "05e53f62-6564-40cf-9824-496e2630456d",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 2;\r",
@@ -1730,7 +1825,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "bb59b216-d4c5-4d71-977e-e58025b1f644",
+										"id": "92d7389d-2448-4ad8-b448-d6120cf136f1",
 										"exec": [
 											""
 										],
@@ -1785,7 +1880,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "16078761-6d9a-4f7d-aa68-3c6db1e24638",
+										"id": "a4519e30-a9c5-48ea-b9ef-374072da5278",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1805,7 +1900,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "f3c1e745-243f-4272-94b9-6cd3fca1ab38",
+										"id": "fbc7b694-e1df-45e7-a0c3-68c1104cf96a",
 										"exec": [
 											""
 										],
@@ -1872,7 +1967,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2ac0d4de-8fa8-4df1-a5d8-2dc9d7c33e6b",
+										"id": "513c457d-fab8-4041-a88c-87a9e36164d0",
 										"exec": [
 											""
 										],
@@ -1882,7 +1977,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b2516bc4-03ae-42fc-8148-1be1fd695e13",
+										"id": "f4ca863e-ac4d-41a5-9322-c20b3db496b1",
 										"exec": [
 											""
 										],
@@ -1929,7 +2024,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1aca816d-4e1d-445e-bcf4-c95d80e53a2d",
+								"id": "070a2d99-82f6-41ba-aad8-45d2a794ea8e",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1939,7 +2034,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6017ef16-954c-429c-8711-add4c3a52801",
+								"id": "adbabdb7-d100-4661-9f24-2f12bb8e4be9",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1965,7 +2060,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8fc74ecd-9520-4274-a7ac-6d8cedc87451",
+										"id": "5dee1499-76e8-448b-8d45-c24903b76132",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -1999,7 +2094,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "7276cb2c-ed7e-47eb-901f-a4f425b1e3cb",
+										"id": "c7137821-a955-486e-8a1c-30e2e8b7a002",
 										"exec": [
 											""
 										],
@@ -2046,7 +2141,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5a81a71a-3811-4e4c-9315-cb9cc65d5437",
+								"id": "a9d32a7d-25c9-4aec-ba22-fb54b5eef00f",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2056,7 +2151,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9836ce0b-fd21-4782-a3b1-b47a3307868f",
+								"id": "cb88da29-507d-4d51-8db7-b77a2c39a079",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2079,7 +2174,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "bc194ca5-d233-48d0-96bb-54324701e1e6",
+												"id": "e6a5f1ab-9f32-4f00-b5c6-5a4ebe340eda",
 												"exec": [
 													"",
 													"var jsonData = JSON.parse(responseBody);",
@@ -2093,7 +2188,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "01941938-dc04-4812-be61-7946a8689b0f",
+												"id": "e9b89bf6-9054-4b18-be35-56e6696a9984",
 												"exec": [
 													""
 												],
@@ -2157,7 +2252,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "432e7db2-e8a3-4870-a56f-9bf91d3f1998",
+												"id": "84f81bc7-b6f5-400f-925e-79a6d9a44d9b",
 												"exec": [
 													""
 												],
@@ -2221,7 +2316,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3ed8eabd-7ce2-4bc8-95ec-36a302b490e6",
+												"id": "996ffa8d-5e11-4a8c-88de-5289a40a2fd7",
 												"exec": [
 													""
 												],
@@ -2285,7 +2380,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d43bd35b-4010-40a8-b1b1-0b9b3803c176",
+												"id": "2c23a083-c20d-4648-a090-d8922c42d32a",
 												"exec": [
 													""
 												],
@@ -2349,7 +2444,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ed0c7051-9036-41b1-94b9-215f2c36ca52",
+												"id": "99621881-f691-4740-8673-80242378e1e7",
 												"exec": [
 													""
 												],
@@ -2413,7 +2508,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "a0fd7297-dbb0-4f66-b64a-d712b8dd594f",
+												"id": "200b8d68-3b2a-4407-bde8-262c2dd9ffba",
 												"exec": [
 													""
 												],
@@ -2484,7 +2579,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "bb9570a9-3241-4e9b-b1b3-162beea46a2f",
+												"id": "fc976991-080d-4a33-a1b7-246d0df53044",
 												"exec": [
 													""
 												],
@@ -2548,7 +2643,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "7b9c01d4-75f1-4f56-949a-f3f7e3619e42",
+												"id": "90800e10-9c7e-43f6-a29e-e8964b454a69",
 												"exec": [
 													""
 												],
@@ -2614,7 +2709,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c3a97d45-a001-4ce0-b00d-56ddbff4f85f",
+												"id": "b245fa95-d905-4357-904c-51540037b940",
 												"exec": [
 													""
 												],
@@ -2686,7 +2781,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "10788fa5-f9ef-4fcb-b94b-2cc9433589fe",
+												"id": "a2a7f9d0-76b9-4bdd-b508-524c8cb97ba4",
 												"exec": [
 													""
 												],
@@ -2752,7 +2847,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c8ecea47-dab7-4fcc-af5c-04f4975ed2a9",
+												"id": "60886b4d-e059-4d35-aa28-8a468585117f",
 												"exec": [
 													""
 												],
@@ -2824,7 +2919,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "dff3b92d-78e9-414f-bee7-7f2615c8e553",
+												"id": "412e238f-b5c8-4a36-8582-10932e1966cf",
 												"exec": [
 													""
 												],
@@ -2890,7 +2985,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "13b607c5-820a-4a4f-af78-9ff84d7bf92e",
+												"id": "0254bf0b-4617-4374-9d0c-dfdd7a9dc507",
 												"exec": [
 													""
 												],
@@ -2965,7 +3060,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "c7fe0bf8-dbfe-4f0a-a99d-68ce4d1ec617",
+														"id": "8cff9632-e869-46a2-af61-c2e9f9e9b294",
 														"exec": [
 															""
 														],
@@ -3031,7 +3126,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "ef71f379-df18-4ad4-89e1-4329724518df",
+														"id": "677f2cdc-69f5-4176-9f74-84db170e5933",
 														"exec": [
 															""
 														],
@@ -3107,7 +3202,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ad217158-ccdb-4425-bf8f-230d335e012b",
+												"id": "cdc46118-5636-4d17-9091-84c04ee8775d",
 												"exec": [
 													""
 												],
@@ -3172,7 +3267,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3ecf0369-e9b0-4a56-9ee8-f92ceab75b5d",
+												"id": "79e1d7fc-868d-4a18-9fcc-559f1f83b3ed",
 												"exec": [
 													""
 												],
@@ -3236,7 +3331,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "7b6778a9-6eec-44a9-9200-33fcfb81966d",
+										"id": "3ac2c585-3a40-4629-966e-3de8f2c44435",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -3246,7 +3341,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d0cce787-40b3-4557-badc-837ab0d2002b",
+										"id": "4c42b3b9-3740-4674-9488-443c3120777c",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -3266,7 +3361,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "4a0702e6-bb51-4b36-8008-8810fa810106",
+												"id": "b482f961-266d-4389-bd1d-bea9af3e1d56",
 												"exec": [
 													""
 												],
@@ -3332,7 +3427,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c75b3dec-f5b5-4cae-ba93-111d7f3220e7",
+												"id": "a51e0a14-5292-4912-9eb4-f27ccc07dbf0",
 												"exec": [
 													""
 												],
@@ -3404,7 +3499,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "1d24fa18-a769-44c3-99dc-348bb44ab923",
+												"id": "5a0acac0-4027-490c-bce7-c5901fac92ba",
 												"exec": [
 													""
 												],
@@ -3476,7 +3571,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c800e0a9-b818-4d55-a492-f9a3c6c0ec7a",
+												"id": "76fe4c6b-f939-40db-a263-b4cbf24fd6e6",
 												"exec": [
 													""
 												],
@@ -3551,7 +3646,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "dc114857-b5c8-4763-9ec4-2c5fb355582b",
+														"id": "3f7ec387-dc04-4a6e-a880-cc2e243b7e11",
 														"exec": [
 															""
 														],
@@ -3627,7 +3722,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "94d7a9ba-8fea-4894-8e3a-699a63346c2a",
+												"id": "cba23ab2-cdae-4e5c-8eb2-3e6965631238",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
@@ -3708,7 +3803,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9826af02-ec42-40d1-985f-3dbd0da4561f",
+												"id": "25a5670e-d0fc-4ce9-89eb-3bcc77cb6aa1",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
@@ -3790,7 +3885,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "db46c73e-e0ba-413e-a79e-8a7fdafa2e41",
+										"id": "3f29dd40-c3fe-4581-b851-bbf905df3f24",
 										"exec": [
 											""
 										],
@@ -3800,7 +3895,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "1d025d0d-2973-4dfd-ad9d-0fafa580d8e9",
+										"id": "8354d165-a316-46d0-9a52-0fad68d6f6d0",
 										"exec": [
 											""
 										],
@@ -3847,7 +3942,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3b3cca29-b5dc-4fb9-b349-32e8ea62ac51",
+								"id": "dee3c9fd-3121-4e7d-8194-455688ef0906",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3857,7 +3952,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ecfa8626-76d5-4cb4-a66c-07adadd8fc05",
+								"id": "0e12be82-3278-4e1c-ace2-dfa1e5585d50",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3873,7 +3968,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5e5e3d5a-3a53-434f-9ea5-ddbc81d07ea9",
+						"id": "c0a43ebe-27eb-4515-8cac-4f84ea143f2b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3883,7 +3978,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bf93b748-b004-4139-bbd4-f342b280e7ed",
+						"id": "9e2ccc2e-8fb9-48ac-90e9-29a0f0711aa5",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3905,7 +4000,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "63eb973a-daed-4ced-9da8-0123a7c68bf6",
+										"id": "baa427d8-d5d0-4060-b504-81b46e1c932c",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 2;\r",
@@ -3939,7 +4034,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e27c0d4e-a7d2-4bbd-9c82-bd390ce750e0",
+										"id": "102f16fd-40c1-441e-a2d3-f3ffa4b34f39",
 										"exec": [
 											""
 										],
@@ -3986,7 +4081,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "58993656-b4c4-48c3-8a86-b017f7e96cb8",
+								"id": "d2d54f45-dee1-4fac-9090-ec17f77f0feb",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3996,7 +4091,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6dda3962-8451-4bfe-a5d5-84aeec8f64bc",
+								"id": "535d40dc-3228-4bcd-aa18-dbfdaf455f6f",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -4019,7 +4114,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "a8689af2-c5e4-4f88-afad-f89a29a088e6",
+												"id": "9a1639b4-0436-4fda-b4e5-f195a9ee7c66",
 												"exec": [
 													"",
 													"var jsonData = JSON.parse(responseBody);",
@@ -4033,7 +4128,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "e71f08f5-46bf-4588-96bc-0be38abbd40a",
+												"id": "861a1c3b-7eae-4323-b858-443217e27fea",
 												"exec": [
 													""
 												],
@@ -4097,7 +4192,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "f22d514e-8fe8-4836-ae5c-60c205777842",
+												"id": "9b268d85-23c2-4f27-af6f-e568a57733f5",
 												"exec": [
 													""
 												],
@@ -4161,7 +4256,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "daa3e1e9-4729-4a54-aed1-1abda52646fa",
+												"id": "184b45c4-588e-45b3-ad60-b087a40e4509",
 												"exec": [
 													""
 												],
@@ -4225,7 +4320,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ee184fb8-ed2c-4ef6-b345-65b10815c18d",
+												"id": "8609fae1-677e-4f20-ad4d-7ceb33b2d869",
 												"exec": [
 													""
 												],
@@ -4289,7 +4384,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "88bc2308-8dc8-4808-ae6a-e02ffea4f11d",
+												"id": "2c067dd4-771c-4fdf-9233-afe1f02557fb",
 												"exec": [
 													""
 												],
@@ -4353,7 +4448,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "cd659f5c-5aa6-49aa-b3e7-46a14feff561",
+												"id": "d9131334-6868-495b-82f2-0f1d16a87030",
 												"exec": [
 													""
 												],
@@ -4424,7 +4519,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "8d6fa89c-292b-4424-b451-ce96515f7bff",
+												"id": "ce2d0697-7c59-4fc3-bd71-cd19c096fbaa",
 												"exec": [
 													""
 												],
@@ -4488,7 +4583,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "62dc7b92-ff0f-4ab9-a662-222786244cb3",
+												"id": "d710f5fe-55f3-4b7d-9f24-e05bdc3d0888",
 												"exec": [
 													""
 												],
@@ -4554,7 +4649,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "fdd27410-760e-4d49-bd5f-1742dc4a699b",
+												"id": "23386149-5fb6-4371-8113-432de2b05f31",
 												"exec": [
 													""
 												],
@@ -4626,7 +4721,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2abb6c07-7b39-4dcc-93da-a8bde85e49d0",
+												"id": "630de843-6841-4849-a95e-fe930b262991",
 												"exec": [
 													""
 												],
@@ -4692,7 +4787,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "cfbe0919-d541-418c-ae11-fd5943d3f388",
+												"id": "07090ee1-70da-4a61-8a33-7c2350eb96cf",
 												"exec": [
 													""
 												],
@@ -4767,7 +4862,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "7fbef97a-4bd6-473d-a908-3268a46d9826",
+														"id": "11a0a937-2d47-48f4-bc26-beafcb4d25f8",
 														"exec": [
 															""
 														],
@@ -4833,7 +4928,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "2e1acd07-3b59-426d-a465-7bfa347bc969",
+														"id": "45772e13-e16f-4e16-8f1e-7aa5f1b9b4a2",
 														"exec": [
 															""
 														],
@@ -4909,7 +5004,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3ef2dc3e-a205-4d0b-9eaa-2ce52e519997",
+												"id": "8e0ba9f9-814c-48fc-8078-a2f964436412",
 												"exec": [
 													""
 												],
@@ -4981,7 +5076,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "0e9b083e-0774-4ac7-9e85-5ef3dc3fdd3e",
+												"id": "01604747-21db-4458-980a-ffffaf28ec74",
 												"exec": [
 													""
 												],
@@ -5056,7 +5151,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "d0ca126f-0a60-4245-9467-1acebe3493c3",
+														"id": "8dde6e06-2903-4453-a316-3fed7c0c8705",
 														"exec": [
 															""
 														],
@@ -5132,7 +5227,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "39afb243-eb29-4585-a3ca-04ccfebb8792",
+												"id": "d6ed09b5-9030-47d5-9f0a-f3b8c1829097",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
@@ -5213,7 +5308,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "f54588e4-bf42-4fb3-a7bb-ea0e6791d11e",
+												"id": "a3eb0256-444c-41f7-8785-5a5da4a43409",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
@@ -5295,7 +5390,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "7d02a311-25b5-4dd9-8ad3-ae873e082142",
+										"id": "56f1d39c-b424-4652-8ad8-6b097ba10d68",
 										"exec": [
 											""
 										],
@@ -5305,7 +5400,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "dc59afc7-33a4-4146-b9e4-f1b42ab5e29a",
+										"id": "24751f9a-50c9-43e3-bc73-c48b60596d0f",
 										"exec": [
 											""
 										],
@@ -5352,7 +5447,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "163df262-c795-4267-baf2-1b6460618254",
+								"id": "0d03b9c8-4f1c-4da3-a30d-f3016d03e1f6",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -5362,7 +5457,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3d5f4556-e352-4889-a6ae-49219ee5350a",
+								"id": "e473eed7-a996-4fd5-9b62-9ff432a9246e",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -5378,7 +5473,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "33353183-b9f9-4b60-ac90-9848bed0db52",
+						"id": "8334cff0-8487-430a-97ba-c95778825a98",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5388,7 +5483,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eeedb4e1-5248-4d4b-96be-00574e61837b",
+						"id": "b81e0921-902f-49d4-b9c0-3c8b3509fdea",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5402,264 +5497,630 @@
 			"name": "Virtual Server Address Assignment",
 			"item": [
 				{
-					"name": "bigip-Check Scope for existing assignment",
-					"event": [
+					"name": "start address",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"id": "1d5fa772-c95c-44f1-9826-db9c07654a0e",
-								"exec": [
-									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
-									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-									"var jsonData = pm.response.json();\r",
-									"var EXIST = 0\r",
-									"\r",
-									"\r",
-									"\r",
-									"if(!jsonData.length) {\r",
-									"    if ( jsonData.Description  === VS_NAME ) {\r",
-									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
-									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
-									"        var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
-									"        postman.setNextRequest(\"end-address\");\r",
-									"        var EXIST = 1;\r",
-									"        if (responseCode.code === 200) {\r",
-									"            pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
-									"                pm.response.to.have.status(200);\r",
-									"            });\r",
-									"        }\r",
-									"    }\r",
-									"} else {\r",
-									"\r",
-									"  for (var i = 0; i < jsonData.length; i++) {\r",
-									"\r",
-									"        if ( jsonData[i].Description  === VS_NAME ) {   \r",
-									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
-									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
-									"            var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
-									"            postman.setNextRequest(\"end-address\");\r",
-									"            var EXIST =1;\r",
-									"\r",
-									"            if (responseCode.code === 200) {\r",
-									"                pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
-									"                    pm.response.to.have.status(200);\r",
-									"                });\r",
-									"            }\r",
-									"        } \r",
-									"    }\r",
-									"} \r",
-									"\r",
-									"if (EXIST === 0) {\r",
-									"    if (responseCode.code === 200) {\r",
-									"        pm.test(\"No Address assigned to \"+VS_NAME , function () {\r",
-									"            pm.response.to.have.status(200);\r",
-									"        }); \r",
-									"    }\r",
-									"}\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP_SCOPE}}",
-							"protocol": "http",
-							"host": [
-								"10",
-								"1",
-								"20",
-								"6"
-							],
-							"port": "81",
-							"path": [
-								"addr",
-								"scope-status"
-							],
-							"query": [
+							"name": "start-address-1",
+							"event": [
 								{
-									"key": "scope",
-									"value": "{{BIGIP_SCOPE}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip-Check for next available address",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "451f7699-c807-4610-a6f0-65d3881d0782",
-								"exec": [
-									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
-									"var jsonData = pm.response.json();\r",
-									"\r",
-									"\r",
-									"pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER,jsonData.address);\r",
-									"pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
-									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER)\r",
-									"\r",
-									"pm.test(\"Next availble address is \"+ADDR, function () {\r",
-									"    pm.expect(jsonData.address).not.eql(null);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP_SCOPE}}",
-							"protocol": "http",
-							"host": [
-								"10",
-								"1",
-								"20",
-								"6"
-							],
-							"port": "81",
-							"path": [
-								"addr",
-								"available"
-							],
-							"query": [
+									"listen": "test",
+									"script": {
+										"id": "6d2990c7-0886-4ada-bfd3-c3576a23eba2",
+										"exec": [
+											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
+											"var VS = 1;\r",
+											"\r",
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"if (VS === VS_COUNTER) {\r",
+											"    pm.test(\"Retreiving IP address for  Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else if (VS<=VS_COUNTER) {\r",
+											"    pm.test(\"Proceeding to IP address assignment for Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-address-\"+VS);\r",
+											"} else {\r",
+											"pm.test(\"Currently running loop \"+VS_COUNTER+\" for \"+ VS_NAME+\" in Data Center \"+DC_COUNTER+\". Continuing to next section \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-address-\"+VS);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
 								{
-									"key": "scope",
-									"value": "{{BIGIP_SCOPE}}"
+									"listen": "prerequest",
+									"script": {
+										"id": "f8af641c-6763-4b2e-a908-d19608a35da1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip-checkout-address",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f78d1d11-382a-48c3-8db9-f17e0506a1a6",
-								"exec": [
-									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
-									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"Address \"+ADDR+\" checked out for \"+VS_NAME, function () {",
-									"    pm.expect(jsonData.status).not.eql(\"Fail\");",
-									"});"
-								],
-								"type": "text/javascript"
-							}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
 						}
 					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS}}\",\n\"name\":\"{{VS_NAME}}\"\n}"
-						},
-						"url": {
-							"raw": "http://10.1.20.6:81/addr/checkout",
-							"protocol": "http",
-							"host": [
-								"10",
-								"1",
-								"20",
-								"6"
-							],
-							"port": "81",
-							"path": [
-								"addr",
-								"checkout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "end-address",
 					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "29fb7671-6f38-47ff-bfbb-131fe71c933d",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8e0bf181-bcca-4ee8-8b88-9322270c7cda",
+								"id": "bef53d49-abe2-458d-8b8e-5cd44e2fa876",
+								"type": "text/javascript",
 								"exec": [
 									""
-								],
-								"type": "text/javascript"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4ff8b9c1-b7e0-4d9e-974c-6127609ecd34",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
 							}
 						}
 					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Retreive Address",
+					"item": [
+						{
+							"name": "bigip-Check Scope for existing assignment",
+							"event": [
 								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "e83bd8cc-f9d3-45a6-ab8c-a4ebf075c9f6",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var jsonData = pm.response.json();\r",
+											"var EXIST = 0\r",
+											"\r",
+											"\r",
+											"\r",
+											"if(!jsonData.length) {\r",
+											"    if ( jsonData.Description  === VS_NAME ) {\r",
+											"        pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+											"        pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+											"        var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
+											"        postman.setNextRequest(\"exist-address-1\");\r",
+											"        var EXIST = 1;\r",
+											"        if (responseCode.code === 200) {\r",
+											"            pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
+											"                pm.response.to.have.status(200);\r",
+											"            });\r",
+											"        }\r",
+											"    }\r",
+											"} else {\r",
+											"\r",
+											"  for (var i = 0; i < jsonData.length; i++) {\r",
+											"\r",
+											"        if ( jsonData[i].Description  === VS_NAME ) {   \r",
+											"            pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+											"            pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+											"            var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
+											"            postman.setNextRequest(\"exist-address-1\");\r",
+											"            var EXIST =1;\r",
+											"\r",
+											"            if (responseCode.code === 200) {\r",
+											"                pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
+											"                    pm.response.to.have.status(200);\r",
+											"                });\r",
+											"            }\r",
+											"        } \r",
+											"    }\r",
+											"} \r",
+											"\r",
+											"if (EXIST === 0) {\r",
+											"    if (responseCode.code === 200) {\r",
+											"        pm.test(\"No Address assigned to \"+VS_NAME , function () {\r",
+											"            pm.response.to.have.status(200);\r",
+											"        }); \r",
+											"    }\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP_SCOPE}}",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"scope-status"
+									],
+									"query": [
+										{
+											"key": "scope",
+											"value": "{{BIGIP_SCOPE}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-Check for next available address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e683d629-c375-4f2a-9d27-f6add40739b2",
+										"exec": [
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"\r",
+											"pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER,jsonData.address);\r",
+											"pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+											"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER)\r",
+											"\r",
+											"pm.test(\"Next availble address is \"+ADDR, function () {\r",
+											"    pm.expect(jsonData.address).not.eql(null);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP_SCOPE}}",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"available"
+									],
+									"query": [
+										{
+											"key": "scope",
+											"value": "{{BIGIP_SCOPE}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-Check bigip for existing address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "37f0f1dc-9765-45f0-937d-01a37c13fe30",
+										"exec": [
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var jsonData = pm.response.json();\r",
+											"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER)\r",
+											"var exist = 0\r",
+											"\r",
+											"\r",
+											" if (responseCode.code === 200) {\r",
+											"  if(!jsonData.length) {\r",
+											"       for (var i = 0; i < jsonData.items.length; i++) {\r",
+											"            if ( jsonData.items[i].destination.includes(ADDR)) {  \r",
+											"               var VS_NAME = jsonData.items[i].name \r",
+											"                    \r",
+											"                    pm.test(ADDR+\" in use by Virtual server \"+VS_NAME, function () {\r",
+											"                        pm.response.to.have.status(200);\r",
+											"                    });\r",
+											"\r",
+											"                    pm.collectionVariables.set(\"EXISTING_VS\", VS_NAME); \r",
+											"\r",
+											"                    var exist = 1    \r",
+											"            }\r",
+											"        }\r",
+											" }\r",
+											"  if (exist === 0) {\r",
+											"     pm.test(\"Address \"+ADDR+\" not configured on BIG-IP\", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"bigip-checkout-address\");\r",
+											"  }\r",
+											" \r",
+											" }\r",
+											" \r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/virtual/",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"ltm",
+										"virtual",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-checkout-address-exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3bc34ce2-58aa-416a-bab2-7432ec43c1d4",
+										"exec": [
+											"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
+											"var VS_NAME = pm.collectionVariables.get(\"EXISTING_VS\");",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Address \"+ADDR+\" checked out for \"+VS_NAME+\". Looking for next available Address\", function () {",
+											"    pm.expect(jsonData.status).not.eql(\"Fail\");",
+											"});",
+											"postman.setNextRequest(\"bigip-Check Scope for existing assignment\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS}}\",\n\"name\":\"{{EXISTING_VS}}\"\n}"
+								},
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/checkout",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-checkout-address",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f0583fbe-436d-4f04-973c-54ce2427a783",
+										"exec": [
+											"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Address \"+ADDR+\" checked out for \"+VS_NAME, function () {",
+											"    pm.expect(jsonData.status).not.eql(\"Fail\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS}}\",\n\"name\":\"{{VS_NAME}}\"\n}"
+								},
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/checkout",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "exist-address-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e0275bb3-ebb4-4e33-86eb-84fc8a3a8ba5",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"id": "8bf2adf3-523e-48a4-84dd-8e85bd440c53",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
-							"protocol": "https",
-							"host": [
-								"{{BIGIP_MGMT}}"
 							],
-							"path": [
-								"mgmt",
-								"shared",
-								"appsvcs",
-								"info"
-							]
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "end address",
+					"item": [
+						{
+							"name": "end-address-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2d8c1761-4743-4b9a-955f-e238564c6139",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "69fa98cc-a7a3-4519-8650-0349c3308fa4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c8d96c3f-5f40-41c7-942a-4e9ccedcd8da",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "63de43c7-e2c9-4d04-a8aa-6b354fbe9507",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6d5fa452-a35a-4fae-92f3-cbe69358395e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef59434e-9677-4f9f-bab9-0d4f4988492b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -5673,7 +6134,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef257ed6-a78d-414a-b887-0e7a9034a043",
+								"id": "a42136a0-d990-448a-a279-a0d958f45ee9",
 								"exec": [
 									"var VIPS = pm.collectionVariables.get(\"VIPS\");",
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\")",
@@ -5704,7 +6165,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8ca5ad8b-371b-4157-ba1f-37b96985dd41",
+								"id": "c06d600a-2653-4b86-9bc9-4a099d3390d7",
 								"exec": [
 									""
 								],
@@ -5751,7 +6212,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "17dad965-fa47-453c-b0fe-244544eeb269",
+						"id": "4c347110-45bc-444e-9119-f3075a229593",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5761,7 +6222,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "49b3d2be-771c-468d-9aae-17ff2498c9e3",
+						"id": "c4ccee14-6538-4ff8-b1bc-1d3c71f7aeaf",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5783,7 +6244,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "eaa8f2ef-e82e-43b3-bf01-697db900fa63",
+										"id": "47a639ed-6e70-4042-813f-5f6f6e0e4837",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -5862,7 +6323,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2c9c8b94-0c4e-4151-9d56-fdc74892d20d",
+												"id": "19787580-ecc6-4a12-9fed-5e47a37d8912",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -5885,7 +6346,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "407d9ccb-9ab2-4a5a-90b8-c7a31b42572d",
+												"id": "554dd203-cc35-4157-bafc-4c3a78f91656",
 												"exec": [
 													""
 												],
@@ -5936,7 +6397,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "459b5a3d-2d90-4839-b0fb-c9d6fdd75f3a",
+												"id": "e8879985-ff5c-4647-8cae-704eb0198e03",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -5955,7 +6416,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "7f77e796-5fed-42af-875a-d2d0609c620b",
+												"id": "8db34f83-5d3c-4d2c-9305-467cb598fbe6",
 												"exec": [
 													""
 												],
@@ -6016,7 +6477,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "8863375f-8562-46f2-afe6-ec58dd45d9fa",
+												"id": "728ed4fd-4185-45fe-81ac-ff2bb05aade3",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -6035,7 +6496,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "acac3cae-eca7-47a8-8518-2a147869a02e",
+												"id": "b0a8ede4-6b89-4e52-8892-3d3de769231b",
 												"exec": [
 													""
 												],
@@ -6096,7 +6557,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "6d0ecbbe-bbb4-437d-8d04-1023f84dfa24",
+												"id": "95e7a71f-ef00-40cf-b375-3167ed48f96b",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -6116,7 +6577,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "b6917699-5c36-4af8-bbe9-5261aac9b2a5",
+												"id": "4175fcb0-c1ec-4620-9843-351cc54f2f35",
 												"exec": [
 													""
 												],
@@ -6177,7 +6638,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c1a91dd1-66c9-4fdb-b242-eb00d1f54a6b",
+												"id": "2f9dffa6-98b2-4222-b37d-519080f097a6",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
 													"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\")",
@@ -6198,7 +6659,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "51461293-b52e-4726-9828-9fd38a204d26",
+												"id": "a483de7c-6c0e-4f64-8ba3-fb098f9ea79a",
 												"exec": [
 													""
 												],
@@ -6262,7 +6723,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "298aa5f1-61ee-4b5c-894c-390d6154be5d",
+												"id": "0002b33e-3b36-4222-8387-90d35bd85239",
 												"exec": [
 													"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
 													"\r",
@@ -6282,7 +6743,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "6d2d5f7e-7a04-4745-8123-54690de598b2",
+												"id": "e683ded0-07e7-424a-94a6-59714c91099b",
 												"exec": [
 													""
 												],
@@ -6307,10 +6768,16 @@
 											]
 										},
 										"method": "POST",
-										"header": [],
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n \"class\": \"ADC\",\r\n    \"schemaVersion\": \"3.6.0\",\r\n    \"id\": \"GSLB_Sample\",\r\n    \"{{PARTITION_NAME}}\": {\r\n        \"class\": \"Tenant\",\r\n        \"Application\": {\r\n            \"class\": \"Application\",\r\n            \"template\": \"generic\",\r\n            \"testDomain\": {\r\n                \"class\": \"GSLB_Domain\",\r\n                \"domainName\": \"{{DNS1_NAME}}\",\r\n                \"resourceRecordType\": \"A\",\r\n                \"poolLbMode\": \"ratio\",\r\n                \"pools\": [\r\n                              { \"use\": \"{{VS1_NAME}}-pool\" }\r\n                ]\r\n            },\r\n            \"{{VS1_NAME}}-pool\": {\r\n               \"class\": \"GSLB_Pool\",\r\n                \"enabled\": true,\r\n                \"lbModeAlternate\": \"ratio\",\r\n                \"lbModeFallback\": \"ratio\",\r\n                \"manualResumeEnabled\": false,\r\n                \"verifyMemberEnabled\": true,\r\n                \"members\": [\r\n                \t{\r\n                \t\"ratio\":10,\r\n                \t\"server\": {\r\n                \t\t\"bigip\": \"/Common/bigip1.f5lab.local\"\r\n                \t\t},\r\n                \t\t\"virtualServer\":\"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n                \t}\r\n                ],\r\n                \"resourceRecordType\": \"A\"\r\n            }\r\n        }\r\n    }\r\n \r\n}"
+											"raw": "{\r\n \"class\": \"ADC\",\r\n    \"schemaVersion\": \"3.6.0\",\r\n    \"id\": \"GSLB_Sample\",\r\n    \"{{PARTITION_NAME}}-gslb\": {\r\n        \"class\": \"Tenant\",\r\n        \"{{VS1_NAME}}\": {\r\n            \"class\": \"Application\",\r\n            \"template\": \"generic\",\r\n            \"testDomain\": {\r\n                \"class\": \"GSLB_Domain\",\r\n                \"domainName\": \"{{DNS1_NAME}}\",\r\n                \"resourceRecordType\": \"A\",\r\n                \"poolLbMode\": \"ratio\",\r\n                \"pools\": [\r\n                              { \"use\": \"{{VS1_NAME}}-pool\" }\r\n                ]\r\n            },\r\n            \"{{VS1_NAME}}-pool\": {\r\n               \"class\": \"GSLB_Pool\",\r\n                \"enabled\": true,\r\n                \"lbModeAlternate\": \"ratio\",\r\n                \"lbModeFallback\": \"ratio\",\r\n                \"manualResumeEnabled\": false,\r\n                \"verifyMemberEnabled\": true,\r\n                \"members\": [\r\n                \t{\r\n                \t\"ratio\":10,\r\n                \t\"server\": {\r\n                \t\t\"bigip\": \"/Common/bigip1.f5lab.local\"\r\n                \t\t},\r\n                \t\t\"virtualServer\":\"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n                \t}\r\n                ],\r\n                \"resourceRecordType\": \"A\"\r\n            }\r\n        }\r\n    }\r\n \r\n}"
 										},
 										"url": {
 											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/declare",
@@ -6337,7 +6804,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "0fe37144-157a-4b62-b7f2-622f1fd8fa36",
+												"id": "9c4cf1e7-a181-4f1b-93eb-b9ceadedc3dd",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -6361,7 +6828,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "06fcb398-d1a9-4bca-af07-95c0731f1502",
+												"id": "09ad90c3-260c-4673-8ae8-f7e325f20b6e",
 												"exec": [
 													""
 												],
@@ -6419,7 +6886,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "1fa72aa5-0b4a-4471-ba0a-f17b2f9a828d",
+												"id": "4b33588a-415d-44c3-83ff-5526b004c1b1",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -6443,7 +6910,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "8ff87169-482d-4d0f-860b-4d0272f7dc65",
+												"id": "7a4b18dc-62d1-4987-ab5b-d40a6ee02ba4",
 												"exec": [
 													""
 												],
@@ -6494,7 +6961,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9198b066-bd75-4564-8300-dd810151810c",
+												"id": "6b5afdaa-5812-473f-aba9-b7fe93385d84",
 												"exec": [
 													"\r",
 													"var jsonData = pm.response.json();\r",
@@ -6518,7 +6985,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "ec8ed6c7-95f3-49e6-8647-a6d0573356ee",
+												"id": "d51c645f-c1db-4521-9c99-ec2642365302",
 												"exec": [
 													""
 												],
@@ -6582,7 +7049,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "81d0bf3f-7cd5-4f3b-8def-fad7a8183f53",
+												"id": "3a668a57-8e66-41ca-9d52-4ccbe56a9b95",
 												"exec": [
 													"pm.test(\"bigip_add command successfully run\", function () {\r",
 													"pm.response.to.have.status(200);\r",
@@ -6645,7 +7112,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "fa977198-a78f-4931-a5a8-441d7884fccf",
+												"id": "92992de5-9c11-43b1-96e0-28d1f7d98e11",
 												"exec": [
 													"pm.test(\"big3d_install command successfully run\", function () {\r",
 													"pm.response.to.have.status(200);\r",
@@ -6708,7 +7175,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2222d974-7179-4310-88cc-7898c0df194f",
+												"id": "0f06da43-4aba-4f1e-a329-c80696fcda67",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -6727,7 +7194,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "8bac147b-0204-47c6-8c01-0bfaca278b31",
+												"id": "4e281615-3dbb-4773-8c0b-23d9ceb91be1",
 												"exec": [
 													""
 												],
@@ -6788,7 +7255,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "973036b3-a1fd-43bc-9161-25e8e99a5e8b",
+												"id": "0e22acb5-f89a-4867-92c3-bab0b41a7e62",
 												"exec": [
 													"if (responseCode.code === 200) {\r",
 													"\r",
@@ -6859,7 +7326,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9d9d0c01-4ade-48f7-b8a0-41faa244f7f3",
+												"id": "3d6c32ae-a432-4cce-8205-9d213e5481a1",
 												"exec": [
 													"",
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
@@ -6883,7 +7350,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "ce23759a-d66b-4d28-8575-d33d1a7f1034",
+												"id": "a911ebbb-11c2-439c-b798-9c809bfff700",
 												"exec": [
 													""
 												],
@@ -6947,7 +7414,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "6e2e1106-3ab4-4b3e-b80f-e6fc4aac1bca",
+												"id": "d796c717-bc13-4046-a940-7161a3d10a65",
 												"exec": [
 													""
 												],
@@ -6957,7 +7424,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "1a20dba9-83ec-4437-bc8a-7efc178b1165",
+												"id": "eb690121-d630-4511-954d-9d43d8026978",
 												"exec": [
 													"var NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
@@ -7010,7 +7477,7 @@
 											"raw": "{\r\n\"name\":\"bigip2.f5lab.local:/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n\t\r\n\t\r\n}"
 										},
 										"url": {
-											"raw": "https://10.1.1.11/mgmt/tm/gtm/pool/a/~{{PARTITION_NAME}}~Application~{{VS1_NAME}}-pool/members",
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/pool/a/~{{PARTITION_NAME}}-gslb~{{VS1_NAME}}~{{VS1_NAME}}-pool/members",
 											"protocol": "https",
 											"host": [
 												"10",
@@ -7024,7 +7491,7 @@
 												"gtm",
 												"pool",
 												"a",
-												"~{{PARTITION_NAME}}~Application~{{VS1_NAME}}-pool",
+												"~{{PARTITION_NAME}}-gslb~{{VS1_NAME}}~{{VS1_NAME}}-pool",
 												"members"
 											]
 										}
@@ -7037,7 +7504,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "216d916d-49d1-4c40-b7bf-9bc62fe2c290",
+												"id": "4b34e500-3c67-432b-a2b2-0f7f83d9a17c",
 												"exec": [
 													""
 												],
@@ -7047,7 +7514,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "c4fc9bd8-317f-451e-8e49-3c31f1f3edcf",
+												"id": "8433f234-6d77-4a11-ab4e-a613e84cc782",
 												"exec": [
 													""
 												],
@@ -7112,7 +7579,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cf99c223-3e33-44e6-9704-93fa21772190",
+								"id": "6e7fd4ab-0092-4126-a033-f74d16155749",
 								"exec": [
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -7145,7 +7612,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "71fdaa42-2549-4617-b5ba-e466816312e4",
+								"id": "b29d8ab2-9f56-4df2-8901-b3c724e6fdd0",
 								"exec": [
 									""
 								],
@@ -7192,7 +7659,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5c7e8a39-d068-4959-8d50-1fa7b4562ac8",
+						"id": "769b14b9-fb25-490f-bff9-b810e6cfa337",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -7202,7 +7669,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9a8ebd13-700f-4e37-a378-21c4003f70f2",
+						"id": "758f1a5d-49c0-49e2-83b7-af74743911b8",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -7217,7 +7684,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "fb887b9e-4d39-43a3-a3b7-19e749add37d",
+				"id": "74ce85c9-9c56-474c-8593-3288e9c13e70",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -7227,124 +7694,12 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "8a3a17ce-ca4c-4ca2-b6cf-8c1ae13a287e",
+				"id": "383643c7-9df3-4c6a-9a00-02977a7d8c2d",
 				"type": "text/javascript",
 				"exec": [
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"id": "5d13c600-428c-4ed4-9a42-dbfc383e9e77",
-			"key": "DNS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "99c48dc6-c0fb-4dfa-adf2-24f6e6f543c6",
-			"key": "IIS_ADDRESS",
-			"value": ""
-		},
-		{
-			"id": "d8ef0cd8-fb75-49bf-b1b0-e164ee75cb28",
-			"key": "IIS_ADDRESS1",
-			"value": ""
-		},
-		{
-			"id": "7073ab38-0270-416f-9f0a-50cdb45b670d",
-			"key": "CUSTOM_TYPE",
-			"value": ""
-		},
-		{
-			"id": "a9f86f57-c0a9-4ef0-8dc9-8e7d4516058e",
-			"key": "DNS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "62322226-d9ae-4388-a594-db0a2e83cd44",
-			"key": "DNS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "9ff048bd-fe1b-4a80-ab52-c0dcbf775a42",
-			"key": "PARTITION_NAME",
-			"value": ""
-		},
-		{
-			"id": "eb124c29-6d2f-4f30-98ce-38697402ada6",
-			"key": "PATH_NAME",
-			"value": ""
-		},
-		{
-			"id": "b04ac61b-b6ba-4fb3-bef7-f9ccfbfe7a33",
-			"key": "VIPS",
-			"value": ""
-		},
-		{
-			"id": "469df8db-4698-451a-a842-03ca5e0c9d44",
-			"key": "VS1_NAME",
-			"value": ""
-		},
-		{
-			"id": "0faca565-6a9a-44ea-86a5-7177278d4063",
-			"key": "VS2_NAME",
-			"value": ""
-		},
-		{
-			"id": "2430bd1d-099e-4522-a346-274824e03ffa",
-			"key": "BIGIP_MGMT",
-			"value": ""
-		},
-		{
-			"id": "1d18dded-6fa8-4559-80ee-1f5e0492c70c",
-			"key": "BIGIP_SCOPE",
-			"value": ""
-		},
-		{
-			"id": "8d037411-8152-49a5-8a55-ebaa4e0ecc65",
-			"key": "DNS_NAME",
-			"value": ""
-		},
-		{
-			"id": "f688c30c-4852-437b-a874-b03e37796581",
-			"key": "VS_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "b891c0e2-0763-4384-a543-b26e4c36cd51",
-			"key": "VS_NAME",
-			"value": ""
-		},
-		{
-			"id": "f8e2368c-3ef0-4253-ab2a-249e4603b2e3",
-			"key": "TRANSID",
-			"value": ""
-		},
-		{
-			"id": "495baf0e-217d-45fb-94b4-1d0ee1e7c18a",
-			"key": "BIGIP_ADDRESS",
-			"value": ""
-		},
-		{
-			"id": "256e9880-4f53-404e-aa64-27434146d124",
-			"key": "BIGIP_ADDRESS1",
-			"value": ""
-		},
-		{
-			"id": "bbe0ecdb-8812-4a86-bdde-9de4aca8821b",
-			"key": "BIGIP_ADDRESS2",
-			"value": ""
-		},
-		{
-			"id": "c122a684-7dd8-4b94-b1df-81bcc641f2ad",
-			"key": "DC_COUNTER",
-			"value": ""
-		},
-		{
-			"id": "8d51d78e-dc39-4895-8393-adfe5e129484",
-			"key": "COUNTER",
-			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}
