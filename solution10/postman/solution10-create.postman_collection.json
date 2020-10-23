@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6e8ebf03-74f1-431b-8c9d-c97b9ab93ab2",
+		"_postman_id": "5fb757a6-570f-42de-b546-32d3ce2011c4",
 		"name": "solution10-create",
 		"description": "Based on Template 1.7",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8a23a994-2bcf-417c-928c-cd2a2a8ce450",
+								"id": "316ecabe-72c4-47e9-b3b7-63fd3ca09c02",
 								"exec": [
 									"pm.test(\"Setting Parameters\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -30,7 +30,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "93197787-f8ce-422f-8d9f-ec934c6cd2e4",
+								"id": "33a144ef-bf0e-440b-82cb-73612947ae89",
 								"exec": [
 									"//Define the number of virtual servers in this solution\r",
 									"pm.collectionVariables.set(\"VIPS\", \"1\");\r",
@@ -100,6 +100,102 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "Test For Solution Conflicts",
+			"item": [
+				{
+					"name": "Detect Wide-IP Conflict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5fc0d45a-febd-4136-80b8-fa08ac176b05",
+								"exec": [
+									"var PARTITION_NAME = pm.collectionVariables.get(\"PARTITION_NAME\");",
+									"var jsonData = pm.response.json();",
+									"var EXIST = 0",
+									"",
+									"for (var i = 0; i < jsonData.items.length; i++) {",
+									"    for (var x = 1; x < 10; x++) {",
+									"        var DNS_NAME = pm.collectionVariables.get(\"DNS\"+x+\"_NAME\");",
+									"        if ( jsonData.items[i].name  === DNS_NAME ) {  ",
+									"                if ( jsonData.items[i].partition  !== PARTITION_NAME+\"-gslb\" ) { ",
+									"                    var EXIST = 1",
+									"                    var EXISTING_SOLUTION = jsonData.items[i].partition.split(\"-\");",
+									"                    pm.test( EXISTING_SOLUTION[0]+\" must be deleted before \"+PARTITION_NAME+\" can be deployed\", function () { ",
+									"                        pm.expect(EXIST).to.be.a(\"0\");     ",
+									"                    });",
+									"                    postman.setNextRequest(\"null\");",
+									"                ",
+									"                }",
+									"        }",
+									"    }          ",
+									"}",
+									" ",
+									"if (EXIST === 0) {",
+									"    if (responseCode.code === 200) {",
+									"        pm.test(\"No Existing Conficts Detected\" , function () {",
+									"            pm.response.to.have.status(200);",
+									"        }); ",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4d0467a8-13f8-465d-80d0-d3c39324fd58",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://10.1.1.11/mgmt/tm/gtm/wideip/a",
+							"protocol": "https",
+							"host": [
+								"10",
+								"1",
+								"1",
+								"11"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"gtm",
+								"wideip",
+								"a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "Start-loop-Datacenters",
 			"item": [
 				{
@@ -108,7 +204,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "45fdd699-e887-42fa-9e99-b6490c9a0840",
+								"id": "38758487-bb4a-4008-9b33-918ccbe8d448",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"\r",
@@ -123,7 +219,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8fd474a4-ae47-4c6e-9f92-d6dde65c101d",
+								"id": "018233c7-828f-4517-be7f-f74ffe0c04e8",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");\r",
@@ -185,7 +281,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8dd67d67-5dd3-4c38-b908-7f1a7fafb835",
+						"id": "7f985244-eb9a-453b-a01b-01aabccaba7a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -195,7 +291,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "96169f8f-ddf9-4651-b2ca-11847a83209e",
+						"id": "5429fc82-7458-4dd7-bbbc-929349d6d655",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -214,7 +310,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7fb9f07f-cf7c-4ccc-8484-becdda56e941",
+								"id": "dee0f95b-bdf3-4f90-8b78-5780bd85c0df",
 								"exec": [
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
 									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
@@ -241,7 +337,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5b7334a8-083d-42d9-b626-b3eb182b1b01",
+								"id": "fc0af9fc-b992-44c6-86e6-257451c8e961",
 								"exec": [
 									""
 								],
@@ -288,7 +384,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "25ec8d9d-5c7c-4513-9c59-a1157294c5ba",
+						"id": "fe5b6da5-e570-47ce-85a4-fef3c72cbf98",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -298,7 +394,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8b4be4f0-66f6-45b2-a852-e3f0138cbf12",
+						"id": "5c68986e-47d0-4875-b2c7-a4af1ba64981",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -320,7 +416,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "a90f4d05-3c49-4392-8b8e-03fa2c30d368",
+										"id": "0c6035a8-6c02-429e-9c3b-fbe25dec0376",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -354,7 +450,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "74fdfaed-4277-4b14-b1bf-48348922bcae",
+										"id": "ae5e2434-5f74-4b93-987f-138acf1f6311",
 										"exec": [
 											""
 										],
@@ -409,7 +505,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "6c67ebc3-4388-44ff-b8e4-d815e7bdfa08",
+										"id": "da9fea85-652c-4557-9b93-5c2a65cea8a7",
 										"exec": [
 											""
 										],
@@ -419,7 +515,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "83c169bf-fae6-4f88-970d-7fc91fac2b69",
+										"id": "b3253202-cd6e-437c-8b0f-0dc8275965e6",
 										"exec": [
 											"if (responseCode.code === 200) {",
 											"    pm.test(\"Node 10.1.20.7 created\", function () {",
@@ -484,7 +580,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "443d4d68-1abe-4997-8a6d-5473bb06e087",
+										"id": "fcd80d29-c881-4a09-84d2-8375696c9615",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -555,7 +651,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "629920af-f2a2-4b64-b05c-813cd3eb64e7",
+										"id": "b8e9d17c-9410-4d4a-ae93-253c576dde49",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -574,7 +670,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e717d3fd-d7cb-4f15-b335-bdd8450c9d71",
+										"id": "8ed0ea0a-81c7-45b1-b342-5fbf7130b219",
 										"exec": [
 											""
 										],
@@ -640,7 +736,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "fd66654e-1fb1-4e33-83bf-57442750654a",
+										"id": "4ac56bcd-246f-4461-9302-fd0ed0de159b",
 										"exec": [
 											"pm.test(\"ca.f5lab.local.crt installed\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -652,7 +748,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "59fc641d-0445-498a-800b-f0060a512f78",
+										"id": "d4d3661e-d067-4a10-94a6-a1984b3dea34",
 										"exec": [
 											""
 										],
@@ -721,7 +817,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2fcedac6-9319-4a75-8af0-0696663a8f86",
+										"id": "c7dac0d8-5c47-4984-95b4-f6df5a350c96",
 										"exec": [
 											"pm.test(\"ca.f5lab.local.crt imported\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
@@ -782,7 +878,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "17132f52-68df-4146-b6c2-223bc028ab98",
+										"id": "3cb4d657-f45b-49ca-aee1-f331a589d7e0",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -802,7 +898,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "28a1be45-58a1-4ba3-b11a-8ec2f0f63386",
+										"id": "2bb2b996-0736-483a-abc8-72b9238f8d9c",
 										"exec": [
 											""
 										],
@@ -869,7 +965,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "292bc2b9-ef9c-4b4a-8461-6259188d1706",
+										"id": "ddb1e4ed-d7c3-45bf-998f-ea78ffe2e934",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -889,7 +985,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "2043119c-b56e-4ffa-9f1c-176712364019",
+										"id": "8f0f277a-2003-475a-b6e7-8738b747e6cf",
 										"exec": [
 											""
 										],
@@ -964,7 +1060,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f3b54694-b0b5-44b5-94d1-d949bbdccfdd",
+										"id": "ca157a91-c8bb-463c-b40d-9c08c1cf2468",
 										"exec": [
 											""
 										],
@@ -974,7 +1070,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c2bf7991-280e-462f-8044-860c8195d1d1",
+										"id": "eb0c2443-ebb1-44f9-9251-862c32897030",
 										"exec": [
 											""
 										],
@@ -1021,7 +1117,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "6b82cee1-0722-4cc0-b873-edc5d5d9d01d",
+								"id": "ac185a43-ebbc-4099-b2b4-59d65a3cb18f",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1031,7 +1127,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b1c33549-1b4e-4590-8a19-cbc141bd6e85",
+								"id": "0d255d5a-d57d-43bf-955c-409f699b848a",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1057,7 +1153,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c123d8c1-db45-417e-ab04-ee69b04c850c",
+										"id": "a308995e-e996-4b04-bf50-11d047de616c",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -1091,7 +1187,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "37670a45-c036-4ee0-ba9f-7d0cf82d8b50",
+										"id": "459aa52a-8d31-442c-b389-a63c8e9565d4",
 										"exec": [
 											""
 										],
@@ -1138,7 +1234,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "41f460bc-96e6-4635-b113-20363249c4ff",
+								"id": "6d4030f7-e575-44dd-a436-f33ae2a6b6d7",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1148,7 +1244,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d52ca336-0b6b-4b4a-b40f-de77fc7ec93d",
+								"id": "3615a89c-2c4b-48e1-9c77-551cccd30072",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1171,7 +1267,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "73854f68-746c-44e8-a3e5-8352af125f1e",
+												"id": "22a0311a-215b-42b8-8287-ef7a6ec3fdb0",
 												"exec": [
 													"",
 													"var jsonData = JSON.parse(responseBody);",
@@ -1190,7 +1286,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "c4261df3-53e6-4d17-a086-1660b37cc4ca",
+												"id": "d3df35d2-fe60-41a6-94ad-931e2bb9ea06",
 												"exec": [
 													""
 												],
@@ -1254,7 +1350,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "e4b8568a-7969-467e-9338-c99d1002def1",
+												"id": "75e69265-2a7a-4211-b039-043dfc643297",
 												"exec": [
 													""
 												],
@@ -1318,7 +1414,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "76acaff7-5330-43ca-a224-95d73889ea41",
+												"id": "0deac839-2255-444b-851b-5ce847ef1694",
 												"exec": [
 													""
 												],
@@ -1382,7 +1478,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d0f0154d-1afd-4301-9263-40ca0b7b4e55",
+												"id": "46468522-4a7e-4695-97e2-d545df87dec6",
 												"exec": [
 													""
 												],
@@ -1446,7 +1542,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "daef529a-7ae9-446c-8dce-4edb57861567",
+												"id": "4a300dbe-1b8f-4c7a-8eda-1f76c222397e",
 												"exec": [
 													""
 												],
@@ -1510,7 +1606,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "81271e43-7eda-452c-b747-dbd5a5c93001",
+												"id": "09453e3d-c319-439e-a019-a91fd3eec126",
 												"exec": [
 													""
 												],
@@ -1581,7 +1677,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "476092a8-12b2-4de1-927e-96ad88b29a65",
+												"id": "b27c67b1-9bdc-4ed8-adb9-e4b705330ca7",
 												"exec": [
 													""
 												],
@@ -1645,7 +1741,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "6e4d839e-36d3-4436-be82-a0d3a663880b",
+												"id": "22ef2079-a746-454c-a81d-e9cf8e13d911",
 												"exec": [
 													""
 												],
@@ -1711,7 +1807,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "b51add4e-c84c-4232-b498-6570d0971901",
+												"id": "c2d1ab03-3f40-465c-ab99-8185bdd5d2e7",
 												"exec": [
 													""
 												],
@@ -1783,7 +1879,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "97bf52ec-a5a2-437b-ae71-dd2f09fbacc1",
+												"id": "513ee209-f5eb-4cac-9eba-af1351ac8433",
 												"exec": [
 													""
 												],
@@ -1849,7 +1945,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2eb21211-0832-41fe-b6c8-4c78e88db29d",
+												"id": "c80e1421-1f74-4292-9bf9-6811a9eafc54",
 												"exec": [
 													""
 												],
@@ -1921,7 +2017,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9e415f6f-db61-4c82-96ad-e3d7ac3b8698",
+												"id": "053b792b-b62c-4a73-851a-ba6a7889361a",
 												"exec": [
 													""
 												],
@@ -1986,7 +2082,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "35535fe3-75aa-40ee-a7de-6932ec397b7a",
+												"id": "93061b71-1ef4-45a7-81ff-d2b4a56184af",
 												"exec": [
 													""
 												],
@@ -2051,7 +2147,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "79321d89-bc3b-40e6-b3c7-f69ae3c097ff",
+												"id": "df65fe7f-3b2c-439b-9f7c-5ba9798bb8d2",
 												"exec": [
 													""
 												],
@@ -2123,7 +2219,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "43d623ec-d744-4aef-a9f5-99f919b76edd",
+												"id": "22faf68c-fe8b-4ddf-aee2-4219725615d3",
 												"exec": [
 													""
 												],
@@ -2188,7 +2284,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ee29169b-66f0-4255-929d-2873389ec1a9",
+												"id": "95521f0a-74a8-4d8a-a38c-06d8d2295601",
 												"exec": [
 													""
 												],
@@ -2252,7 +2348,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "44bd6007-60ba-4534-a1e3-d4f6c608d03d",
+										"id": "a41c95cd-2dba-4484-bafa-f395cdbf7089",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -2262,7 +2358,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ffcce935-f095-4190-bf30-a490a1a3078c",
+										"id": "8e470e2e-266f-4947-9613-9dc542faf299",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -2282,7 +2378,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "db3d6738-de6b-4a75-a826-575edcb82d15",
+												"id": "3c805da4-6b76-4e07-90de-474c62afd1ab",
 												"exec": [
 													""
 												],
@@ -2347,7 +2443,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3b9e8d23-3647-4990-b08a-121f49a9ae65",
+												"id": "b4c5ec66-3f4d-4123-b2f8-57be9b671c47",
 												"exec": [
 													""
 												],
@@ -2411,7 +2507,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b29d5947-991e-4dc3-9eed-3da2d29fbaac",
+										"id": "951385d7-b218-4850-832e-e8d6ec7678d6",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -2421,7 +2517,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3b03eac0-70be-447e-978e-89d1ef17df20",
+										"id": "ca06c193-040f-4c27-afea-7f742c1ee3b3",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -2441,7 +2537,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "603e1b26-f3bc-49de-9f1c-2d56d6146f1d",
+												"id": "674507d2-1475-4bbf-bb7a-739082aaf0f0",
 												"exec": [
 													""
 												],
@@ -2505,7 +2601,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "74402c1b-79ed-4669-b023-dc91ab9a9747",
+												"id": "a0fff1d0-b705-4f9e-81ee-c576d3eb8427",
 												"exec": [
 													""
 												],
@@ -2570,7 +2666,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "878dcd0d-6555-4dd0-b94a-684ed9167d41",
+												"id": "22756f8c-036d-4a22-bbea-3023064d5577",
 												"exec": [
 													""
 												],
@@ -2642,7 +2738,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "f57daa6a-4e81-486b-b6ca-31cf6408f583",
+												"id": "04a9a55c-5b5b-43c1-8d06-414c46e2b79c",
 												"exec": [
 													""
 												],
@@ -2714,7 +2810,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "e491dfcf-d2a9-44e3-820b-49184262e7b8",
+												"id": "4b245392-1780-482e-a5f1-995d32a5979e",
 												"exec": [
 													""
 												],
@@ -2789,7 +2885,7 @@
 												{
 													"listen": "test",
 													"script": {
-														"id": "3736fafa-7802-494b-a576-9f895d2d545b",
+														"id": "dc4c4f90-7224-447c-b32b-6173a99c9496",
 														"exec": [
 															""
 														],
@@ -2853,7 +2949,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "93c141c8-58ca-4b17-93ea-a9604e76b242",
+												"id": "3a038087-a50c-4f6f-b56a-57cc30746217",
 												"type": "text/javascript",
 												"exec": [
 													""
@@ -2863,7 +2959,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "32e85d82-ee23-4d82-96a1-c2cdcec67093",
+												"id": "524e22c4-bd77-46c7-9979-d629092b0212",
 												"type": "text/javascript",
 												"exec": [
 													""
@@ -2887,7 +2983,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d519c47d-2353-41d9-9764-6407f581b440",
+												"id": "21dbc67c-24c7-4c89-946a-eaa2b56083cb",
 												"exec": [
 													"\r",
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
@@ -2972,7 +3068,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "5f05d298-1634-4452-9028-a227ac63fa8a",
+												"id": "0813f9da-8f6e-4013-b207-73fee98de841",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 													"\r",
@@ -3054,7 +3150,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5006d24e-ada3-4481-b8f8-3a62bcce44a2",
+										"id": "1b34eb53-8799-485c-a921-18df5f4de0ad",
 										"exec": [
 											""
 										],
@@ -3064,7 +3160,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "8712259d-0dca-483b-95de-645717e3217e",
+										"id": "ba191e69-25eb-429f-b5cc-b60532101f00",
 										"exec": [
 											""
 										],
@@ -3111,7 +3207,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "cef85dfc-4a29-4126-ae7c-6384c51a4b7e",
+								"id": "02260fd1-7cf7-4157-a3ca-27dfc5d04bd0",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3121,7 +3217,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c00a6cd0-2939-47f2-94e1-468e22599179",
+								"id": "10eba5da-1ebd-4ce2-b3ac-7d8aa1a9f186",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3144,7 +3240,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3f852f04-5c80-4989-8d7b-0bc899340161",
+								"id": "7cc1cf3e-f040-4804-b36b-a9c4734a0b53",
 								"exec": [
 									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
@@ -3238,7 +3334,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "80adeff9-d828-4856-9442-829733e6f9e5",
+								"id": "e81dc590-4ba7-4308-93ec-3f85bd116488",
 								"exec": [
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
 									"var jsonData = pm.response.json();\r",
@@ -3295,7 +3391,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bebfd6e4-fc03-44f1-b30c-56bf483eb55f",
+								"id": "369e8004-7f7e-4bc8-87fd-6d1008560f8d",
 								"exec": [
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
 									"var jsonData = pm.response.json();\r",
@@ -3382,7 +3478,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e2bbf074-4fe7-48dd-aec0-3e571eaf6a94",
+								"id": "7b7af448-0a45-428b-98b7-ef0713ffcf60",
 								"exec": [
 									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
 									"var VS_NAME = pm.collectionVariables.get(\"EXISTING_VS\");",
@@ -3434,7 +3530,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "00d7eec3-a10d-4562-9f96-7447fac077ff",
+								"id": "dbce0a0e-2570-4527-b4e9-3414a89c0e59",
 								"exec": [
 									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
 									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
@@ -3485,7 +3581,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a2e2f685-347f-41f4-b304-73949b58e1ca",
+								"id": "17ec3f99-a296-48ae-b13f-eb6ac287aaa1",
 								"exec": [
 									""
 								],
@@ -3495,7 +3591,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "2c462e3f-c95f-4b65-a682-dd6152f9c9f7",
+								"id": "df7bace2-4228-4b97-86fb-d893a982145f",
 								"exec": [
 									""
 								],
@@ -3542,7 +3638,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "0a69d383-2a24-4665-8f33-bcaea279f7ea",
+						"id": "3893f3e5-39d5-4ca1-9b30-7e6683c348b5",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3552,7 +3648,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c52ad75a-6198-4fb4-9fdf-c50c0918ca61",
+						"id": "98cb3615-870f-4e62-b8f5-ddd511e90ad9",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3571,7 +3667,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e9d4a886-1a3c-4fea-9fe7-5179271f6953",
+								"id": "f772607b-e136-45ae-a8f2-7c26f2f43028",
 								"exec": [
 									"var VIPS = pm.collectionVariables.get(\"VIPS\");",
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\")",
@@ -3608,7 +3704,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3a7571f3-08a4-4865-a2e1-e2ed4fd78ef2",
+								"id": "b5ac6397-7bd6-4987-a339-a42cb3b9a4ec",
 								"exec": [
 									""
 								],
@@ -3655,7 +3751,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ba99a971-1d9c-45ad-8548-fb6a6c91527f",
+						"id": "1568e637-cee9-4cc5-bb3a-9e469013a457",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3665,7 +3761,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d4ea5c1e-a793-4f62-a8b3-cbf1f3a01d4e",
+						"id": "a6fbc02c-07d2-4f06-8174-e3c5af3895ca",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3687,7 +3783,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4d3dc7ba-84fe-461f-a1e6-48b54b103603",
+										"id": "fe898320-cc05-4fd2-a3e7-90a5fb3e4229",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -3702,7 +3798,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "90f97d3e-85bc-4472-8c81-13e25978ed22",
+										"id": "17474bcb-a8c3-4f61-b28a-71800daafd33",
 										"exec": [
 											""
 										],
@@ -3759,7 +3855,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "edd6582a-4084-4610-8862-7f9fb1ca65da",
+								"id": "75fbf1d4-1820-4c3a-9d7a-5849ab786a82",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3769,7 +3865,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7ecf0a3c-bef8-4c30-88cc-509134bb9d83",
+								"id": "1483552b-a006-4384-8af7-fce6f6925769",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3798,7 +3894,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "f36df676-9d6d-4cf5-9ad8-ee159d1746d9",
+												"id": "6b81c05f-e427-4dc7-aaca-2da7fc02b83c",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -3821,7 +3917,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "0e9a6df1-ceef-4929-b2c0-9a2e6ba4136a",
+												"id": "d3c847d9-a984-4335-90d9-ef265372b9b2",
 												"exec": [
 													""
 												],
@@ -3872,7 +3968,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "a1e7f44e-7f74-497d-9ff3-6f5c6ea831c6",
+												"id": "e49845ab-df33-41ac-a954-2b80ca54348d",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -3891,7 +3987,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "904dc358-4f4b-4b0a-84f1-064ed80a55ea",
+												"id": "30bca079-c074-47c9-b46a-d5fd9a3eb6f9",
 												"exec": [
 													""
 												],
@@ -3952,7 +4048,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "cbfa6cae-c1cd-4cbc-8de0-a8389cdaa0c2",
+												"id": "96991c17-c5a6-4af4-bb98-e2647ba8ae43",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -3971,7 +4067,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "30e8f5e3-82e5-4751-b1a6-9d84737619db",
+												"id": "e0c7c390-33c0-4d56-a9ff-1f6e1ba2afcd",
 												"exec": [
 													""
 												],
@@ -4032,7 +4128,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ce3ae4af-cfb9-455f-b774-373baee0b8db",
+												"id": "787a598b-b86e-4cba-9843-4681b594611e",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -4052,7 +4148,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "74e81f7b-6b4f-43a8-b381-95327dd59a28",
+												"id": "9e9d528c-5d46-40c6-be99-f8b082deeff0",
 												"exec": [
 													""
 												],
@@ -4113,7 +4209,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "52c911ca-c5f4-49b5-8232-7e098876e5fc",
+												"id": "4d23dc48-742e-410d-ab99-2027e0d5413e",
 												"exec": [
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
 													"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\")",
@@ -4134,7 +4230,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "0c027295-cc51-4b5e-a499-952806712691",
+												"id": "2b05d9ca-263d-446a-8e6c-72ee77207cba",
 												"exec": [
 													""
 												],
@@ -4198,7 +4294,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "38d30a3b-3274-4f42-83aa-4cfa274f3365",
+												"id": "5cca4446-2151-43c6-832d-9c20162566fb",
 												"exec": [
 													"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
 													"\r",
@@ -4218,7 +4314,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "93c4bd61-75f6-4d44-b293-d118b8f01f8a",
+												"id": "dd068278-1818-49da-9c01-1924d77872f7",
 												"exec": [
 													""
 												],
@@ -4279,7 +4375,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ca3238cb-3130-4d1c-836f-b8a1acf0d948",
+												"id": "9e9b0beb-0909-4ecf-85ef-a98d3798f008",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -4303,7 +4399,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "f9c1836d-d03b-4078-a68f-78fd00dd25bd",
+												"id": "523984a2-5df3-4170-b122-a5ca60ce7974",
 												"exec": [
 													""
 												],
@@ -4361,7 +4457,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ebd78385-38cb-4367-a41f-7396f0968827",
+												"id": "38200222-5d1f-4a8b-9786-6776ce8defd3",
 												"exec": [
 													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -4385,7 +4481,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "7d9184f2-4539-4130-937d-104a4712ad55",
+												"id": "83881b35-3009-45b7-b7bb-15390a582a1b",
 												"exec": [
 													""
 												],
@@ -4436,7 +4532,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "8c1a067d-4d6f-42dc-9302-84ad529457ef",
+												"id": "fa07c046-7e3a-4223-9704-b68c3b40f78f",
 												"exec": [
 													"\r",
 													"var jsonData = pm.response.json();\r",
@@ -4460,7 +4556,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "f62f7a77-f9a3-411b-bc84-d647b5a58dc7",
+												"id": "88060aba-8948-4cc7-b84d-98965de2c915",
 												"exec": [
 													""
 												],
@@ -4524,7 +4620,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "07ba2cb0-a03b-41a1-bb81-341944101b68",
+												"id": "506296bf-d8ff-4534-9804-db444d18385c",
 												"exec": [
 													"pm.test(\"bigip_add command successfully run\", function () {\r",
 													"pm.response.to.have.status(200);\r",
@@ -4587,7 +4683,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9df511b4-d4f8-4a02-8b98-5bb0dd41a3d5",
+												"id": "5fc2fb51-4b75-4955-9265-67c4dbaff4be",
 												"exec": [
 													"pm.test(\"big3d_install command successfully run\", function () {\r",
 													"pm.response.to.have.status(200);\r",
@@ -4650,7 +4746,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "93a37071-603e-4661-a60f-008a57161ad7",
+												"id": "0ebe54cd-d03f-45e8-b6f0-c9641f872da3",
 												"exec": [
 													"if (responseCode.code === 200) {",
 													"",
@@ -4669,7 +4765,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "61a3b28d-1588-429b-ab1d-ddb46dc2cfbc",
+												"id": "ea171ac6-e4f0-4b8a-8e88-62fb01257e7d",
 												"exec": [
 													""
 												],
@@ -4730,7 +4826,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3d43e1db-9a3d-4709-b24d-7d8caabb56c6",
+												"id": "d15e2772-61e8-4c19-a8e7-8cfb5f4ec0c2",
 												"exec": [
 													"if (responseCode.code === 200) {\r",
 													"\r",
@@ -4801,7 +4897,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "9ed7ecb0-7287-42f3-b54a-5fdd5399e1f7",
+												"id": "67daeae5-eef8-4b96-816a-555a43e2dd59",
 												"exec": [
 													"",
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
@@ -4825,7 +4921,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "23739354-9602-431f-a3c6-c2e7a8988cf5",
+												"id": "a4ba7a43-67c3-45f8-9322-02c08b5d82e5",
 												"exec": [
 													""
 												],
@@ -4889,7 +4985,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "69614ab4-8ca6-41f5-aed2-a2e5196462de",
+												"id": "482c7bc8-3cd6-413f-9dc9-c232189f4a10",
 												"exec": [
 													""
 												],
@@ -4899,7 +4995,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "b315ded2-8554-43d4-8a0b-5432d99c6c81",
+												"id": "a56c2dd7-562a-4e79-8e1b-72a7c7afef35",
 												"exec": [
 													"var NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
 													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
@@ -4979,7 +5075,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "908b0328-19e6-40e5-b25e-eda2d39e604b",
+												"id": "71037c66-6a27-4534-b972-f7aa64ea8d73",
 												"exec": [
 													""
 												],
@@ -4989,7 +5085,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "e5c8a3a9-3742-4b4a-b2d4-85b8c4ce74a3",
+												"id": "625664b6-d5f4-4558-97a7-1cbcddf312b2",
 												"exec": [
 													""
 												],
@@ -5054,7 +5150,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fc3f5740-ad81-49ae-9ebd-c7dd113ae17a",
+								"id": "48778603-a3cc-410f-95be-46d15b789c4c",
 								"exec": [
 									"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");   ",
 									"var jsonData = pm.response.json();",
@@ -5115,7 +5211,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c2043390-0821-40f0-b9a6-e5c4888440e7",
+								"id": "5f219058-38d4-4bec-9103-7ec74b52ad72",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"\tif (jsonData.length) {",
@@ -5176,7 +5272,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "392a6ea1-2848-4f24-a0b5-f2bf8067d3d9",
+								"id": "bc6c7827-53e1-4a9a-8aee-94c34737b5a8",
 								"exec": [
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -5209,7 +5305,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "96663e4b-1183-49f1-be5b-893689cc6011",
+								"id": "090e2f20-1100-452a-9368-8acf781d636e",
 								"exec": [
 									""
 								],
@@ -5256,7 +5352,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5cbf83f6-3156-47a4-82cf-ba141d5624b0",
+						"id": "514ffa5a-2937-46e0-998b-97a6cc4e3131",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5266,7 +5362,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "000cd0be-2636-4df5-a07a-0abd6da982ab",
+						"id": "1e20fdd6-200c-493f-8dee-52f6a56253c9",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -5281,7 +5377,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "1db4a5e2-f38d-40e8-aff0-80f4c0cd7735",
+				"id": "8f2acf32-7807-42e1-a429-6154245722f7",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -5291,7 +5387,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "2cabea91-d4a5-4d94-9cca-6865126d436a",
+				"id": "7ce85b2f-5b1a-4fab-9ea2-56359a8f02de",
 				"type": "text/javascript",
 				"exec": [
 					""
