@@ -125,6 +125,10 @@ User's Perspective
 
 |image015|
 
+#. Open the Postman Collections "Solution Request", set authorization type to OAuth 2.0, and click "Get New Access Token".
+
+   |image022|
+
 #. Specify the settings required for the authorization server and the client settings. The client Secret and Client ID will be different.
 
    |image016|
@@ -143,7 +147,12 @@ User's Perspective
 
    |image018|
 
-#. The user clicks **Send*.
+#. Replace "changeme" in Postman URL to "solution13" and click Send.
+
+   |image023|
+
+
+#. The user clicks **Send**.
 
    |image019|
 
@@ -178,4 +187,6 @@ User's Perspective
 .. |image019| image:: media/019.png
 .. |image020| image:: media/020.png
 .. |image021| image:: media/021.png
+.. |image022| image:: media/022.png
+.. |image023| image:: media/023.png
 
