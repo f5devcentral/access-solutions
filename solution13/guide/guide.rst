@@ -121,18 +121,18 @@ User's Perspective
 ---------------------
 
 .. note:: 
-    The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment.  
 
-|image015|
-
-#. Open the Postman Collections "Solution Request", set authorization type to OAuth 2.0, and click "Get New Access Token".
+#. Open the Postman Collections "Solution Request", select "Request User Info", set authorization type to OAuth 2.0, and click "Get New Access Token".
 
    |image022|
-
+   
 #. Specify the settings required for the authorization server and the client settings. The client Secret and Client ID will be different.
 
    |image016|
 
+    The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment.  
+
+   |image015|
 
 
 #. The Authorization Server logon form opens and credentials entered
@@ -147,14 +147,9 @@ User's Perspective
 
    |image018|
 
-#. Replace "changeme" in Postman URL to "solution13" and click Send.
+#. Replace "changeme" in Postman URL to "solution13" and click **Send**.
 
    |image023|
-
-
-#. The user clicks **Send**.
-
-   |image019|
 
 #. The resoponse body contains user1's attributes.
 
