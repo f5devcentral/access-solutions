@@ -3,10 +3,6 @@ Solution8:  JWT AS using preshared keys  (AD Auth)
 .. _solution8:
 This solution documents all the necessary pieces required to create a basic JWT Authorization Server
 
-Keywords: JWT, OAUTH, OIDC
-
-DC: single, multi
-
 
 URL
 ----
@@ -14,7 +10,7 @@ URL
 .. note:: 
    The link below only works from the UDF blueprint
 
-https://solution8.acme.com
+https://as.acme.com
 
 
 UDF Integrated solutions
@@ -50,12 +46,6 @@ solution8-delete.postman_collection.json_
 
 .. _solution8-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution8/postman/solution8-delete.postman_collection.json
 
-Access Policies
------------------
-
-profile_Common_solution8-psp.conf.tar_
-
-.. _profile_Common_solution8-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/solution8/policies/
 
 UDF Deployment Models
 -----------------------
@@ -77,3 +67,8 @@ BIG-IP Components used
 
     - AAA AD
     - Oauth Profile
+	- JWK
+
+Keywords: JWT, OAUTH, OIDC
+
+DC: single, multi

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "39b7abb1-7936-4fc7-b9ce-c8d6b387c1fd",
+		"_postman_id": "0c5bc816-2d91-43e2-8308-8d601d7dde5e",
 		"name": "solution7-delete",
 		"description": "Based on template 1.3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3b2ab967-6ed2-4ef0-8b9d-29450415999c",
+								"id": "075202e9-c15d-45d7-bece-9e162d1a4f94",
 								"exec": [
 									"pm.test(\"Setting Parameters\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -30,7 +30,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "98cd6edf-fd01-4171-854b-a288066b38c5",
+								"id": "743601f3-15df-4a32-9566-03f73d902119",
 								"exec": [
 									"//Define the number of virtual servers in this solution\r",
 									"pm.collectionVariables.set(\"VIPS\", \"2\");\r",
@@ -102,7 +102,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fc03fa91-a1f6-4e2f-a8db-2efe0dcb8a06",
+								"id": "c63f24a2-553f-43db-8c06-b82487756bbf",
 								"exec": [
 									""
 								],
@@ -112,7 +112,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "4e5c64ff-1de4-40c1-bf14-64f240973b01",
+								"id": "fb79534e-582a-4c56-82b2-16166971551b",
 								"exec": [
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");\r",
@@ -174,7 +174,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "461c087f-445f-4b06-ba34-849dd951bdfc",
+						"id": "24e14430-2555-4e6c-b7d8-a2c4a0bac0b9",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -184,7 +184,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9845c957-87fe-4bff-a2aa-0176a577e651",
+						"id": "785f8612-d49a-4706-bb78-e3f16b8df56a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -198,401 +198,423 @@
 			"name": "External DNS",
 			"item": [
 				{
-					"name": "start-dns",
-					"event": [
+					"name": "Start DNS",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"id": "0b6ede18-7bef-49f5-bcf9-013a96caa69c",
-								"exec": [
-									"var DC2_APM = pm.environment.get(\"DC2_APM\");",
-									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
-									"",
-									"if (DC2_APM === 'true' && DC_COUNTER === '2') {",
-									"    postman.setNextRequest(\"bigip5-retrieve-addres-server-vs1\");",
-									"    pm.test(\"Beginning DC2 Server deletion\", function () {",
-									"                pm.response.to.have.status(200);",
-									"            });",
-									"} ",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "24ad3e48-ce5f-4088-b883-e80c4b8bd10b",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
+							"name": "start-dns",
+							"event": [
 								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "ba5a1bb5-19b0-456c-8fa4-a240a8b8227c",
+										"exec": [
+											"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
+											"",
+											"if (DC2_APM === 'true' && DC_COUNTER === '2') {",
+											"    postman.setNextRequest(\"bigip5-retrieve-addres-server-vs1\");",
+											"    pm.test(\"Beginning DC2 Server deletion\", function () {",
+											"                pm.response.to.have.status(200);",
+											"            });",
+											"} ",
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"id": "418d45f9-6613-4d73-bc51-cb70d77fa287",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
-							"protocol": "https",
-							"host": [
-								"10",
-								"1",
-								"1",
-								"11"
 							],
-							"path": [
-								"mgmt",
-								"shared",
-								"appsvcs",
-								"info"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip5-delete-wideip1",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "2f8bfef7-84fa-4ee1-92e0-2bb2d88265bc",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "5ac147d8-711d-4b6b-b0d6-58d65313b658",
-								"exec": [
-									"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
-									"",
-									"if (responseCode.code === 200) {",
-									"    pm.test(\"Wide IP \"+DNS_NAME+\" deleted\", function () {",
-									"        pm.response.to.have.status(200);",
-									"    });",
-									"} else if (responseCode.code === 422) {",
-									"    pm.test(\"WideIP \"+DNS_NAME+\" does not exist\", function () {",
-									"        pm.expect(pm.response.text()).to.include(\"path does not exist\");",
-									"    });",
-									"}",
-									"",
-									"setTimeout(function(){}, 1000);"
-								],
-								"type": "text/javascript"
-							}
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"10",
+										"1",
+										"1",
+										"11"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
 						}
 					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Delete WideIP",
+					"item": [
+						{
+							"name": "bigip5-delete-wideip",
+							"event": [
 								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"id": "2fb4fd9b-dbce-4b7f-81a1-c8788bf08027",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "225c03d8-0bd2-4791-be7c-ad50f1b5a076",
+										"exec": [
+											"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"Wide IP \"+DNS_NAME+\" deleted\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else if (responseCode.code === 422) {",
+											"    pm.test(\"WideIP \"+DNS_NAME+\" does not exist\", function () {",
+											"        pm.expect(pm.response.text()).to.include(\"path does not exist\");",
+											"    });",
+											"}",
+											"",
+											"setTimeout(function(){}, 1000);"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "[\n{\n\t\"op\":\"remove\",\n\t\"path\":\"{{PARTITION_NAME}}/Application\"\n \n}\n]"
-						},
-						"url": {
-							"raw": "https://10.1.1.11/mgmt/shared/appsvcs/declare",
-							"protocol": "https",
-							"host": [
-								"10",
-								"1",
-								"1",
-								"11"
 							],
-							"path": [
-								"mgmt",
-								"shared",
-								"appsvcs",
-								"declare"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip5-retrieve-addres-server-vs1",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "9c79ef86-1983-4473-b50c-ac9c79c3716f",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "da20d86f-1590-42d5-932f-18f3fa7d7578",
-								"exec": [
-									"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
-									"var jsonData = JSON.parse(responseBody);",
-									"",
-									"if (responseCode.code === 200) {",
-									"  ",
-									"    pm.collectionVariables.set(\"DNS_DEST\", jsonData.destination);",
-									"    address = (pm.collectionVariables.get(\"DNS_DEST\")).split(\":\");",
-									"    pm.collectionVariables.set('BIGIP_ADDRESS1', address[0]);",
-									"    ",
-									"    pm.test(\"VS \"+VS_NAME+ \" Address \"+address[0]+ \" found\", function () {",
-									"        pm.response.to.have.status(200);",
-									"    });",
-									"",
-									"} else",
-									"    pm.test(\"VS \"+VS_NAME+\" does not exist\", function () {",
-									"        pm.response.to.have.status(404);",
-									"    });",
-									"",
-									"",
-									"",
-									"",
-									"",
-									"",
-									"",
-									"",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://10.1.1.11/mgmt/shared/appsvcs/declare/{{PARTITION_NAME}}-gslb",
+									"protocol": "https",
+									"host": [
+										"10",
+										"1",
+										"1",
+										"11"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"declare",
+										"{{PARTITION_NAME}}-gslb"
+									]
+								}
+							},
+							"response": []
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Delete Virtuals Server Address 1 from BIG-IP Server",
+					"item": [
+						{
+							"name": "bigip5-retrieve-addres-server-vs1",
+							"event": [
 								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"id": "cfa502b5-1f37-4e72-bdf2-3f8cdc77fc81",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "32676fc1-6113-4a46-8be2-36e6d7354be3",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+											"var jsonData = JSON.parse(responseBody);",
+											"",
+											"if (responseCode.code === 200) {",
+											"  ",
+											"    pm.collectionVariables.set(\"DNS_DEST\", jsonData.destination);",
+											"    address = (pm.collectionVariables.get(\"DNS_DEST\")).split(\":\");",
+											"    pm.collectionVariables.set('BIGIP_ADDRESS1', address[0]);",
+											"    ",
+											"    pm.test(\"VS \"+VS_NAME+ \" Address \"+address[0]+ \" found\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"} else",
+											"    pm.test(\"VS \"+VS_NAME+\" does not exist\", function () {",
+											"        pm.response.to.have.status(404);",
+											"    });",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{DC_COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
-							"protocol": "https",
-							"host": [
-								"10",
-								"1",
-								"1",
-								"11"
 							],
-							"path": [
-								"mgmt",
-								"tm",
-								"gtm",
-								"server",
-								"~Common~bigip{{DC_COUNTER}}.f5lab.local",
-								"virtual-servers",
-								"~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip-checkin-address",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "ad80e8ef-9092-4d52-92ea-3c1b3c876969",
-								"exec": [
-									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\");",
-									"",
-									"var jsonData = pm.response.json();",
-									"",
-									"if(jsonData.status === \"Success\") {",
-									"    pm.test(\"Address \"+ADDR+\" returned to Scope\", function () {",
-									"        pm.response.to.have.status(200);",
-									"    });",
-									"} else {",
-									"    pm.test(\"Address \"+ADDR+\" not assigned in Scope\", function () {",
-									"        pm.response.to.have.status(200);",
-									"    });",
-									"}",
-									"",
-									"setTimeout(function(){}, 1000);",
-									""
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://10.1.20.6:81/addr/checkin?address={{BIGIP_ADDRESS1}}",
-							"protocol": "http",
-							"host": [
-								"10",
-								"1",
-								"20",
-								"6"
-							],
-							"port": "81",
-							"path": [
-								"addr",
-								"checkin"
-							],
-							"query": [
-								{
-									"key": "address",
-									"value": "{{BIGIP_ADDRESS1}}"
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{DC_COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
+									"protocol": "https",
+									"host": [
+										"10",
+										"1",
+										"1",
+										"11"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"gtm",
+										"server",
+										"~Common~bigip{{DC_COUNTER}}.f5lab.local",
+										"virtual-servers",
+										"~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}"
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "bigip5-delete-server-vs1",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "af4c58c5-862e-48fe-b2df-a252fadad540",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
+							},
+							"response": []
 						},
 						{
-							"listen": "test",
-							"script": {
-								"id": "d4c0b03a-f1af-42c6-9f6b-b549ae549f6e",
-								"exec": [
-									"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
-									"",
-									"if (responseCode.code === 200) {",
-									"pm.test(\"Virtual Server \"+VS_NAME+\" deleted from server\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"} else ",
-									"pm.test(\"Virtual Server \"+VS_NAME+\" does not exist\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
+							"name": "bigip-checkin-address",
+							"event": [
 								{
-									"key": "password",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "4e0decc9-ed7c-4d8c-8db5-0d9e4012e5e6",
+										"exec": [
+											"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\");",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"if(jsonData.status === \"Success\") {",
+											"    pm.test(\"Address \"+ADDR+\" returned to Scope\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else {",
+											"    pm.test(\"Address \"+ADDR+\" not assigned in Scope\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"}",
+											"",
+											"setTimeout(function(){}, 1000);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://10.1.20.6:81/addr/checkin?address={{BIGIP_ADDRESS1}}",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"addr",
+										"checkin"
+									],
+									"query": [
+										{
+											"key": "address",
+											"value": "{{BIGIP_ADDRESS1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip5-delete-server-vs",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9c2406bc-8e31-48a7-a2c3-05f2bca91fa9",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "username",
-									"value": "admin",
-									"type": "string"
+									"listen": "test",
+									"script": {
+										"id": "b59cc7b1-3093-40d6-8665-bac509343b5f",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"pm.test(\"Virtual Server \"+VS_NAME+\" deleted from server\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"} else ",
+											"pm.test(\"Virtual Server \"+VS_NAME+\" does not exist\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{DC_COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
-							"protocol": "https",
-							"host": [
-								"10",
-								"1",
-								"1",
-								"11"
 							],
-							"path": [
-								"mgmt",
-								"tm",
-								"gtm",
-								"server",
-								"~Common~bigip{{DC_COUNTER}}.f5lab.local",
-								"virtual-servers",
-								"~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}"
-							]
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip{{DC_COUNTER}}.f5lab.local/virtual-servers/~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}",
+									"protocol": "https",
+									"host": [
+										"10",
+										"1",
+										"1",
+										"11"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"gtm",
+										"server",
+										"~Common~bigip{{DC_COUNTER}}.f5lab.local",
+										"virtual-servers",
+										"~{{PARTITION_NAME}}~{{PATH_NAME}}~{{VS1_NAME}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -609,7 +631,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "f47e3ee4-4643-4659-958f-602bcc7cff17",
+										"id": "9323c8d3-9d9b-4e06-a249-69c29d89e8e4",
 										"exec": [
 											""
 										],
@@ -619,7 +641,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8e95d5d8-39c0-4379-bb0b-983270d31e7d",
+										"id": "699594ba-03af-42dc-b260-73207eff58de",
 										"exec": [
 											"var PARTITION_NAME = pm.collectionVariables.get(\"PARTITION_NAME\");",
 											"",
@@ -689,7 +711,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d45e94ef-397d-4fba-9d4e-46b3ceb69d67",
+								"id": "06a1f625-8cf2-44e8-b3d4-336d6e1c0337",
 								"exec": [
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
 									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
@@ -713,7 +735,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a04dcb06-ed2c-4f62-8fa2-778a773f7f12",
+								"id": "22e2bdaf-ebd5-4a18-b967-a55dba0664b7",
 								"exec": [
 									""
 								],
@@ -760,7 +782,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "89fb57ad-87d6-4e37-b62e-fedf0de87211",
+						"id": "4be383aa-773a-435a-af2a-d640dd86706a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -770,7 +792,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "107a2a80-d822-4dec-a6e5-1dfa94be65f8",
+						"id": "e4c11e94-22f1-4b6a-b4c4-aeaf608c6561",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -792,7 +814,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c996176e-6da6-4f9f-9f42-b63dc9dfe066",
+										"id": "7041b94f-9ad1-42fb-be6d-424829f66564",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -826,7 +848,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b8a3feb0-b84f-46bc-a2c9-68e8fa9fbbbb",
+										"id": "f2461af1-4236-42d8-83b7-94492959e422",
 										"exec": [
 											""
 										],
@@ -873,7 +895,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "424ea79a-954e-4350-88ae-5d0f423b2d59",
+								"id": "5dfb6582-e60a-4d16-8109-63869fb53d34",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -883,7 +905,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dfdc43f0-e021-4f8e-8ce9-57852ca18553",
+								"id": "ff9a2d6d-b442-4901-9145-9b38924281ad",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -903,7 +925,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "aeb4b2b2-9a09-457d-9de9-48b6dc890573",
+										"id": "c64f696c-50a3-4f91-aac0-4fc8f51d5179",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -925,7 +947,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "fd0d02ba-c47e-46ff-9220-c545380942b2",
+										"id": "de518988-27fc-4ae4-b42c-53c8d1b98d5b",
 										"exec": [
 											""
 										],
@@ -991,7 +1013,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1a50b3be-5a83-43ad-b957-b766c2d42a79",
+										"id": "902bbed2-6070-4cca-8499-def615535f2c",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1011,7 +1033,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "fff76bbe-7007-4dd5-a358-94afc76a3444",
+										"id": "f60c3760-f938-4a2c-bbdf-3d27c0975d33",
 										"exec": [
 											""
 										],
@@ -1084,7 +1106,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4919b678-ddc0-4aa3-bf6d-a88c15614d01",
+										"id": "09eb2709-1c24-4eb7-9317-ab1c72675fe3",
 										"exec": [
 											""
 										],
@@ -1094,7 +1116,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c7e0da15-b95c-4f5d-b8c0-43276681f5c0",
+										"id": "2e6caa49-0564-4639-8359-12ea46fa32ef",
 										"exec": [
 											""
 										],
@@ -1141,7 +1163,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0b5cb572-43a5-4548-a4d8-0634f7035281",
+								"id": "aa460491-f541-414e-bd49-244e0f5fb042",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1151,7 +1173,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0ed7c1ce-f063-4393-a3a9-41b5d5ea546c",
+								"id": "74c0c7f8-67ee-4de3-8052-63e74bca8dc8",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1177,7 +1199,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "16aced25-4f9c-4cf7-8ead-1bf66cba9738",
+										"id": "191cb838-d74f-40e4-bd3a-0925f5eefe2a",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 2;\r",
@@ -1208,7 +1230,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "f17ee7fe-771d-41f6-a057-403fc509e3be",
+										"id": "82e62638-40e4-45f7-a855-5cbc9e04c083",
 										"exec": [
 											""
 										],
@@ -1255,7 +1277,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "657bfbfd-035a-401d-a410-7a9044e79b73",
+								"id": "6279aa23-66f6-4807-975c-acb247f42ff7",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1265,7 +1287,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8988a16d-32ca-4100-8320-e2360b379fe4",
+								"id": "4dd75b87-7342-4bed-8c26-4d50dfeedf3a",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1285,7 +1307,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1394799f-16df-405c-8442-8e3a7ec30617",
+										"id": "9dc18e4d-f83a-4d50-8044-2d24f71b7d1d",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1307,7 +1329,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "52b13f67-ece5-4cf3-8170-54b0e4d300da",
+										"id": "9f14c2d8-9f4c-4bdf-ac43-793f6a4659b5",
 										"exec": [
 											""
 										],
@@ -1373,7 +1395,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "b4413291-7eec-46d6-8be6-9ad54ea6660e",
+										"id": "f4a7253b-6384-4065-b637-b99ba0ea5f58",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1393,7 +1415,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4e372ba4-392f-41c7-9206-4e7a50ff48d4",
+										"id": "a3e55ff9-8243-4dfd-a902-d3abc163e047",
 										"exec": [
 											""
 										],
@@ -1466,7 +1488,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "201e3552-2a9d-4b38-a9c5-72c1c7d986bb",
+										"id": "5ad0a62e-0599-4b69-baf2-5b9ac49cf01f",
 										"exec": [
 											""
 										],
@@ -1476,7 +1498,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "8af10dfc-7c29-4703-ad2c-73f234c621cb",
+										"id": "2d5dd2ae-6984-4bdb-860c-f43ed1fc780b",
 										"exec": [
 											""
 										],
@@ -1523,7 +1545,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "384e5c0a-d32a-42e3-9275-8c464c8fe60b",
+								"id": "4aefdb5b-b8fa-404b-b506-9f662fd4b5c2",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1533,7 +1555,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f14c9e2d-e5a7-4bc1-8f38-2030a34c27ea",
+								"id": "69540f7b-2a66-4924-aaf2-86a8d6a67448",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1559,7 +1581,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "db781f3e-db4a-4b3c-8d99-d57737f74eca",
+										"id": "488a538a-c47a-4700-991d-17762a8095d4",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -1593,7 +1615,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "0142ceb4-2333-4b37-aaab-1841f206e75f",
+										"id": "2c2c781b-fac5-48c8-a3b4-98f05fa329f8",
 										"exec": [
 											""
 										],
@@ -1648,7 +1670,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "be9c4a5f-a4f5-45f6-94d7-695ebcb90e11",
+										"id": "596769a1-d3a6-489d-a54c-219e1ec9873f",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -1670,7 +1692,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "dc14b437-f9b8-44dd-8872-1aa409cae541",
+										"id": "03405337-84f0-4148-8b1e-3a9e5890925d",
 										"exec": [
 											""
 										],
@@ -1736,7 +1758,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d7f3419c-d2c5-4386-b316-c2066a523bae",
+										"id": "cb12a49e-c306-48af-a740-99587b9e3d17",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -1756,7 +1778,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "0cc4c461-4487-4d96-95d3-e9daca0d0b89",
+										"id": "dba0df40-04a3-41bb-8686-d56647d17e6f",
 										"exec": [
 											""
 										],
@@ -1822,7 +1844,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "a6a627ec-850e-4c5e-895e-6f8f2c20b5f7",
+										"id": "ab7dff4d-3685-49ba-ac46-7595554a787a",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1911,7 +1933,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "2ada6349-4134-4606-81ed-cd78de4a94cc",
+										"id": "f87d1a45-ff4c-4b9d-af21-78c8f245210c",
 										"exec": [
 											""
 										],
@@ -1921,7 +1943,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "75863393-f419-40c5-9c01-2bb8aec75a91",
+										"id": "f8b561c0-1fbd-4941-88b0-623bf38c41eb",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
 											"\r",
@@ -1991,7 +2013,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "d90ed529-91e4-47bf-bdcc-8272372f1bb1",
+										"id": "5fab3bf2-9837-4fd6-a4c8-68ed4aa5906c",
 										"exec": [
 											""
 										],
@@ -2001,7 +2023,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "906c1c74-e979-41e5-904d-fc6dcec1f9a0",
+										"id": "e1a65e6a-7c89-4bec-8b85-fc0795cb83a5",
 										"exec": [
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
 											"\r",
@@ -2078,7 +2100,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "03187a6c-072c-4a23-87eb-fd60edea760a",
+										"id": "ebf84ea3-b678-48b1-abfa-4d441e304e75",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -2099,7 +2121,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "50f1057b-67d0-41c8-8d72-410ef95832cb",
+										"id": "7ab668ab-16b6-4178-9d25-9281140cf2b9",
 										"exec": [
 											""
 										],
@@ -2159,7 +2181,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0b745111-83c0-469b-a4e7-d1a706d3c2e2",
+										"id": "c3f69e30-667a-4f32-8816-c81e23773a14",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -2229,7 +2251,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "71e394e7-cb3e-4629-8e2f-12f583434afa",
+										"id": "977fdbc5-35ee-478a-b2f2-a11775ee4a0f",
 										"exec": [
 											""
 										],
@@ -2239,7 +2261,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6714fb7d-8143-48c4-8943-e7d57c3ffccb",
+										"id": "489736e3-0161-4e51-9e72-9f3794c36aeb",
 										"exec": [
 											"if (responseCode.code === 200) {",
 											"    pm.test(\"Node 10.1.20.7 deleted\", function () {",
@@ -2319,7 +2341,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "3d03e656-3e32-4594-ae0c-7b104c7a7f13",
+										"id": "ddac18e3-273a-492d-ad0a-71acc603338c",
 										"exec": [
 											""
 										],
@@ -2329,7 +2351,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "849bed31-d25a-45e2-b3ad-248b9a6786bc",
+										"id": "5656a1ce-f8e7-40a7-8316-b1d15808a79e",
 										"exec": [
 											""
 										],
@@ -2376,7 +2398,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8457dfc8-4efe-4983-b6e8-c50871080ae9",
+								"id": "bfd5c634-8021-4d3e-b8b8-56d90aa159b0",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2386,7 +2408,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "45f7bae9-1a13-4f33-b1b9-1cb77f472ffc",
+								"id": "8b5dfbff-41bd-4f7f-ac77-510aec5b5e04",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2412,7 +2434,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8d2467a5-0463-4f9d-8d01-1569f858405f",
+										"id": "1213e621-42b3-49a2-bf21-8d62f9e56a4b",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 2;\r",
@@ -2446,7 +2468,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4dc0cb4f-5b5e-40be-a6c5-df98a8ff2006",
+										"id": "1fad6962-8c72-4582-88f6-da28ee98582c",
 										"exec": [
 											""
 										],
@@ -2501,7 +2523,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "a3277b41-4a93-46b4-9ead-66c137caab53",
+										"id": "9a22d124-017f-415a-bdd6-2f471b81adbd",
 										"exec": [
 											""
 										],
@@ -2511,7 +2533,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2fd5a525-4fc4-4a49-87c3-f6ba0be0f1b9",
+										"id": "b301ef32-0110-46c5-9fc0-e68dde8510da",
 										"exec": [
 											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
 											"",
@@ -2589,7 +2611,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "81ca045e-dd03-45cc-8e4b-19b59dea3a46",
+										"id": "28dd16f1-98a1-4044-96a0-baba58cfc8f5",
 										"exec": [
 											""
 										],
@@ -2599,7 +2621,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "af8ade3b-c953-4ceb-9238-e9f6bd18dc14",
+										"id": "e67d3b9f-2e2a-4862-98ce-73d73237b874",
 										"exec": [
 											""
 										],
@@ -2646,7 +2668,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ee714169-bc01-4f24-8a79-2b5e5f545f48",
+								"id": "90f5e435-38ee-44a5-9164-dbb1dbfcc2c1",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2656,7 +2678,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c84e337-4830-48b5-ba23-b19e0cbb32d8",
+								"id": "5bf33fa2-257c-4fff-9341-df3fe02eb800",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2682,7 +2704,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "245b2c26-6559-4ecd-90a4-7902ee0b413d",
+										"id": "4755c8a8-49dd-4aa0-8f6c-456c56429af8",
 										"exec": [
 											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
 											"var VS = 1;\r",
@@ -2704,7 +2726,7 @@
 											"    });\r",
 											"    postman.setNextRequest(\"end-website-\"+VS);\r",
 											"} else {\r",
-											"pm.test(\"Currently running loop \"+VS_COUNTER+\" for \"+ VS_NAME+\" in Data Center \"+DC_COUNTER+\". Continuing to next section \", function () {\r",
+											"pm.test(\"Currently running loop \"+VS_COUNTER+\" for \"+ DNS_NAME+\" in Data Center \"+DC_COUNTER+\". Continuing to next section \", function () {\r",
 											"        pm.response.to.have.status(200);\r",
 											"    });\r",
 											"    postman.setNextRequest(\"end-website-\"+VS);\r",
@@ -2716,7 +2738,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "d7e86742-0fe3-438c-ab03-837bdc7e1605",
+										"id": "bd6228a6-ac1a-4b23-a2d9-2f0d7180f793",
 										"exec": [
 											""
 										],
@@ -2763,7 +2785,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Website",
+					"name": "Website-10.1.20.6",
 					"item": [
 						{
 							"name": "iis-delete-website",
@@ -2771,7 +2793,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f9b38dc6-1e36-4916-951f-1cb5e36cdb19",
+										"id": "6fd5f3f9-3f54-4cbf-bcfd-9e4cbd796d7d",
 										"exec": [
 											"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");",
 											"",
@@ -2824,7 +2846,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "6817feda-3417-4d16-b8fe-3846f443a7c3",
+										"id": "3678a575-0e55-498f-b56b-66480b69a2eb",
 										"exec": [
 											""
 										],
@@ -2834,7 +2856,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8cf48eb4-66fc-49e4-b0ef-0b5025b20f2b",
+										"id": "e2a0f7ef-8b4b-4d73-9e1a-9202c4e230ed",
 										"exec": [
 											"if (responseCode.code === 200) {",
 											"    pm.test(\"Node 10.1.20.6 deleted\", function () {",
@@ -2849,7 +2871,6 @@
 											"        pm.expect(pm.response.text()).to.include(\"member of pool\");",
 											"    });",
 											"}",
-											"",
 											""
 										],
 										"type": "text/javascript"
@@ -2900,6 +2921,63 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "delete-dns-record",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "705a9d7c-5b2b-411d-be0d-61208cf3195b",
+										"exec": [
+											"   var jsonData = pm.response.json();",
+											"\t",
+											"    if (jsonData.status === \"nonexistent\") {",
+											"        pm.test(\"nonexistent\", function () {",
+											"        pm.expect(jsonData.status).to.eql(\"nonexistent\");",
+											"        });",
+											"    } else {",
+											"",
+											"        ",
+											"        pm.test(\"Success\", function () {",
+											"        pm.expect(jsonData[1].status).to.eql(\"Success\");",
+											"        });",
+											"    }",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS_NAME}}\",\n\"computer_ip\":\"10.1.20.6\" \n}"
+								},
+								"url": {
+									"raw": "http://10.1.20.6:81/dns",
+									"protocol": "http",
+									"host": [
+										"10",
+										"1",
+										"20",
+										"6"
+									],
+									"port": "81",
+									"path": [
+										"dns"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -2914,7 +2992,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f4e97a4e-59df-4a79-ae56-29a4bc5ba51d",
+										"id": "679c8bf5-7b93-4fc6-8c1c-cd231eb4d9a7",
 										"exec": [
 											""
 										],
@@ -2924,7 +3002,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "aff1b522-d55e-4c99-9d26-3db261237093",
+										"id": "06232f1d-02c0-4925-9490-465c1d80b671",
 										"exec": [
 											""
 										],
@@ -2971,7 +3049,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1fcaee9c-7a53-48a4-a9e6-623afa7e4335",
+								"id": "b9221196-deaf-4055-8ff7-5b7b838f34fe",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2981,7 +3059,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "52c7a1c5-6dd1-4a8d-824c-a17ce3583c32",
+								"id": "70f194b3-6e3c-4eb3-9850-67abee74716a",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -3004,7 +3082,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "736fd18c-2307-4c75-9f10-734d3652de2c",
+								"id": "0fb147cb-3082-4310-9c0d-7e06d332dd36",
 								"exec": [
 									"var VIPS = pm.collectionVariables.get(\"VIPS\");",
 									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\")",
@@ -3035,7 +3113,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "178fdf6a-6dd5-4ebf-b22a-ca1556db7bbd",
+								"id": "8722db4e-d5e7-4f59-92f5-82570448b73d",
 								"exec": [
 									""
 								],
@@ -3082,7 +3160,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "54d20411-3022-41e5-97f1-be19bfe89137",
+						"id": "eef6f194-c8fd-47e7-a550-abadce16c9e6",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3092,7 +3170,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0536a65c-80d6-466d-a2e7-c2bcc35363f0",
+						"id": "daaa216e-4674-402b-8a96-4ad63eb3f4e6",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -3111,7 +3189,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d97dfaad-b71d-4dde-a455-d114fd1e8c71",
+								"id": "25a7324f-4eb5-4cc3-8d6c-7609af487a95",
 								"exec": [
 									"var DC2_APM = pm.environment.get(\"DC2_APM\");",
 									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
@@ -3145,7 +3223,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ea99377a-4f02-43d7-9829-01ae37c945c8",
+								"id": "b41c1cc7-ed3a-4504-bbe0-0f95e49d417b",
 								"exec": [
 									""
 								],
@@ -3195,7 +3273,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "6effb474-2360-4b01-8ad3-d993237e0f75",
+				"id": "7ab46ac5-2b91-4ae9-ac57-fc8da728799b",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -3205,7 +3283,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "91f079f4-100d-4126-a47e-41d101d73194",
+				"id": "2182ed2e-5816-4c1d-a002-119f55867ceb",
 				"type": "text/javascript",
 				"exec": [
 					""

@@ -3,10 +3,6 @@ Solution9:  JWT RS using preshared key (BIG-IP AS)
 .. _solution9:
 This solution documents all the necessary pieces required to create a basic JWT Resource Server
 
-Keywords: JWT, OAUTH, OIDC
-
-DC: single, multi
-
 
 URL
 ----
@@ -71,4 +67,11 @@ BIG-IP Components used:
   * Client-side SSL Profile
   * Access Profile
 
-    - Oauth Server
+    - Oauth Provider List
+	- OAuth Provider
+	- JWK
+	
+	
+Keywords: JWT, OAUTH, OIDC
+
+DC: single, multi

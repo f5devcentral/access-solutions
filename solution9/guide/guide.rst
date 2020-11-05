@@ -65,8 +65,7 @@ The key settings define a type of key and its properties
 
 The Policy from a user's perspective
 -------------------------------------
-
-If the user attempts to access https://solution9.acme.com via postman located on the jumpbox they set to the Authorization server first for authentication(https://solution8.acme.com). Once authenticate the Post passes the JWT to https://api.acme.com  and JSON payload is presented.
+When the user attempts to access https://solution9.acme.com via postman located on the jumpbox the client parameters are configured for authentication to (https://as.acme.com). Once authenticated the request is passed with the JWT to https://solution9.acme.com.  
 
 This solution is designed to be integrated with other Authorization Server based solutions.
 
