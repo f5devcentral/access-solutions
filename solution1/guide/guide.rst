@@ -1,5 +1,5 @@
-The Policy
-======================================================
+Solution1 Policy
+==================
 
 
 Policy Walk-Through
@@ -45,11 +45,12 @@ Network Access Resource
 
 The Properties page contains the Caption name **VPN**.  This is the name displayed to a user.
 
-|image4|
+|image5|
 
 
 - The Network Settings tab assigns the **lease pool** of ip addresses that will be used for the VPN.
 - Split Tunneling is configured to permit only the **10.1.20.0/24** subnet range inside the VPN.
+
 |image6|
 
 

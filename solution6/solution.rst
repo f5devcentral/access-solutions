@@ -1,6 +1,6 @@
-Solution: LTM & APM - Client Certificate to Single Domain kerberos SSO
+Solution6: LTM & APM - Client Certificate to Single Domain kerberos SSO
 ======================================================================================
-
+.. _solution6:
 This solution documents all the necessary pieces required to create an APM policy that prompts the user for their certificate then performs kerberos SSO to an application.
 
 Keywords: certificate, ad, active, directory, kerberos, sso
@@ -10,20 +10,20 @@ DC: single, multi
 
 URL
 ----
-https://solution7.acme.com
 
-Objective:
+.. note:: 
+   The link below only works from the UDF blueprint
+
+https://solution6.acme.com
+
+
+
+Policies
 ----------
 
--  Gain an understanding of a certificate based authentication
-
--  Gain an understanding of a variable assignments
-
--  Gain an initial understanding of kerberos SSO
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -36,35 +36,30 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
-
-**4**
 
 Postman Collection(s)
 -----------------------
 
 solution6-create.postman_collection.json_
 
-.. _solution6-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution6/postman/solution6-create.postman_collection.json
+.. _solution6-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution6/postman/solution6-create.postman_collection.json
 
 solution6-delete.postman_collection.json_
 
-.. _solution6-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution6/postman/solution6-delete.postman_collection.json
+.. _solution6-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution6/postman/solution6-delete.postman_collection.json
 
-APM Profile(s)
-----------------
 
-profile_Common_solution6-psp.conf.tar_
+UDF Deployment Models
+-----------------------
 
-.. _profile_Common_solution6-psp.conf.tar: https://github.com/f5devcentral/access-solutions/tree/master/docs/solution6/policies/
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
-BIG-IP Versions Tested
-------------------------
 
-- 15.1
-
-BIG-IP Components used:
+BIG-IP Components used
 --------------------------
 
 - Virtual Server
@@ -73,6 +68,6 @@ BIG-IP Components used:
   * Client-side SSL Profile
   * Access Profile
 
-    - LDAP AAA Object
-    - OCSP Responder AAA Object
+    - AAA LDAP AAA Servers
+    - AAA OCSP Responder Servers
     - Kerberos SSO

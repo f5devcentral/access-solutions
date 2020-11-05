@@ -1,4 +1,4 @@
-The Policy
+Solution 6 Policy
 ======================================================
 
 
@@ -34,13 +34,24 @@ Policy Agent Configuration
 
 |image3|
 
-- The othername field is extracted from the certificate and saved as session variable session.logon.upn
+- The othername field is extracted from the certificate and saved as session variable session.custom.upn
 
 |image4|
 
 .. code-block:: text
 
-  session.custom.ephemeral.upn = set x509e_fields [split [mcget {session.ssl.cert.x509extension}] "\n"]; # For each element in the list: foreach field $x509e_fields { # If the element contains UPN: if { $field contains "othername:UPN" } { ## set start of UPN variable - updated for new CACs set start [expr {[string first "othername:UPN<" $field] +14}] # UPN format is <user@domain> # Return the UPN, by finding the index of opening and closing brackets, then use string range to get everything between. return [string range $field $start [expr { [string first ">" $field $start] - 1 } ] ];??} } # Otherwise return UPN Not Found: return "UPN-NOT-FOUND";
+  	session.custom.upn = set x509e_fields [split [mcget {session.ssl.cert.x509extension}] "\n"];
+	# For each element in the list:
+	foreach field $x509e_fields {
+	# If the element contains UPN:
+	if { $field contains "othername:UPN" } {
+	## set start of UPN variable
+	set start [expr {[string first "othername:UPN<" $field] +14}]
+	# UPN format is <user@domain>
+	# Return the UPN, by finding the index of opening and closing brackets, then use string range to get everything between.
+	return [string range $field $start [expr { [string first ">" $field $start] - 1 } ] ];  } }
+	#Otherwise return UPN Not Found:
+	return "UPN-NOT-FOUND";
 
 - The LDAP query connects to the LDAP server to the dc=f5lab,dc=local DN for a user that contains the userPrincipalName matching the value stored in session.custom.upn
 - The LDAP query requests the sAMAccountName attribute if the user is found
@@ -53,7 +64,7 @@ Policy Agent Configuration
 
 - Two session variables are set
 
-  * session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP Query
+  * session.logon.last.username is populated with the value of the sAMAccountName returned in the LDAP query
   * session.logon.last.domain is populated with a static value for the Active Directory domain F5LAB.LOCAL
 
 |image7|
@@ -62,14 +73,14 @@ Policy Agent Configuration
 Customized LTM Profile settings
 ---------------------------------
 
-- The Client-side SSL profile Client Authentication section has been modificed to support certiciate authentication
+- The Client-side SSL profile Client Authentication section has been modified to support certificate authentication
 
-  * Trusted Certificate Authorities has been set to ca.f5lab.local.crt
+  * Trusted Certificate Authorities has been set to ca.f5lab.local
 
     - The bundle validates client certificates by these issuers
     - The bundle must include all CAs in the chain
 
-  * Advertised Certificate Authorities has ben set to ca.f5lab.local.crt
+  * Advertised Certificate Authorities has ben set to ca.f5lab.local
 
     - The bundle controls which certificates are displayed to a user when they are prompted to select their certificate 
 
@@ -112,7 +123,7 @@ Kerberos SSO Object
 - The Username Source field has been modified from the default to reference the sAMAccountName stored in session.logon.last.username
 - Kerberos Realm has been set to the Active Directory domain (realms should always be in uppercase)
 - The service account used for Kerberos Constrained Delegation (Service Account Names should be in SPN format)
-- SPN Pattern has been hardcoded to HTTP/kerb.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)
+- SPN Pattern has been hardcoded to HTTP/solution6.acme.com (This is only necessary if the SPN doesn't match the FQDN typed in the web browser by the user)
 
 |image14|
 

@@ -1,4 +1,4 @@
-The Policy
+Solution 2 Policy
 ======================================================
 
 
@@ -104,7 +104,7 @@ Portal Access Resources
 |image13|
 
 
-The Policy from a user's perspective
+The policy from a user's perspective
 -------------------------------------
 
 User1

@@ -1,6 +1,6 @@
-Solution: RDP Gateway (AD Auth)
+Solution12: RDP Gateway (AD Auth)
 ======================================================================================
-
+.. _solution12:
 This solution documents all the necessary pieces required to create an APM policy for RDP Gateway functional using AD Authentication
 
 Keywords: rdp, ad, password
@@ -11,20 +11,20 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://solution12.acme.com
 
-Objective:
+
+
+policies
 ----------
-
-- Gain a basic understanding of RDP gateway policies
-
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
-
 
 
 Configuration Comments
@@ -32,28 +32,29 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
 
-**4**
 
 Postman Collection(s)
 ------------------------
 
 solution12-create.postman_collection.json_
 
-.. _solution12-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution12/postman/solution12-create.postman_collection.json
+.. _solution12-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution12/postman/solution12-create.postman_collection.json
 
 solution12-delete.postman_collection.json_
 
-.. _solution12-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution12/postman/solution12-delete.postman_collection.json
+.. _solution12-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution12/postman/solution12-delete.postman_collection.json
 
 
+UDF Deployment Models
+-----------------------
 
-BIG-IP Versions Tested
----------------------------
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
-- 15.1
 
 BIG-IP Components used:
 -------------------------

@@ -1,6 +1,6 @@
-Solution:  OIDC RP/RS (BIG-IP IDP)
+Solution11:  OIDC RP/RS (BIG-IP IDP)
 ===============================================================
-
+.. _solution11:
 This solution documents all the necessary pieces required to create a basic OIDC RP
 
 Keywords: JWT, OAUTH, OIDC, RSA, RS
@@ -11,16 +11,20 @@ DC: single, multi
 URL
 ----
 
+.. note:: 
+   The link below only works from the UDF blueprint
+
 https://solution11.acme.com
 
-Objective:
+UDF Integrated Solutions
+-------------------------
+
+:ref:`Solution 10: OIDC AS/IDP using RSA keys (IDP AUTH) <solution10>`
+
+policies
 ----------
-
--  Gain an basic understanding of BIG-IP as OIDC RP
-
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
@@ -32,28 +36,28 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
-----------------------------
-
-**4**
 
 Postman Collection(s)
 -------------------------
 
 solution11-create.postman_collection.json_
 
-.. _solution11-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution11/postman/solution11-create.postman_collection.json
+.. _solution11-create.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution11/postman/solution11-create.postman_collection.json
 
 solution11-delete.postman_collection.json_
 
-.. _solution11-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/docs/solution11/postman/solution11-delete.postman_collection.json
+.. _solution11-delete.postman_collection.json: https://raw.githubusercontent.com/f5devcentral/access-solutions/master/solution11/postman/solution11-delete.postman_collection.json
 
 
+UDF Deployment Models
+-----------------------
 
-BIG-IP Versions Tested
----------------------------
++----------------+-------------------+
+|BIG-IP Version  | Blueprint Version |
++================+===================+
+|  15.1          |   5               | 
++----------------+-------------------+
 
-- 15.1
 
 BIG-IP Components used:
 --------------------------
