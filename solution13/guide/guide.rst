@@ -120,20 +120,18 @@ JSON Key Configuration
 User's Perspective
 ---------------------
 
-.. note:: 
-
 #. Open the Postman Collections "Solution Request", select "Request User Info", set authorization type to OAuth 2.0, and click "Get New Access Token".
 
    |image022|
+
+.. note::    
+    The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment. If you closed the window, re-run the solution13.
+
+   |image015|
    
 #. Specify the settings required for the authorization server and the client settings. The client Secret and Client ID will be different.
 
    |image016|
-
-    The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment.  
-
-   |image015|
-
 
 #. The Authorization Server logon form opens and credentials entered
 
