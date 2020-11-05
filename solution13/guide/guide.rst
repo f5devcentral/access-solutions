@@ -124,7 +124,7 @@ User's Perspective
 
    |image022|
 
-  .. note::    
+   .. note::    
       The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment. Re-run Solution13 if you closed the window.
 
    |image015|
