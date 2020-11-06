@@ -11,7 +11,7 @@ This soultion requires creation of two access policies, a default allow per-sess
 |image001|
 
 #.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
-		- This will be used to facilate the SAML-SP discovery of the apporaite SAML-IdP. 
+		- This will be used to facilate the SAML-SP discovery of the apporaite SAML-IdP.
 
 |image002|
 
@@ -80,10 +80,10 @@ Profile Settings
 
 Create local SAML Service Provider objects for each of the SAML-IdP to be discovered.
 	- The SAML-SP object or objects settings are will be bound to a unigue IdP URL.
-	
+
 |image013|
 
- 
+
 General settings for sp.acme.com:
 
 |image014|
@@ -136,7 +136,7 @@ Configurate SAML Service Provider External IdP Connectors .
 
 |image026|
 
-External SAML IdP Connector General Settings. 
+External SAML IdP Connector General Settings.
 
 |image027|
 
@@ -191,7 +191,7 @@ User's Perspective
 The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
 |image039|
 
-The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization. 
+The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
 |image040|
 
 Once the user is authenticated they are transparently redirected to the service asset.
@@ -217,28 +217,28 @@ Once the user is authenticated they are transparently redirected to the service 
 .. |image014| image:: media/014.png
 .. |image015| image:: media/015.png
 .. |image016| image:: media/016.png
-.. |image001| image:: media/017.png
-.. |image002| image:: media/018.png
-.. |image003| image:: media/019.png
-.. |image004| image:: media/020.png
-.. |image005| image:: media/021.png
-.. |image006| image:: media/022.png
-.. |image007| image:: media/023.png
-.. |image008| image:: media/024.png
-.. |image009| image:: media/025.png
-.. |image010| image:: media/026.png
-.. |image011| image:: media/027.png
-.. |image012| image:: media/028.png
-.. |image013| image:: media/029.png
-.. |image014| image:: media/030.png
-.. |image015| image:: media/031.png
-.. |image016| image:: media/032.png
-.. |image001| image:: media/033.png
-.. |image002| image:: media/034.png
-.. |image003| image:: media/035.png
-.. |image004| image:: media/036.png
-.. |image005| image:: media/037.png
-.. |image006| image:: media/038.png
-.. |image007| image:: media/039.png
-.. |image008| image:: media/040.png
-.. |image009| image:: media/041.png
+.. |image017| image:: media/017.png
+.. |image018| image:: media/018.png
+.. |image019| image:: media/019.png
+.. |image020| image:: media/020.png
+.. |image021| image:: media/021.png
+.. |image021| image:: media/022.png
+.. |image023| image:: media/023.png
+.. |image024| image:: media/024.png
+.. |image025| image:: media/025.png
+.. |image026| image:: media/026.png
+.. |image027| image:: media/027.png
+.. |image028| image:: media/028.png
+.. |image029| image:: media/029.png
+.. |image030| image:: media/030.png
+.. |image031| image:: media/031.png
+.. |image032| image:: media/032.png
+.. |image033| image:: media/033.png
+.. |image034| image:: media/034.png
+.. |image035| image:: media/035.png
+.. |image036| image:: media/036.png
+.. |image037| image:: media/037.png
+.. |image038| image:: media/038.png
+.. |image039| image:: media/039.png
+.. |image040| image:: media/040.png
+.. |image041| image:: media/041.png
