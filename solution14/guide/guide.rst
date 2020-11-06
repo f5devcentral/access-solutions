@@ -17,222 +17,187 @@ This soultion requires creation of two access policies, a default allow per-sess
 
 This "per-request policy is the scaffolding to build service call to one or more authentication authorization services.
 
+#.  This URL Branching action is used to interrogate the service URL and vector it to the appropriate SAML-SP Subroutine.
+#.  This sp.acme.com success action branch enable the configured SAML-sp subroutine.
+#.	Successful authentication of user credentials against the application pool sp_pool.
+#.	Defines the service adderess location for https://sp.acme.com
+#.	Success branch for sp.acme.com
+#.	SAML SP authentucation failure branch.
+#.  This sp1.acme.com success action branch enable the configured SAML-sp1 subroutine.
+#.	Successful authentication of user credentials against the application pool sp1_pool.
+#.	Defines the service adderess location for https://sp1.acme.com
+#.	Success branch for sp1.acme.com
+#.	SAML SP1 authentucation failure branch.
+
+Policy Agent Configuration
+-------------------------------------
+
+URL Branching action used to interrogate the service URL and vector it to the difference SAML-SP pools.
+
 |image003|
 
-#.  This URL Branching action is used to interrogate the service URL and vector it to the difference SAML-SP pools.
+Add subroutine sp SAML Authentication
 
 |image004|
 
-#.  From the sp.acme.com success action branch configure the sp subroutine 
-		- Authentication to application pools requiring rewrite services
+SAML Auth properties
+
+Select the appropriate server from the drop down menu.
 
 |image005|
 
-#.  Under the properties tab configure the SAML Authentication SP AAA Server URL
+Under the Branch Rule tab ensure Insert Before: is set to Successful.
 
-|image006|
-
-#.  Under the Branch Rule tab ensure Insert Before: is set to Successful.
+Add another subroutine for sp1 SAML Authentication.
 
 |image007|
 
-#.	From the sp1.acme.com success action branch configure the sp1 subroutine 
-		- Authentication to application pools requiring rewrite services.
+Under the Branch Rule tab ensure Insert Before: is set to Successful.
 
-|image008|
-
-#.	Under the Branch Rule tab ensure Insert Before: is set to Successful.
 
 From the sp Success branch add an assignment action for each of the SAML-SP pools. Under the properties add the appropriate SAML-SP pool.
 
 |image009|
 
-#.	Under the properties tab configure the SAML Authentication SP1 AAA Server URL for sp_pool. 
+Under the branch rule tab add a fallback branch to an allow ending.
 
 |image010|
 
-#.	Under the branch rule tab add a fallback branch to an allow ending.
+
+Under the properties tab configure the SAML Authentication SP1 AAA Server URL for sp1_pool.
 
 |image011|
 
-#.	Under the properties tab configure the SAML Authentication SP1 AAA Server URL for sp1_pool. 
+Under the branch rule tab add a fallback branch to an allow ending.
 
 |image012|
 
-#.	Under the branch rule tab add a fallback branch to an allow ending.
 
 
-Federated SAML-SP Settings Configuration
+
+Profile Settings
 ------------------------------------------
 
+Create local SAML Service Provider objects for each of the SAML-IdP to be discovered.
+	- The SAML-SP object or objects settings are will be bound to a unigue IdP URL.
+	
 |image013|
 
-Create local SAML Service Provider objects for each of the SAML-IdP to be discovered. 
-	- The SAML-SP object or objects settings are will be bound to a unigue IdP URL.
+ 
+General settings for sp.acme.com:
 
 |image014|
 
-For sp.acme.com under the general settings define:
-
-#.	The service Name, 
-#.	Entity ID
-#.	Host URL.
+Endpoint setting for sp.acme.com:
 
 |image015|
 
-Under Endpoint Settings set Assertion Consumer Service Binding:
-
-#. POST
+Secirity Settings Authentication and Encryption Settings.
 
 |image016|
 
-Select want signed assertion under Secirity Settings Authentication and Encryption Settings
-
-#.	Want Signed Assertion
+Authentication Context set Comparison Method and Authentication Context Classes.
 
 |image017|
 
-For Authentication Context set Comparison Method and Authentication Context Classes
-
-#.	Exact
-#.	None
+Requested Attributes left at default.
 
 |image018|
 
-Requested Attributes left at default.
+Advance Settings.
 
 |image019|
 
-Select Allow Name-Identifier Creation.
-
-Click OK.
+General settings for sp1.acme.com:
 
 |image020|
 
-For sp1.acme.com under the general settings define:
-
-#.	The service Name, 
-#.	Entity ID
-#.	Host URL.
+Endpoint setting for sp1.acme.com:
 
 |image021|
 
-Under Endpoint Settings set Assertion Consumer Service Binding:
-
-#. POST
+Secirity Settings Authentication and Encryption Settings.
 
 |image022|
 
-Select want signed assertion under Secirity Settings Authentication and Encryption Settings
-
-#.	Want Signed Assertion
+Authentication Context set Comparison Method and Authentication Context Classes.
 
 |image023|
 
-For Authentication Context set Comparison Method and Authentication Context Classes
-
-#.	Exact
-#.	None
+Requested Attributes left at default.
 
 |image024|
 
-Requested Attributes left at default.
+Advance Settings.
 
 |image025|
 
-Select Allow Name-Identifier Creation.
-
-Click OK.
+Configurate SAML Service Provider External IdP Connectors .
 
 |image026|
 
-Create SAML-SP External IdP Connectors
+External SAML IdP Connector General Settings. 
 
 |image027|
 
-Configure the SAML IdP Connector
-
-#.	Name
-#.	Enter IdP entity ID
+External SAML IdP Connector endpoint SSO Service settings.
 
 |image028|
 
-Configure Endpoint Settings
-
-#.	Single Sigh On Service URL
-#.	Single Sign On Service Binding
+External SAML IdP Connector endpoint Artifact Resolution Service settings.
 
 |image029|
 
-Artifact Resolution Service set to default.
+External SAML IdP Connector Assertion Settings.
 
 |image030|
 
-Set Assertion Settings Identity Location to Subject.
+External SAML IdP Connector Security Settings.
 
 |image031|
 
-Security Settings
-
-#.	Select setting for Authentication Request sent by this device to IdP Singning Algorithm
-#.	Set Certificate Settings IdP's Assertion Verification Certificate to specific IdP policy.
+External SAML IdP Connector Single Logout Service settings.
 
 |image032|
 
-Configure Single Logout Service Settings.
-
-#.	Single Logout Request URL
-#.	Single Logout Response URL
+Create External SP Connectors.
 
 |image033|
 
-Create External SP Connectors
+External SAML SP Connector General Settings.
 
 |image034|
 
-Edit the following General Settings 
-
-#.	Service Provider Name
-#.	Service Provider Entity ID
+External SAML SP Connector Endpoing Settings.
 
 |image035|
 
-Edit Endpoint Settings
-
-#.	Add a POST binding location URL and set to default.
-#.	Add a PAOS binding location URL.
+External SAML SP Connector Security Settings.
 
 |image036|
 
-Edit Security Settings
-
-#.	Check the Assertion must be signed.
-#.	Select Signing Algorithm.
+External SAML SP Connector Single Logout Service settings.
 
 |image037|
 
-Select Single Logout Binding from the SLO Service Settings
+External SAML IdP Connector SP Location Settings.
 
 |image038|
-
-Select Service Provider Location: External for the SP Location Settings.
-
 
 
 User's Perspective
 ---------------------
 
+The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
 |image039|
 
-The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
-
+The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization. 
 |image040|
 
-The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization. 
-
+Once the user is authenticated they are transparently redirected to the service asset.
 |image041|
 
-Once the user is authenticated they are transparently redirected to the service asset.
+
 
 
 
