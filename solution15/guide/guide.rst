@@ -39,38 +39,27 @@ This per-request access policy accepts users request and redirect them to  one o
 #.	Upon unsuccessful authentication, the user proceeds down the fallback branch the Fail Terminal.
 #.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
-#.  Upon unsuccessful authentication, the user proceeds down the fallback branch to be  denied access via the Deny Terminal
+#.  Upon unsuccessful authentication, the user proceeds down the fallback branch to be  denied access via the Reject Terminal
 #.  When a user is directed to a SAML Auth agent they are redirected to the IDP(portal.acme.com) selected by the SP Service(sp1.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP1. The SP service consumes the Assertion. The user is directed to the Success Terminal.
 #.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
 #.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
-#.  Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
-#.  The request does not contain a matching URL causing the request to proceed down the fallback branch to the Deny Terminal
+#.  Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Reject Terminal.
+#.  The request does not contain a matching URL causing the request to proceed down the fallback branch to the Reject Terminal
 
-Policy Agent Configuration
+Policies Agent Configuration
 -------------------------------------
 
-Per-Session Agent configuration
---------------------------------------
-
-Two Per-Session Policies iap-psp as a default allow and portal-psp SAML authentication through portal.acme.com-sp.
+Identity Provider Per-Session Agent configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image073|
 
-Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
 
 |image004|
 
-Configure Branch Rule under the iap-prp URL Branch action branch.
 
-|image006|
-
-#.	Add application url sp.acme.com
-#.	Add application url sp1.acme.com
-#.	Insert Before: sp..acme.com
-
-Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp.acme.com-sp.
 
 |image007|
 
@@ -85,6 +74,23 @@ Add Subroutines sp1 with Properties Name SAML Auth and SAML SAML Authentication 
 Add the static pool /Common/solution15-sp1-pool to the sp_pool action branch, and a fallback action to an allow action branch.
 
 |image010|
+
+
+Identity Aware Proxy Per-Request Agent configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Configure Branch Rule under the iap-prp URL Branch action branch.
+
+|image006|
+
+#.	Add application url sp.acme.com
+#.	Add application url sp1.acme.com
+#.	Insert Before: sp..acme.com
+
+Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp.acme.com-sp.
+
+Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
+
 
 
 Profile Settings
