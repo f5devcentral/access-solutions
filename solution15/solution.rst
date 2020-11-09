@@ -1,11 +1,9 @@
-Solution15: Per-Request Policy using Internal Federated and Azure AD SAML IdP
+Solution15: IdP Chaining to AzureAD using Per-Request Policy
 ======================================================================================
 .. _solution15:
-This solution documents all the necessary pieces required to create a Per-Request Access and Federation Policies
+This solution documents all the necessary pieces required to demonstrate IDP Chaining
 
-Keywords: SAML, PRP, Azure
 
-DC: single, multi
 
 
 URL
@@ -68,7 +66,15 @@ Read more about the individual components by clicking on the below links
   * Client-side SSL Profile
   * Server-side SSL Profile
   * Access Profile
+  * Per-Session Policy
   * Per-Request Policy
 
     - SP Service
-	- IdP Connector
+    - IdP Connector
+    - IdP Service
+    - SP Connector
+
+
+Keywords: SAML, PRP, Azure
+
+DC: single, multi

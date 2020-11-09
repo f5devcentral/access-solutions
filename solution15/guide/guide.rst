@@ -2,17 +2,14 @@
 Solution15 Policy
 ======================
 
+This solution requires creation of three access policies. A default allow per-session policy and a per-request policy using two subroutines for Identity Aware Proxy(IAP). The third policy will be used by the the virtual server performing both SAML SP to an external IDP and a SAML IDP to the Identity Aware Proxy Virtual Server.
+
 
 Per-Session Policy Walk-Through
 -------------------------------------
 
-This policy solution document enables configuration of Webtop applications that are uniquely configured to support applications requiring rewrite services vs. those that do not. This solution is set up to use the creation of an internal and external SAML IdP AAA services. Application services are uniquely configured to support per-session, or both per-session and per-request access policy methods.
-
-|image001|
-
-#.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
-
-Authentication of users to access for redirect to Webtop services.
+Per-Session Policy 0AML Identity Provider
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image002|
 
@@ -20,6 +17,19 @@ Authentication of users to access for redirect to Webtop services.
 #.	This Advanced Resource Assign action property defines the portal Webtop and the associated Webtop Links.
 #.	Upon successful execution configured resources authentication of user request is redirected to the Allow Terminal.
 #.	Upon unsuccessful authentication user is redirect to the Deny Terminal.
+
+
+Per-Session Policy - SAML Identity Aware Proxy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+|image001|
+
+#.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
+
+Authentication of users to access for redirect to Webtop services.
+
+
+Per-Request Policy - SAML Identity Aware Proxy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This per-request access policy accepts users request and redirect them to  one of the two SAML Auth Subroutines configured for sp.acme.com or sp1.acme.com.
 
