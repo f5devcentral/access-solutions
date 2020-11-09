@@ -1,11 +1,7 @@
 Solution14: Per-Request Policy using Azure AD SAML IdP
 ======================================================================================
 .. _solution14:
-This solution documents all the necessary pieces required to create a Per-Request Policy
-
-Keywords: SAML, PRP, Azure
-
-DC: single, multi
+This solution documents all the necessary pieces required to create a Per-Request Policy configured for SAML authentication of two applications
 
 
 URL
@@ -14,8 +10,8 @@ URL
 .. note::
    The link below only works from the UDF blueprint
 
-https://sp.amce.com
-https://sp1.amce.com
+- https://sp.acme.com
+- https://sp1.acme.com
 
 
 
@@ -71,4 +67,9 @@ Read more about the individual components by clicking on the below links
   * Per-Request Policy
 
     - SP Service
-	- IdP Connector
+	 - IdP Connector
+
+
+Keywords: SAML, PRP, Azure
+
+DC: single, multi
