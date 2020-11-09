@@ -31,161 +31,157 @@ This "per-request policy is the scaffolding to build service call to one or more
 #.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
 #.	User credentials failed the selected authentication and is directed to the Reject Terminal.
+#.	Users request did not meet either of Subroutine URI requirements.
 
 Policy Agent Configuration
 -------------------------------------
 
-URL Branching action used to interrogate the service URL and vector it to the difference SAML-SP pools.
+URL Branching action used to interrogate the service URL then redirects it to the appropriate SAML Auth Subroutine.
 
 |image003|
 
-Add subroutine sp SAML Authentication
+This SAML Auth subroutine defines the SAML SP server sp.acme.com-sp.
 
 |image004|
 
-SAML Auth properties
-
-Select the appropriate server from the drop down menu.
+Add the Static Pool for sp.acme.com-sp.
 
 |image005|
 
-Under the Branch Rule tab ensure Insert Before: is set to Successful.
+This SAML Auth subroutine defines the SAML SP server sp1.acme.com-sp.
 
-Add another subroutine for sp1 SAML Authentication.
+|image006|
+
+Add the Static Pool for sp.acme.com-sp.
 
 |image007|
 
-Under the Branch Rule tab ensure Insert Before: is set to Successful.
+Profile Settings
+--------------------------------------
 
+All profile settings are left the defaults
 
-From the sp Success branch add an assignment action for each of the SAML-SP pools. Under the properties add the appropriate SAML-SP pool.
+Supporting APM Objects
+--------------------------------------
+
+SP Service
+--------------------------------------
+
+Local SAML Service Provider
+
+|image008|
+
+Sections not specified contain default values.
+
+General Settings for sp.acme.com-sp.
 
 |image009|
 
-Under the branch rule tab add a fallback branch to an allow ending.
+Endpoint  Settings for sp.acme.com-sp.
 
 |image010|
 
-
-Under the properties tab configure the SAML Authentication SP1 AAA Server URL for sp1_pool.
+Security Settings for sp.acme.com-sp.
 
 |image011|
 
-Under the branch rule tab add a fallback branch to an allow ending.
+Authentication Context for sp.acme.com-sp.
 
 |image012|
 
-
-
-
-Profile Settings
-------------------------------------------
-
-Create local SAML Service Provider objects for each of the SAML-IdP to be discovered.
-	- The SAML-SP object or objects settings are will be bound to a unigue IdP URL.
-
-|image013|
-
-
-General settings for sp.acme.com:
+Advance for sp.acme.com-sp.
 
 |image014|
 
-Endpoint setting for sp.acme.com:
+General Settings for sp1.acme.com-sp.
 
 |image015|
 
-Secirity Settings Authentication and Encryption Settings.
+Endpoint  Settings for sp1.acme.com-sp.
 
 |image016|
 
-Authentication Context set Comparison Method and Authentication Context Classes.
+Security Settings for sp1.acme.com-sp.
 
 |image017|
 
-Requested Attributes left at default.
+Authentication Context for sp1.acme.com-sp.
 
 |image018|
 
-Advance Settings.
-
-|image019|
-
-General settings for sp1.acme.com:
+Advance for sp1.acme.com-sp.
 
 |image020|
 
-Endpoint setting for sp1.acme.com:
+External IdP Connectors
+------------------------------------------
 
 |image021|
 
-Secirity Settings Authentication and Encryption Settings.
+General settings for sp.acme.com-sp external connector.
 
 |image022|
 
-Authentication Context set Comparison Method and Authentication Context Classes.
+Endpoint Single Sign On Service for sp.acme.com-sp external connector.
 
 |image023|
 
-Requested Attributes left at default.
+Assertion Settings for sp.acme.com-sp external connector.
 
 |image024|
 
-Advance Settings.
+Security Settings for sp.acme.com-sp external connector.
 
 |image025|
 
-Configurate SAML Service Provider External IdP Connectors .
+Single Logout Service Settings for sp.acme.com-sp external connector.
 
 |image026|
 
-External SAML IdP Connector General Settings.
+General settings for sp1.acme.com-sp external connector.
 
 |image027|
 
-External SAML IdP Connector endpoint SSO Service settings.
+Endpoint Single Sign On Service for sp1.acme.com-sp external connector.
 
 |image028|
 
-External SAML IdP Connector endpoint Artifact Resolution Service settings.
+Assertion Settings for sp1.acme.com-sp external connector.
 
 |image029|
 
-External SAML IdP Connector Assertion Settings.
+Security Settings for sp1.acme.com-sp external connector.
 
 |image030|
 
-External SAML IdP Connector Security Settings.
+Single Logout Service Settings for sp.acme.com-sp external connector.
 
 |image031|
 
-External SAML IdP Connector Single Logout Service settings.
+External Sp Connectors
+---------------------------------------------------
 
 |image032|
 
-Create External SP Connectors.
+General settings for saml_office365 external SP connector.
 
 |image033|
 
-External SAML SP Connector General Settings.
+Endpoint Single Sign On Service for saml_office365 external SP connector.
 
 |image034|
 
-External SAML SP Connector Endpoing Settings.
+Security Settings for saml_office365 external SP connector.
 
 |image035|
 
-External SAML SP Connector Security Settings.
+Single Logout Service Settings for saml_office365 external SP connector.
 
 |image036|
 
-External SAML SP Connector Single Logout Service settings.
+SP Location Settings for saml_office365 external SP connector.
 
 |image037|
-
-External SAML IdP Connector SP Location Settings.
-
-|image038|
 
 
 User's Perspective
@@ -200,7 +196,9 @@ The users authentication assertion directed from the SAML-SP to the appropriate 
 Once the user is authenticated they are transparently redirected to the service asset.
 |image041|
 
+Once the user in authenticated for sp1.acme.com they are allowed access to sp.acme.com without need to reauthenticate.
 
+|image042|
 
 
 .. |image001| image:: media/001.png
