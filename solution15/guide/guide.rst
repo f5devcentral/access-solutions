@@ -66,19 +66,6 @@ Advanced Resource Assign
 |image005|
 
 
-Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
-
-|image008|
-
-Add Subroutines sp1 with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp1.acme.com-sp.
-
-|image009|
-
-Add the static pool /Common/solution15-sp1-pool to the sp_pool action branch, and a fallback action to an allow action branch.
-
-|image010|
-
-
 Identity Aware Proxy Per-Request Agent configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -95,6 +82,22 @@ Configure Branch Rule under the iap-prp URL Branch action branch.
 Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp.acme.com-sp.
 
 Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
+
+
+
+Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
+
+|image008|
+
+Add Subroutines sp1 with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp1.acme.com-sp.
+
+|image009|
+
+Add the static pool /Common/solution15-sp1-pool to the sp_pool action branch, and a fallback action to an allow action branch.
+
+|image010|
+
+
 
 
 
