@@ -8,16 +8,15 @@ This solution requires creation of three access policies. A default allow per-se
 Per-Session Policy Walk-Through
 -------------------------------------
 
-Per-Session Policy 0AML Identity Provider
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Per-Session Policy SAML Identity Provider
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image002|
 
-#.	When a user is directed to this SAML Auth agent they are authebticated and redirected to configured resource as configured by the Advance Resource Assign agent.
-#.	This Advanced Resource Assign action property defines the portal Webtop and the associated Webtop Links.
-#.	Upon successful execution configured resources authentication of user request is redirected to the Allow Terminal.
-#.	Upon unsuccessful authentication user is redirect to the Deny Terminal.
-
+#.	When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(portal.acme.com).
+#.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. he user is assigned resources defined in the Advanced Resource Assign Agent
+#.	After successful Resource Assignment, the user is granted access to the Allow Terminal.
+#.	If SAML Authentication is unsuccessful, the user proceeds down the fallback branch to be denied access via the Deny Terminal
 
 Per-Session Policy - SAML Identity Aware Proxy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -25,7 +24,6 @@ Per-Session Policy - SAML Identity Aware Proxy
 
 #.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
 
-Authentication of users to access for redirect to Webtop services.
 
 
 Per-Request Policy - SAML Identity Aware Proxy
@@ -35,20 +33,20 @@ This per-request access policy accepts users request and redirect them to  one o
 
 |image003|
 
-#.  This URL Branching action is used to interrogate the service URL and vectors it to the appropriate SAML-SP Subroutine.
+#.  This URL Branching agent evaluates the requests host header to determine the appropriate next path.
 #.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. The user is directed to the Success Terminal.
-#.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
-#.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	Upon unsuccessful authentication, the user proceeds down the fallback branch the Fail Terminal.
+#.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
-#.  User credentials failed the selected authentication and is directed to the Reject Terminal.
+#.  Upon unsuccessful authentication, the user proceeds down the fallback branch to be  denied access via the Deny Terminal
 #.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp1.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP1. The SP service consumes the Assertion. The user is directed to the Success Terminal.
 #.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
-#.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
-#.  User credentials failed the selected authentication and is directed to the Reject Terminal.
-#.	Unauthorized access.
+#.  Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
+#.  The request does not contain a matching URL causing the request to proceed down the fallback branch to the Deny Terminal
 
 Policy Agent Configuration
 -------------------------------------
