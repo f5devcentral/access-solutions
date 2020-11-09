@@ -71,25 +71,35 @@ Identity Aware Proxy Per-Request Agent configuration
 
 
 
-
-#.	Add application url sp.acme.com
-#.	Add application url sp1.acme.com
-#.	Insert Before: sp..acme.com
-
-Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp.acme.com-sp.
-
-Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
+URL Branch Rules
 
 |image006|
 
 
-Configure Branch Rule under the iap-prp URL Branch action branch.
+Subroutine: SP - SAML Auth
 
 |image007|
 
-
+Subroutine: SP1 - SAML Auth
 
 |image015|
+
+
+Pool Assign - sp_pool 
+
+|image013|
+
+Pool Assign - sp1_pool
+
+|image016|
+
+
+
+
+
+
+
+
 
 
 Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
@@ -134,7 +144,7 @@ Configure portal.acme.com-sp Authentication Context.
 
 Configure portal.acme.com-sp Requested Attributes.
 
-|image016|
+
 
 Configure portal.acme.com-sp Advance Settings.
 
