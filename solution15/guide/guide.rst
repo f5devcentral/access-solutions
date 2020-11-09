@@ -27,28 +27,33 @@ This "per-request access policy is the scaffolding to build service call to one 
 |image003|
 
 #.  This URL Branching action is used to interrogate the service URL and vectors it to the appropriate SAML-SP Subroutine.
-#.  This sp.acme.com success action branch enable to the configured SAML Auth sp subroutine.
-#.	Action taken upon successful initial authentication of user credentials against https://sp.acme.com.
-#.	Action taken upon unsuccessful completion of authentication routine.
-#.	Authentication is then redirected to the sp.acme.com-sp external IdP connector which is service by the portal virtual server.
-#.	Enables access to the service address URI https://sp.acme.com
-#.  This sp1.acme.com success action branch enable to the configured SAML Auth sp1 subroutine.
-#.	Action taken upon successful initial authentication of user credentials against https://sp1.acme.com.
-#.	Action taken upon unsuccessful completion of authentication routine.
-#.	Authentication is then redirected to the sp1.acme.com-sp external IdP connector which is service by the portal virtual server.
-#.	Enables access to the service address URI https://sp1.acme.com
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp.acme.com).
+#.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. The user is directed to the Success Terminal.
+#.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
+#.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	The user is granted access via the Allow Terminal.
+#.  User credentials failed the selected authentication and is directed to the Reject Terminal.
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp1.acme.com).
+#.	Upon successful authentication at the IDP, the user is redirected back to the SP1. The SP service consumes the Assertion. The user is directed to the Success Terminal.
+#.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
+#.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	The user is granted access via the Allow Terminal.
+#.  User credentials failed the selected authentication and is directed to the Reject Terminal.
 #.	Unauthorized access.
 
 Policy Agent Configuration
 -------------------------------------
 
+Per-Session Agent configuration
+--------------------------------------
+
+Two Per-Session Policies iap-psp as a default allow and portal-psp SAML authentication through portal.acme.com-sp.
+
+|image073|
+
 Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
 
 |image004|
-
-Use Advance Resource Assign action branch to assign configured Webtop and Webtop Links.
-
-|image005|
 
 Configure Branch Rule under the iap-prp URL Branch action branch.
 
@@ -414,3 +419,4 @@ Once the user is authenticated they are transparently redirected to the service 
 .. |image069| image:: media/069.png
 .. |image070| image:: media/070.png
 .. |image072| image:: media/072.png
+.. |image073| image:: media/073.png
