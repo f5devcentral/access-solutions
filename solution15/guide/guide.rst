@@ -3,26 +3,25 @@ Solution15 Policy
 ======================
 
 
-Policy Walk-Through
+Per-Session Policy Walk-Through
 -------------------------------------
 
-This policy solution enables a Webtop applications to be uniquely configured to support applications requiring rewrite services vs. those that do not. This solution is set up to use the creation of an internal and external SAML IdP AAA services. Application services are uniquely configured to support per-session, or both per-session and per-request access policy methods.
+This policy solution document enables configuration of Webtop applications that are uniquely configured to support applications requiring rewrite services vs. those that do not. This solution is set up to use the creation of an internal and external SAML IdP AAA services. Application services are uniquely configured to support per-session, or both per-session and per-request access policy methods.
 
 |image001|
 
 #.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
-		- This will be used to facilitate the SAML-SP discovery of the appropriate SAML-IdP service.
 
-This per-session access policy will be applied to the virtual server supporting per-session access configuration.
+Authentication of users to access for redirect to Webtop services.
 
 |image002|
 
-#.	This SAML Auth action property defines the specific SAML SP service elements used for authentication of user credentials enabling access the portal.
+#.	When a user is directed to this SAML Auth agent they are authebticated and redirected to configured resource as configured by the Advance Resource Assign agent.
 #.	This Advanced Resource Assign action property defines the portal Webtop and the associated Webtop Links.
-#.	Action taken upon successful authentication of user credentials enabling access to the application pool.
-#.	Action taken upon unsuccessful completion of authentication routine.
+#.	Upon successful execution configured resources authentication of user request is redirected to the Allow Terminal.
+#.	Upon unsuccessful authentication user is redirect to the Deny Terminal.
 
-This "per-request access policy is the scaffolding to build service call to one or more SAML AAA services.
+This per-request access policy accepts users request and redirect them to  one of the two SAML Auth Subroutines configured for sp.acme.com or sp1.acme.com.
 
 |image003|
 
