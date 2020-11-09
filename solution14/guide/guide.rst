@@ -64,8 +64,8 @@ All profile settings are left the defaults
 Supporting APM Objects
 --------------------------------------
 
-SP Service
---------------------------------------
+SP Service (sp.acme.com)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Local SAML Service Provider
 
@@ -93,6 +93,10 @@ Advance for sp.acme.com-sp.
 
 |image014|
 
+
+SP Service (sp1.acme.com)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 General Settings for sp1.acme.com-sp.
 
 |image015|
@@ -113,75 +117,54 @@ Advance for sp1.acme.com-sp.
 
 |image020|
 
-External IdP Connectors
-------------------------------------------
+External IdP Connectors (sp-sso)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image021|
 
-General settings for sp.acme.com-sp external connector.
+General settings for sp-sso external connector.
 
 |image022|
 
-Endpoint Single Sign On Service for sp.acme.com-sp external connector.
+Endpoint Single Sign On Service for sp-sso external connector.
 
 |image023|
 
-Assertion Settings for sp.acme.com-sp external connector.
+Assertion Settings for sp-sso external connector.
 
 |image024|
 
-Security Settings for sp.acme.com-sp external connector.
+Security Settings for sp-sso external connector.
 
 |image025|
 
-Single Logout Service Settings for sp.acme.com-sp external connector.
+Single Logout Service Settings for sp-sso external connector.
 
 |image026|
 
-General settings for sp1.acme.com-sp external connector.
+External IdP Connectors (sp1-sso)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General settings for sp1-sso external connector.
 
 |image027|
 
-Endpoint Single Sign On Service for sp1.acme.com-sp external connector.
+Endpoint Single Sign On Service for sp1-sso external connector.
 
 |image028|
 
-Assertion Settings for sp1.acme.com-sp external connector.
+Assertion Settings for sp1-sso external connector.
 
 |image029|
 
-Security Settings for sp1.acme.com-sp external connector.
+Security Settings for sp1-sso external connector.
 
 |image030|
 
-Single Logout Service Settings for sp.acme.com-sp external connector.
+Single Logout Service Settings for sp1-sso external connector.
 
 |image031|
 
-External Sp Connectors
----------------------------------------------------
-
-|image032|
-
-General settings for saml_office365 external SP connector.
-
-|image033|
-
-Endpoint Single Sign On Service for saml_office365 external SP connector.
-
-|image034|
-
-Security Settings for saml_office365 external SP connector.
-
-|image035|
-
-Single Logout Service Settings for saml_office365 external SP connector.
-
-|image036|
-
-SP Location Settings for saml_office365 external SP connector.
-
-|image037|
 
 
 User's Perspective
@@ -225,7 +208,7 @@ Once the user in authenticated for sp1.acme.com they are allowed access to sp.ac
 .. |image019| image:: media/019.png
 .. |image020| image:: media/020.png
 .. |image021| image:: media/021.png
-.. |image021| image:: media/022.png
+.. |image022| image:: media/022.png
 .. |image023| image:: media/023.png
 .. |image024| image:: media/024.png
 .. |image025| image:: media/025.png
