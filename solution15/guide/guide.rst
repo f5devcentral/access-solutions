@@ -69,11 +69,8 @@ Advanced Resource Assign
 Identity Aware Proxy Per-Request Agent configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Configure Branch Rule under the iap-prp URL Branch action branch.
 
-|image007|
 
-|image006|
 
 #.	Add application url sp.acme.com
 #.	Add application url sp1.acme.com
@@ -83,6 +80,16 @@ Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication S
 
 Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
 
+|image006|
+
+
+Configure Branch Rule under the iap-prp URL Branch action branch.
+
+|image007|
+
+
+
+|image015|
 
 
 Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
@@ -123,7 +130,7 @@ Configure portal.acme.com-sp Security Settings.
 
 Configure portal.acme.com-sp Authentication Context.
 
-|image015|
+
 
 Configure portal.acme.com-sp Requested Attributes.
 
