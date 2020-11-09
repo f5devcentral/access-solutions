@@ -34,13 +34,13 @@ This per-request access policy accepts users request and redirect them to  one o
 |image003|
 
 #.  This URL Branching agent evaluates the requests host header to determine the appropriate next path.
-#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp.acme.com).
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP(portal.acme.com) selected by the SP Service(sp.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. The user is directed to the Success Terminal.
 #.	Upon unsuccessful authentication, the user proceeds down the fallback branch the Fail Terminal.
 #.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
 #.	The user is granted access via the Allow Terminal.
 #.  Upon unsuccessful authentication, the user proceeds down the fallback branch to be  denied access via the Deny Terminal
-#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp1.acme.com).
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP(portal.acme.com) selected by the SP Service(sp1.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP1. The SP service consumes the Assertion. The user is directed to the Success Terminal.
 #.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
 #.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traditional LTM load balancing rules still apply.
