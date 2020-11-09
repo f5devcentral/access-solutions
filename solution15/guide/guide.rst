@@ -61,7 +61,9 @@ Portal-psp SAML Auth Agent
 |image004|
 
 
+Advanced Resource Assign
 
+|image005|
 
 
 Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
