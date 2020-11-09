@@ -19,16 +19,18 @@ Per-Request Policy Walk-Through
 This "per-request policy is the scaffolding to build service call to one or more authentication authorization services.
 
 #.  This URL Branching action is used to interrogate the service URL and vector it to the appropriate SAML-SP Subroutine.
-#.  This sp.acme.com success action branch enable the configured SAML-sp subroutine.
-#.	Successful authentication of user credentials against the application pool sp_pool.
-#.	Defines the service adderess location for https://sp.acme.com
-#.	Success branch for sp.acme.com
-#.	SAML SP authentucation failure branch.
-#.  This sp1.acme.com success action branch enable the configured SAML-sp1 subroutine.
-#.	Successful authentication of user credentials against the application pool sp1_pool.
-#.	Defines the service adderess location for https://sp1.acme.com
-#.	Success branch for sp1.acme.com
-#.	SAML SP1 authentucation failure branch.
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp.acme.com).
+#.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. The user is directed to the Success Terminal.
+#.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
+#.	Pool sp.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	The user is granted access via the Allow Terminal.
+#.	User credentials failed the selected authentication and is directed to the Reject Terminal.
+#.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp1.acme.com).
+#.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. The user is directed to the Success Terminal.
+#.	Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Fail Terminal.
+#.	Pool sp1.acme.com-pool is assigned to the request for load balancing. Traitional LTM load balancing rules still apply.
+#.	The user is granted access via the Allow Terminal.
+#.	User credentials failed the selected authentication and is directed to the Reject Terminal.
 
 Policy Agent Configuration
 -------------------------------------
