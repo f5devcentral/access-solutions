@@ -242,3 +242,4 @@ Once the user in authenticated for sp1.acme.com they are allowed access to sp.ac
 .. |image039| image:: media/039.png
 .. |image040| image:: media/040.png
 .. |image041| image:: media/041.png
+.. |image042| image:: media/042.png
