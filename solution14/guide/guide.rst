@@ -197,7 +197,6 @@ Once the user is authenticated they are transparently redirected to the service 
 |image041|
 
 Once the user in authenticated for sp1.acme.com they are allowed access to sp.acme.com without need to reauthenticate.
-
 |image042|
 
 
