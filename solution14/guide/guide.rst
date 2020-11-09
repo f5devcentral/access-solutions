@@ -1,204 +1,340 @@
 
-Solution14 Policy
+Solution15 Policy
 ======================
 
 
 Policy Walk-Through
 -------------------------------------
 
-This soultion requires creation of two access policies, a default allow per-session and a per-request policy augmented by X number of subroutines.
+This policy solution enables a Webtop applications to be uniquely configured to support applications requiring rewrite services vs. those that do not. This solution is set up to use the creation of an internal and external SAML IdP AAA services. Application services are uniquely configured to support per-session, or both per-session and per-request access policy methods.
 
 |image001|
 
 #.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
-		- This will be used to facilate the SAML-SP discovery of the apporaite SAML-IdP.
+		- This will be used to facilitate the SAML-SP discovery of the appropriate SAML-IdP service.
+
+This per-session access policy will be applied to the virtual server supporting per-session access configuration.
 
 |image002|
 
-This "per-request policy is the scaffolding to build service call to one or more authentication authorization services.
+#.	This SAML Auth action property defines the specific SAML SP service elements used for authentication of user credentials enabling access the portal.
+#.	This Advanced Resource Assign action property defines the portal Webtop and the associated Webtop Links.
+#.	Action taken upon successful authentication of user credentials enabling access to the application pool.
+#.	Action taken upon unsuccessful completion of authentication routine.
 
-#.  This URL Branching action is used to interrogate the service URL and vector it to the appropriate SAML-SP Subroutine.
-#.  This sp.acme.com success action branch enable the configured SAML-sp subroutine.
-#.	Successful authentication of user credentials against the application pool sp_pool.
-#.	Defines the service adderess location for https://sp.acme.com
-#.	Success branch for sp.acme.com
-#.	SAML SP authentucation failure branch.
-#.  This sp1.acme.com success action branch enable the configured SAML-sp1 subroutine.
-#.	Successful authentication of user credentials against the application pool sp1_pool.
-#.	Defines the service adderess location for https://sp1.acme.com
-#.	Success branch for sp1.acme.com
-#.	SAML SP1 authentucation failure branch.
+This "per-request access policy is the scaffolding to build service call to one or more SAML AAA services.
+
+|image003|
+
+#.  This URL Branching action is used to interrogate the service URL and vectors it to the appropriate SAML-SP Subroutine.
+#.  This sp.acme.com success action branch enable to the configured SAML Auth sp subroutine.
+#.	Action taken upon successful initial authentication of user credentials against https://sp.acme.com.
+#.	Action taken upon unsuccessful completion of authentication routine.
+#.	Authentication is then redirected to the sp.acme.com-sp external IdP connector which is service by the portal virtual server.
+#.	Enables access to the service address URI https://sp.acme.com
+#.  This sp1.acme.com success action branch enable to the configured SAML Auth sp1 subroutine.
+#.	Action taken upon successful initial authentication of user credentials against https://sp1.acme.com.
+#.	Action taken upon unsuccessful completion of authentication routine.
+#.	Authentication is then redirected to the sp1.acme.com-sp external IdP connector which is service by the portal virtual server.
+#.	Enables access to the service address URI https://sp1.acme.com
+#.	Unauthorized access.
 
 Policy Agent Configuration
 -------------------------------------
 
-URL Branching action used to interrogate the service URL and vector it to the difference SAML-SP pools.
-
-|image003|
-
-Add subroutine sp SAML Authentication
+Assign the the portal.acme.com-sp to the access policy portal-psp with branch rule to successful.
 
 |image004|
 
-SAML Auth properties
-
-Select the appropriate server from the drop down menu.
+Use Advance Resource Assign action branch to assign configured Webtop and Webtop Links.
 
 |image005|
 
-Under the Branch Rule tab ensure Insert Before: is set to Successful.
+Configure Branch Rule under the iap-prp URL Branch action branch.
 
-Add another subroutine for sp1 SAML Authentication.
+|image006|
+
+#.	Add application url sp.acme.com
+#.	Add application url sp1.acme.com
+#.	Insert Before: sp..acme.com
+
+Add Subroutines sp with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp.acme.com-sp.
 
 |image007|
 
-Under the Branch Rule tab ensure Insert Before: is set to Successful.
+Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
 
+|image008|
 
-From the sp Success branch add an assignment action for each of the SAML-SP pools. Under the properties add the appropriate SAML-SP pool.
+Add Subroutines sp1 with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp1.acme.com-sp.
 
 |image009|
 
-Under the branch rule tab add a fallback branch to an allow ending.
+Add the static pool /Common/solution15-sp1-pool to the sp_pool action branch, and a fallback action to an allow action branch.
 
 |image010|
-
-
-Under the properties tab configure the SAML Authentication SP1 AAA Server URL for sp1_pool.
-
-|image011|
-
-Under the branch rule tab add a fallback branch to an allow ending.
-
-|image012|
-
-
 
 
 Profile Settings
 ------------------------------------------
 
-Create local SAML Service Provider objects for each of the SAML-IdP to be discovered.
-	- The SAML-SP object or objects settings are will be bound to a unigue IdP URL.
+Configure the F5 BIG-IP Federation Services supporting SAML Service Providers.
+	- The SAML-SP object or objects settings are will be bound to a unique IdP URL.
 
-|image013|
+|image011|
 
+Configure Local SP Services portal.acme.com-sp beginning with the General Settings.
 
-General settings for sp.acme.com:
+|image012|
 
-|image014|
+Configure portal.acme.com-sp Endpoint Settings.
 
-Endpoint setting for sp.acme.com:
+|image0013|
 
-|image015|
+Configure portal.acme.com-sp Security Settings.
 
-Secirity Settings Authentication and Encryption Settings.
+|image0014|
 
-|image016|
+Configure portal.acme.com-sp Authentication Context.
 
-Authentication Context set Comparison Method and Authentication Context Classes.
+|image0015|
 
-|image017|
+Configure portal.acme.com-sp Requested Attributes.
 
-Requested Attributes left at default.
+|image0016|
+
+Configure portal.acme.com-sp Advance Settings.
+
+|image0017|
+
+Configure Local SP Services sp.acme.com-sp beginning with the General Settings.
 
 |image018|
 
-Advance Settings.
+Configure sp.acme.com-sp Endpoint Settings.
 
-|image019|
+|image0019|
 
-General settings for sp1.acme.com:
+Configure sp.acme.com-sp Security Settings.
 
-|image020|
+|image0020|
 
-Endpoint setting for sp1.acme.com:
+Configure sp.acme.com-sp Authentication Context.
 
-|image021|
+|image0021|
 
-Secirity Settings Authentication and Encryption Settings.
+Configure sp.acme.com-sp Requested Attributes.
 
-|image022|
+|image0022|
 
-Authentication Context set Comparison Method and Authentication Context Classes.
+Configure sp.acme.com-sp Advance Settings.
 
-|image023|
+|image0023|
 
-Requested Attributes left at default.
+Configure Local SP Services sp1.acme.com-sp beginning with the General Settings.
 
 |image024|
 
-Advance Settings.
+Configure sp1.acme.com-sp Endpoint Settings.
 
-|image025|
+|image0025|
 
-Configurate SAML Service Provider External IdP Connectors .
+Configure sp1.acme.com-sp Security Settings.
 
-|image026|
+|image0026|
 
-External SAML IdP Connector General Settings.
+Configure sp1.acme.com-sp Authentication Context.
 
-|image027|
+|image0027|
 
-External SAML IdP Connector endpoint SSO Service settings.
+Configure sp1.acme.com-sp Requested Attributes.
 
-|image028|
+|image0028|
 
-External SAML IdP Connector endpoint Artifact Resolution Service settings.
+Configure sp1.acme.com-sp Advance Settings.
 
-|image029|
+|image0029|
 
-External SAML IdP Connector Assertion Settings.
+Create the SAML SP associated External IdP Connectors.
 
 |image030|
 
-External SAML IdP Connector Security Settings.
+Configure the External IdP Connector for sp.acme.com-sp beginning with the General Settings.
 
 |image031|
 
-External SAML IdP Connector Single Logout Service settings.
+Configure the External IdP Connector for sp.acme.com-sp Endpoint Settings Single Sign On Service.
+	- The Artifact Resolution Service can be left at default.
 
-|image032|
+|image0032|
 
-Create External SP Connectors.
+Select subject from the drop down window within the Assertion Settings.
 
 |image033|
 
-External SAML SP Connector General Settings.
+Configure the appropriate authentication and certificate requirement in the Security Settings.
 
 |image034|
 
-External SAML SP Connector Endpoing Settings.
+Configure SLO Service Settings single logout request and response URLs.
 
 |image035|
 
-External SAML SP Connector Security Settings.
+Configure the External IdP Connector for sp1.acme.com-sp beginning with the General Settings.
 
 |image036|
 
-External SAML SP Connector Single Logout Service settings.
+Configure the External IdP Connector for sp1.acme.com-sp Endpoint Settings Single Sign On Service.
+	- The Artifact Resolution Service can be left at default.
 
-|image037|
+|image0037|
 
-External SAML IdP Connector SP Location Settings.
+Select subject from the drop down window within the Assertion Settings.
 
 |image038|
+
+Configure the appropriate authentication and certificate requirement in the Security Settings.
+
+|image039|
+
+Configure SLO Service Settings single logout request and response URLs.
+
+|image040|
+
+Configure the External IdP Cnnector for portal.acme.com-sp beginning with the General Settings.
+
+|image041|
+
+Configure the External IdP Connector for portal.acme.com-sp Endpoint Settings Single Sign On Service.
+	- The Artifact Resolution Service can be left at default.
+
+|image0042|
+
+Select subject from the drop down window within the Assertion Settings.
+
+|image043|
+
+Configure the appropriate authentication and certificate requirement in the Security Settings.
+
+|image044|
+
+Configure SLO Service Settings single logout request and response URLs.
+
+|image045|
+
+Configure Local IdP Services.
+
+|image046|
+
+Create local IdP service General Settings Service Name, IdP Entity ID, and Hostname settings.
+
+|image047|
+
+Select SAML Profiles.
+
+|image048|
+
+Endpoint Setting set to default.
+
+|image049|
+
+Configure IdP service Assertion Settings values.
+
+|image050|
+
+IdP SAML Attributes set to default.
+
+Select the Security Settings, Signing Key and Signing Certificate.
+
+|image051|
+
+Configure the SAML IdP External SP Connectors.
+
+|image052|
+
+Create and configure a SAML Office365 external connector beginning with the General Settings.
+	- This connector could also be an enterprise AD FS server.
+
+|image053|
+
+Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
+
+|image054|
+
+Configure Security Settings Response sent to SP by this device.
+
+|image055|
+
+SLO Service Settings Single Logout Binding set to POST.
+
+|image056|
+
+Select External for the SP Location Settings.
+
+|image057|
+
+Create and configure a SAML sp.acme.com-sp external connector beginning with the General Settings.
+	- This connector could also be an enterprise AD FS server.
+
+|image058|
+
+Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
+
+|image059|
+
+Configure Security Settings Signed Authentication Request and the Response sent to SP by this device.
+
+|image060|
+
+SLO Service Settings Single Logout Binding Single Logout Service Settings and Binding.
+
+|image061|
+
+Select External for the SP Location Settings.
+
+|image062|
+
+Create and configure a SAML sp1.acme.com-sp external connector beginning with the General Settings.
+	- This connector could also be an enterprise AD FS server.
+
+|image063|
+
+Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
+
+|image064|
+
+Configure Security Settings Signed Authentication Request and the Response sent to SP by this device.
+
+|image065|
+
+SLO Service Settings Single Logout Binding Single Logout Service Settings and Binding.
+
+|image066|
+
+Select External for the SP Location Settings.
+
+|image067|
+
+Configure the Webtop services with a link for the sp.acme.com and sp1.acme.com applications.
+
+|image068|
 
 
 User's Perspective
 ---------------------
 
 The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
-|image039|
+|image069|
 
 The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
-|image040|
+|image070|
+
+The request is then redirected to the appropriate portal.acme.com authorization services.
+
+|image071|
 
 Once the user is authenticated they are transparently redirected to the service asset.
-|image041|
-
-
-
+|image072|
 
 
 .. |image001| image:: media/001.png
@@ -242,3 +378,33 @@ Once the user is authenticated they are transparently redirected to the service 
 .. |image039| image:: media/039.png
 .. |image040| image:: media/040.png
 .. |image041| image:: media/041.png
+.. |image042| image:: media/042.png
+.. |image043| image:: media/043.png
+.. |image044| image:: media/044.png
+.. |image045| image:: media/045.png
+.. |image046| image:: media/046.png
+.. |image047| image:: media/047.png
+.. |image048| image:: media/048.png
+.. |image049| image:: media/049.png
+.. |image050| image:: media/050.png
+.. |image051| image:: media/051.png
+.. |image052| image:: media/052.png
+.. |image053| image:: media/053.png
+.. |image054| image:: media/054.png
+.. |image055| image:: media/055.png
+.. |image056| image:: media/056.png
+.. |image057| image:: media/057.png
+.. |image058| image:: media/058.png
+.. |image059| image:: media/059.png
+.. |image060| image:: media/060.png
+.. |image061| image:: media/061.png
+.. |image062| image:: media/062.png
+.. |image063| image:: media/063.png
+.. |image064| image:: media/064.png
+.. |image065| image:: media/065.png
+.. |image066| image:: media/066.png
+.. |image067| image:: media/067.png
+.. |image068| image:: media/068.png
+.. |image069| image:: media/069.png
+.. |image070| image:: media/070.png
+.. |image072| image:: media/072.png

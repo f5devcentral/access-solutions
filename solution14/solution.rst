@@ -1,4 +1,4 @@
-Solution14: Per-Request Policy using Azur AD SAML IdP
+Solution14: Per-Request Policy using Azure AD SAML IdP
 ======================================================================================
 .. _solution14:
 This solution documents all the necessary pieces required to create a Per-Request Policy
@@ -11,10 +11,10 @@ DC: single, multi
 URL
 ----
 
-.. note:: 
+.. note::
    The link below only works from the UDF blueprint
- 
-https://sp.amce.com 
+
+https://sp.amce.com
 https://sp1.amce.com
 
 
@@ -53,7 +53,7 @@ UDF Deployment Models
 +----------------+-------------------+
 |BIG-IP Version  | Blueprint Version |
 +================+===================+
-|  16.0          |   7               | 
+|  16.0          |   7               |
 +----------------+-------------------+
 
 
