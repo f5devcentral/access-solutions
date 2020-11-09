@@ -188,15 +188,19 @@ User's Perspective
 ---------------------
 
 The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
+
 |image039|
 
 The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
+
 |image040|
 
 Once the user is authenticated they are transparently redirected to the service asset.
+
 |image041|
 
-Once the user in authenticated for sp1.acme.com they are allowed access to sp.acme.com without need to reauthenticate.
+Once the user in authenticated for sp1.acme.com they are allowed access to sp.acme.com without need to re-authenticate.
+
 |image042|
 
 
