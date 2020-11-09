@@ -2,16 +2,18 @@ Solution14 Policy
 ======================
 
 
-Policy Walk-Through
+
+Per-Session Policy Walk-Through
 -------------------------------------
 
-This soultion requires creation of two access policies, a default allow per-session and a per-request policy augmented by X number of subroutines.
+This solution requires creation of two access policies. A default allow per-session policy and a per-request policy using two subroutines.
 
 |image001|
 
 #.  This initial access policy (default allow) is a per-session policy to populate required session variable name and values.
-		- This will be used to facilate the SAML-SP discovery of the apporaite SAML-IdP.
 
+Per-Request Policy Walk-Through
+--------------------------------------
 |image002|
 
 This "per-request policy is the scaffolding to build service call to one or more authentication authorization services.
