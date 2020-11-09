@@ -97,46 +97,66 @@ Pool Assign - sp1_pool
 
 
 
-
-
-
-
-
-Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
-
-|image008|
-
-Add Subroutines sp1 with Properties Name SAML Auth and SAML SAML Authentication SP AAA configured to /Common/sp1.acme.com-sp.
-
-|image009|
-
-Add the static pool /Common/solution15-sp1-pool to the sp_pool action branch, and a fallback action to an allow action branch.
-
-|image010|
-
-
-
-
-
 Profile Settings
 ------------------------------------------
 
-Configure the F5 BIG-IP Federation Services supporting SAML Service Providers.
-	- The SAML-SP object or objects settings are will be bound to a unique IdP URL.
+All profile settings are left the defaults
 
-|image011|
 
-Configure Local SP Services portal.acme.com-sp beginning with the General Settings.
+Supporting APM Objects
+--------------------------
+
+
+Portal.acme.com-sp - SP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General Settings
 
 |image012|
 
-Configure portal.acme.com-sp Endpoint Settings.
+
+Endpoint Settings
 
 |image013|
 
-Configure portal.acme.com-sp Security Settings.
+Security Settings
 
 |image014|
+
+sp.acme.com-sp - SP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+sp1.acme.com-sp - SP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+portal-sso1 - IDP Connector
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+portal-sso2 - IDP Connector
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+portal-sso3 - IDP Connector
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+portal-sso1 - IDP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+sp.acme.com-sp - IDP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+sp1.acme.com-sp - IDP Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
+
+
+
 
 Configure portal.acme.com-sp Authentication Context.
 
