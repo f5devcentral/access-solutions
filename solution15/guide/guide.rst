@@ -51,17 +51,17 @@ This per-request access policy accepts users request and redirect them to  one o
 Policies Agent Configuration
 -------------------------------------
 
+
+
 Identity Provider Per-Session Agent configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-|image073|
-
-
+Portal-psp SAML Auth Agent
 |image004|
 
 
 
-|image007|
+
 
 Under the Properties tag from the drop down select the static pool /Common/solution15-sp-pool to the sp_pool action branch, and a fallback action to an allow action branch.
 
@@ -80,6 +80,8 @@ Identity Aware Proxy Per-Request Agent configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Configure Branch Rule under the iap-prp URL Branch action branch.
+
+|image007|
 
 |image006|
 
