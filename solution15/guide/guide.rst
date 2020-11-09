@@ -89,23 +89,23 @@ Configure Local SP Services portal.acme.com-sp beginning with the General Settin
 
 Configure portal.acme.com-sp Endpoint Settings.
 
-|image0013|
+|image013|
 
 Configure portal.acme.com-sp Security Settings.
 
-|image0014|
+|image014|
 
 Configure portal.acme.com-sp Authentication Context.
 
-|image0015|
+|image015|
 
 Configure portal.acme.com-sp Requested Attributes.
 
-|image0016|
+|image016|
 
 Configure portal.acme.com-sp Advance Settings.
 
-|image0017|
+|image017|
 
 Configure Local SP Services sp.acme.com-sp beginning with the General Settings.
 
@@ -113,23 +113,23 @@ Configure Local SP Services sp.acme.com-sp beginning with the General Settings.
 
 Configure sp.acme.com-sp Endpoint Settings.
 
-|image0019|
+|image019|
 
 Configure sp.acme.com-sp Security Settings.
 
-|image0020|
+|image020|
 
 Configure sp.acme.com-sp Authentication Context.
 
-|image0021|
+|image021|
 
 Configure sp.acme.com-sp Requested Attributes.
 
-|image0022|
+|image022|
 
 Configure sp.acme.com-sp Advance Settings.
 
-|image0023|
+|image023|
 
 Configure Local SP Services sp1.acme.com-sp beginning with the General Settings.
 
@@ -137,23 +137,23 @@ Configure Local SP Services sp1.acme.com-sp beginning with the General Settings.
 
 Configure sp1.acme.com-sp Endpoint Settings.
 
-|image0025|
+|image025|
 
 Configure sp1.acme.com-sp Security Settings.
 
-|image0026|
+|image026|
 
 Configure sp1.acme.com-sp Authentication Context.
 
-|image0027|
+|image027|
 
 Configure sp1.acme.com-sp Requested Attributes.
 
-|image0028|
+|image028|
 
 Configure sp1.acme.com-sp Advance Settings.
 
-|image0029|
+|image029|
 
 Create the SAML SP associated External IdP Connectors.
 
@@ -166,7 +166,7 @@ Configure the External IdP Connector for sp.acme.com-sp beginning with the Gener
 Configure the External IdP Connector for sp.acme.com-sp Endpoint Settings Single Sign On Service.
 	- The Artifact Resolution Service can be left at default.
 
-|image0032|
+|image032|
 
 Select subject from the drop down window within the Assertion Settings.
 
@@ -187,7 +187,7 @@ Configure the External IdP Connector for sp1.acme.com-sp beginning with the Gene
 Configure the External IdP Connector for sp1.acme.com-sp Endpoint Settings Single Sign On Service.
 	- The Artifact Resolution Service can be left at default.
 
-|image0037|
+|image037|
 
 Select subject from the drop down window within the Assertion Settings.
 
@@ -208,7 +208,7 @@ Configure the External IdP Cnnector for portal.acme.com-sp beginning with the Ge
 Configure the External IdP Connector for portal.acme.com-sp Endpoint Settings Single Sign On Service.
 	- The Artifact Resolution Service can be left at default.
 
-|image0042|
+|image042|
 
 Select subject from the drop down window within the Assertion Settings.
 
