@@ -290,22 +290,29 @@ SP Location Settings
 User's Perspective
 ---------------------
 
-The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
-|image043|
 
-The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
+Accessing an Application Directly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The user attempting to access https://sp.acme.com or https://sp1.acme.com is directed to portal.acme.com. Then, seamlessly redirected again to AzureAD for authentication.
+
+
+ - Username: user1@f5access.onmicrosoft.com
+ - Password: F5twister$
+
 |image044|
 
-The request is then redirected to the appropriate portal.acme.com authorization services.
 
-|image045|
+Once the user is authenticated they are transparently redirected back to the resource.  In this case, it is sp.acme.com
 
-Once the user is authenticated they are transparently redirected to the service asset.
 |image046|
 
-Once the user in authenticated for sp.acme.com they are allowed access to sp1.acme.com without need to re-authenticate.
+Now that the user is authenticated at the IDP, when the user attempts access sp1.acme.com they are not prompted for further logon information.
 
 |image047|
+
+
+Accessing an Application via Portal
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
