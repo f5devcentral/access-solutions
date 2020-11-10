@@ -82,16 +82,16 @@ Subroutine: SP - SAML Auth
 
 Subroutine: SP1 - SAML Auth
 
-|image015|
+|image008|
 
 
-Pool Assign - sp_pool 
+Pool Assign - sp_pool
 
-|image013|
+|image009|
 
 Pool Assign - sp1_pool
 
-|image016|
+|image010|
 
 
 
@@ -106,303 +106,206 @@ All profile settings are left the defaults
 Supporting APM Objects
 --------------------------
 
+Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
 
 Portal.acme.com-sp - SP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
 
-|image012|
+|image011|
 
 
 Endpoint Settings
 
-|image013|
+|image012|
 
 Security Settings
 
-|image014|
+|image013|
 
 sp.acme.com-sp - SP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+General Settings
+
+|image014|
+
+Endpoint Settings
+
+|image015|
+
+Security Settings
+
+|image016|
+
+
+
 sp1.acme.com-sp - SP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+General Settings
+
+|image017|
+
+Endpoint Settings
+
+|image018|
+
+Security Settings
+
+|image019|
 
 portal-sso1 - IDP Connector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+General Settings
+
+|image020|
+
+SAML Profiles
+
+|image021|
+
+Endpoint Settings
+
+|image022|
+
+Assertion Settings
+
+|image023|
+
+Security Settings
+
+|image024|
+
 portal-sso2 - IDP Connector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General Settings
+
+|image025|
+
+Endpoint Settings
+	- Single Sign On Service
+
+|image026|
+
+Security Settings
+
+|image027|
+
+Single Logout Service Settings
+
+|image028|
 
 
 portal-sso3 - IDP Connector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+General Settings
+
+|image025|
+
+Endpoint Settings
+	- Single Sign On Service
+
+|image026|
+
+Security Settings
+
+|image027|
+
+Single Logout Service Settings
+
+|image028|
 
 portal-sso1 - IDP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+General Settings
+
+|image029|
+
+Endpoint Settings
+	- Single Sign On Service
+
+|image030|
+
+Security Settings
+
+|image031|
+
+Single Logout Service Settings
+
+|image032|
+
 sp.acme.com-sp - IDP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+General Settings
+
+|image033|
+
+Endpoint Settings
+
+|image034|
+
+Security Settings
+
+|image035|
+
+Single Logout Service Settings
+
+|image036|
+
+SP Location Settings
+
+|image037|
 
 sp1.acme.com-sp - IDP Service
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-
-
-
-
-
-
-
-Configure portal.acme.com-sp Authentication Context.
-
-
-
-Configure portal.acme.com-sp Requested Attributes.
-
-
-
-Configure portal.acme.com-sp Advance Settings.
-
-|image017|
-
-Configure Local SP Services sp.acme.com-sp beginning with the General Settings.
-
-|image018|
-
-Configure sp.acme.com-sp Endpoint Settings.
-
-|image019|
-
-Configure sp.acme.com-sp Security Settings.
-
-|image020|
-
-Configure sp.acme.com-sp Authentication Context.
-
-|image021|
-
-Configure sp.acme.com-sp Requested Attributes.
-
-|image022|
-
-Configure sp.acme.com-sp Advance Settings.
-
-|image023|
-
-Configure Local SP Services sp1.acme.com-sp beginning with the General Settings.
-
-|image024|
-
-Configure sp1.acme.com-sp Endpoint Settings.
-
-|image025|
-
-Configure sp1.acme.com-sp Security Settings.
-
-|image026|
-
-Configure sp1.acme.com-sp Authentication Context.
-
-|image027|
-
-Configure sp1.acme.com-sp Requested Attributes.
-
-|image028|
-
-Configure sp1.acme.com-sp Advance Settings.
-
-|image029|
-
-Create the SAML SP associated External IdP Connectors.
-
-|image030|
-
-Configure the External IdP Connector for sp.acme.com-sp beginning with the General Settings.
-
-|image031|
-
-Configure the External IdP Connector for sp.acme.com-sp Endpoint Settings Single Sign On Service.
-	- The Artifact Resolution Service can be left at default.
-
-|image032|
-
-Select subject from the drop down window within the Assertion Settings.
-
-|image033|
-
-Configure the appropriate authentication and certificate requirement in the Security Settings.
-
-|image034|
-
-Configure SLO Service Settings single logout request and response URLs.
-
-|image035|
-
-Configure the External IdP Connector for sp1.acme.com-sp beginning with the General Settings.
-
-|image036|
-
-Configure the External IdP Connector for sp1.acme.com-sp Endpoint Settings Single Sign On Service.
-	- The Artifact Resolution Service can be left at default.
-
-|image037|
-
-Select subject from the drop down window within the Assertion Settings.
+General Settings
 
 |image038|
 
-Configure the appropriate authentication and certificate requirement in the Security Settings.
+Endpoint Settings
 
 |image039|
 
-Configure SLO Service Settings single logout request and response URLs.
+Security Settings
 
 |image040|
 
-Configure the External IdP Cnnector for portal.acme.com-sp beginning with the General Settings.
+Single Logout Service Settings
 
 |image041|
 
-Configure the External IdP Connector for portal.acme.com-sp Endpoint Settings Single Sign On Service.
-	- The Artifact Resolution Service can be left at default.
+SP Location Settings
 
 |image042|
-
-Select subject from the drop down window within the Assertion Settings.
-
-|image043|
-
-Configure the appropriate authentication and certificate requirement in the Security Settings.
-
-|image044|
-
-Configure SLO Service Settings single logout request and response URLs.
-
-|image045|
-
-Configure Local IdP Services.
-
-|image046|
-
-Create local IdP service General Settings Service Name, IdP Entity ID, and Hostname settings.
-
-|image047|
-
-Select SAML Profiles.
-
-|image048|
-
-Endpoint Setting set to default.
-
-|image049|
-
-Configure IdP service Assertion Settings values.
-
-|image050|
-
-IdP SAML Attributes set to default.
-
-Select the Security Settings, Signing Key and Signing Certificate.
-
-|image051|
-
-Configure the SAML IdP External SP Connectors.
-
-|image052|
-
-External Connector for SAML Office365
-----------------------------------------------
-
-Configure a SAML Office365 external connector beginning with the General Settings.
-	- This connector could also be an enterprise AD FS server.
-
-|image053|
-
-Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
-
-|image054|
-
-Configure Security Settings Response sent to SP by this device.
-
-|image055|
-
-SLO Service Settings Single Logout Binding set to POST.
-
-|image056|
-
-Select External for the SP Location Settings.
-
-|image057|
-
-Create and configure a SAML sp.acme.com-sp external connector beginning with the General Settings.
-	- This connector could also be an enterprise AD FS server.
-
-|image058|
-
-Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
-
-|image059|
-
-Configure Security Settings Signed Authentication Request and the Response sent to SP by this device.
-
-|image060|
-
-SLO Service Settings Single Logout Binding Single Logout Service Settings and Binding.
-
-|image061|
-
-Select External for the SP Location Settings.
-
-|image062|
-
-Create and configure a SAML sp1.acme.com-sp external connector beginning with the General Settings.
-	- This connector could also be an enterprise AD FS server.
-
-|image063|
-
-Configure the Endpoint Settings Assertion Consumer Services by adding the appropriate URL.
-
-|image064|
-
-Configure Security Settings Signed Authentication Request and the Response sent to SP by this device.
-
-|image065|
-
-SLO Service Settings Single Logout Binding Single Logout Service Settings and Binding.
-
-|image066|
-
-Select External for the SP Location Settings.
-
-|image067|
-
-Configure the Webtop services with a link for the sp.acme.com and sp1.acme.com applications.
-
-|image068|
 
 
 User's Perspective
 ---------------------
 
 The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
-|image069|
+|image043|
 
 The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
-|image070|
+|image044|
 
 The request is then redirected to the appropriate portal.acme.com authorization services.
 
-|image071|
+|image045|
 
 Once the user is authenticated they are transparently redirected to the service asset.
-|image072|
+|image046|
 
+Once the user in authenticated for sp.acme.com they are allowed access to sp1.acme.com without need to re-authenticate.
 
+|image047|
 
 
 
@@ -453,28 +356,3 @@ Once the user is authenticated they are transparently redirected to the service 
 .. |image045| image:: media/045.png
 .. |image046| image:: media/046.png
 .. |image047| image:: media/047.png
-.. |image048| image:: media/048.png
-.. |image049| image:: media/049.png
-.. |image050| image:: media/050.png
-.. |image051| image:: media/051.png
-.. |image052| image:: media/052.png
-.. |image053| image:: media/053.png
-.. |image054| image:: media/054.png
-.. |image055| image:: media/055.png
-.. |image056| image:: media/056.png
-.. |image057| image:: media/057.png
-.. |image058| image:: media/058.png
-.. |image059| image:: media/059.png
-.. |image060| image:: media/060.png
-.. |image061| image:: media/061.png
-.. |image062| image:: media/062.png
-.. |image063| image:: media/063.png
-.. |image064| image:: media/064.png
-.. |image065| image:: media/065.png
-.. |image066| image:: media/066.png
-.. |image067| image:: media/067.png
-.. |image068| image:: media/068.png
-.. |image069| image:: media/069.png
-.. |image070| image:: media/070.png
-.. |image072| image:: media/072.png
-.. |image073| image:: media/073.png
