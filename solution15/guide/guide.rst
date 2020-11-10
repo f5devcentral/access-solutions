@@ -108,6 +108,20 @@ Supporting APM Objects
 
 Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
 
+
+
++-------------------------------------------+
+|        SP Service Binding Table           |
++=======================+===================+
+|      SP Service       |    IDP Connector  |
++-----------------------+-------------------+
+|  portal.acme.com-sp   |   portal-sso3     |
++-----------------------+-------------------+
+|  sp.acme.com-sp       |   portal-sso1     |
++-----------------------+-------------------+
+|  sp1.acme.com-sp      |   portal-sso2     |
++-----------------------+-------------------+
+
 SP Service - Portal.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -158,26 +172,27 @@ Security Settings
 
 IDP Connector - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 General Settings
 
-|image020|
-
-SAML Profiles
-
-|image021|
+|image048|
 
 Endpoint Settings
+	- Single Sign On Service
 
-|image022|
+|image049|
 
 Assertion Settings
 
-|image023|
+|image050|
 
 Security Settings
 
-|image024|
+|image051|
+
+Single Logout Service Settings
+
+|image052|
+
 
 IDP Connector - portal-sso2 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -205,26 +220,6 @@ IDP Connector - portal-sso3
 
 General Settings
 
-|image025|
-
-Endpoint Settings
-	- Single Sign On Service
-
-|image026|
-
-Security Settings
-
-|image027|
-
-Single Logout Service Settings
-
-|image028|
-
-IDP Service - portal-sso1 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-General Settings
-
 |image029|
 
 Endpoint Settings
@@ -240,7 +235,47 @@ Single Logout Service Settings
 
 |image032|
 
-IDP Service - sp.acme.com-sp 
+
+
+
+
+
+IDP Service - portal-sso1 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-------------------------------------------+
+|       IdP Service Binding Table           |
++=======================+===================+
+|    IdP Service        |    SP Connector   |
++-----------------------+-------------------+
+|  portal-sso1          |   sp.acme.com-sp  |
++-----------------------+-------------------+
+|  portal-sso1          |   sp1.acme.com-sp |
++-----------------------+-------------------+
+
+
+
+General Settings
+
+|image020|
+
+SAML Profiles
+
+|image021|
+
+Endpoint Settings
+
+|image022|
+
+Assertion Settings
+
+|image023|
+
+Security Settings
+
+|image024|
+
+SP Connector - sp.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -248,6 +283,8 @@ General Settings
 |image033|
 
 Endpoint Settings
+
+- Location URL : https://sp.acme.com/saml/sp/profile/post/acs
 
 |image034|
 
@@ -263,7 +300,7 @@ SP Location Settings
 
 |image037|
 
-IDP Service - sp1.acme.com-sp 
+SP Connector - sp1.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -271,6 +308,8 @@ General Settings
 |image038|
 
 Endpoint Settings
+
+- Location URL : https://sp1.acme.com/saml/sp/profile/post/acs
 
 |image039|
 
@@ -371,3 +410,8 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image045| image:: media/045.png
 .. |image046| image:: media/046.png
 .. |image047| image:: media/047.png
+.. |image048| image:: media/048.png
+.. |image049| image:: media/049.png
+.. |image050| image:: media/050.png
+.. |image051| image:: media/051.png
+.. |image052| image:: media/052.png
