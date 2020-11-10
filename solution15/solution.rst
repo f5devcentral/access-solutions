@@ -10,8 +10,9 @@ URL
 .. note::
    The link below only works from the UDF blueprint
 
-- https://sp.amce.com
-- https://sp1.amce.com
+- https://portal.acme.com
+- https://sp.acme.com
+- https://sp1.acme.com
 
 
 
