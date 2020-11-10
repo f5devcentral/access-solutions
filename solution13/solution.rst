@@ -1,4 +1,4 @@
-Solution: API Protection (RSA Keys)
+Solution13: API Protection (RSA Keys)
 ======================================================================================
 .. solution13:
 This solution documents all the necessary pieces required to create an OAuth Protected API protection profile
@@ -33,10 +33,6 @@ Configuration Comments
 |
 |
 
-Access Blueprint Revision
----------------------------
-
-**5**
 
 Postman Collection(s)
 ------------------------

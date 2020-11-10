@@ -287,3 +287,4 @@ User's Perspective
 .. |image023| image:: media/023.png
 .. |image024| image:: media/024.png
 .. |image025| image:: media/025.png
+.. |image026| image:: media/026.png

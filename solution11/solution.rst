@@ -1,11 +1,7 @@
-Solution11:  OIDC RP/RS (BIG-IP IDP)
+Solution11:  OIDC RP/RS using Public Keys (BIG-IP IDP)
 ===============================================================
 .. _solution11:
 This solution documents all the necessary pieces required to create a basic OIDC RP
-
-Keywords: JWT, OAUTH, OIDC, RSA, RS
-
-DC: single, multi
 
 
 URL
@@ -69,3 +65,8 @@ BIG-IP Components used:
   * Access Profile
 
     - OAuth Server
+
+
+Keywords: JWT, OAUTH, OIDC, RSA, RS
+
+DC: single, multi
