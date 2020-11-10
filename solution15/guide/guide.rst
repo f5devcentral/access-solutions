@@ -158,26 +158,26 @@ Security Settings
 
 IDP Connector - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 General Settings
 
-|image020|
-
-SAML Profiles
-
-|image021|
+|image025|
 
 Endpoint Settings
+	- Single Sign On Service
 
-|image022|
-
-Assertion Settings
-
-|image023|
+|image026|
 
 Security Settings
 
-|image024|
+|image027|
+
+Single Logout Service Settings
+
+|image028|
+
+
+
+
 
 IDP Connector - portal-sso2 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -225,20 +225,23 @@ IDP Service - portal-sso1
 
 General Settings
 
-|image029|
+|image020|
+
+SAML Profiles
+
+|image021|
 
 Endpoint Settings
-	- Single Sign On Service
 
-|image030|
+|image022|
+
+Assertion Settings
+
+|image023|
 
 Security Settings
 
-|image031|
-
-Single Logout Service Settings
-
-|image032|
+|image024|
 
 SP Connector - sp.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
