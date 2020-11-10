@@ -239,9 +239,11 @@ Single Logout Service Settings
 IDP Service - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-+-----------------------+-------------------+
-|IdP Service            | SP Connector      |
++-------------------------------------------+
+|       IdP Service Binding Table           |
 +=======================+===================+
+|IdP Service            | SP Connector      |
++-----------------------+-------------------+
 |  portal-sso1          |   sp.acme.com-sp  |
 +-----------------------+-------------------+
 |  portal-sso1          |   sp1.acme.com-sp |
