@@ -240,7 +240,7 @@ Single Logout Service Settings
 
 |image032|
 
-IDP Service - sp.acme.com-sp 
+SP Connector - sp.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -248,6 +248,8 @@ General Settings
 |image033|
 
 Endpoint Settings
+
+- Location URL : https://sp.acme.com/saml/sp/profile/post/acs
 
 |image034|
 
@@ -263,7 +265,7 @@ SP Location Settings
 
 |image037|
 
-IDP Service - sp1.acme.com-sp 
+SP Connector - sp1.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -271,6 +273,8 @@ General Settings
 |image038|
 
 Endpoint Settings
+
+- Location URL : https://sp1.acme.com/saml/sp/profile/post/acs
 
 |image039|
 
