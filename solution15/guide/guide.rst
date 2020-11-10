@@ -160,20 +160,24 @@ IDP Connector - portal-sso1
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 General Settings
 
-|image025|
+|image048|
 
 Endpoint Settings
 	- Single Sign On Service
 
-|image026|
+|image049|
+
+Assertion Settings
+
+|image050|
 
 Security Settings
 
-|image027|
+|image051|
 
 Single Logout Service Settings
 
-|image028|
+|image052|
 
 
 
@@ -378,3 +382,8 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image045| image:: media/045.png
 .. |image046| image:: media/046.png
 .. |image047| image:: media/047.png
+.. |image048| image:: media/048.png
+.. |image049| image:: media/049.png
+.. |image050| image:: media/050.png
+.. |image051| image:: media/051.png
+.. |image052| image:: media/052.png
