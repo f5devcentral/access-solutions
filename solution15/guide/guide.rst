@@ -108,6 +108,16 @@ Supporting APM Objects
 
 Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
 
++-----------------------+-------------------+
+|SP Service             | IDP Connector     |
++=======================+===================+
+|  portal.acme.com-sp   |   portal-sso3     |
++-----------------------+-------------------+
+|  sp.acme.com-sp       |   portal-sso1     |
++-----------------------+-------------------+
+|  sp1.acme.com-sp      |   portal-sso2     |
++-----------------------+-------------------+
+
 SP Service - Portal.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -221,8 +231,23 @@ Single Logout Service Settings
 
 |image032|
 
+
+
+
+
+
 IDP Service - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-----------------------+-------------------+
+|IdP Service            | SP Connector      |
++=======================+===================+
+|  portal-sso1          |   sp.acme.com-sp  |
++-----------------------+-------------------+
+|  portal-sso1          |   sp1.acme.com-sp |
++-----------------------+-------------------+
+
+
 
 General Settings
 
