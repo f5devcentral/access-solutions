@@ -4,16 +4,14 @@ Solution15: IdP Chaining to AzureAD using Per-Request Policy
 This solution documents all the necessary pieces required to demonstrate IDP Chaining
 
 
-
-
 URL
 ----
 
 .. note::
    The link below only works from the UDF blueprint
 
-https://sp.amce.com
-https://sp1.amce.com
+- https://sp.amce.com
+- https://sp1.amce.com
 
 
 

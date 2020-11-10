@@ -8,8 +8,8 @@ This solution requires creation of three access policies. A default allow per-se
 Per-Session Policy Walk-Through
 -------------------------------------
 
-Per-Session Policy SAML Identity Provider
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Per-Session Policy - SAML Identity Provider
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image002|
 
@@ -53,7 +53,7 @@ Policies Agent Configuration
 
 
 
-Identity Provider Per-Session Agent configuration
+Per-Session Agent configuration -Identity Provider
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Portal-psp SAML Auth Agent
@@ -66,8 +66,8 @@ Advanced Resource Assign
 |image005|
 
 
-Identity Aware Proxy Per-Request Agent configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Per-Request Agent configuration - Identity Aware Proxy 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
@@ -108,7 +108,7 @@ Supporting APM Objects
 
 Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
 
-Portal.acme.com-sp - SP Service
+SP Service - Portal.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -124,7 +124,7 @@ Security Settings
 
 |image013|
 
-sp.acme.com-sp - SP Service
+SP Service - sp.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -141,7 +141,7 @@ Security Settings
 
 
 
-sp1.acme.com-sp - SP Service
+SP Service - sp1.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -156,7 +156,7 @@ Security Settings
 
 |image019|
 
-portal-sso1 - IDP Connector
+IDP Connector - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -179,7 +179,7 @@ Security Settings
 
 |image024|
 
-portal-sso2 - IDP Connector
+IDP Connector - portal-sso2 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -200,7 +200,7 @@ Single Logout Service Settings
 |image028|
 
 
-portal-sso3 - IDP Connector
+IDP Connector - portal-sso3 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -220,7 +220,7 @@ Single Logout Service Settings
 
 |image028|
 
-portal-sso1 - IDP Service
+IDP Service - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -240,7 +240,7 @@ Single Logout Service Settings
 
 |image032|
 
-sp.acme.com-sp - IDP Service
+IDP Service - sp.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -263,7 +263,7 @@ SP Location Settings
 
 |image037|
 
-sp1.acme.com-sp - IDP Service
+IDP Service - sp1.acme.com-sp 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
