@@ -107,7 +107,7 @@ OAuth Provider
 
 
 JSON Token Configuration
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image013|
 

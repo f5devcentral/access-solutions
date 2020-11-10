@@ -65,9 +65,8 @@ Read more about the individual components by clicking on the below links
   * Server-side SSL Profile
   * Access Profile
   * Per-Request Policy
-
-    - SP Service
-	 - IdP Connector
+   - SP Service
+	- IdP Connector
 
 
 Keywords: SAML, PRP, Azure

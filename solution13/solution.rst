@@ -1,4 +1,4 @@
-Solution13: API Protection (RSA Keys)
+Solution13: API Protection using Public Keys (BIG-IP AS)
 ======================================================================================
 .. solution13:
 This solution documents all the necessary pieces required to create an OAuth Protected API protection profile

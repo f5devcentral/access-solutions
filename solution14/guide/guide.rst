@@ -14,9 +14,12 @@ This solution requires creation of two access policies. A default allow per-sess
 
 Per-Request Policy Walk-Through
 --------------------------------------
+
+This per-request access policy accepts users request and redirect them to one of the two SAML Auth Subroutines configured for sp.acme.com or sp1.acme.com.
+
 |image002|
 
-This "per-request policy is the scaffolding to build service call to one or more authentication authorization services.
+Per-Request Policies are an extension of a per-session policy by enabling fine-grain control over a users session on request by request basis.
 
 #.  This URL Branching action is used to interrogate the service URL and vector it to the appropriate SAML-SP Subroutine.
 #.  When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(sp.acme.com).
@@ -36,23 +39,23 @@ This "per-request policy is the scaffolding to build service call to one or more
 Policy Agent Configuration
 -------------------------------------
 
-URL Branching action used to interrogate the service URL then redirects it to the appropriate SAML Auth Subroutine.
+URL Branch Rules
 
 |image003|
 
-This SAML Auth subroutine defines the SAML SP server sp.acme.com-sp.
+SAML Auth Agent - SP
 
 |image004|
 
-Add the Static Pool for sp.acme.com-sp.
+Pool Assign - sp_pool
 
 |image005|
 
-This SAML Auth subroutine defines the SAML SP server sp1.acme.com-sp.
+SAML Auth Agent - SP1
 
 |image006|
 
-Add the Static Pool for sp.acme.com-sp.
+Pool Assign - sp1_pool
 
 |image007|
 
@@ -73,23 +76,23 @@ Local SAML Service Provider
 
 Sections not specified contain default values.
 
-General Settings for sp.acme.com-sp.
+General Settings 
 
 |image009|
 
-Endpoint  Settings for sp.acme.com-sp.
+Endpoint Settings 
 
 |image010|
 
-Security Settings for sp.acme.com-sp.
+Security Settings 
 
 |image011|
 
-Authentication Context for sp.acme.com-sp.
+Authentication Context 
 
 |image012|
 
-Advance for sp.acme.com-sp.
+Advance f
 
 |image014|
 
@@ -97,23 +100,23 @@ Advance for sp.acme.com-sp.
 SP Service (sp1.acme.com)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-General Settings for sp1.acme.com-sp.
+General Settings 
 
 |image015|
 
-Endpoint  Settings for sp1.acme.com-sp.
+Endpoint  Settings 
 
 |image016|
 
-Security Settings for sp1.acme.com-sp.
+Security Settings f
 
 |image017|
 
-Authentication Context for sp1.acme.com-sp.
+Authentication Context 
 
 |image018|
 
-Advance for sp1.acme.com-sp.
+Advance 
 
 |image020|
 
@@ -122,46 +125,45 @@ External IdP Connectors (sp-sso)
 
 |image021|
 
-General settings for sp-sso external connector.
+General settings 
 
 |image022|
 
-Endpoint Single Sign On Service for sp-sso external connector.
+Endpoint Single Sign On Service 
 
 |image023|
 
-Assertion Settings for sp-sso external connector.
-
+Assertion Settings 
 |image024|
 
-Security Settings for sp-sso external connector.
+Security Settings 
 
 |image025|
 
-Single Logout Service Settings for sp-sso external connector.
+Single Logout Service Settings 
 
 |image026|
 
 External IdP Connectors (sp1-sso)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-General settings for sp1-sso external connector.
+General settings 
 
 |image027|
 
-Endpoint Single Sign On Service for sp1-sso external connector.
+Endpoint Single Sign On Service 
 
 |image028|
 
-Assertion Settings for sp1-sso external connector.
+Assertion Settings 
 
 |image029|
 
-Security Settings for sp1-sso external connector.
+Security Settings 
 
 |image030|
 
-Single Logout Service Settings for sp1-sso external connector.
+Single Logout Service Settings 
 
 |image031|
 
