@@ -304,31 +304,24 @@ The user attempting to access https://sp.acme.com or https://sp1.acme.com is dir
 
 Once the user is authenticated they are transparently redirected back to the resource.  In this case, it is sp.acme.com
 
-Authenticated users to the Webtop Portal can now select authorized application without reentering their user credentials.
-
-|image046|
-
-Users can also directly access https://sp.acme.com or https://sp1.acme.com without going to the Webtop Portal and will be directed to a SAML Logon Page.
-|image047|
-
-The users authentication assertion is directed from the SAML-SP to the appropriate SAML-IdP for authorization.
-|image048|
-
-The request is then redirected to the appropriate portal.acme.com authorization services.
-
-|image049|
-
-Once the user is authenticated they are transparently redirected to the service asset.
-|image050|
-
-Once the user in authenticated for sp.acme.com they are allowed access to sp1.acme.com without need to re-authenticate.
-
-|image051|
-
+|image045|
 
 Accessing an Application via Portal
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Users attempting to access https://portal.acme.com are redirected to AzureAD for authentication.
 
+- Username: user1@f5access.onmicrosoft.com
+- Password: F5twister$
+
+|image044|
+
+Once the user is authenticated they are transparently redirected back to the resource.  In this case, it is the Webtop Portal.
+
+|image046|
+
+Now that the user is authenticated at the IDP, when the user attempts to access sp.acme.com they are not prompted for further logon information.
+
+|image047|
 
 
 .. |image001| image:: media/001.png
