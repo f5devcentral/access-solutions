@@ -290,19 +290,19 @@ SP Location Settings
 User's Perspective
 ---------------------
 
-The users have two ways of accessing configured application resources, the configured Webtop Portal or directly from their browser.
 
-Users accessing https://portal.acme.com will be directed to a SAML Logon Page.
+Accessing an Application Directly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The user attempting to access https://sp.acme.com or https://sp1.acme.com is directed to portal.acme.com. Then, seamlessly redirected again to AzureAD for authentication.
 
-|image043|
 
-SAML Logon Page.
+ - Username: user1@f5access.onmicrosoft.com
+ - Password: F5twister$
 
 |image044|
 
-Authorized users are directed to the Webtop Portal.
 
-|image045|
+Once the user is authenticated they are transparently redirected back to the resource.  In this case, it is sp.acme.com
 
 Authenticated users to the Webtop Portal can now select authorized application without reentering their user credentials.
 
@@ -324,6 +324,10 @@ Once the user is authenticated they are transparently redirected to the service 
 Once the user in authenticated for sp.acme.com they are allowed access to sp1.acme.com without need to re-authenticate.
 
 |image051|
+
+
+Accessing an Application via Portal
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
