@@ -108,9 +108,13 @@ Supporting APM Objects
 
 Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
 
-+-----------------------+-------------------+
-|SP Service             | IDP Connector     |
+
+
++-------------------------------------------+
+|        SP Service Binding Table           |
 +=======================+===================+
+|      SP Service       |    IDP Connector  |
++-----------------------+-------------------+
 |  portal.acme.com-sp   |   portal-sso3     |
 +-----------------------+-------------------+
 |  sp.acme.com-sp       |   portal-sso1     |
@@ -242,7 +246,7 @@ IDP Service - portal-sso1
 +-------------------------------------------+
 |       IdP Service Binding Table           |
 +=======================+===================+
-|IdP Service            | SP Connector      |
+|    IdP Service        |    SP Connector   |
 +-----------------------+-------------------+
 |  portal-sso1          |   sp.acme.com-sp  |
 +-----------------------+-------------------+
