@@ -180,9 +180,6 @@ Single Logout Service Settings
 |image052|
 
 
-
-
-
 IDP Connector - portal-sso2 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -209,20 +206,20 @@ IDP Connector - portal-sso3
 
 General Settings
 
-|image025|
+|image029|
 
 Endpoint Settings
 	- Single Sign On Service
 
-|image026|
+|image030|
 
 Security Settings
 
-|image027|
+|image031|
 
 Single Logout Service Settings
 
-|image028|
+|image032|
 
 IDP Service - portal-sso1 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
