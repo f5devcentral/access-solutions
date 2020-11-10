@@ -74,8 +74,6 @@ Local SAML Service Provider
 
 |image008|
 
-Sections not specified contain default values.
-
 General Settings 
 
 |image009|
@@ -92,7 +90,7 @@ Authentication Context
 
 |image012|
 
-Advance f
+Advanced Settings
 
 |image014|
 
@@ -108,7 +106,7 @@ Endpoint  Settings
 
 |image016|
 
-Security Settings f
+Security Settings 
 
 |image017|
 
@@ -116,7 +114,7 @@ Authentication Context
 
 |image018|
 
-Advance 
+Advanced Settings
 
 |image020|
 
@@ -172,19 +170,18 @@ Single Logout Service Settings
 User's Perspective
 ---------------------
 
-The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
+The user attempting to access https://sp1.acme.com is directed to AzureAD for authentication. 
 
-|image039|
-
-The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
+Username: user1@f5access.onmicrosoft.com
+Password: F5twister$
 
 |image040|
 
-Once the user is authenticated they are transparently redirected to the service asset.
+Once the user is authenticated they are transparently redirected back to the resource. In this case, it is sp1.acme.com
 
 |image041|
 
-Once the user in authenticated for sp1.acme.com they are allowed access to sp.acme.com without need to re-authenticate.
+Once the user in authenticated at the Identity Provider, they are allowed access to sp.acme.com without need to re-authenticate.
 
 |image042|
 
