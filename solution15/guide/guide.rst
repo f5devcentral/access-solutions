@@ -290,22 +290,40 @@ SP Location Settings
 User's Perspective
 ---------------------
 
-The user accessing https://sp.acme.com or https://sp1.acme.com is directed to a SAML Logon Page.
+The users have two ways of accessing configured application resources, the configured Webtop Portal or directly from their browser.
+
+Users accessing https://portal.acme.com will be directed to a SAML Logon Page.
+
 |image043|
 
-The users authentication assertion directed from the SAML-SP to the appropriate SAML-IdP for authorization.
+SAML Logon Page.
+
 |image044|
 
-The request is then redirected to the appropriate portal.acme.com authorization services.
+Authorized users are directed to the Webtop Portal.
 
 |image045|
 
-Once the user is authenticated they are transparently redirected to the service asset.
+Authenticated users to the Webtop Portal can now select authorized application without reentering their user credentials.
+
 |image046|
+
+Users can also directly access https://sp.acme.com or https://sp1.acme.com without going to the Webtop Portal and will be directed to a SAML Logon Page.
+|image047|
+
+The users authentication assertion is directed from the SAML-SP to the appropriate SAML-IdP for authorization.
+|image048|
+
+The request is then redirected to the appropriate portal.acme.com authorization services.
+
+|image049|
+
+Once the user is authenticated they are transparently redirected to the service asset.
+|image050|
 
 Once the user in authenticated for sp.acme.com they are allowed access to sp1.acme.com without need to re-authenticate.
 
-|image047|
+|image051|
 
 
 
