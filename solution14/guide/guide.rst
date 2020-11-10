@@ -172,8 +172,8 @@ User's Perspective
 
 The user attempting to access https://sp1.acme.com is directed to AzureAD for authentication. 
 
-Username: user1@f5access.onmicrosoft.com
-Password: F5twister$
+- Username: user1@f5access.onmicrosoft.com
+- Password: F5twister$
 
 |image040|
 
