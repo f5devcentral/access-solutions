@@ -2,7 +2,7 @@
 Solution15 Policy
 ======================
 
-This solution requires creation of three access policies. A default allow per-session policy and a per-request policy using two subroutines for Identity Aware Proxy(IAP). The third policy will be used by the the virtual server performing both SAML SP to an external IDP and a SAML IDP to the Identity Aware Proxy Virtual Server.
+This solution requires creation of three access policies. A default allow per-session policy and a per-request policy using two subroutines for Identity Aware Proxy(IAP). The third policy will be used by a  virtual server performing both as a SAML SP to an external IDP along with SAML IDP to the Identity Aware Proxy virtual server.
 
 
 Per-Session Policy Walk-Through
@@ -13,9 +13,9 @@ Per-Session Policy - SAML Identity Provider
 
 |image002|
 
-#.	When a user is directed to a SAML Auth agent they are redirected to the IDP selected by the SP Service(portal.acme.com).
+#.	When a user is directed to a SAML Auth agent they are redirected to the IDP(AzureAD) selected by the SP Service(portal.acme.com).
 #.	Upon successful authentication at the IDP, the user is redirected back to the SP. The SP service consumes the Assertion. he user is assigned resources defined in the Advanced Resource Assign Agent
-#.	After successful Resource Assignment, the user is granted access to the Allow Terminal.
+#.	After successful Resource Assignment, the user is granted access via the Allow Terminal.
 #.	If SAML Authentication is unsuccessful, the user proceeds down the fallback branch to be denied access via the Deny Terminal
 
 Per-Session Policy - SAML Identity Aware Proxy
