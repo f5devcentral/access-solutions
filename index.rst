@@ -38,6 +38,9 @@ Solutions
    solution10/solution.rst
    solution11/solution.rst
    solution12/solution.rst
+   solution13/solution.rst
+   solution14/solution.rst
+   solution15/solution.rst
 
 
    
