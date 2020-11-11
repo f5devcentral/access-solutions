@@ -100,7 +100,13 @@ Pool Assign - sp1_pool
 Profile Settings
 ------------------------------------------
 
-All profile settings are left the defaults
+The Portal Profile settings have been modified in order to attach the IDP Service.
+
+|image053|
+
+The IAP profile settings are the default.
+
+
 
 
 Supporting APM Objects
@@ -415,3 +421,4 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image050| image:: media/050.png
 .. |image051| image:: media/051.png
 .. |image052| image:: media/052.png
+.. |image053| image:: media/053.png
