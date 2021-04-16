@@ -1,5 +1,5 @@
 
-Solution15 Policy
+Solution16 Policy
 ======================
 
 This solution requires creation of three access policies. A default allow per-session policy and a per-request policy using two subroutines for Identity Aware Proxy(IAP). The third policy will be used by a  virtual server performing both as a SAML SP to an external IDP along with SAML IDP to the Identity Aware Proxy virtual server.
