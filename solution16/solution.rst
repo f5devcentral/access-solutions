@@ -1,7 +1,7 @@
-Solution16: SAML SP to Kerberos SSO with AzureAD IDP
+Solution16: SAML SP to Kerberos SSO with AzureAD IdP
 ======================================================================================
 .. _solution16:
-This solution documents all the necessary pieces required to demonstrate IDP Chaining
+This solution documents all the necessary pieces required to demonstrate SAML SP to Kerberos SSO with AzureAD IdP
 
 
 URL
@@ -48,8 +48,6 @@ UDF Deployment Models
 +----------------+-------------------+
 |BIG-IP Version  | Blueprint Version |
 +================+===================+
-|  16.0          |   12              |
-+----------------+-------------------+
 |  15.1          |    1              |
 +----------------+-------------------+
 
@@ -63,12 +61,12 @@ Read more about the individual components by clicking on the below links
   * HTTP Profile
   * Client-side SSL Profile
   * Access Profile
+    - Kerberos SSO
   * Per-Session Policy
-
     - SP Service
     - IdP Connector
 
 
-Keywords: SAML, PSP, Azure
+Keywords: SAML, PSP, Azure, Kerberos
 
 DC: single
