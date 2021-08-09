@@ -1,4 +1,4 @@
-Solution11:  OIDC CLient using Public Keys (BIG-IP IDP)
+Solution11:  OIDC Client using Public Keys (BIG-IP IdP)
 ===============================================================
 .. _solution11:
 This solution documents all the necessary pieces required to create a basic OIDC Client

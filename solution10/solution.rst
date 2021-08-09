@@ -1,4 +1,4 @@
-Solution10:  OIDC IDP/AS using public keys  (AD Auth)
+Solution10:  OIDC IdP/AS using public keys  (AD Auth)
 ===============================================================
 .. _solution10:
 This solution documents all the necessary pieces required to create a basic OIDC IDP
