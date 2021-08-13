@@ -1,0 +1,5403 @@
+{
+	"info": {
+		"_postman_id": "aa179ade-c8f9-40c0-95ff-b65a5d83a544",
+		"name": "solution10-create",
+		"description": "Based on Template 1.7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Set Collection Parameters",
+			"item": [
+				{
+					"name": "set parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "68bb1e71-f450-4f4a-b238-de07382bf676",
+								"exec": [
+									"pm.test(\"Setting Parameters\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0b827d52-f0de-4590-91a4-226be6f8a6fd",
+								"exec": [
+									"//Define the number of virtual servers in this solution\r",
+									"pm.collectionVariables.set(\"VIPS\", \"1\");\r",
+									"\r",
+									"//THis below varaibles are using for defining the tenant ID in AS3.  This should be the solution number. Example: solution1 or solution2.\r",
+									"pm.collectionVariables.set(\"PATH_NAME\", \"solution10\");\r",
+									"pm.collectionVariables.set(\"PARTITION_NAME\", \"solution10\");\r",
+									"\r",
+									"//This is the primary section defining the settings for the application the solutions is going to deploy\r",
+									"pm.collectionVariables.set(\"DNS1_NAME\", \"as.acme.com\");\r",
+									"pm.collectionVariables.set(\"VS1_NAME\", \"as\");\r",
+									"pm.collectionVariables.set(\"CONFLICT1_NAME\", \"as.acme.com\");\r",
+									"\r",
+									"\r",
+									"//This section is used when building two virtrual servers as part of a solutions or when a reference is needed to another solutions.  For example, if your solutions involved Federation you will need to define both the FQDNs for the both the SP and IDP.  \r",
+									"pm.collectionVariables.set(\"DNS2_NAME\", \"template2.acme.com\");\r",
+									"pm.collectionVariables.set(\"VS2_NAME\", \"template2\");\r",
+									"\r",
+									"\r",
+									"//This variable is used for switching between standard and modern for logon pages, webtops, and other objects that support those changes.\r",
+									"pm.collectionVariables.set(\"CUSTOM_TYPE\", \"modern\");\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://10.1.1.4/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"10",
+								"1",
+								"1",
+								"4"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Test For Solution Conflicts",
+			"item": [
+				{
+					"name": "Detect Wide-IP Conflict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50e6db69-2f4f-4545-93bf-396505e2a3f4",
+								"exec": [
+									"var PARTITION_NAME = pm.collectionVariables.get(\"PARTITION_NAME\");",
+									"var jsonData = pm.response.json();",
+									"var EXIST = 0",
+									"",
+									"for (var i = 0; i < jsonData.items.length; i++) {",
+									"    for (var x = 1; x < 10; x++) {",
+									"        var DNS_NAME = pm.collectionVariables.get(\"CONFLICT\"+x+\"_NAME\");",
+									"        if ( jsonData.items[i].name  === DNS_NAME ) {  ",
+									"                if ( jsonData.items[i].partition  !== PARTITION_NAME+\"-gslb\" ) { ",
+									"                    var EXIST = 1",
+									"                    var EXISTING_SOLUTION = jsonData.items[i].partition.split(\"-\");",
+									"                    pm.test( EXISTING_SOLUTION[0]+\" must be deleted before \"+PARTITION_NAME+\" can be deployed\", function () { ",
+									"                        pm.expect(EXIST).to.be.a(\"0\");     ",
+									"                    });",
+									"                    postman.setNextRequest(\"null\");",
+									"                ",
+									"                }",
+									"        }",
+									"    }          ",
+									"}",
+									" ",
+									"if (EXIST === 0) {",
+									"    if (responseCode.code === 200) {",
+									"        pm.test(\"No Existing Conficts Detected\" , function () {",
+									"            pm.response.to.have.status(200);",
+									"        }); ",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "65c749e8-9ec2-4798-ab61-3cca7b29c080",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://10.1.1.11/mgmt/tm/gtm/wideip/a",
+							"protocol": "https",
+							"host": [
+								"10",
+								"1",
+								"1",
+								"11"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"gtm",
+								"wideip",
+								"a"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Start-loop-Datacenters",
+			"item": [
+				{
+					"name": "start",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f54ef151-f558-4458-9d59-b3e18dbe53b8",
+								"exec": [
+									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
+									"\r",
+									"\r",
+									"pm.test(\"Starting configuratioon of Data Center \"+DC_COUNTER, function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "288a096f-4a49-419f-b24a-81f9b6f35f65",
+								"exec": [
+									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
+									"var DC2_APM = pm.environment.get(\"DC2_APM\");\r",
+									"\r",
+									"\r",
+									"if (DC2_APM === 'true' && DC_COUNTER === '2') {\r",
+									"pm.collectionVariables.set(\"BIGIP_MGMT\", \"10.1.1.5\");\r",
+									"pm.collectionVariables.set(\"BIGIP_SCOPE\", pm.environment.get(\"BIGIP2_SCOPE\"));\r",
+									"\r",
+									"} else {\r",
+									"pm.collectionVariables.set(\"BIGIP_MGMT\", \"10.1.1.4\");\r",
+									"pm.collectionVariables.set(\"BIGIP_SCOPE\", pm.environment.get(\"BIGIP1_SCOPE\"));\r",
+									"pm.collectionVariables.set('DC_COUNTER', '1' );\r",
+									"\r",
+									"\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1fe7e608-d6fa-4d3c-8ee1-ba3eed32581e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1de2ac35-18cd-47aa-84d7-0bf2d89c10c7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Start Loop - Imperative Calls",
+			"item": [
+				{
+					"name": "start-objects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1f20bcc-df8f-4811-8cbb-c640930a4336",
+								"exec": [
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
+									"\r",
+									"if (!VS_COUNTER) {\r",
+									"pm.collectionVariables.set(\"VS_COUNTER\", 1);\r",
+									"pm.collectionVariables.set(\"DNS_COUNTER\", 1);\r",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\");\r",
+									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
+									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
+									" } else { \r",
+									"\r",
+									"pm.collectionVariables.set(\"VS_NAME\", pm.collectionVariables.get(\"VS\"+VS_COUNTER+\"_NAME\"));\r",
+									"pm.collectionVariables.set(\"DNS_NAME\", pm.collectionVariables.get(\"DNS\"+DNS_COUNTER+\"_NAME\"));\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "dc239873-714f-4002-bb90-3de4d9e4ed76",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5c63974e-2486-462f-bc07-4332d3545c00",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ef49256-9df8-44b8-a7ed-ed46e6fa4801",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "APM Objects",
+			"item": [
+				{
+					"name": "start APM objects",
+					"item": [
+						{
+							"name": "start-apm-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c9b1f5b7-1590-4a08-a3a5-5e19a8fdccfb",
+										"exec": [
+											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
+											"var VS = 1;\r",
+											"\r",
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"if (VS === VS_COUNTER) {\r",
+											"    pm.test(\"Creating APM objects for Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else if (VS<=VS_COUNTER) {\r",
+											"    pm.test(\"Proceeding to creation of  Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-apm-\"+VS);\r",
+											"} else {\r",
+											"pm.test(\"Currently running loop \"+VS_COUNTER+\" for \"+ VS_NAME+\" in Data Center \"+DC_COUNTER+\". Continuing to next section \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-apm-\"+VS);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "ec3709f8-c5e7-4c28-8d19-b2035e47c7a4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "AAA AD Servers",
+					"item": [
+						{
+							"name": "bigip-create-node-10.1.20.7",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5dcde48a-4c95-4c0a-8b41-65cac4911954",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "78e1629e-31da-48b6-875f-a79d2669ad07",
+										"exec": [
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"Node 10.1.20.7 created\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else ",
+											"    pm.test(\"Node 10.1.20.7 exists\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"name\": \"10.1.20.7\",\r\n\"address\": \"10.1.20.7\"\r\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/node",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"ltm",
+										"node"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-create-ad server pool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9315b97f-a7f4-4939-ad6b-fc11b0e7d90f",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(VS_NAME+\"-ad-pool created\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else ",
+											"    pm.test(VS_NAME+\"-ad-pool exists\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"{{VS_NAME}}-ad-pool\",\n\t\"members\":[\n\t\t{\n\t\t\"name\":\"10.1.20.7:0\",\n\t\t\"address\":\"10.1.20.7\",\n\t\t\"monitor\": \"/Common/gateway_icmp\"\n\t\t\t\n\t\t}\n\t\t]\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/pool/",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"ltm",
+										"pool",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-create-APM AAA AD Server",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ce313c28-722b-4ed3-a3ed-8046de73f197",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"AAA AD servers \"+VS_NAME+\"-ad-servers created\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else ",
+											"    pm.test(\"AAA AD servers \"+VS_NAME+\"-ad-servers exists\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6cc05e05-a42a-4972-9d16-a41d5b5680cf",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{VS_NAME}}-ad-servers\",\r\n    \"adminEncryptedPassword\": \"admin\",\r\n    \"adminName\": \"admin\",\r\n    \"cleanupCache\": \"none\",\r\n    \"domain\": \"f5lab.local\",\r\n    \"groupCacheTtl\": 30,\r\n    \"kdcLockoutDuration\": 0,\r\n    \"locationSpecific\": \"true\",\r\n    \"padata\": \"none\",\r\n    \"pool\": \"/Common/{{VS_NAME}}-ad-pool\",  \r\n    \"psoCacheTtl\": 30,\r\n    \"timeout\": 15,\r\n    \"usePool\": \"enabled\",\r\n    \"domainControllers\": [\r\n        {\r\n            \"name\": \"dc1.f5lab.local\",\r\n            \"ip\": \"10.1.20.7\"\r\n        }\r\n    ]\r\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/active-directory",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"aaa",
+										"active-directory"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "JWK",
+					"item": [
+						{
+							"name": "bigip-import ca.acme.com cert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d5d0ef21-d6ee-417b-9ed0-896017cd6453",
+										"exec": [
+											"pm.test(\"ca.f5lab.local.crt installed\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "84af0da8-9c06-44d6-880c-cd172270a74d",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/octet-stream"
+									},
+									{
+										"key": "Content-Range",
+										"value": "0-1263/1264",
+										"type": "text"
+									},
+									{
+										"key": "Content-Length",
+										"value": "1264",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-----BEGIN CERTIFICATE-----\r\nMIIDazCCAlOgAwIBAgIQJ4DA+pop3K9HGUl4CIxjbjANBgkqhkiG9w0BAQsFADBI\r\nMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxFTATBgoJkiaJk/IsZAEZFgVmNWxhYjEY\r\nMBYGA1UEAxMPZGMxLmY1bGFiLmxvY2FsMB4XDTE5MTEyMDIyMDc0NVoXDTI5MTEy\r\nMDIyMTc0NVowSDEVMBMGCgmSJomT8ixkARkWBWxvY2FsMRUwEwYKCZImiZPyLGQB\r\nGRYFZjVsYWIxGDAWBgNVBAMTD2RjMS5mNWxhYi5sb2NhbDCCASIwDQYJKoZIhvcN\r\nAQEBBQADggEPADCCAQoCggEBANOejxrkrJD12YIeEkZNjRZ9/OZwFeX+QhVi1uHL\r\niILP+4+3ZiZ/dhVGQLncDfHlJm5hSXpzMMDK+LxmjnWfBcx8xurgDyL6E80ZTnIP\r\nBbVJ6Au2IWFXM62NK/qsE+5IF0ptAYzDiWjj75njoVQygMNkdWEPxu1N+Ar7WAR4\r\n5xghN2wE7d57iCZ53RmrIeGT6equiihns5nUssoOFh/ny9oR6+yudINlozllHhMB\r\nGRDCEeGC/0mY/LF50hP6vwEbl1ub0J1SlqlvTn3rrX7dumvtjSKxfQipwbCpG8Qz\r\nGi7ZsSe78Xg7VIGtDVk0Vh4+PbHVJ6GB8pUmFpQ4vVa6sY0CAwEAAaNRME8wCwYD\r\nVR0PBAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFNhpUMHsIixtS9g6\r\ny/FyNrayg9V6MBAGCSsGAQQBgjcVAQQDAgEAMA0GCSqGSIb3DQEBCwUAA4IBAQCr\r\nEjJWFyZR3VFoIvZxUztGiWSjELJGD0vH42hONh6GrzxHadhZcQFmQsi4SmS9TUhP\r\nqyj+mUzreWziMcogqTYisSmF6h/cyAujdnLPbR//spGSOvLlV+43P57FmpQ+c+bB\r\nV8CJq3e0uvxt2h/9v5Du20fE/Zb6iPESMSjzhEoCPosozELpEqwKTzwGLsyqgLSN\r\nWW/+Ov+DGr+cE8pHsXZy8yhkbDY5wrbHMCyrRuXFXwYLpoMcUKMOWUCq+K3TSQ2A\r\nmGUtzY3KMfC7YCJj+mrCniWmvncryUpkY3hPplglevWAFQx4hslOU618gt4IpBXy\r\nLlIC0DqyAVMHJqF7WozV\r\n-----END CERTIFICATE-----\r\n"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/file-transfer/uploads/ca.acme.com.crt",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"file-transfer",
+										"uploads",
+										"ca.acme.com.crt"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-install ca.acme.com cert",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9787cbbf-ff2e-4f2d-9afc-8a9d4e01e823",
+										"exec": [
+											"pm.test(\"ca.f5lab.local.crt imported\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"command\":\"install\",\n\t\"name\":\"ca.acme.com\",\n\t\"from-local-file\":\"/var/config/rest/downloads/ca.acme.com.crt\"\n\t\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/sys/crypto/cert",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"sys",
+										"crypto",
+										"cert"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bigip-create-jwk-public key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e078a6dd-c7cc-4518-959d-37c4b885fb43",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"pm.test(\"OAuth JWK \"+VS_NAME+\"-jwk created\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"} else ",
+											"pm.test(\"OAuth JWK \"+VS_NAME+\"-jwk exists\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "da417ae0-5b60-4a14-b42f-b5ddec0d1fca",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{VS_NAME}}-jwk\",\n    \"partition\": \"Common\",\n    \"algType\": \"RS256\",\n    \"autoGenerated\": \"false\",\n    \"cert\": \"/Common/acme.com-wildcard\",\n    \"certChain\": \"/Common/ca.acme.com\",\n    \"certKey\": \"/Common/acme.com-wildcard\",\n    \"includeX5c\": \"no\",\n    \"keyId\": \"lab\",\n    \"keyType\": \"rsa\",\n    \"keyUse\": \"signing\",\n    \"passphrase\": \"password\",\n    \"sharedSecretEncFormat\": \"none\",\n    \"useClientSecret\": \"false\"\n    \n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/oauth/jwk-config/",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"oauth",
+										"jwk-config",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "OAuth Profile",
+					"item": [
+						{
+							"name": "bigip-create-oauthprofile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9fa9fddd-2bd4-4bff-b995-1e8e63cdf6fd",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"",
+											"if (responseCode.code === 200) {",
+											"    pm.test(\"OAuth profile \"+VS_NAME+\"-oauth created\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"} else ",
+											"    pm.test(\"OAuth Profile \"+VS_NAME+\"-oauth exists\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5429edf4-cae5-402f-9559-bb7c9bf296a0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-F5-REST-Coordination-Id",
+										"type": "text",
+										"value": "{{TRANSID}}",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"name\": \"{{VS_NAME}}-oauth\",\n    \"partition\": \"Common\",\n    \"accessTokenLifetime\": 5,\n    \"authCodeLifetime\": 5,\n\t\n    \"authUrl\": \"/f5-oauth2/v1/authorize\",\n    \"dbInstance\": \"/Common/oauthdb\",\n    \"defaultsFrom\": \"/Common/oauth\",\n    \"generateJwtRefreshToken\": \"true\",\n    \"generateRefreshToken\": \"true\",\n    \"idTokenLifetime\": 5,\n\t\"idTokenPrimaryKey\": \"/Common/{{VS_NAME}}-jwk\",\n    \"ignoreExpiredCert\": \"false\",\n    \"issuer\": \"https://{{DNS1_NAME}}\",\n    \"jwksUrl\": \"/f5-oauth2/v1/jwks\",\n    \"jwtAccessTokenLifetime\": 120,\n    \"jwtEcSignatureFormat\": \"binary\",\n    \"jwtRefreshTokenEncSecret\": \"123456\",\n    \"jwtRefreshTokenLifetime\": 120,\n    \"jwtToken\": \"enabled\",\n    \"opaqueToken\": \"disabled\",\n    \"openidCfgUrl\": \"/f5-oauth2/v1/.well-known/openid-configuration\",\n    \"openidConnect\": \"enabled\",\n    \"perUserTokenLimit\": 255,\n    \"primaryKey\": \"/Common/{{VS_NAME}}-jwk\",\n    \"refreshTokenLifetime\": 480,\n    \"refreshTokenUsageLimit\": 64,\n    \"reuseAccessToken\": \"false\",\n    \"reuseRefreshToken\": \"false\",\n    \"subject\": \"%{session.assigned.uuid}\",\n    \"tokenIntrospectionUrl\": \"/f5-oauth2/v1/introspect\",\n    \"tokenIssuanceUrl\": \"/f5-oauth2/v1/token\",\n    \"tokenRevocationUrl\": \"/f5-oauth2/v1/revoke\",\n    \"userinfoUrl\": \"/f5-oauth2/v1/userinfo\",\n\t\"clientApps\": {\n                \n                \"propertyDescriptions\": {}\n            },\n\t\"idTokenClaims\": {\n                \n                \"propertyDescriptions\": {}\n            },\n\t\"jwtAccessTokenClaims\": {\n               \n                \"propertyDescriptions\": {}\n            },\t\t\n\t\"resourceServers\": {\n                \n                \"propertyDescriptions\": {}\n            },\n\t\"rotationKeys\": {\n               \n                \"propertyDescriptions\": {}\n            },\n    \"userinfoClaims\": {\n                \n                \"propertyDescriptions\": {}\n            }\n}\t\n"
+								},
+								"url": {
+									"raw": "https://10.1.1.4/mgmt/tm/apm/profile/oauth",
+									"protocol": "https",
+									"host": [
+										"10",
+										"1",
+										"1",
+										"4"
+									],
+									"path": [
+										"mgmt",
+										"tm",
+										"apm",
+										"profile",
+										"oauth"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "End APM Objects",
+					"item": [
+						{
+							"name": "end-apm-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "07a8a86c-8a2c-4d2a-8de0-75b5ca7afb5b",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6f49ff93-8380-464c-970a-d3687792f5ea",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "443eed8b-6386-4a5f-8a88-45d1c4dc0ba2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4a4ea6-6c1b-4420-b18c-1eb37d374e39",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PSP",
+			"item": [
+				{
+					"name": "start PSP",
+					"item": [
+						{
+							"name": "start-psp-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b653bda4-328a-43a8-9cf8-ad5572e9c03e",
+										"exec": [
+											"//The NUMBER SPECIFICED BELOW CONTROL WHICH VIRTUAL THE OBJECTS WILL BE CONFIGURED FOR.  THE DEFAULT IS 1.\r",
+											"var VS = 1;\r",
+											"\r",
+											"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+											"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");\r",
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"if (VS === VS_COUNTER) {\r",
+											"    pm.test(\"Creating APM PSP for Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"} else if (VS<=VS_COUNTER) {\r",
+											"    pm.test(\"Proceeding to creation of APM PSP for Virtual Server \"+VS_NAME+\" in Data Center \"+DC_COUNTER, function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-psp-\"+VS);\r",
+											"} else {\r",
+											"pm.test(\"Currently running loop \"+VS_COUNTER+\" for \"+ VS_NAME+\" in Data Center \"+DC_COUNTER+\". Continuing to next section \", function () {\r",
+											"        pm.response.to.have.status(200);\r",
+											"    });\r",
+											"    postman.setNextRequest(\"end-psp-\"+VS);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "79d848c4-a315-49f2-9d86-cd7d7cff72c2",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6ec5c38f-d4e1-413f-99a4-80d5d334e9de",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1174d4a-640e-4d06-a823-130e827bc588",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Baseline Policy",
+					"item": [
+						{
+							"name": "Create Transaction",
+							"item": [
+								{
+									"name": "bigip-create transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05edc345-eff9-40ed-9e5d-d0a08d945836",
+												"exec": [
+													"",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"TRANSID\", jsonData.transId);",
+													"",
+													"",
+													"pm.test(\"Transaction Created\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c3dd39a0-1ece-4ec3-b55c-557df1da4a05",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/transaction",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"transaction"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Baseline Customization Groups",
+							"item": [
+								{
+									"name": "bigip-create-customization group-logout",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4dc3c19e-ab4e-4cdc-88d9-037808f106df",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{VS_NAME}}-psp_logout\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"logout\"\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-customization group-eps",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "5fd47632-4eb6-4250-a8f8-40f75a6d6f6b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_eps\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"eps\"\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-customization group-error map",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "239cab37-4b21-414a-bb60-19a8fe933a92",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_errormap\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"errormap\"\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-customization group-framework",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4a856ba6-9bc2-4d5c-92b2-f5113c10f43d",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \r\n     \"name\": \"{{VS_NAME}}-psp_framework_installation\",\r\n\t \"partition\": \"Common\",\r\n     \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n     \"type\": \"framework-installation\"\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-customization group-general ui",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "228cac31-7f71-4d69-afa1-656ef1c39c8b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_general_ui\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"general-ui\"\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Deny Ending",
+							"item": [
+								{
+									"name": "bigip-create-customization group-end deny",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "bd54e274-e5b4-4b54-b025-3e6bd415f264",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_end_deny_ag\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"logout\"\r\n    \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-agent-deny ending",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "bedfd60c-89fc-4c77-bac2-b1ca246fa2b8",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"name\": \"{{VS_NAME}}-psp_end_deny_ag\",\n\"partition\": \"Common\",\n\"customizationGroup\": \"/Common/{{VS_NAME}}-psp_end_deny_ag\"\n\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/ending-deny/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"ending-deny",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-policy item-Deny ending",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "aa80f6a4-e1eb-4ffb-9dc1-ca9437d8a17b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"value": "{{TRANSID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_end_deny\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"Deny\",\r\n    \"color\": 2,\r\n    \"itemType\": \"ending\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_end_deny_ag\",\r\n\t\t\t\"partition\": \"Common\",\r\n            \"type\": \"ending-deny\"\r\n\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Allow Ending",
+							"item": [
+								{
+									"name": "bigip-create-agent-allow ending",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7b54b40e-e6a2-4096-b21a-1cf3a301cf93",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"value": "{{TRANSID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"name\": \"{{VS_NAME}}-psp_end_allow_ag\",\n\"partition\": \"Common\"\n\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/ending-allow/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"ending-allow",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-policy item-allow ending",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "04b0da1a-3d4a-4a0e-9423-f3bcf349fd1b",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"value": "{{TRANSID}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_end_allow\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"Allow\",\r\n    \"color\": 1,\r\n    \"itemType\": \"ending\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_end_allow_ag\",\r\n\t\t\t\"partition\": \"Common\",\r\n            \"type\": \"ending-allow\"\r\n\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Policy-item OAuth Authorization",
+							"item": [
+								{
+									"name": "bigip1-create-cusomization group-oauth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6dc60a02-8749-4a02-803c-9ab5ef142c86",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{VS_NAME}}-psp_act_oauth_authz_ag\",\r\n    \"partition\": \"Common\",   \r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"oauth-authz\"\r\n  \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip1-create-agent-oauth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "12d7ca30-8f04-4925-aab2-5679b97050ae",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{VS_NAME}}-psp_act_oauth_authz_ag\",\r\n    \"partition\": \"Common\",\r\n    \"customizationGroup\": \"/Common/{{VS_NAME}}-psp_act_oauth_authz_ag\",\r\n    \"promptForAuthorization\": \"false\"\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/oauth-authz",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"oauth-authz"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip1-create-policy item-OAuth",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e30e0f40-ed48-41c5-80dd-8b75549e3bc3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_act_oauth_authz\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"OAuth Authorization\",\r\n    \"color\": 1,\r\n    \"itemType\": \"action\",\r\n    \"loop\": \"false\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_oauth_authz_ag\",\r\n            \"partition\": \"Common\",\r\n            \"type\": \"oauth-authz\"\r\n        }\r\n    ],\r\n    \"rules\": [\r\n        {\r\n            \"caption\": \"Successful\",\r\n            \"expression\": \"expr {[mcget {session.oauth.authz.last.result}] == 1}\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_end_allow\"\r\n            \r\n        },\r\n        {\r\n            \"caption\": \"fallback\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_end_deny\"\r\n            \r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Policy-item AD Query",
+							"item": [
+								{
+									"name": "bigip-create-agent-AD Query",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "64bb3b08-f2db-4c5a-9874-dac7323ad3e4",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{VS_NAME}}-psp_act_active_directory_query_ag\",\n    \"partition\": \"Common\",\n    \"authMaxLogonAttempt\": 3,\n    \"fetchNestedGroups\": \"false\",\n    \"fetchPrimaryGroup\": \"false\",\n    \"hints\": \"false\",\n    \"maxPwdResetAttempt\": 3,\n    \"pwdComplexityCheck\": \"false\",\n    \"pwdExpiryWarnDays\": 0,\n    \"queryAttrname\": [\n        \"cn\",\n        \"displayName\",\n        \"distinguishedName\",\n        \"dn\",\n        \"employeeID\",\n        \"givenName\",\n        \"homeMDB\",\n        \"mail\",\n        \"memberOf\",\n        \"mobile\",\n        \"msDS-ResultantPSO\",\n        \"name\",\n        \"objectGUID\",\n        \"otherMobile\",\n        \"pager\",\n        \"primaryGroupID\",\n        \"pwdLastSet\",\n        \"sAMAccountName\",\n        \"sn\",\n        \"telephoneNumber\",\n        \"userAccountControl\",\n        \"userPrincipalName\"\n    ],\n    \"queryFilter\": \" (sAMAccountName=%{session.logon.last.username})\",\n    \"server\": \"/Common/{{VS_NAME}}-ad-servers\",\n    \"showExtendedError\": \"false\",\n    \"type\": \"query\",\n    \"upn\": \"false\"\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/aaa-active-directory",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"aaa-active-directory"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-policy item-AD Query",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "19c2f3ce-bc50-4eae-acc4-517c508265c6",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{VS_NAME}}-psp_act_active_directory_query\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"AD Query\",\r\n    \"color\": 1,\r\n    \"itemType\": \"action\",\r\n    \"loop\": \"false\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_active_directory_query_ag\",\r\n            \"partition\": \"Common\",\r\n            \"type\": \"aaa-active-directory\"\r\n        }\r\n    ],\r\n    \"rules\": [\r\n        {\r\n            \"caption\": \"AD Query Passed\",\r\n            \"expression\": \"expr {[mcget {session.ad.last.queryresult}] == 1}\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_act_oauth_authz\"\r\n        },\r\n        {\r\n            \"caption\": \"fallback\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_end_deny\"  \r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4d31eeb5-7640-414e-baeb-6fa95616fa3c",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "4a78dd7a-e8c2-4cc8-98a7-c2f0b4aa97d3",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Policy-item AD Auth",
+							"item": [
+								{
+									"name": "bigip-create-agent-AD Authentication",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3a0688a7-673f-4e10-a520-29724a9f7dc4",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{VS_NAME}}-psp_act_active_directory_auth_ag\",\r\n    \"partition\": \"Common\",\r\n    \"authMaxLogonAttempt\": 3,\r\n    \"fetchNestedGroups\": \"false\",\r\n    \"fetchPrimaryGroup\": \"false\",\r\n    \"hints\": \"false\",\r\n    \"maxPwdResetAttempt\": 3,\r\n    \"pwdComplexityCheck\": \"false\",\r\n    \"pwdExpiryWarnDays\": 0,\r\n    \"server\": \"/Common/{{VS_NAME}}-ad-servers\",\r\n    \"showExtendedError\": \"false\",\r\n    \"type\": \"auth\",\r\n    \"upn\": \"false\"\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/aaa-active-directory",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"aaa-active-directory"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-policy item-AD Authentication",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0db99523-bbf6-4c45-b0ba-1ef14868f2d4",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_act_active_directory_auth\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"AD Auth\",\r\n    \"color\": 1,\r\n    \"itemType\": \"action\",\r\n    \"loop\": \"false\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_active_directory_auth_ag\",\r\n            \"partition\": \"Common\",\r\n            \"type\": \"aaa-active-directory\"\r\n        }\r\n    ],\r\n    \"rules\": [\r\n        {\r\n            \"caption\": \"Successful\",\r\n            \"expression\": \"expr {[mcget {session.ad.last.authresult}] == 1}\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_act_active_directory_query\"\r\n\r\n        },\r\n        {\r\n            \"caption\": \"fallback\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_end_deny\"\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "81418021-23bf-4487-99a4-b9350b03dfe9",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "7db01c11-e434-4302-9b7d-000e63c35020",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Policy-item Logon Page",
+							"item": [
+								{
+									"name": "bigip-create-customization group-Logon Page",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "770caefe-b150-43ed-8665-20ad5fcf1d0f",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_act_logon_page_ag\",\r\n    \"partition\": \"Common\",\r\n    \"source\": \"/Common/{{CUSTOM_TYPE}}\",\r\n    \"type\": \"logon\"\r\n\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/customization-group",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"customization-group"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-agent-Logon Page",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f82dfd6f-98cd-4d9a-b069-d1bc574b9a4c",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_act_logon_page_ag\",\r\n    \"partition\": \"Common\",\r\n      \"citrixClientAuthType\": \"domain-only\",\r\n    \"cleanSessVar1\": \"false\",\r\n    \"cleanSessVar2\": \"false\",\r\n    \"cleanSessVar3\": \"false\",\r\n    \"cleanSessVar4\": \"false\",\r\n    \"cleanSessVar5\": \"false\",\r\n    \"customizationGroup\": \"/Common/{{VS_NAME}}-psp_act_logon_page_ag\",\r\n    \"fieldModifiable1\": \"true\",\r\n    \"fieldModifiable2\": \"true\",\r\n    \"fieldModifiable3\": \"true\",\r\n    \"fieldModifiable4\": \"true\",\r\n    \"fieldModifiable5\": \"true\",\r\n    \"fieldType2\": \"password\",\r\n    \"fieldType3\": \"none\",\r\n    \"fieldType4\": \"none\",\r\n    \"fieldType5\": \"none\",\r\n    \"fieldtype1\": \"text\",\r\n    \"http_401AuthLevel\": \"none\",\r\n    \"postVarName1\": \"username\",\r\n    \"postVarName2\": \"password\",\r\n    \"postVarName3\": \"field3\",\r\n    \"postVarName4\": \"field4\",\r\n    \"postVarName5\": \"field5\",\r\n    \"sessVarName1\": \"username\",\r\n    \"sessVarName2\": \"password\",\r\n    \"sessVarName3\": \"field3\",\r\n    \"sessVarName4\": \"field4\",\r\n    \"sessVarName5\": \"field5\",\r\n    \"splitUsername\": \"false\",\r\n    \"type\": \"form-based\",\r\n    \"vmwareViewLogonScreen\": \"windows-password\"\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/agent/logon-page",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"agent",
+												"logon-page"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip-create-policy item-Logon Page",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "103118b1-4fc1-4e7f-b2ae-cf5ce7bd7772",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_act_logon_page\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"Logon Page\",\r\n    \"color\": 1,\r\n    \"itemType\": \"action\",\r\n    \"loop\": \"false\",\r\n    \"agents\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_logon_page_ag\",\r\n            \"partition\": \"Common\",\r\n            \"type\": \"logon-page\"\r\n\r\n        }\r\n    ],\r\n    \"rules\": [\r\n        {\r\n            \"caption\": \"fallback\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_act_active_directory_auth\"\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Start Item",
+							"item": [
+								{
+									"name": "bigip-create-policy item-start",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "991c020c-762c-46a3-84fd-a7f5b2c9ce99",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp_ent\",\r\n    \"partition\": \"Common\",\r\n    \"caption\": \"Start\",\r\n    \"color\": 1,\r\n    \"itemType\": \"entry\",\r\n    \"loop\": \"false\",\r\n    \"rules\": [\r\n        {\r\n            \"caption\": \"fallback\",\r\n            \"nextItem\": \"/Common/{{VS_NAME}}-psp_act_logon_page\"\r\n\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/policy-item/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"policy-item",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Create Policy",
+							"item": [
+								{
+									"name": "bigip-create-policy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d16ee147-0d54-4ee3-a5d7-3ba4a276ecf3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp\",\r\n    \"partition\": \"Common\",\r\n    \"defaultEnding\": \"{{VS_NAME}}-psp_end_deny\",\r\n        \"maxMacroLoopCount\": 1,\r\n    \"oneshotMacro\": \"false\",\r\n    \"startItem\": \"{{VS_NAME}}-psp_ent\",\r\n    \"type\": \"access-policy\",\r\n    \"items\": [\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_oauth_authz\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_active_directory_query\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_active_directory_auth\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_act_logon_page\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_end_allow\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_end_deny\",\r\n            \"partition\": \"Common\"\r\n        },\r\n        {\r\n            \"name\": \"{{VS_NAME}}-psp_ent\",\r\n            \"partition\": \"Common\"\r\n        }\r\n    ]\r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/policy/access-policy/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"policy",
+												"access-policy",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Create Profile",
+							"item": [
+								{
+									"name": "profile-oauth",
+									"item": [
+										{
+											"name": "bigip-create-profile",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "68365c9a-9b00-49c0-9c47-b42545313882",
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "basic",
+													"basic": [
+														{
+															"key": "password",
+															"value": "admin",
+															"type": "string"
+														},
+														{
+															"key": "username",
+															"value": "admin",
+															"type": "string"
+														}
+													]
+												},
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"type": "text",
+														"value": "application/json"
+													},
+													{
+														"key": "X-F5-REST-Coordination-Id",
+														"type": "text",
+														"value": "{{TRANSID}}"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n\r\n    \"name\": \"{{VS_NAME}}-psp\",\r\n    \"partition\": \"Common\",\r\n    \"acceptLanguages\": [\r\n        \"en\"\r\n    ],\r\n    \"accessPolicy\": \"/Common/{{VS_NAME}}-psp\",\r\n    \"customizationGroup\": \"/Common/{{VS_NAME}}-psp_logout\",\r\n    \"epsGroup\": \"/Common/{{VS_NAME}}-psp_eps\",\r\n    \"errormapGroup\": \"/Common/{{VS_NAME}}-psp_errormap\",\r\n    \"frameworkInstallationGroup\": \"/Common/{{VS_NAME}}-psp_framework_installation\",\r\n    \"generalUiGroup\": \"/Common/{{VS_NAME}}-psp_general_ui\",\r\n    \"accessPolicyTimeout\": 300,\r\n    \"defaultLanguage\": \"en\",\r\n    \"httponlyCookie\": \"false\",\r\n    \"inactivityTimeout\": 900,\r\n    \"logoutUriTimeout\": 5,\r\n    \"maxConcurrentSessions\": 0,\r\n    \"maxConcurrentUsers\": 0,\r\n    \"maxFailureDelay\": 5,\r\n    \"maxInProgressSessions\": 128,\r\n    \"maxSessionTimeout\": 604800,\r\n    \"minFailureDelay\": 2,\r\n    \"modifiedSinceLastPolicySync\": \"false\",\r\n    \"oauthProfile\": \"/Common/{{VS_NAME}}-oauth\",\r\n    \"persistentCookie\": \"false\",\r\n    \"restrictToSingleClientIp\": \"false\",\r\n    \"scope\": \"profile\",\r\n    \"secureCookie\": \"true\",\r\n    \"type\": \"all\",\r\n    \"useHttp_503OnError\": \"false\",\r\n    \"userIdentityMethod\": \"http\",\r\n    \"logSettings\": [\r\n        \"/Common/default-log-setting\"\r\n    ]\r\n\r\n}"
+												},
+												"url": {
+													"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/",
+													"protocol": "https",
+													"host": [
+														"{{BIGIP_MGMT}}"
+													],
+													"path": [
+														"mgmt",
+														"tm",
+														"apm",
+														"profile",
+														"access",
+														""
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "ca089092-4d08-42b0-831b-160b081a5be1",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7db6e22-2467-45f9-88e5-2beb11e65164",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Commit Transaction",
+							"item": [
+								{
+									"name": "bigip-commit-transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f3868ab8-a173-4f9c-b4d1-6944531b0b8b",
+												"exec": [
+													"\r",
+													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");\r",
+													"\r",
+													"if (responseCode.code === 200) {\r",
+													"\r",
+													"    pm.test(VS_NAME+\"-psp created\", function () {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"} else \r",
+													"    pm.test(VS_NAME+\"-psp exists\", function () {\r",
+													"        pm.response.to.have.status(409);\r",
+													"    });\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n \"state\":\"VALIDATING\"\t\n\t\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/transaction/{{TRANSID}}/",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"transaction",
+												"{{TRANSID}}",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Apply Policy",
+							"item": [
+								{
+									"name": "bigip-apply policy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "daeaf770-b58a-4e2a-a331-9204c7177e70",
+												"exec": [
+													"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+													"\r",
+													"\r",
+													"pm.test(\"Apply Policy Successful for \" +VS_NAME+\"-psp\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "X-F5-REST-Coordination-Id",
+												"type": "text",
+												"value": "{{TRANSID}}",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"generationAction\": \"increment\"   \r\n}"
+										},
+										"url": {
+											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/profile/access/~Common~{{VS_NAME}}-psp",
+											"protocol": "https",
+											"host": [
+												"{{BIGIP_MGMT}}"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"apm",
+												"profile",
+												"access",
+												"~Common~{{VS_NAME}}-psp"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "End PSP",
+					"item": [
+						{
+							"name": "end-psp-1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "25e49c4a-4af1-4ccc-8146-5d38c842d1e8",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9bf21f37-ada3-408e-b135-ae36d0ba062c",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "28a5c55b-1d6e-4cf7-b44d-2c964b41f305",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b53e9e5-82be-447e-b7f3-22163af7f699",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Virtual Server Address Assignment",
+			"item": [
+				{
+					"name": "bigip-Check Scope for existing assignment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "daca5592-9cf8-4325-9d5e-98df4c9a4077",
+								"exec": [
+									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");\r",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var jsonData = pm.response.json();\r",
+									"var EXIST = 0\r",
+									"\r",
+									"\r",
+									"\r",
+									"if(!jsonData.length) {\r",
+									"    if ( jsonData.Description  === VS_NAME ) {\r",
+									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData.IPAddress.IPAddressToString );\r",
+									"        pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+									"        var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
+									"        postman.setNextRequest(\"end-address\");\r",
+									"        var EXIST = 1;\r",
+									"        if (responseCode.code === 200) {\r",
+									"            pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
+									"                pm.response.to.have.status(200);\r",
+									"            });\r",
+									"        }\r",
+									"    }\r",
+									"} else {\r",
+									"\r",
+									"  for (var i = 0; i < jsonData.length; i++) {\r",
+									"\r",
+									"        if ( jsonData[i].Description  === VS_NAME ) {   \r",
+									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER, jsonData[i].IPAddress.IPAddressToString );\r",
+									"            pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+									"            var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER);\r",
+									"            postman.setNextRequest(\"end-address\");\r",
+									"            var EXIST =1;\r",
+									"\r",
+									"            if (responseCode.code === 200) {\r",
+									"                pm.test(\"Existing Address \"+ADDR+\" assigned to \"+VS_NAME, function () {\r",
+									"                    pm.response.to.have.status(200);\r",
+									"                });\r",
+									"            }\r",
+									"        } \r",
+									"    }\r",
+									"} \r",
+									"\r",
+									"if (EXIST === 0) {\r",
+									"    if (responseCode.code === 200) {\r",
+									"        pm.test(\"No Address assigned to \"+VS_NAME , function () {\r",
+									"            pm.response.to.have.status(200);\r",
+									"        }); \r",
+									"    }\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://10.1.20.6:81/addr/scope-status?scope={{BIGIP_SCOPE}}",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"addr",
+								"scope-status"
+							],
+							"query": [
+								{
+									"key": "scope",
+									"value": "{{BIGIP_SCOPE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-Check for next available address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b021348e-6a2f-4f49-a4e6-dbe2570ce31e",
+								"exec": [
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"BIGIP_ADDRESS\"+VS_COUNTER,jsonData.address);\r",
+									"pm.collectionVariables.set(\"BIGIP_ADDRESS\", pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER));\r",
+									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER)\r",
+									"\r",
+									"pm.test(\"Next availble address is \"+ADDR, function () {\r",
+									"    pm.expect(jsonData.address).not.eql(null);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://10.1.20.6:81/addr/available?scope={{BIGIP_SCOPE}}",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"addr",
+								"available"
+							],
+							"query": [
+								{
+									"key": "scope",
+									"value": "{{BIGIP_SCOPE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-Check bigip for existing address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b884229-726a-415b-b7d9-d56255f3d0fe",
+								"exec": [
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\");\r",
+									"var jsonData = pm.response.json();\r",
+									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\"+VS_COUNTER)\r",
+									"var exist = 0\r",
+									"\r",
+									"\r",
+									" if (responseCode.code === 200) {\r",
+									"  if(!jsonData.length) {\r",
+									"       for (var i = 0; i < jsonData.items.length; i++) {\r",
+									"            if ( jsonData.items[i].destination.includes(ADDR)) {  \r",
+									"               var VS_NAME = jsonData.items[i].name \r",
+									"                    \r",
+									"                    pm.test(ADDR+\" in use by Virtual server \"+VS_NAME, function () {\r",
+									"                        pm.response.to.have.status(200);\r",
+									"                    });\r",
+									"\r",
+									"                    pm.collectionVariables.set(\"EXISTING_VS\", VS_NAME); \r",
+									"\r",
+									"                    var exist = 1    \r",
+									"            }\r",
+									"        }\r",
+									" }\r",
+									"  if (exist === 0) {\r",
+									"     pm.test(\"Address \"+ADDR+\" not configured on BIG-IP\", function () {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    });\r",
+									"    postman.setNextRequest(\"bigip-checkout-address\");\r",
+									"  }\r",
+									" \r",
+									" }\r",
+									" \r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/ltm/virtual/",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-checkout-address-exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "98f86190-2d91-4c31-b64d-0b129be390da",
+								"exec": [
+									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
+									"var VS_NAME = pm.collectionVariables.get(\"EXISTING_VS\");",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Address \"+ADDR+\" checked out for \"+VS_NAME+\". Looking for next available Address\", function () {",
+									"    pm.expect(jsonData.status).not.eql(\"Fail\");",
+									"});",
+									"postman.setNextRequest(\"bigip-Check Scope for existing assignment\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS}}\",\n\"name\":\"{{EXISTING_VS}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/addr/checkout",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"addr",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bigip-checkout-address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac32c4cb-4f34-47f4-a852-55784f64aecc",
+								"exec": [
+									"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS\");",
+									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Address \"+ADDR+\" checked out for \"+VS_NAME, function () {",
+									"    pm.expect(jsonData.status).not.eql(\"Fail\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"scope\":\"{{BIGIP_SCOPE}}\",\n\"address\":\"{{BIGIP_ADDRESS}}\",\n\"name\":\"{{VS_NAME}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/addr/checkout",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"addr",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "end-address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41dd7c5a-4770-4cb9-94bd-2cf8a73a6f2e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33c06eda-ecfd-4624-899b-25f28cbc9fb2",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2ebb2ad4-cc3e-4ff7-9d6b-feb480ecb68c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f89d2702-f2c7-4b1b-ae1b-2cadc09ac288",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "End Loop - Imperative Calls",
+			"item": [
+				{
+					"name": "loop-objects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3cebbcf6-f864-4fe8-af63-11d664d6e958",
+								"exec": [
+									"var VIPS = pm.collectionVariables.get(\"VIPS\");",
+									"var VS_COUNTER = pm.collectionVariables.get(\"VS_COUNTER\")",
+									"var DNS_COUNTER = pm.collectionVariables.get(\"DNS_COUNTER\")",
+									"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+									"",
+									"if (VS_COUNTER < VIPS ) {",
+									"    pm.test(\"Objects for Virutal Server \"+VS_NAME+\" completed.  Creating loop for next virtual server \" , function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"    VS_COUNTER++",
+									"    DNS_COUNTER++",
+									"",
+									"pm.collectionVariables.set(\"VS_COUNTER\", VS_COUNTER)",
+									"pm.collectionVariables.set(\"DNS_COUNTER\", DNS_COUNTER)",
+									"",
+									"postman.setNextRequest(\"start-objects\");",
+									"",
+									"",
+									"} else {",
+									"    pm.test(\"Objects for Virtual Server \"+VS_NAME+\" Ccmpleted.  All objects created\" , function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"  pm.collectionVariables.set(\"VS_COUNTER\", 1)",
+									"   pm.collectionVariables.set(\"DNS_COUNTER\", 1)",
+									"}",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5048c323-e0d3-4b2e-96cc-68de45c1c9a2",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "572186bd-c6d7-41e1-8d37-a5fa9464b648",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8322fef4-cf44-4a0f-a266-e3cbc52b7ed3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Applications",
+			"item": [
+				{
+					"name": "SIngle Tenant-1 VIP-no ServerSSL-Attach PSP",
+					"item": [
+						{
+							"name": "bigip-create-application",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "66b2466f-3bf7-4bc2-be29-27e04bb1130b",
+										"exec": [
+											"var VS_NAME = pm.collectionVariables.get(\"VS_NAME\");",
+											"",
+											"pm.test(\"Application \"+VS_NAME+\" created\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12db8f43-fde8-4ccc-9472-0f6e4000633e",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"class\": \"ADC\",\r\n    \"action\": \"deploy\",\r\n    \"persist\": true,\r\n    \"declaration\": {\r\n       \"class\": \"ADC\",\r\n       \"schemaVersion\": \"3.14.0\",\r\n       \"id\": \"APM\",\r\n       \"{{PARTITION_NAME}}\": {\r\n          \"class\": \"Tenant\",\r\n          \"{{VS1_NAME}}\": {\r\n             \"class\": \"Application\",\r\n             \"template\": \"generic\",\r\n             \"{{VS1_NAME}}\": {\r\n                \"class\": \"Service_HTTPS\",\r\n                \"virtualAddresses\": [\r\n                 \"{{BIGIP_ADDRESS1}}\"\r\n                ],\r\n                \"virtualPort\": 443,\r\n                \"serverTLS\": \"{{VS1_NAME}}-clientssl\",\r\n        \t\t\"snat\": \"auto\",\r\n        \t\t\"profileAccess\": {\r\n        \t\t\t\"bigip\": \"/Common/{{VS1_NAME}}-psp\"\r\n        \t\t   }\r\n                },\r\n                \"{{VS1_NAME}}-clientssl\": {\r\n                    \"class\": \"TLS_Server\",\r\n                    \"certificates\": [\r\n                        {\r\n                        \"certificate\": \"tlsserver_local_cert\"\r\n                        }\r\n                    ]\r\n                },\r\n                \"tlsserver_local_cert\": {\r\n                    \"class\": \"Certificate\",\r\n                    \"certificate\": {\"bigip\":\"/Common/acme.com-wildcard\"},\r\n                    \"privateKey\": {\"bigip\":\"/Common/acme.com-wildcard\"}\r\n                }\r\n \r\n\r\n            }\r\n       }\r\n    }\r\n\r\n}"
+								},
+								"url": {
+									"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/declare",
+									"protocol": "https",
+									"host": [
+										"{{BIGIP_MGMT}}"
+									],
+									"path": [
+										"mgmt",
+										"shared",
+										"appsvcs",
+										"declare"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b3bf0c7a-3d6d-403b-8262-ad53cd1d6727",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "72ec1fcc-09c2-4631-b7b5-38e30ca4a990",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "External DNS",
+			"item": [
+				{
+					"name": "Single Application",
+					"item": [
+						{
+							"name": "Create DC1 External DNS Configuration for SIngle App",
+							"item": [
+								{
+									"name": "bigip5-Test AS3 is running",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "25fd26e0-925e-44ec-a62c-0495da427d7e",
+												"exec": [
+													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
+													"",
+													"if (DC2_APM === 'true' && DC_COUNTER === '2') {",
+													"    postman.setNextRequest(\"end-dns-dc1\");",
+													"    pm.test(\"Proceeding to DC2 DNS Configuration\", function () {",
+													"        pm.response.to.have.status(200);",
+													"    });",
+													"",
+													"} else {",
+													"",
+													"  ",
+													"}",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9f64071c-136f-4295-9d92-4f156eaf86a7",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"shared",
+												"appsvcs",
+												"info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Create-DC1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ed5228ad-351f-43b4-ad46-4a19305af3c9",
+												"exec": [
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"DC1 Created\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"DC1 Exists\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "53acc962-0917-4b71-892c-81fe32302deb",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"name\":\"DC1\"\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/datacenter",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"datacenter"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Create-bigip1 server",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "12c535ac-cafb-4aa7-be62-e3df34007db7",
+												"exec": [
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"bigip1 server Created\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"bigip1 server Exists\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "335b39f9-26f7-49e3-8a70-f3b4797719f9",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n            \"name\": \"bigip1.f5lab.local\",\r\n            \"datacenter\": \"/Common/DC1\",\r\n            \"enabled\": true,\r\n            \"exposeRouteDomains\": \"no\",\r\n            \"iqAllowPath\": \"yes\",\r\n            \"iqAllowServiceCheck\": \"yes\",\r\n            \"iqAllowSnmp\": \"yes\",\r\n            \"limitCpuUsage\": 0,\r\n            \"limitCpuUsageStatus\": \"disabled\",\r\n            \"limitMaxBps\": 0,\r\n            \"limitMaxBpsStatus\": \"disabled\",\r\n            \"limitMaxConnections\": 0,\r\n            \"limitMaxConnectionsStatus\": \"disabled\",\r\n            \"limitMaxPps\": 0,\r\n            \"limitMaxPpsStatus\": \"disabled\",\r\n            \"limitMemAvail\": 0,\r\n            \"limitMemAvailStatus\": \"disabled\",\r\n            \"linkDiscovery\": \"disabled\",\r\n            \"monitor\": \"/Common/bigip\",\r\n  \r\n            \"product\": \"bigip\",\r\n            \"virtualServerDiscovery\": \"disabled\",\r\n            \"addresses\": [\r\n                {\r\n                    \"name\": \"10.1.10.4\",\r\n                    \"deviceName\": \"bigip1.f5lab.local\",\r\n                    \"translation\": \"none\"\r\n                }\r\n            ]\r\n\r\n        }\r\n"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Create-bigip5 server",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d12d8f30-424c-467d-8579-524d18d435a2",
+												"exec": [
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"bigip5 server Created\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"bigip5 server Exists\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													"",
+													"setTimeout(function(){}, 2000);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "569844f4-a2f9-4886-b523-99b488b08d0f",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n            \"name\": \"bigip5.f5lab.local\",\r\n            \"datacenter\": \"/Common/DC1\",\r\n            \"enabled\": true,\r\n            \"exposeRouteDomains\": \"no\",\r\n            \"iqAllowPath\": \"yes\",\r\n            \"iqAllowServiceCheck\": \"yes\",\r\n            \"iqAllowSnmp\": \"yes\",\r\n            \"limitCpuUsage\": 0,\r\n            \"limitCpuUsageStatus\": \"disabled\",\r\n            \"limitMaxBps\": 0,\r\n            \"limitMaxBpsStatus\": \"disabled\",\r\n            \"limitMaxConnections\": 0,\r\n            \"limitMaxConnectionsStatus\": \"disabled\",\r\n            \"limitMaxPps\": 0,\r\n            \"limitMaxPpsStatus\": \"disabled\",\r\n            \"limitMemAvail\": 0,\r\n            \"limitMemAvailStatus\": \"disabled\",\r\n            \"linkDiscovery\": \"disabled\",\r\n            \"monitor\": \"/Common/bigip\",\r\n  \r\n            \"product\": \"bigip\",\r\n            \"virtualServerDiscovery\": \"disabled\",\r\n            \"addresses\": [\r\n                {\r\n                    \"name\": \"10.1.10.11\",\r\n                    \"deviceName\": \"bigip5.f5lab.local\",\r\n                    \"translation\": \"none\"\r\n                }\r\n            ]\r\n\r\n        }\r\n"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Add bigip1 application VS to Server",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ad26d974-d1e9-4a2c-864a-238fc9a44b14",
+												"exec": [
+													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+													"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\")",
+													"",
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" with IP Address \"+ADDR+\" added to Server bigip1.f5lab.local\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" exists on server bigip1.f5lab.local\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "aa440038-ede0-446c-9702-d06e4dd79088",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP_ADDRESS1}}:443\"\r\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip1.f5lab.local/virtual-servers/",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server",
+												"~Common~bigip1.f5lab.local",
+												"virtual-servers",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Create WideIP using AS3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "871c351e-4ff0-4439-bc1f-678368913729",
+												"exec": [
+													"var DNS_NAME = pm.collectionVariables.get(\"DNS1_NAME\");\r",
+													"\r",
+													"\r",
+													"if (responseCode.code === 200) {\r",
+													"\r",
+													"pm.test(\"Wide IP \"+DNS_NAME+\" Created\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"} else \r",
+													"pm.test(\"Wide IP \"+DNS_NAME+\" exists\", function () {\r",
+													"    pm.response.to.have.status(409);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "1dff4342-fb8c-4314-99ea-475534fef101",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"class\": \"ADC\",\r\n    \"schemaVersion\": \"3.6.0\",\r\n    \"id\": \"GSLB_Sample\",\r\n    \"{{PARTITION_NAME}}-gslb\": {\r\n        \"class\": \"Tenant\",\r\n        \"{{VS1_NAME}}\": {\r\n            \"class\": \"Application\",\r\n            \"template\": \"generic\",\r\n            \"testDomain\": {\r\n                \"class\": \"GSLB_Domain\",\r\n                \"domainName\": \"{{DNS1_NAME}}\",\r\n                \"resourceRecordType\": \"A\",\r\n                \"poolLbMode\": \"ratio\",\r\n                \"lastResortPool\": {\"use\": \"{{VS1_NAME}}-pool\"},\r\n                \"lastResortPoolType\": \"A\",\r\n                \"pools\": [\r\n                              { \"use\": \"{{VS1_NAME}}-pool\" }\r\n                ]\r\n            },\r\n            \"{{VS1_NAME}}-pool\": {\r\n               \"class\": \"GSLB_Pool\",\r\n                \"enabled\": true,\r\n                \"lbModeAlternate\": \"ratio\",\r\n                \"lbModeFallback\": \"ratio\",\r\n                \"manualResumeEnabled\": false,\r\n                \"verifyMemberEnabled\": true,\r\n                \"members\": [\r\n                \t{\r\n                \t\"ratio\":10,\r\n                \t\"server\": {\r\n                \t\t\"bigip\": \"/Common/bigip1.f5lab.local\"\r\n                \t\t},\r\n                \t\t\"virtualServer\":\"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n                \t}\r\n                ],\r\n                \"resourceRecordType\": \"A\"\r\n            }\r\n        }\r\n    }\r\n \r\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/declare",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"shared",
+												"appsvcs",
+												"declare"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "end-dns-dc1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "8a644756-5593-4ef8-92a2-71e48cf0c081",
+												"exec": [
+													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
+													"",
+													"if (DC2_APM === 'true' && DC_COUNTER === '2') {",
+													"   ",
+													"} else {",
+													"",
+													"    postman.setNextRequest(\"end-dns-dc2\");",
+													"    pm.collectionVariables.set('DC_COUNTER', '1' );",
+													"    pm.test(\"Skipping DC2 DNS Configuration\", function () {",
+													"        pm.response.to.have.status(200);",
+													"    });",
+													"",
+													"}",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "021baa2f-9e50-43aa-b8f6-9041cbfa1619",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"shared",
+												"appsvcs",
+												"info"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Add DC2 External DNS Configuration for Single App",
+							"item": [
+								{
+									"name": "start-dns-dc2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "683959e4-4c1d-413d-b6bd-1296629a0174",
+												"exec": [
+													"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+													"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
+													"",
+													"if (DC2_APM === 'true' && DC_COUNTER === '2') {",
+													"   ",
+													"} else {",
+													"",
+													"    postman.setNextRequest(\"end-dns-dc2\");",
+													"    pm.collectionVariables.set('DC_COUNTER', '1' );",
+													"    pm.test(\"Skipping DC2 DNS Configuration\", function () {",
+													"        pm.response.to.have.status(200);",
+													"    });",
+													"",
+													"}",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "13be9813-c052-4fb9-996f-28c7e4fcc6bc",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"shared",
+												"appsvcs",
+												"info"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-exist-bigip2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c22a33df-50c4-41a7-b891-5d72aad9d46d",
+												"exec": [
+													"\r",
+													"var jsonData = pm.response.json();\r",
+													"\r",
+													"    for (var i = 0; i < jsonData.items.length; i++) {\r",
+													"\r",
+													"        if (jsonData.items[i].name === \"bigip2.f5lab.local\") {\r",
+													"            pm.test(\"BIGIP2 already exists\", function () {\r",
+													"                pm.response.to.have.status(200);\r",
+													"            });\r",
+													"            postman.setNextRequest(\"bigip5-Add bigip2 Application VS to Server\");\r",
+													"        }\r",
+													"    }\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a2784a0d-b1c7-4a6a-8eda-9e3806565c1f",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip_add - bigip2 to bigip5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a8e0f992-0c0d-475d-80ab-fe4a1bfb8878",
+												"exec": [
+													"pm.test(\"bigip_add command successfully run\", function () {\r",
+													"pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"command\":\"run\",\r\n\t\"options\":[\r\n\t\t{\r\n\t\t\t\"ssh-password\":\"admin\",\r\n\t\t\t\"admin@10.1.1.5\":\"\"\r\n\t\t}\r\n\t]\r\n} "
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/bigip_add",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"bigip_add"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip2.f5lab.local - big3d_install",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7704ce80-65ad-47ad-b3ab-6f70cbd52541",
+												"exec": [
+													"pm.test(\"big3d_install command successfully run\", function () {\r",
+													"pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"command\":\"run\",\r\n\t\"options\":[\r\n\t\t{\r\n\t\t\t\"ssh-password\":\"admin\",\r\n\t\t\t\"admin@10.1.1.5\":\"\"\r\n\t\t}\r\n\t]\r\n} "
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/big3d_install",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"big3d_install"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Create-DC2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "df31d974-53dd-41f2-bb4a-01808b0c7a21",
+												"exec": [
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"DC2 Created\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"DC2 Exists\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "3e07b955-cbf9-4a6c-a105-f9dcc73d5111",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\"name\":\"DC2\"\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/datacenter",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"datacenter"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Server -  BIG-IP2 to BIG-IP5",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4754129c-27fd-43b5-84a6-95beb855e494",
+												"exec": [
+													"if (responseCode.code === 200) {\r",
+													"\r",
+													"    pm.test(\"BIG-IP2 added\", function () {\r",
+													"        pm.response.to.have.status(200);\r",
+													"    });\r",
+													"} else\r",
+													"    pm.test(\"BIG-IP2 already Exists\", function () {\r",
+													"        pm.response.to.have.status(409);\r",
+													"    });\r",
+													"\r",
+													"setTimeout(function(){}, 2000);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"name\":\"bigip2.f5lab.local\",\n\t\"datacenter\": \"/Common/DC2\",\n\t\"virtualServerDiscovery\": \"disabled\",\n\t        \"addresses\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\":\"10.1.10.5\",\n\t\t\t\t\t\"deviceName\": \"bigip2.f5lab.local\",\n\t\t\t\t\t\"translation\": \"none\"\n\t\t\t\t}\n\t\t\t]\n\t\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Add bigip2 Application VS to Server",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0130aba0-f5ad-4263-bcef-76801ba69914",
+												"exec": [
+													"",
+													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+													"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\")",
+													"",
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" with IP Address \"+ADDR+\" added to server bigip2.f5lab.local\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" exists on server bigip2.f5lab.local\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													"",
+													"setTimeout(function(){},5000);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "5b2d1636-8ff2-42a9-b07c-8b433001c302",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\"name\": \"/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\",\r\n\"destination\": \"{{BIGIP_ADDRESS1}}:443\"\r\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/server/~Common~bigip2.f5lab.local/virtual-servers/",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"server",
+												"~Common~bigip2.f5lab.local",
+												"virtual-servers",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bigip5-Add bigip2 application to WideIP Pool",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "009baa29-1bbc-42aa-890b-b51e6de0ca27",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "45dbdc37-db6d-4caa-8b39-e41d66774e9e",
+												"exec": [
+													"var NAME = pm.collectionVariables.get(\"DNS1_NAME\");",
+													"var VS_NAME = pm.collectionVariables.get(\"VS1_NAME\");",
+													"var ADDR = pm.collectionVariables.get(\"BIGIP_ADDRESS1\")",
+													"",
+													"",
+													"",
+													"if (responseCode.code === 200) {",
+													"",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" with IP Address \"+ADDR+\" added to Wide IP \"+NAME, function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"} else ",
+													"pm.test(\"Virtual Server \"+VS_NAME+\" exists on Wide IP \"+NAME, function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\"name\":\"bigip2.f5lab.local:/{{PARTITION_NAME}}/{{PATH_NAME}}/{{VS1_NAME}}\"\r\n\t\r\n\t\r\n}"
+										},
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/tm/gtm/pool/a/~{{PARTITION_NAME}}-gslb~{{VS1_NAME}}~{{VS1_NAME}}-pool/members",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"tm",
+												"gtm",
+												"pool",
+												"a",
+												"~{{PARTITION_NAME}}-gslb~{{VS1_NAME}}~{{VS1_NAME}}-pool",
+												"members"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "end-dns-dc2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "abfa2944-8b0d-4d68-a867-5de7e78a34b5",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "bdf315bb-b010-403d-84b8-2c30d4946ad2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "admin",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "admin",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://10.1.1.11/mgmt/shared/appsvcs/info",
+											"protocol": "https",
+											"host": [
+												"10",
+												"1",
+												"1",
+												"11"
+											],
+											"path": [
+												"mgmt",
+												"shared",
+												"appsvcs",
+												"info"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Internal DNS",
+			"item": [
+				{
+					"name": "create-dns-a-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e5fee48-f574-49bc-8190-802a33ec00aa",
+								"exec": [
+									"var DNS_NAME = pm.collectionVariables.get(\"DNS_NAME\");   ",
+									"var jsonData = pm.response.json();",
+									"",
+									"\tif (jsonData.length) {",
+									"",
+									"        if (jsonData[1].status === \"exists\") {",
+									"            pm.test(\"A Record \"+DNS_NAME+\" Exists\", function () {",
+									"                pm.expect(jsonData[1].status).to.eql(\"exists\");",
+									"            });",
+									"        }",
+									"    } else ",
+									"        pm.test(\"A Record \"+DNS_NAME+\" created\", function () {",
+									"            pm.expect(jsonData.status).to.eql(\"Success\");",
+									"        });",
+									"",
+									"       ",
+									"    ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"record_type\":\"a\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/dns",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"dns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-dns-ptr-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8196cc0-f8dc-4982-a161-44232558f4ce",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"\tif (jsonData.length) {",
+									"        if (jsonData[1].status === \"exists\") {",
+									"            pm.test(\"PTR Record Exists\", function () {",
+									"                pm.expect(jsonData[1].status).to.eql(\"exists\");",
+									"            });",
+									"        }",
+									"    } else {",
+									"        pm.test(\"PTR Record created\", function () {",
+									"            pm.expect(jsonData.status).to.eql(\"Success\");",
+									"        });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"record_type\":\"ptr\",\n\"fqdn\":\"{{DNS1_NAME}}\",\n\"computer_ip\":\"{{BIGIP_ADDRESS}}\"\n}"
+						},
+						"url": {
+							"raw": "http://10.1.20.6:81/dns",
+							"protocol": "http",
+							"host": [
+								"10",
+								"1",
+								"20",
+								"6"
+							],
+							"port": "81",
+							"path": [
+								"dns"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "End loop Datacenters",
+			"item": [
+				{
+					"name": "loop",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eb8563e6-f40a-4eb0-9d4b-8a402107057b",
+								"exec": [
+									"var DC2_APM = pm.environment.get(\"DC2_APM\");",
+									"var DC_COUNTER = pm.collectionVariables.get(\"DC_COUNTER\");",
+									"",
+									"if (DC2_APM === 'true' && DC_COUNTER === '1') {",
+									"    postman.setNextRequest(\"start\");",
+									"    pm.collectionVariables.set('DC_COUNTER', '2' );",
+									"",
+									"    pm.test(\"Application created in DC1. Beginning DC2 Deployment\", function () {",
+									"        pm.response.to.have.status(200);",
+									"    });",
+									"",
+									"",
+									"} else if (DC2_APM === 'false' && DC_COUNTER === '1') {",
+									"    pm.test(\"Application created in DC1 \", function () {",
+									"        pm.expect(pm.environment.get(\"DC2_APM\")).to.equal(\"false\");",
+									"    });",
+									"",
+									"} else {",
+									"    pm.test(\"Application created in DC2 \", function () {",
+									"        pm.expect(pm.environment.get(\"DC2_APM\")).to.equal(\"true\");",
+									"    });",
+									"    pm.collectionVariables.set('DC_COUNTER', '1' );",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6809fa10-9c19-4ba0-a58d-8cd16844ed4e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BIGIP_MGMT}}/mgmt/shared/appsvcs/info",
+							"protocol": "https",
+							"host": [
+								"{{BIGIP_MGMT}}"
+							],
+							"path": [
+								"mgmt",
+								"shared",
+								"appsvcs",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "259bd76e-8ee5-4be7-8a5e-72b247df7f45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "668961c7-798b-4483-894d-0453ad3ea0b7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d7a4ffe8-f8ab-4b1e-acad-16a9736632fe",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "92b74b88-1101-4267-9854-df2200234264",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
