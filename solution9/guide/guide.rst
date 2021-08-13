@@ -78,7 +78,7 @@ This solution is designed to be integrated with Authorization Server based solut
 
     |image008|
 
-#. Navigate to C:\\access-solutions9\\solution9\\student_files, select solution9 request.json, and click Open
+#. Navigate to C:\\access-solutions\\solution9\\student_files, select solution9 request.json, and click Open
 
     |image009|
 
@@ -117,7 +117,7 @@ This solution is designed to be integrated with Authorization Server based solut
 
     |image017|
 
-#.  The user recieves a 200 OK with a reponse.  The Access Token was successfully validated by the BIG-IP to permit access.
+#.  The user receives a 200 OK with a response.  The Access Token was successfully validated by the BIG-IP to permit access.
 
     |image018|
 
