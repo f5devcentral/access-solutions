@@ -65,12 +65,61 @@ The key settings define a type of key and its properties
 
 The Policy from a user's perspective
 -------------------------------------
-When the user attempts to access https://solution9.acme.com via postman located on the jumpbox the client parameters are configured for authentication to (https://as.acme.com). Once authenticated the request is passed with the JWT to https://solution9.acme.com.  
 
-This solution is designed to be integrated with other Authorization Server based solutions.
+This solution is designed to be integrated with Authorization Server based solutions. Please ensure you deply the Authoriztion Server prior to deploying this solution.
 
-|image007|
 
+#. Open **Postman** on the Jumphost
+#. Click **Import**
+
+    |image007|
+
+#. Click **Upload Files**
+
+    |image008|
+
+#. Navigate to C:\\access-solutions9\\solution9\\student_files, select solution9 request.json, and click Open
+
+    |image009|
+
+#. Click **Import**
+
+    |image010|
+
+ #. Expand the collection.
+ #. Select **1. Retreive OAuth Client Settings**
+ #. Click **Send**
+
+    |image011|
+
+#.  You will receive a response body containing the ClientId and ClientSecret.  This request saved those values as a Postman Variables.
+
+    |image012|
+
+#. Select **2. Sample API Request**
+#. Click the **Authorization** tab.
+
+    |image013|
+
+#. Click **Get New Access Token** 
+
+    |image014|
+
+#. Login using Username: user1 and Password: user1   
+
+    |image015|
+
+#. Click **Use Token**
+
+    |image016|
+
+#. Click **Send**
+
+    |image017|
+
+#.  The user recieves a 200 OK with a reponse.  The Access Token was successfully validated by the BIG-IP to permit access.
+
+    |image018|
 
 
 
@@ -82,3 +131,14 @@ This solution is designed to be integrated with other Authorization Server based
 .. |image005| image:: media/005.png
 .. |image006| image:: media/006.png
 .. |image007| image:: media/007.png
+.. |image003| image:: media/008.png
+.. |image004| image:: media/009.png
+.. |image005| image:: media/010.png
+.. |image006| image:: media/011.png
+.. |image007| image:: media/012.png
+.. |image003| image:: media/013.png
+.. |image004| image:: media/014.png
+.. |image005| image:: media/015.png
+.. |image006| image:: media/016.png
+.. |image007| image:: media/017.png
+.. |image007| image:: media/018.png

@@ -1,7 +1,7 @@
-Solution16: SAML SP to Kerberos SSO with AzureAD IdP
-======================================================================================
+Solution16: SAML SP with AzureAD IdP to Kerberos SSO 
+==========================================================
 .. _solution16:
-This solution documents all the necessary pieces required to demonstrate SAML SP to Kerberos SSO with AzureAD IdP
+This solution documents all the necessary pieces required to demonstrate SAML SP  with AzureAD IdP to Kerberos SSO
 
 
 URL
