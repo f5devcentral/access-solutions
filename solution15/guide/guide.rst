@@ -1,15 +1,15 @@
 
-Solution15 Policy
+Solution15 Policies
 ======================
 
 This solution requires creation of three access policies. A default allow per-session policy and a per-request policy using two subroutines for Identity Aware Proxy(IAP). The third policy will be used by a  virtual server performing both as a SAML SP to an external IDP along with SAML IDP to the Identity Aware Proxy virtual server.
 
 
-Per-Session Policy Walk-Through
--------------------------------------
+Primary Identity Provider
+---------------------------------
 
-Per-Session Policy - SAML Identity Provider
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Per-Session Policy Walk-Through 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image002|
 
@@ -18,7 +18,33 @@ Per-Session Policy - SAML Identity Provider
 #.	After successful Resource Assignment, the user is granted access via the Allow Terminal.
 #.	If SAML Authentication is unsuccessful, the user proceeds down the fallback branch to be denied access via the Deny Terminal
 
-Per-Session Policy - SAML Identity Aware Proxy
+
+Per-Session Agent configuration 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Portal-psp SAML Auth Agent
+
+|image004|
+
+
+Advanced Resource Assign
+
+|image005|
+
+
+Profile Settings
+^^^^^^^^^^^^^^^^^^^^^
+
+The Portal Profile settings have been modified in order to attach the IdP Service.
+
+|image053|
+
+
+Identity Aware Proxy
+---------------------------------
+
+
+Per-Session Policy Walk-Through
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 |image001|
 
@@ -26,7 +52,7 @@ Per-Session Policy - SAML Identity Aware Proxy
 
 
 
-Per-Request Policy - SAML Identity Aware Proxy
+Per-Request Policy Walk-Through
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This per-request access policy accepts users request and redirect them to  one of the two SAML Auth Subroutines configured for sp.acme.com or sp1.acme.com.
@@ -48,27 +74,9 @@ This per-request access policy accepts users request and redirect them to  one o
 #.  Upon unsuccessful authentication, the user proceeds down the fallback branch and directed to the Reject Terminal.
 #.  The request does not contain a matching URL causing the request to proceed down the fallback branch to the Reject Terminal
 
-Policies Agent Configuration
--------------------------------------
 
-
-
-Per-Session Agent configuration -Identity Provider
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Portal-psp SAML Auth Agent
-
-|image004|
-
-
-Advanced Resource Assign
-
-|image005|
-
-
-Per-Request Agent configuration - Identity Aware Proxy 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+Per-Request Agent configuration 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 URL Branch Rules
@@ -95,46 +103,29 @@ Pool Assign - sp1_pool
 
 
 
-
-
 Profile Settings
-------------------------------------------
-
-The Portal Profile settings have been modified in order to attach the IDP Service.
-
-|image053|
+^^^^^^^^^^^^^^^^^^^^^
 
 The IAP profile settings are the default.
-
-
 
 
 Supporting APM Objects
 --------------------------
 
-Configurations settings for Federation Services, (Local SP Services, External IdP Connectors, Local IdP Services, External SP Connectors).
+Configurations settings for Federation Services, (SP Services, IdP Connectors, IdP Services, SP Connectors).
 
 
+SP Service List
+^^^^^^^^^^^^^^^^^
 
-+-------------------------------------------+
-|        SP Service Binding Table           |
-+=======================+===================+
-|      SP Service       |    IDP Connector  |
-+-----------------------+-------------------+
-|  portal.acme.com-sp   |   portal-sso3     |
-+-----------------------+-------------------+
-|  sp.acme.com-sp       |   portal-sso1     |
-+-----------------------+-------------------+
-|  sp1.acme.com-sp      |   portal-sso2     |
-+-----------------------+-------------------+
+|image054|
 
-SP Service - Portal.acme.com-sp 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SP Service - Portal.acme.com-sp-serv
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
 
 |image011|
-
 
 Endpoint Settings
 
@@ -144,7 +135,7 @@ Security Settings
 
 |image013|
 
-SP Service - sp.acme.com-sp 
+SP Service - sp.acme.com-sp-serv
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -159,9 +150,7 @@ Security Settings
 
 |image016|
 
-
-
-SP Service - sp1.acme.com-sp 
+SP Service - sp1.acme.com-sp-serv
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -176,7 +165,13 @@ Security Settings
 
 |image019|
 
-IDP Connector - portal-sso1 
+
+IdP Connectors List
+^^^^^^^^^^^^^^^^^^^^^
+
+|image055|
+
+IdP Connector - solution15-1-idp-conn
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 General Settings
 
@@ -200,7 +195,7 @@ Single Logout Service Settings
 |image052|
 
 
-IDP Connector - portal-sso2 
+IdP Connector - solution15-1-idp-conn 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -422,3 +417,4 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image051| image:: media/051.png
 .. |image052| image:: media/052.png
 .. |image053| image:: media/053.png
+.. |image054| image:: media/054.png

@@ -1,7 +1,7 @@
 Solution15: IdP Chaining to AzureAD using Per-Request Policy
 ======================================================================================
 .. _solution15:
-This solution documents all the necessary pieces required to demonstrate IDP Chaining
+This solution documents all the necessary pieces required to demonstrate IdP Chaining
 
 
 URL
