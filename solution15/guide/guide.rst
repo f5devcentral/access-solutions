@@ -115,8 +115,8 @@ Supporting APM Objects
 Configurations settings for Federation Services, (SP Services, IdP Connectors, IdP Services, SP Connectors).
 
 
-SP Service List
-^^^^^^^^^^^^^^^^^
+Local SP Services List
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image054|
 
@@ -166,8 +166,8 @@ Security Settings
 |image019|
 
 
-IdP Connectors List
-^^^^^^^^^^^^^^^^^^^^^
+External IdP Connectors List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image055|
 
