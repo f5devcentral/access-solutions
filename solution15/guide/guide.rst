@@ -195,28 +195,7 @@ Single Logout Service Settings
 |image052|
 
 
-IdP Connector - solution15-1-idp-conn 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-General Settings
-
-|image025|
-
-Endpoint Settings
-	- Single Sign On Service
-
-|image026|
-
-Security Settings
-
-|image027|
-
-Single Logout Service Settings
-
-|image028|
-
-
-IDP Connector - portal-sso3 
+IdP Connector - solution15-2-idp-conn
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -237,24 +216,14 @@ Single Logout Service Settings
 |image032|
 
 
+Local IdP Service List
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+|image056|
 
 
-
-
-IDP Service - portal-sso1 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-+-------------------------------------------+
-|       IdP Service Binding Table           |
-+=======================+===================+
-|    IdP Service        |    SP Connector   |
-+-----------------------+-------------------+
-|  portal-sso1          |   sp.acme.com-sp  |
-+-----------------------+-------------------+
-|  portal-sso1          |   sp1.acme.com-sp |
-+-----------------------+-------------------+
-
-
+Local IdP Service - portal.acme.com-1-idp-service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
 
@@ -276,7 +245,12 @@ Security Settings
 
 |image024|
 
-SP Connector - sp.acme.com-sp 
+External SP Connector List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|image057|
+
+SP Connector - sp.acme.com-sp-conn 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -301,7 +275,7 @@ SP Location Settings
 
 |image037|
 
-SP Connector - sp1.acme.com-sp 
+SP Connector - sp1.acme.com-sp-conn 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings
@@ -388,10 +362,6 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image022| image:: media/022.png
 .. |image023| image:: media/023.png
 .. |image024| image:: media/024.png
-.. |image025| image:: media/025.png
-.. |image026| image:: media/026.png
-.. |image027| image:: media/027.png
-.. |image028| image:: media/028.png
 .. |image029| image:: media/029.png
 .. |image030| image:: media/030.png
 .. |image031| image:: media/031.png
@@ -418,3 +388,7 @@ Now that the user is authenticated at the IDP, when the user attempts to access 
 .. |image052| image:: media/052.png
 .. |image053| image:: media/053.png
 .. |image054| image:: media/054.png
+.. |image055| image:: media/055.png
+.. |image056| image:: media/056.png
+.. |image057| image:: media/057.png
+
