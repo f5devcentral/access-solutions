@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ba474d6b-3e58-4e1e-8334-e282821d366a",
+		"_postman_id": "765bf5a8-3fc8-4323-9ac7-a105a3393653",
 		"name": "solution15-create",
 		"description": "Based on Template 1.8",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -2686,78 +2686,6 @@
 							"name": "BIGIP IDP - sp1.acme.com",
 							"item": [
 								{
-									"name": "bigip-create-idp-connector",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"if (responseCode.code === 200) {\r",
-													"    pm.test(\"IDP Connector created\", function () {\r",
-													"        pm.response.to.have.status(200);\r",
-													"    });\r",
-													"} else \r",
-													"    pm.test(\"IDP Connector exists\", function () {\r",
-													"        pm.response.to.have.status(409);\r",
-													"    });"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "basic",
-											"basic": [
-												{
-													"key": "password",
-													"value": "admin",
-													"type": "string"
-												},
-												{
-													"key": "username",
-													"value": "admin",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [
-											{
-												"key": "Content-Type",
-												"type": "text",
-												"value": "application/json"
-											},
-											{
-												"key": "X-F5-REST-Coordination-Id",
-												"type": "text",
-												"value": "{{TRANSID}}",
-												"disabled": true
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n\r\n    \"name\": \"{{PARTITION_NAME}}-2-idp-conn\",\r\n    \"partition\": \"Common\",\r\n    \"artifactResolutionServiceAddr\": \"any6\",\r\n    \"artifactResolutionServicePort\": 0,\r\n    \"entityId\": \"https://{{DNS1_NAME}}\",\r\n    \"identityLocation\": \"subject\",\r\n    \"idpCertificate\": \"/Common/acme.com-wildcard\",\r\n    \"locationSpecific\": \"false\",\r\n    \"signArtifactResolutionRq\": \"false\",\r\n    \"signatureType\": \"rsa-sha256\",\r\n    \"singleLogoutBinding\": \"http-post\",\r\n    \"singleLogoutResponseUri\": \"https://{{DNS1_NAME}}/saml/idp/profile/post/slr\",\r\n    \"singleLogoutUri\": \"https://{{DNS1_NAME}}/saml/idp/profile/post/sls\",\r\n    \"ssoBinding\": \"http-post\",\r\n    \"ssoUri\": \"https://{{DNS1_NAME}}/saml/idp/profile/redirectorpost/sso\",\r\n    \"wantAuthnRequestSigned\": \"false\",\r\n    \"wantDetachedSignature\": \"false\"\r\n}"
-										},
-										"url": {
-											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/saml-idp-connector/",
-											"protocol": "https",
-											"host": [
-												"{{BIGIP_MGMT}}"
-											],
-											"path": [
-												"mgmt",
-												"tm",
-												"apm",
-												"aaa",
-												"saml-idp-connector",
-												""
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "bigip-create-sp-service",
 									"event": [
 										{
@@ -3053,7 +2981,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"{{PARTITION_NAME}}-3-idp-conn\",\r\n    \"partition\": \"Common\",\r\n    \"artifactResolutionServiceAddr\": \"any6\",\r\n    \"artifactResolutionServicePort\": 0,\r\n    \"entityId\": \"https://sts.windows.net/8807dced-9637-4205-a520-423077750c60/\",\r\n    \"identityLocation\": \"subject\",\r\n    \"idpCertificate\": \"/Common/{{VS_NAME}}-idp\",\r\n    \"locationSpecific\": \"false\",\r\n    \"signArtifactResolutionRq\": \"false\",\r\n    \"signatureType\": \"rsa-sha256\",\r\n    \"singleLogoutBinding\": \"http-redirect\",\r\n    \"singleLogoutResponseUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"singleLogoutUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"ssoBinding\": \"http-redirect\",\r\n    \"ssoUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"wantAuthnRequestSigned\": \"false\",\r\n    \"wantDetachedSignature\": \"false\"\r\n}"
+											"raw": "{\r\n    \"name\": \"{{PARTITION_NAME}}-2-idp-conn\",\r\n    \"partition\": \"Common\",\r\n    \"artifactResolutionServiceAddr\": \"any6\",\r\n    \"artifactResolutionServicePort\": 0,\r\n    \"entityId\": \"https://sts.windows.net/8807dced-9637-4205-a520-423077750c60/\",\r\n    \"identityLocation\": \"subject\",\r\n    \"idpCertificate\": \"/Common/{{VS_NAME}}-idp\",\r\n    \"locationSpecific\": \"false\",\r\n    \"signArtifactResolutionRq\": \"false\",\r\n    \"signatureType\": \"rsa-sha256\",\r\n    \"singleLogoutBinding\": \"http-redirect\",\r\n    \"singleLogoutResponseUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"singleLogoutUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"ssoBinding\": \"http-redirect\",\r\n    \"ssoUri\": \"https://login.microsoftonline.com/8807dced-9637-4205-a520-423077750c60/saml2\",\r\n    \"wantAuthnRequestSigned\": \"false\",\r\n    \"wantDetachedSignature\": \"false\"\r\n}"
 										},
 										"url": {
 											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/saml-idp-connector/",
@@ -3129,7 +3057,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n\r\n    \"name\": \"{{DNS1_NAME}}-sp-serv\",\r\n    \"partition\": \"Common\",\r\n    \"assertionConsumerBinding\": \"http-post\",\r\n    \"authContextComparisonMethod\": \"exact\",\r\n    \"entityId\": \"https://{{DNS1_NAME}}\",\r\n    \"forceAuthn\": \"false\",\r\n    \"isAuthnRequestSigned\": \"false\",\r\n    \"locationSpecific\": \"false\",\r\n    \"nameIdPolicyAllowCreate\": \"true\",\r\n    \"spHost\": \"{{DNS1_NAME}}\",\r\n    \"spScheme\": \"https\",\r\n    \"wantAssertionEncrypted\": \"false\",\r\n    \"wantAssertionSigned\": \"true\",\r\n    \"idpConnectors\": [\r\n        {\r\n            \"name\": \"{{PARTITION_NAME}}-3-idp-conn\",\r\n            \"partition\": \"Common\"\r\n\r\n        }\r\n    ]\r\n}"
+											"raw": "{\r\n\r\n    \"name\": \"{{DNS1_NAME}}-sp-serv\",\r\n    \"partition\": \"Common\",\r\n    \"assertionConsumerBinding\": \"http-post\",\r\n    \"authContextComparisonMethod\": \"exact\",\r\n    \"entityId\": \"https://{{DNS1_NAME}}\",\r\n    \"forceAuthn\": \"false\",\r\n    \"isAuthnRequestSigned\": \"false\",\r\n    \"locationSpecific\": \"false\",\r\n    \"nameIdPolicyAllowCreate\": \"true\",\r\n    \"spHost\": \"{{DNS1_NAME}}\",\r\n    \"spScheme\": \"https\",\r\n    \"wantAssertionEncrypted\": \"false\",\r\n    \"wantAssertionSigned\": \"true\",\r\n    \"idpConnectors\": [\r\n        {\r\n            \"name\": \"{{PARTITION_NAME}}-2-idp-conn\",\r\n            \"partition\": \"Common\"\r\n\r\n        }\r\n    ]\r\n}"
 										},
 										"url": {
 											"raw": "https://{{BIGIP_MGMT}}/mgmt/tm/apm/aaa/saml/",

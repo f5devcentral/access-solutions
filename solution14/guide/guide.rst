@@ -67,12 +67,14 @@ All profile settings are left the defaults
 Supporting APM Objects
 --------------------------------------
 
-SP Service (sp.acme.com)
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Local SAML Service Provider
+SAML Service Provider List
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |image008|
+
+SP Service (sp.acme.com-serv)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 General Settings 
 
@@ -95,8 +97,8 @@ Advanced Settings
 |image014|
 
 
-SP Service (sp1.acme.com)
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+SP Service (sp1.acme.com-serv)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General Settings 
 
@@ -118,10 +120,14 @@ Advanced Settings
 
 |image020|
 
-External IdP Connectors (sp-sso)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IdP Connector List
+^^^^^^^^^^^^^^^^^^^^
 
 |image021|
+
+
+IdP Connector (solution14-1-idp-conn)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General settings 
 
@@ -142,8 +148,8 @@ Single Logout Service Settings
 
 |image026|
 
-External IdP Connectors (sp1-sso)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IdP Connector (solution14-1-idp-conn)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General settings 
 

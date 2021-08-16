@@ -120,42 +120,61 @@ JSON Key Configuration
 User's Perspective
 ---------------------
 
-#. Open the Postman Collections "Solution Request", select "Request User Info", set authorization type to OAuth 2.0, and click "Get New Access Token".
 
-   |image022|
+This solution is designed to be integrated with Authorization Server based solutions. Please ensure you deply the Authoriztion Server prior to deploying this solution.
 
-   .. note::    
-      The settings required for Postman are displayed in the automation's last request.  The setting required to see the solution will be different in your UDF deployment. Re-run Solution13 if you closed the window.
 
-   |image015|
+#. Open **Postman** on the Jumphost
+#. Click **Import**
+
+    |image015|
+
+#. Click **Upload Files**
+
+    |image016|
+
+#. Navigate to C:\\access-solutions\\solution13\\student_files, select solution9 request.json, and click Open
+
+    |image017|
+
+#. Click **Import**
+
+    |image018|
+
+ #. Expand the collection.
+ #. Select **1. Retreive OAuth Client Settings**
+ #. Click **Send**
+
+    |image019|
+
+#.  You will receive a response body containing the ClientId and ClientSecret.  This request saved those values as a Postman Variables.
+
+    |image020|
+
+#. Select **2. Sample API Request**
+#. Click the **Authorization** tab.
+#. Click **Get New Access Token** 
    
-#. Specify the settings required for the authorization server and the client settings. The client Secret and Client ID will be different.
-
-   |image016|
-
-#. The Authorization Server logon form opens and credentials entered
-
-   :username: user1
-   :Password: user1
+    |image021|
 
 
-   |image017|
+#. Login using Username: user1 and Password: user1   
 
-#. The user selects **Use Token**
+    |image022|
 
-   |image018|
+#. Click **Use Token**
 
-#. Replace "changeme" in Postman URL to "solution13" and click **Send**.
+    |image023|
 
-   |image023|
+#. Click **Send**
 
-#. The resoponse body contains user1's attributes.
+    |image024|
 
-   |image020|
+#.  The user receives a 200 OK with a response.  The Access Token was successfully validated by the BIG-IP to permit access.
 
-#. If the user attempts to access the API without a token they receive a 403
+    |image025|
 
-   |image021|
+
 
 
 

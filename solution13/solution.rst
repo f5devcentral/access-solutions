@@ -13,7 +13,7 @@ https://solution13.acme.com
 UDF Integrated Solutions
 -------------------------
 
-:ref:`Solution 10: OIDC AS/IDP using RSA keys (IDP AUTH) <solution10>`
+:ref:`Solution 10: OIDC AS/IdP using RSA keys (BIG-IP Auth) <solution10>`
 
 Policies:
 ----------
@@ -21,7 +21,6 @@ Policies:
 
 .. toctree::
    :maxdepth: 1
-   :caption: Content:
    :glob:
 
    guide/guide.rst
