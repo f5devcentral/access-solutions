@@ -7,7 +7,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = F5 Access Solutions
 SOURCEDIR     = .
-BUILDDIR      = docs/_build
+BUILDDIR      = _build
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -33,25 +33,25 @@ preview:
 # run docs quality tests locally
 .PHONY: test
 test:
-	rm -rf docs/_build
-	./scripts/test-docs.sh
+	make clean
+	./script/test-docs.sh
 
-# one-time html build using a docker container
+# Build html using containthedocs container
 .PHONY: docker-html
 docker-html:
-	rm -rf docs/_build
-	./scripts/docker-docs.sh make html
+	make clean
+	./script/containthedocs.sh make html
 
 # Build live preview of docs in a docker container
 .PHONY: docker-preview
 docker-preview:
-	rm -rf docs/_build
+	make clean
 	DOCKER_RUN_ARGS="-p 127.0.0.1:8000:8000" \
-		./scripts/docker-docs.sh \
+		./script/containthedocs.sh \
 		sphinx-autobuild --host 0.0.0.0 -b html $(SOURCEDIR) $(BUILDDIR)/html
 
-# run docs quality tests in a docker container
+# Run docs quality tests in a docker container
 .PHONY: docker-test
 docker-test:
-	rm -rf docs/_build
-	./scripts/docker-docs.sh ./scripts/test-docs.sh
+	make clean
+	./script/containthedocs.sh ./script/test-docs.sh
