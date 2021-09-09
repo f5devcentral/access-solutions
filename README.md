@@ -1,3 +1,5 @@
+[![Build the Docs](https://github.com/f5devcentral/access-solutions/actions/workflows/build-the-docs.yml/badge.svg)](https://github.com/f5devcentral/access-solutions/actions/workflows/build-the-docs.yml)
+
 # F5 Access Policy Manager Solutions
 
 The solutions contained throughout this repo are designed to provide example configurations to address a given scenario. 
