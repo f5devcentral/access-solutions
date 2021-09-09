@@ -6,6 +6,6 @@ Each solution has an accompanying guide that provides a detailed overview of the
 
 All documentation is designed to read from https://clouddocs.f5.com.  From there, proceed to the “Environment” Section to learn about the components in the blueprint and how to deploy solutions.
 
-If a given topic is not highlighted currently on this page or something is incorrectly documented , please open an issue on on Access Solutions repo. We will do our best to prioritize the development of the content based on demand.
+If a given topic is not highlighted currently on this page or something is incorrectly documented, please open an issue in the Access Solutions repo. We will do our best to prioritize the development of the content based on demand.
 
-If you would like to contribute, templates are also available for download from the templates folder in the repo
+If you would like to contribute, templates are also available for download from the templates folder in the repo.
