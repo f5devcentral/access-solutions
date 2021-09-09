@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - dev
+      - master
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,3 +27,9 @@ jobs:
         github.ref == 'refs/heads/dev'
       run: |
         aws s3 sync --delete $PWD/_build/html/ s3://clouddocs.f5networks.net/training/community/$S3_DIR/
+
+    - name: Copy files to s3 (Production Clouddocs)
+      if:
+        github.ref == 'refs/heads/master'
+      run: |
+        aws s3 sync --delete $PWD/_build/html/ s3://clouddocs.f5.com/training/community/$S3_DIR/
