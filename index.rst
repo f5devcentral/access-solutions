@@ -65,6 +65,5 @@ Solutions
    :maxdepth: 1
    :glob:
    
-environment/nginxenvironment.rst
-
-solution1n/solution.rst
+   environment/nginxenvironment.rst
+   solution1n/solution.rst
