@@ -1,7 +1,7 @@
 Solution1: VPN (AD Auth)
 =============================
 .. _solution1:
-This solution documents  all the necessary pieces required to setup a basic AD authenticated VPN.
+This solution documents all the necessary pieces required to setup a basic AD authenticated VPN for APM.
 
 
 URL
