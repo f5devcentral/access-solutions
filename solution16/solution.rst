@@ -8,7 +8,7 @@ URL
 ----
 
 .. note::
-   The link below only works from the UDF blueprint
+   The link below only works from UDF blueprint
 
 - https://sp.acme.com
 
